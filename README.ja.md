@@ -8,7 +8,7 @@
 > [!IMPORTANT]
 > **このテーマは主に中国語の書き手のために作られています。** フォントの
 > サブセット pipeline、組み版の設定、欄幅と行間は、すべて中国語の読書体験を
-> 中心に設計されています。他の言語でも使えますが、輝くのは中国語です。
+> 中心に設計されています。他の言語でも利用できますが、設計と最適化は中国語の読書体験を優先しています。
 > （中文说明见 [README.md](README.md)；For English, see [README.en.md](README.en.md)。）
 
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）を深くカスタム

@@ -7,8 +7,7 @@
 > [!IMPORTANT]
 > **This theme is built primarily for Chinese writers.** The font pipeline,
 > typographic settings, column width and line height all revolve around the
-> Chinese reading experience. Other languages work, but Chinese is where it
-> shines. (中文说明见 [README.md](README.md)；日本語は [README.ja.md](README.ja.md)。)
+> Chinese reading experience. Other languages work, but the design and optimization prioritize the Chinese reading experience. (中文说明见 [README.md](README.md)；日本語は [README.ja.md](README.ja.md)。)
 
 A literary Hugo theme based on a deep customization of
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) (MIT): an old-paper
