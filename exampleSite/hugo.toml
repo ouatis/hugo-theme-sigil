@@ -1,0 +1,46 @@
+baseURL = "https://example.com/"
+title = "Sigil 示例志"
+theme = "hugo-theme-sigil"
+
+defaultContentLanguage = "zh-cn"
+
+[languages]
+  [languages.zh-cn]
+    languageName = "中文"
+    weight = 1
+    title = "Sigil 示例志"
+    [languages.zh-cn.params]
+      sgKicker = "A LITERARY ARCHIVE"
+      sgColophon = "MADE WITH INK & PAPER"
+      [languages.zh-cn.params.homeInfoParams]
+        content = "一个基于 Sigil 主题的示例站点。写作、翻译，以及其他。"
+
+[params]
+  mainSections = ["posts"]
+  author = "SigiL"
+  ShowBreadCrumbs = true
+  ShowReadingTime = true
+  ShowWordCount = true
+  hideSummary = true
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com"
+
+  [params.assets]
+    theme_color = "#f4f6f3"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+  [languages.en]
+    languageName = "English"
+    weight = 2
+    title = "Sigil Demo"
+    [languages.en.params]
+      sgKicker = "A LITERARY ARCHIVE"
+      sgColophon = "MADE WITH INK & PAPER"
+      [languages.en.params.homeInfoParams]
+        content = "A demo site built with the Sigil theme. Writing, translation, and other things."

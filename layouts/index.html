@@ -1,0 +1,109 @@
+{{- define "main" }}
+{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+{{- $paginator := .Paginate $pages }}
+{{- $offset := mul (sub $paginator.PageNumber 1) $paginator.PagerSize }}
+{{- $socialLabel := "社交链接" -}}
+{{- $readPrefix := "阅读：" -}}
+{{- if eq site.Language.Lang "en" -}}
+  {{- $socialLabel = "Social links" -}}
+  {{- $readPrefix = "Read: " -}}
+{{- else if eq site.Language.Lang "ja" -}}
+  {{- $socialLabel = "ソーシャルリンク" -}}
+  {{- $readPrefix = "読む: " -}}
+{{- end -}}
+
+<div class="sg-home">
+  {{- if eq $paginator.PageNumber 1 }}
+  <section class="sg-hero" aria-labelledby="sg-title">
+    <div class="sg-hero__copy">
+      {{- with site.Params.sgKicker }}
+      <p class="sg-kicker">{{ . }}</p>
+      {{- end }}
+      <h1 id="sg-title">{{ site.Title }}</h1>
+      {{- with site.Params.homeInfoParams.content }}
+      <p class="sg-hero__intro">{{ . }}</p>
+      {{- end }}
+      {{- with site.Params.socialIcons }}
+      <nav class="sg-hero__social" aria-label="{{ $socialLabel }}">
+        {{ partial "social_icons.html" }}
+      </nav>
+      {{- end }}
+    </div>
+
+    <figure class="sg-seal">
+      <div class="sg-seal__frame">
+        {{- with site.Params.sgSealImage }}
+        <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320">
+        {{- else }}
+        <span class="sg-seal__glyph" aria-hidden="true">∴</span>
+        {{- end }}
+      </div>
+    </figure>
+  </section>
+  {{- end }}
+
+  {{- if gt (len $pages) 0 }}
+  <section class="sg-writing" aria-labelledby="recent-writing">
+    <header class="sg-section-head">
+      <div>
+        <h2 id="recent-writing">{{ if eq site.Language.Lang "en" }}Updated My Journal{{ else if eq site.Language.Lang "ja" }}最近の更新{{ else }}最近更新{{ end }}{{ if ne site.Language.Lang "en" }}<span class="sg-section-head__en">Update My Journal</span>{{ end }}</h2>
+      </div>
+      <p class="sg-section-head__count">{{ len $pages }}{{ if eq site.Language.Lang "en" }} posts{{ else if eq site.Language.Lang "ja" }} 編{{ else }} 篇文章{{ end }}</p>
+    </header>
+
+    <div class="sg-feed">
+      {{- range $index, $page := $paginator.Pages }}
+      {{- $number := add (add $offset $index) 1 }}
+      <article class="sg-entry{{ if and (eq $paginator.PageNumber 1) (eq $index 0) }} is-latest{{ end }}">
+        <a class="sg-entry__link" href="{{ .RelPermalink }}" aria-label="{{ $readPrefix }}{{ .Title }}"></a>
+        <p class="sg-entry__number" aria-hidden="true">{{ printf "%02d" $number }}</p>
+        <time class="sg-entry__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+        <div class="sg-entry__main">
+          <h3>{{ .Title }}</h3>
+            <div class="sg-entry__meta">
+              {{- with .GetTerms "categories" }}
+              {{- range . }}
+              <span class="sg-entry__category">{{ .LinkTitle }}</span>
+              {{- end }}
+              {{- end }}
+              <span>{{ .ReadingTime }}{{ if eq site.Language.Lang "en" }} min{{ else if eq site.Language.Lang "ja" }} 分{{ else }} 分钟{{ end }}</span>
+            </div>
+          </div>
+          <span class="sg-entry__arrow" aria-hidden="true">→</span>
+      </article>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if gt $paginator.TotalPages 1 }}
+  <nav class="sg-pagination" aria-label="{{ if eq site.Language.Lang "en" }}Pagination{{ else if eq site.Language.Lang "ja" }}ページ送り{{ else }}文章分页{{ end }}">
+    <span class="sg-pagination__side">
+      {{- if $paginator.HasPrev }}
+      <a href="{{ $paginator.Prev.URL }}"><span aria-hidden="true">←</span> <span class="sg-pagination__word">{{ if eq site.Language.Lang "en" }}Prev{{ else if eq site.Language.Lang "ja" }}前へ{{ else }}上一页{{ end }}</span></a>
+      {{- end }}
+    </span>
+    <ol class="sg-pagination__pages">
+      {{- $scratch := newScratch }}
+      {{- $scratch.Set "prev" 0 }}
+      {{- range $paginator.Pagers }}
+      {{- $near := and (ge .PageNumber (sub $paginator.PageNumber 2)) (le .PageNumber (add $paginator.PageNumber 2)) }}
+      {{- if or (eq .PageNumber 1) (eq .PageNumber $paginator.TotalPages) $near }}
+      {{- if gt (sub .PageNumber ($scratch.Get "prev")) 1 }}
+      <li class="sg-pagination__gap" aria-hidden="true">…</li>
+      {{- end }}
+      {{- $scratch.Set "prev" .PageNumber }}
+      <li><a href="{{ .URL }}"{{ if eq .PageNumber $paginator.PageNumber }} class="is-current" aria-current="page"{{ end }}>{{ .PageNumber }}</a></li>
+      {{- end }}
+      {{- end }}
+    </ol>
+    <span class="sg-pagination__side sg-pagination__side--right">
+      {{- if $paginator.HasNext }}
+      <a href="{{ $paginator.Next.URL }}"><span class="sg-pagination__word">{{ if eq site.Language.Lang "en" }}Next{{ else if eq site.Language.Lang "ja" }}次へ{{ else }}下一页{{ end }}</span> <span aria-hidden="true">→</span></a>
+      {{- end }}
+    </span>
+  </nav>
+  {{- end }}
+</div>
+{{- end }}

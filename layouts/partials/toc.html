@@ -1,0 +1,100 @@
+{{- $headers := findRE "<h[1-6].*?>(.|\n])+?</h[1-6]>" .Content -}}
+{{- if ge (len $headers) 1 -}}
+{{- $tocTitle := "目录" -}}
+{{- if eq site.Language.Lang "en" }}{{- $tocTitle = "Contents" -}}{{- end }}
+{{- if eq site.Language.Lang "ja" }}{{- $tocTitle = "目次" -}}{{- end }}
+
+{{- /* 宽屏左侧悬浮目录,默认收起,点击页签展开;窄屏回退到下方折叠框 */ -}}
+<aside class="sg-toc" aria-label="{{ $tocTitle }}">
+    <button class="sg-toc__toggle" type="button" aria-expanded="false" aria-controls="sg-toc-panel" title="{{ $tocTitle }}">
+        <span class="sg-toc__toggle-label">{{ $tocTitle }}</span>
+    </button>
+    <div class="sg-toc__panel" id="sg-toc-panel">
+        <div class="sg-toc__scroll">
+            {{- .TableOfContents -}}
+        </div>
+    </div>
+</aside>
+
+<div class="toc">
+    <details {{ if (.Param "TocOpen") }} open{{ end }}>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">{{ $tocTitle }}</span>
+        </summary>
+        <div class="inner">
+            {{- .TableOfContents -}}
+        </div>
+    </details>
+</div>
+
+<script>
+(function () {
+    function ready(fn) {
+        if (document.readyState !== "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+    }
+    ready(function () {
+        var toc = document.querySelector('.sg-toc');
+        if (!toc) return;
+
+        var KEY = 'sg-toc-open';
+        var btn = toc.querySelector('.sg-toc__toggle');
+        try {
+            if (localStorage.getItem(KEY) === '1') {
+                toc.classList.add('is-open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        } catch (e) {}
+        btn.addEventListener('click', function () {
+            var open = toc.classList.toggle('is-open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            try { localStorage.setItem(KEY, open ? '1' : '0'); } catch (e) {}
+        });
+
+        var links = {};
+        toc.querySelectorAll('a[href^="#"]').forEach(function (a) {
+            links[a.getAttribute('href').slice(1)] = a;
+        });
+        var heads = [];
+        Object.keys(links).forEach(function (id) {
+            var h = document.getElementById(id);
+            if (h) heads.push(h);
+        });
+        if (!heads.length) return;
+
+        function measure() {
+            heads.forEach(function (h) { h._y = h.getBoundingClientRect().top + window.scrollY; });
+        }
+
+        var scroller = toc.querySelector('.sg-toc__scroll');
+        function update() {
+            var pos = window.scrollY + 140;
+            var currentId = heads[0].id;
+            for (var i = 0; i < heads.length; i++) {
+                if (heads[i]._y <= pos) currentId = heads[i].id;
+            }
+            /* 页尾兜底:末节后置内容不足一屏时,滚动到底强制点亮最后一个小节 */
+            if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+                currentId = heads[heads.length - 1].id;
+            }
+            toc.querySelectorAll('a.is-active').forEach(function (a) { a.classList.remove('is-active'); });
+            var active = links[currentId];
+            if (!active) return;
+            active.classList.add('is-active');
+            var top = active.offsetTop;
+            if (top < scroller.scrollTop || top > scroller.scrollTop + scroller.clientHeight - 40) {
+                scroller.scrollTop = top - scroller.clientHeight / 2;
+            }
+        }
+
+        var raf = null;
+        window.addEventListener('scroll', function () {
+            if (!raf) raf = requestAnimationFrame(function () { raf = null; update(); });
+        }, { passive: true });
+        window.addEventListener('resize', function () { measure(); update(); });
+        measure();
+        update();
+    });
+})();
+</script>
+{{- end -}}
