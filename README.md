@@ -1,6 +1,13 @@
 # hugo-theme-sigil
 
+中文 | [English](README.en.md) | [日本語](README.ja.md)
+
 **A literary Hugo theme — ink, paper, and everything in threes.**
+
+> [!IMPORTANT]
+> **本主题明确面向中文写作者。** 字体管线、排印参数、栏宽与行高，
+> 全部围绕中文阅读体验构建。其他语言可用，但中文才是它发光的地方。
+> (For English, see [README.en.md](README.en.md); 日本語は [README.ja.md](README.ja.md)。)
 
 一个面向中文写作者的文学 Hugo 主题：旧纸底色、朱砂·墨绿·琥珀三色体系、衬线排印、
 Tufte 式边注、全文 RSS 与按内容自动切片的字体子集管线。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）深度定制。
