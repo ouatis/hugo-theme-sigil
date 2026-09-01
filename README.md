@@ -21,7 +21,7 @@ Tufte 式边注、全文 RSS 与按内容自动切片的字体子集管线。基
 ## 快速开始 / Quick start
 
 ```bash
-git clone https://github.com/OWNER/hugo-theme-sigil
+git clone https://github.com/ouatis/hugo-theme-sigil
 cd hugo-theme-sigil/exampleSite
 hugo server --themesDir ../..
 ```
@@ -29,7 +29,7 @@ hugo server --themesDir ../..
 在自己的站点使用：
 
 ```bash
-git clone https://github.com/OWNER/hugo-theme-sigil themes/hugo-theme-sigil
+git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 # hugo.toml:
 # theme = "hugo-theme-sigil"
 ```
