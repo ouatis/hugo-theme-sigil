@@ -35,12 +35,15 @@ if [ ! -s "$src" ]; then
 fi
 
 python3 - <<'PY'
+import os
 import pathlib
 import unicodedata
 
 roots = ["content", "layouts", "i18n", "archetypes"]
 exts = {".md", ".html", ".toml", ".yaml", ".yml", ".json", ".txt"}
-chars = set(pathlib.Path("hugo.toml").read_text(encoding="utf-8", errors="ignore"))
+chars = set()
+if os.path.exists("hugo.toml"):
+    chars |= set(pathlib.Path("hugo.toml").read_text(encoding="utf-8", errors="ignore"))
 
 for root in roots:
     p = pathlib.Path(root)
