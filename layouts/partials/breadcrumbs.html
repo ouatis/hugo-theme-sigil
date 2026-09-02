@@ -1,4 +1,4 @@
-{{- /* 面包屑:首页∴分类;文章标题就是下方大标题,不重复出现;与 BreadcrumbList 同源。
+{{- /* 面包屑:首页∴分类;文章标题就是下方大标题,不重复出现;仅可见路径,不输出结构化数据。
      Hugo 页面树不含分类法,故手写;仅对有分类的文章渲染。 */ -}}
 {{- if and .IsPage (.Param "ShowBreadCrumbs") -}}
 {{- $cats := .GetTerms "categories" -}}
