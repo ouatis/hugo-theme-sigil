@@ -44,7 +44,10 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build example site
-        run: hugo --source exampleSite --themesDir .. --baseURL "https://ouatis.com/hugo-theme-sigil/" --destination public
+        run: |
+          mkdir -p /tmp/hugo-themes
+          ln -s "$GITHUB_WORKSPACE" /tmp/hugo-themes/hugo-theme-sigil
+          hugo --source exampleSite --themesDir /tmp/hugo-themes --baseURL "https://ouatis.com/hugo-theme-sigil/" --destination public
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
