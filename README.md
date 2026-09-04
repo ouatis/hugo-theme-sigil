@@ -9,7 +9,7 @@
 > 全部围绕中文阅读体验构建。其他语言可用，但设计与优化均以中文阅读体验为先。
 > (For English, see [README.en.md](README.en.md); 日本語は [README.ja.md](README.ja.md)。)
 
-一个面向中文写作者的文学 Hugo 主题：旧纸底色、朱砂·墨绿·琥珀三色体系、衬线排印、
+一个面向中文写作者的文学 Hugo 主题：旧纸底色、朱砂·墨绿·琥珀三色体系、IBM Plex Sans CJK 排印、
 Tufte 式边注、全文 RSS 与按内容自动切片的字体子集管线。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）深度定制。
 
 ![Screenshot](docs/screenshot.png)
@@ -18,7 +18,7 @@ Tufte 式边注、全文 RSS 与按内容自动切片的字体子集管线。基
 
 - **三色体系**：朱砂（交互）· 墨绿（元信息）· 琥珀（高亮），明暗双主题
 - **Tufte 式边注**：宽屏下脚注出现在引注右侧的边距里，窄屏自动回退文末
-- **字体子集管线**：`scripts/build-fonts.sh` 按站内用字自动切片思源宋体，首访只下载 2–6KB 的分片
+- **字体子集管线**：`scripts/build-fonts.sh` 按 IBM Plex Sans、Chinese SC、Japanese 官方分片准备站内用字，首访只下载按需分片
 - **全文 RSS**
 - **输入即搜**（fuse）
 - **归档 / 分类 / 标签 / 面包屑 / 阅读进度**
@@ -51,11 +51,11 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 | `params.mainSections` | 首页列表与 RSS 的内容区段 | `["posts"]` |
 | `params.author` | 文章署名（RSS 与文章 meta 使用） | 不显示 |
 
-完整示例见 [exampleSite/hugo.toml](exampleSite/hugo.toml)。
+完整示例见 [exampleSite/hugo.toml](exampleSite/hugo.toml)。示例站只展示中文页面；主题本身支持 zh-CN、en、ja 多语言配置。
 
 ## 字体子集 / Font subsetting
 
-主题的衬线字体为思源宋体（Noto Serif SC，SIL OFL 1.1）。首次构建前运行：
+主题使用 IBM Plex Sans 系列字体（普通拉丁、Chinese SC、Japanese，IBM 开源字体许可）。中文页面优先使用 IBM Plex Sans SC，日文页面优先使用 IBM Plex Sans JP。首次构建前运行：
 
 ```bash
 pip install "fonttools[woff]"
@@ -63,7 +63,7 @@ scripts/build-fonts.sh
 ```
 
 脚本会扫描站内全部用字并生成按 unicode-range 切片的 woff2 分片——
-读者首访只需按需下载几 KB，而不是 20MB 的整包字体。未运行时自动回退系统宋体。
+读者首访只需按需下载几 KB，而不是 20MB 的整包字体。未运行时自动回退系统无衬线字体。
 
 ## 边注 / Sidenotes
 
@@ -74,7 +74,7 @@ scripts/build-fonts.sh
 ## 致谢 / Credits
 
 基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）。
-字体：[Noto Serif SC](https://fonts.google.com/noto/specimen/Noto+Serif+SC)（SIL OFL 1.1）。
+字体：[IBM Plex](https://github.com/IBM/plex)（IBM 开源字体许可）。
 
 ## License
 

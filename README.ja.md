@@ -12,7 +12,7 @@
 > （中文说明见 [README.md](README.md)；For English, see [README.en.md](README.en.md)。）
 
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）を深くカスタム
-した文学系 Hugo テーマ：古紙の背景、朱・墨緑・琥珀の三色体系、明朝体の組み版、
+した文学系 Hugo テーマ：古紙の背景、朱・墨緑・琥珀の三色体系、IBM Plex Sans CJK の組み版、
 Tufte 式の傍注、全文 RSS、そしてサイト内の使用文字だけを切り出すフォント
 サブセット pipeline。
 
@@ -22,7 +22,7 @@ Tufte 式の傍注、全文 RSS、そしてサイト内の使用文字だけを�
 
 - **三色体系** — 朱（インタラクション）・墨緑（メタ情報）・琥珀（ハイライト）、ダーク＆ライト両対応
 - **Tufte 式傍注** — 広い画面では注釈が参照箇所の右側の余白に表示され、狭い画面では文末に自動フォールバック
-- **フォントサブセット pipeline** — `scripts/build-fonts.sh` がサイト内の使用文字から源ノ宋体をスライスし、初回訪問は数 KB のダウンロードで済む
+- **フォントサブセット pipeline** — `scripts/build-fonts.sh` が IBM Plex Sans の Latin、Chinese SC、Japanese 公式分割ファイルを準備し、初回訪問は必要な数 KB のダウンロードで済む
 - **全文 RSS**
 - **タイプしながら検索**（fuse）
 - **アーカイブ / 分類 / タグ / パンくず / 読書進捗**
@@ -55,11 +55,11 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 | `params.mainSections` | トップページ一覧と RSS の対象セクション | `["posts"]` |
 | `params.author` | 記事の署名（RSS と記事 meta で使用） | 非表示 |
 
-完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照。
+完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照。サンプルサイトは意図的に中国語のみです。テーマ自体は zh-CN、en、ja の設定に対応しています。
 
 ## フォントサブセット
 
-本文のセリフ体は源ノ宋体（Noto Serif SC、SIL OFL 1.1）。初回ビルド前に実行：
+本文のフォントは IBM Plex Sans、IBM Plex Sans SC、IBM Plex Sans JP（SIL OFL 1.1）です。中国語ページは SC、日本語ページは JP を優先します。初回ビルド前に実行：
 
 ```bash
 pip install "fonttools[woff]"
@@ -68,7 +68,7 @@ scripts/build-fonts.sh
 
 スクリプトはサイト内の使用文字をすべて走査し、unicode-range ごとの woff2 スライスを
 生成します。読者は 20MB のフォント一式ではなく、必要な数 KB だけをダウンロード。
-実行しない場合はシステムの明朝体にフォールバックします。
+実行しない場合はシステムのサンセリフ体にフォールバックします。
 
 ## 傍注 / Sidenotes
 
@@ -79,7 +79,7 @@ scripts/build-fonts.sh
 ## クレジット
 
 ベース：[PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）。
-フォント：[源ノ宋体](https://fonts.google.com/noto/specimen/Noto+Serif+SC)（SIL OFL 1.1）。
+フォント：[IBM Plex](https://github.com/IBM/plex)（IBM オープンソースフォントライセンス）。
 
 ## ライセンス
 

@@ -55,26 +55,3 @@ defaultContentLanguage = "zh-cn"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-
-  [languages.en]
-    label = "English"
-    weight = 2
-    title = "Sigil Demo"
-    [languages.en.params]
-      sgKicker = "A LITERARY ARCHIVE"
-      sgColophon = "MADE WITH INK & PAPER"
-      [languages.en.params.homeInfoParams]
-        content = "A demo site built with the Sigil theme. Writing, translation, and other things."
-
-    [[languages.en.menus.main]]
-        identifier = "about"
-        name = "About"
-        url = "/en/about/"
-    [[languages.en.menus.main]]
-        identifier = "archives"
-        name = "Archives"
-        url = "/en/archives/"
-    [[languages.en.menus.main]]
-        identifier = "search"
-        name = "Search"
-        url = "/en/search/"

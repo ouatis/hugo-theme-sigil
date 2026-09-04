@@ -26,15 +26,14 @@ jobs:
           hugo-version: "0.165.0"
           extended: true
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Cache IBM Plex source
+        uses: actions/cache@v4
         with:
-          python-version: "3.13"
+          path: .cache/ibm-plex
+          key: ibm-plex-1.1.0
 
       - name: Build font subsets for the demo
         run: |
-          ln -s exampleSite/content content
-          pip install "fonttools[woff]"
           scripts/build-fonts.sh
           mkdir -p exampleSite/static
           cp -r static/fonts exampleSite/static/fonts

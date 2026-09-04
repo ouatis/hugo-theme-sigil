@@ -3,3 +3,6 @@ resources/
 exampleSite/public/
 exampleSite/resources/
 .hugo_build.lock
+
+# Generated IBM Plex split assets
+static/fonts/ibm-plex/

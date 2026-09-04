@@ -1,6 +1,11 @@
-# 致谢 / Credits
+# Credits
 
-本主题基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT License）深度定制而成，
-其原始版权声明保留于 [LICENSE](LICENSE) 中。感谢 nanxiaobei 与 adityatelange。
+This theme is deeply customized from [PaperMod](https://github.com/adityatelange/hugo-PaperMod) (MIT License).
+The original copyright notices remain in [LICENSE](LICENSE).
 
-字体：思源宋体（Noto Serif SC），SIL Open Font License 1.1。
+Fonts: IBM Plex Sans, IBM Plex Sans Chinese SC, and IBM Plex Sans Japanese,
+version 1.1.0, licensed under the SIL Open Font License 1.1.
+The font packages are obtained from the official IBM Plex repository:
+https://github.com/IBM/plex.
+
+Icons: [Phosphor Icons](https://phosphoricons.com), MIT License.
