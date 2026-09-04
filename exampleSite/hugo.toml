@@ -11,7 +11,6 @@ defaultContentLanguage = "zh-cn"
     title = "Sigil 示例志"
     [languages.zh-cn.params]
       sgKicker = "A LITERARY ARCHIVE"
-      sgColophon = "MADE WITH INK & PAPER"
       [languages.zh-cn.params.homeInfoParams]
         content = "一个基于 Sigil 主题的示例站点。写作、翻译，以及其他。"
 

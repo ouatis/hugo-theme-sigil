@@ -54,8 +54,7 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 | Param | Description | Default |
 | --- | --- | --- |
 | `params.sgKicker` | Small line above the homepage title | hidden |
-| `params.sgReading` / `params.sgPlaying` | Current Reading / Playing status above the footer (blank hides it) | hidden |
-| `params.sgColophon` | Motif in the middle of the three-part footer | hidden |
+| `params.sgReading` / `params.sgPlaying` / `params.sgMotto` | Rotating status below the Hero seal (blank hides it) | hidden |
 | `params.sgSealImage` | Image for the homepage seal; unset shows a default ∴ glyph seal | ∴ glyph |
 | `params.mainSections` | Content section for the home list and RSS | `["posts"]` |
 | `params.author` | Post byline (used in RSS and article meta) | hidden |

@@ -31,6 +31,7 @@
       {{- end }}
     </div>
 
+    {{- $sgMotto := site.Params.sgMotto -}}
     <figure class="sg-seal">
       <div class="sg-seal__frame">
         {{- with site.Params.sgSealImage }}
@@ -39,8 +40,39 @@
         <span class="sg-seal__glyph" aria-hidden="true">∴</span>
         {{- end }}
       </div>
+      {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto }}
+      <figcaption class="sg-now" data-rotate="true" aria-label="Current reading and playing" aria-live="polite">
+        {{- with site.Params.sgReading }}
+        <span class="sg-now__item sg-now__item--reading">{{ partial "sg-icon.html" (dict "name" "book-open" "size" 14) }}<span>Reading: {{ . }}</span></span>
+        {{- end }}
+        {{- with site.Params.sgPlaying }}
+        <span class="sg-now__item sg-now__item--playing">{{ partial "sg-icon.html" (dict "name" "game-controller" "size" 14) }}<span>Playing: {{ . }}</span></span>
+        {{- end }}
+        {{- with $sgMotto }}
+        <span class="sg-now__item sg-now__item--motto"><span class="sg-now__glyph" aria-hidden="true">∴</span><span>{{ . }}</span></span>
+        {{- end }}
+      </figcaption>
+      {{- end }}
     </figure>
   </section>
+  {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto }}
+  <script>
+  (function () {
+      var strip = document.querySelector(".sg-now");
+      if (!strip) return;
+      var items = Array.from(strip.querySelectorAll(".sg-now__item"));
+      if (items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      strip.classList.add("sg-now--rotating");
+      var index = 0;
+      items.forEach(function (item, i) { item.classList.toggle("is-active", i === 0); });
+      window.setInterval(function () {
+          items[index].classList.remove("is-active");
+          index = (index + 1) % items.length;
+          items[index].classList.add("is-active");
+      }, 8000);
+  })();
+  </script>
+  {{- end }}
   {{- end }}
 
   {{- if gt (len $pages) 0 }}
