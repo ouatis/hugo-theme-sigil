@@ -46,6 +46,7 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 | 参数 | 说明 | 默认 |
 | --- | --- | --- |
 | `params.sgKicker` | 首页眉标（大标题上方的小字） | 不显示 |
+| `params.sgReading` / `params.sgPlaying` | 页脚上方的当前 Reading / Playing 状态（留空则隐藏） | 不显示 |
 | `params.sgColophon` | 页脚题词（三段式的中段） | 不显示 |
 | `params.sgSealImage` | 首页徽记图片；不设则显示默认的 ∴ 字形印章 | ∴ 字形 |
 | `params.mainSections` | 首页列表与 RSS 的内容区段 | `["posts"]` |

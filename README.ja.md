@@ -50,6 +50,7 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 | パラメータ | 説明 | デフォルト |
 | --- | --- | --- |
 | `params.sgKicker` | トップページのタイトル上部の小さな行 | 非表示 |
+| `params.sgReading` / `params.sgPlaying` | フッター上部の Reading / Playing 状態（空欄なら非表示） | 非表示 |
 | `params.sgColophon` | 三段フッターの中央に入る標語 | 非表示 |
 | `params.sgSealImage` | トップページの印章画像。未設定なら ∷ ではなく ∴ の文字印章 | ∴ 文字印章 |
 | `params.mainSections` | トップページ一覧と RSS の対象セクション | `["posts"]` |

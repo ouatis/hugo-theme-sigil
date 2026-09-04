@@ -6,3 +6,5 @@ exampleSite/resources/
 
 # Generated IBM Plex split assets
 static/fonts/ibm-plex/
+
+.cache/
