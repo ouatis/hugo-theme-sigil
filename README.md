@@ -2,14 +2,9 @@
 
 中文 | [English](README.en.md) | [日本語](README.ja.md)
 
-**A literary Hugo theme — ink, paper, and everything in threes.**
+**一个简约的 Hugo 博客主题。**
 
-> [!IMPORTANT]
-> **本主题明确面向中文写作者。** 字体管线、排印参数、栏宽与行高，
-> 全部围绕中文阅读体验构建。其他语言可用，但设计与优化均以中文阅读体验为先。
-> (For English, see [README.en.md](README.en.md); 日本語は [README.ja.md](README.ja.md)。)
-
-一个面向中文写作者的文学 Hugo 主题：旧纸底色、朱砂·墨绿·琥珀三色体系、IBM Plex Sans CJK 排印、
+一个简约的 Hugo 博客主题：旧纸底色、朱砂·墨绿·琥珀三色体系、IBM Plex Sans CJK 排印、
 Tufte 式边注、全文 RSS 与按内容自动切片的字体子集管线。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）深度定制。
 
 ![Screenshot](docs/screenshot.png)

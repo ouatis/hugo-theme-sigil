@@ -2,17 +2,10 @@
 
 [中文](README.md) | [English](README.en.md) | **日本語**
 
-**A literary Hugo theme — ink, paper, and everything in threes.**
-（文学のための Hugo テーマ — インク、紙、そしてすべては三つでできている。）
-
-> [!IMPORTANT]
-> **このテーマは主に中国語の書き手のために作られています。** フォントの
-> サブセット pipeline、組み版の設定、欄幅と行間は、すべて中国語の読書体験を
-> 中心に設計されています。他の言語でも利用できますが、設計と最適化は中国語の読書体験を優先しています。
-> （中文说明见 [README.md](README.md)；For English, see [README.en.md](README.en.md)。）
+**シンプルな Hugo ブログテーマ。**
 
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）を深くカスタム
-した文学系 Hugo テーマ：古紙の背景、朱・墨緑・琥珀の三色体系、IBM Plex Sans CJK の組み版、
+したシンプルな Hugo テーマ：古紙の背景、朱・墨緑・琥珀の三色体系、IBM Plex Sans CJK の組み版、
 Tufte 式の傍注、全文 RSS、そしてサイト内の使用文字だけを切り出すフォント
 サブセット pipeline。
 

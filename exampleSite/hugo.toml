@@ -1,5 +1,5 @@
 baseURL = "https://example.com/"
-title = "Sigil 示例志"
+title = "sigil-demo"
 theme = "hugo-theme-sigil"
 
 defaultContentLanguage = "zh-cn"
@@ -8,11 +8,10 @@ defaultContentLanguage = "zh-cn"
   [languages.zh-cn]
     label = "中文"
     weight = 1
-    title = "Sigil 示例志"
+    title = "sigil-demo"
     [languages.zh-cn.params]
-      sgKicker = "A LITERARY ARCHIVE"
       [languages.zh-cn.params.homeInfoParams]
-        content = "一个基于 Sigil 主题的示例站点。写作、翻译，以及其他。"
+        content = "Hugo 主题 sigil 的示例站点。"
 
     [[languages.zh-cn.menus.main]]
         identifier = "about"

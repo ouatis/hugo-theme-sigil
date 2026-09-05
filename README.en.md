@@ -2,14 +2,9 @@
 
 [中文](README.md) | **English** | [日本語](README.ja.md)
 
-**A literary Hugo theme — ink, paper, and everything in threes.**
+**A minimal Hugo blog theme.**
 
-> [!IMPORTANT]
-> **This theme is built primarily for Chinese writers.** The font pipeline,
-> typographic settings, column width and line height all revolve around the
-> Chinese reading experience. Other languages work, but the design and optimization prioritize the Chinese reading experience. (中文说明见 [README.md](README.md)；日本語は [README.ja.md](README.ja.md)。)
-
-A literary Hugo theme based on a deep customization of
+A minimal Hugo theme based on a deep customization of
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) (MIT): an old-paper
 background, a three-color system of vermilion / ink-green / amber, IBM Plex Sans CJK
 typography, Tufte-style sidenotes, full-text RSS, and a font-subsetting
