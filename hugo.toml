@@ -1,0 +1,5 @@
+# Gallery/builder metadata: supported Hugo versions for this theme.
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.156.0"

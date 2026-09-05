@@ -9,7 +9,24 @@ of [PaperMod](https://github.com/adityatelange/hugo-PaperMod) (MIT).
 
 **[Live demo](https://ouatis.com/hugo-theme-sigil/)**
 
-![Screenshot](docs/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/ouatis/hugo-theme-sigil/main/images/screenshot.png)
+
+## Why a separate theme (not a PaperMod PR)
+
+Sigil is a deep customization of PaperMod, but it departs from it in ways that
+would not fit upstream:
+
+- **Tufte-style sidenotes**: footnotes are cloned into the margin next to their
+  reference on wide screens and fall back to endnotes when narrow.
+- **Circular-reveal theme toggle**: dark mode switches through a View
+  Transitions API circle expanding from the click point, with a soft fallback.
+- **Ghost-year archives**: the archives page sets each year as a large
+  background numeral instead of a heading row.
+- **Full-text RSS** and a **font-subsetting pipeline**: `build-fonts.sh`
+  generates IBM Plex woff2 slices keyed by unicode-range, so CJK readers
+  download kilobytes, not megabytes.
+- A strict three-color literary design system (vermilion / ink-green / amber)
+  and zh-CN-first multilingual strings.
 
 ## Quick start
 
