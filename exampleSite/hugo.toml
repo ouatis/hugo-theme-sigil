@@ -2,36 +2,36 @@ baseURL = "https://example.com/"
 title = "sigil-demo"
 theme = "hugo-theme-sigil"
 
-defaultContentLanguage = "zh-cn"
+defaultContentLanguage = "en"
 
 [languages]
-  [languages.zh-cn]
-    label = "中文"
+  [languages.en]
+    label = "English"
     weight = 1
     title = "sigil-demo"
-    [languages.zh-cn.params]
-      [languages.zh-cn.params.homeInfoParams]
-        content = "Hugo 主题 sigil 的示例站点。"
+    [languages.en.params]
+      [languages.en.params.homeInfoParams]
+        content = "The example site for the Sigil Hugo theme."
 
-    [[languages.zh-cn.menus.main]]
+    [[languages.en.menus.main]]
         identifier = "about"
-        name = "关于"
+        name = "About"
         url = "/about/"
-    [[languages.zh-cn.menus.main]]
+    [[languages.en.menus.main]]
         identifier = "archives"
-        name = "归档"
+        name = "Archives"
         url = "/archives/"
-    [[languages.zh-cn.menus.main]]
+    [[languages.en.menus.main]]
         identifier = "categories"
-        name = "分类"
+        name = "Categories"
         url = "/categories/"
-    [[languages.zh-cn.menus.main]]
+    [[languages.en.menus.main]]
         identifier = "tags"
-        name = "标签"
+        name = "Tags"
         url = "/tags/"
-    [[languages.zh-cn.menus.main]]
+    [[languages.en.menus.main]]
         identifier = "search"
-        name = "搜索"
+        name = "Search"
         url = "/search/"
 
 [params]

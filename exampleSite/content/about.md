@@ -1,5 +1,5 @@
 ---
-title: "关于"
+title: "About"
 ---
 
-这是 [Sigil 主题](https://github.com/ouatis/hugo-theme-sigil) 的示例站。
+This is the example site for the [Sigil theme](https://github.com/ouatis/hugo-theme-sigil).

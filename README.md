@@ -1,13 +1,15 @@
 # hugo-theme-sigil
 
-中文 | [English](README.en.md) | [日本語](README.ja.md)
+**English** | [中文](README.zh.md) | [日本語](README.ja.md)
 
-一个简约的 Hugo 博客主题：旧纸底色、朱砂·墨绿·琥珀三色排印、Tufte 式边注、
-全文 RSS 与按内容切片的字体子集管线。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）深度定制。
+A minimal Hugo blog theme: an old-paper background, a three-color system of
+vermilion / ink-green / amber, IBM Plex Sans CJK typography, Tufte-style
+sidenotes, full-text RSS, and a font-subsetting pipeline. A deep customization
+of [PaperMod](https://github.com/adityatelange/hugo-PaperMod) (MIT).
 
 ![Screenshot](docs/screenshot.png)
 
-## 快速开始
+## Quick start
 
 ```bash
 git clone https://github.com/ouatis/hugo-theme-sigil
@@ -15,38 +17,47 @@ cd hugo-theme-sigil/exampleSite
 hugo server --themesDir ../..
 ```
 
-在自己的站点使用：
+To use it in your own site:
 
 ```bash
 git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
-# hugo.toml: theme = "hugo-theme-sigil"
+# in hugo.toml: theme = "hugo-theme-sigil"
 ```
 
-部署前把 `baseURL` 改成自己的域名（示例站默认 `https://example.com/`）。
+Set `baseURL` to your own domain before deploying (the example site ships
+with `https://example.com/`).
 
-## 配置
+## Configuration
 
-| 参数 | 说明 | 默认 |
+| Param | Description | Default |
 | --- | --- | --- |
-| `params.sgKicker` | 首页标题上方的小字 | 不显示 |
-| `params.sgReading` / `params.sgPlaying` / `params.sgMotto` | Hero 印章下方的轮换状态 | 不显示 |
-| `params.sgSealImage` | 首页徽记图片，不设则显示 ∴ 字形印章 | ∴ 字形 |
-| `params.mainSections` | 首页列表与 RSS 的内容区段 | `["posts"]` |
-| `params.author` | 文章署名（RSS 与文章 meta） | 不显示 |
+| `params.sgKicker` | Small line above the homepage title | hidden |
+| `params.sgReading` / `params.sgPlaying` / `params.sgMotto` | Rotating status below the Hero seal | hidden |
+| `params.sgSealImage` | Homepage seal image; unset shows a ∴ glyph seal | ∴ glyph |
+| `params.mainSections` | Content section for the home list and RSS | `["posts"]` |
+| `params.author` | Post byline (RSS and article meta) | hidden |
 
-完整示例见 [exampleSite/hugo.toml](exampleSite/hugo.toml)。示例站仅中文内容；主题内置 zh-CN / en / ja 文案。
+See [exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example. The example site is in
+English; the theme ships with zh-CN / en / ja strings.
 
-## 字体与边注
+## Fonts & sidenotes
 
-首次构建前运行：
+Before your first build:
 
 ```bash
 pip install "fonttools[woff]"
 scripts/build-fonts.sh
 ```
 
-脚本按站内用字生成 unicode-range 切片的 woff2 分片，读者首访按需下载几 KB；未运行则回退系统字体。脚注在宽屏（≥1280px）呈现在引注右侧的边距里（Tufte 式），窄屏自动回退文末。
+The script emits woff2 slices keyed by unicode-range from the glyphs your site
+actually uses — readers download a few KB on demand; without it the theme
+falls back to system fonts. Footnotes render as margin notes beside their
+reference on wide screens (≥1280px, Tufte-style) and fall back to endnotes on
+narrow screens.
 
-## 许可
+## License
 
-MIT — 见 [LICENSE](LICENSE)。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)；字体 [IBM Plex](https://github.com/IBM/plex)（IBM 开源字体许可）。
+MIT — see [LICENSE](LICENSE). Based on
+[PaperMod](https://github.com/adityatelange/hugo-PaperMod); fonts
+[IBM Plex](https://github.com/IBM/plex) (IBM open-source font license); icons
+[Phosphor Icons](https://phosphoricons.com/) (MIT).

@@ -1,6 +1,6 @@
 # hugo-theme-sigil
 
-[中文](README.md) | [English](README.en.md) | **日本語**
+[English](README.md) | [中文](README.zh.md) | **日本語**
 
 シンプルな Hugo ブログテーマ：古紙の背景、朱・墨緑・琥珀の三色体系、IBM Plex Sans CJK の
 組み版、Tufte 式の傍注、全文 RSS、サイト内の使用文字だけを切り出すフォントサブセット
@@ -35,7 +35,7 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 | `params.mainSections` | トップページ一覧と RSS の対象セクション | `["posts"]` |
 | `params.author` | 記事の署名（RSS と記事 meta） | 非表示 |
 
-完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照。サンプルサイトは中国語のみです。テーマには zh-CN / en / ja の文案が同梱されています。
+完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照。サンプルサイトは英語です。テーマには zh-CN / en / ja の文案が同梱されています。
 
 ## フォントと傍注
 
@@ -53,4 +53,4 @@ scripts/build-fonts.sh
 
 ## ライセンス
 
-MIT — [LICENSE](LICENSE) を参照。ベース：[PaperMod](https://github.com/adityatelange/hugo-PaperMod)。フォント：[IBM Plex](https://github.com/IBM/plex)（IBM オープンソースフォントライセンス）。
+MIT — [LICENSE](LICENSE) を参照。ベース：[PaperMod](https://github.com/adityatelange/hugo-PaperMod)。フォント：[IBM Plex](https://github.com/IBM/plex)（IBM オープンソースフォントライセンス）。アイコン：[Phosphor Icons](https://phosphoricons.com/)（MIT）。
