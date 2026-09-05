@@ -77,7 +77,7 @@ Without it, the theme falls back to system sans-serif fonts.
 ## Sidenotes
 
 Footnotes automatically render as margin notes beside their reference on wide
-screens (≥1440px, Tufte-style). Hovering a reference highlights its note and
+screens (≥1280px, 264px wide from 1440px, Tufte-style). Hovering a reference highlights its note and
 vice versa; narrow screens fall back to end-of-post footnotes; printing
 restores the endnote list; browsers without `:has` keep plain footnotes.
 
