@@ -31,16 +31,38 @@ with `https://example.com/`).
 
 ## Configuration
 
-| Param | Description | Default |
-| --- | --- | --- |
-| `params.sgKicker` | Small line above the homepage title | hidden |
-| `params.sgReading` / `params.sgPlaying` / `params.sgMotto` | Rotating status below the Hero seal | hidden |
-| `params.sgSealImage` | Homepage seal image; unset shows a ∴ glyph seal | ∴ glyph |
-| `params.mainSections` | Content section for the home list and RSS | `["posts"]` |
-| `params.author` | Post byline (RSS and article meta) | hidden |
+Theme-specific params:
 
-See [exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example. The example site is in
-English; the theme ships with zh-CN / en / ja strings.
+| Param | Default | Description |
+| --- | --- | --- |
+| `sgKicker` | hidden | Small line above the homepage title |
+| `sgReading` / `sgPlaying` / `sgMotto` | hidden | Rotating status under the hero seal |
+| `sgSealImage` | ∴ glyph | Seal image on the homepage |
+| `ShowFullTextinRSS` | `false` | Full article content in the RSS feed |
+| `ShowAllPagesInArchive` | `false` | Archives list all pages, not only posts |
+| `disableLangToggle` | `false` | Hide the language switcher |
+| `disableSpecial1stPost` | `false` | Plain styling for the first home entry |
+
+Commonly used params inherited from PaperMod work as-is:
+
+| Param | Default | Description |
+| --- | --- | --- |
+| `defaultTheme` | `auto` | `light` / `dark` / `auto` |
+| `ShowToc` / `TocOpen` | `false` | Table of contents on posts |
+| `ShowCodeCopyButtons` | `false` | Copy button on code blocks |
+| `ShowBreadCrumbs` | `false` | Breadcrumbs on posts |
+| `ShowReadingTime` / `ShowWordCount` | `false` | Post meta |
+| `ShowPostNavLinks` | `false` | Prev / next links |
+| `showRelated` | `true` | Related posts below an article |
+| `editPost` | hidden | "Edit" link under posts (`URL`, `Text`) |
+| `socialIcons` | hidden | Profile icons; github / rss / steam use Phosphor, the rest fall back to the built-in set |
+| `homeInfoParams` / `profileMode` | — | Homepage mode and its content |
+| `hideFooter`, `hideMeta`, `hideSummary`, … | `false` | Per-page overrides |
+
+Sidenotes, the ghost-year archive background, and the circular-reveal theme
+toggle are automatic — no param needed. See
+[exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example. The
+example site is in English; the theme ships with zh-CN / en / ja strings.
 
 ## Fonts & sidenotes
 

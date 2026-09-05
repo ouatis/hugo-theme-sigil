@@ -29,15 +29,36 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 
 ## 設定
 
-| パラメータ | 説明 | デフォルト |
-| --- | --- | --- |
-| `params.sgKicker` | トップページのタイトル上部の小さな行 | 非表示 |
-| `params.sgReading` / `params.sgPlaying` / `params.sgMotto` | Hero の印章下の輪換ステータス | 非表示 |
-| `params.sgSealImage` | トップページの印章画像。未設定なら ∴ の文字印章 | ∴ 文字印章 |
-| `params.mainSections` | トップページ一覧と RSS の対象セクション | `["posts"]` |
-| `params.author` | 記事の署名（RSS と記事 meta） | 非表示 |
+テーマ固有のパラメータ：
 
-完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照。サンプルサイトは英語です。テーマには zh-CN / en / ja の文案が同梱されています。
+| パラメータ | デフォルト | 説明 |
+| --- | --- | --- |
+| `sgKicker` | 非表示 | トップページのタイトル上部の小さな行 |
+| `sgReading` / `sgPlaying` / `sgMotto` | 非表示 | Hero の印章下の輪換ステータス |
+| `sgSealImage` | ∴ 文字印章 | トップページの印章画像 |
+| `ShowFullTextinRSS` | `false` | RSS に全文を出力 |
+| `ShowAllPagesInArchive` | `false` | アーカイブに投稿以外のページも収録 |
+| `disableLangToggle` | `false` | 言語切り替えを隠す |
+| `disableSpecial1stPost` | `false` | トップページの最初のエントリを通常スタイルに |
+
+PaperMod から継承した常用パラメータはそのまま使えます：
+
+| パラメータ | デフォルト | 説明 |
+| --- | --- | --- |
+| `defaultTheme` | `auto` | `light` / `dark` / `auto` |
+| `ShowToc` / `TocOpen` | `false` | 記事の目次 |
+| `ShowCodeCopyButtons` | `false` | コードブロックのコピーボタン |
+| `ShowBreadCrumbs` | `false` | 記事のパンくずリスト |
+| `ShowReadingTime` / `ShowWordCount` | `false` | 記事 meta |
+| `ShowPostNavLinks` | `false` | 前 / 次の記事リンク |
+| `showRelated` | `true` | 記事下の関連記事 |
+| `editPost` | 非表示 | 記事下の「編集」リンク（`URL`、`Text`） |
+| `socialIcons` | 非表示 | ソーシャルアイコン。github / rss / steam は Phosphor、それ以外は内蔵アイコンセットにフォールバック |
+| `homeInfoParams` / `profileMode` | — | トップページのモードと内容 |
+| `hideFooter`、`hideMeta`、`hideSummary` など | `false` | ページ単位の上書き |
+
+傍注・アーカイブの背景年数・円形揭示のテーマ切り替えは自動動作で、設定不要。完全な例は
+[exampleSite/hugo.toml](exampleSite/hugo.toml) を参照。サンプルサイトは英語です。テーマには zh-CN / en / ja の文案が同梱されています。
 
 ## フォントと傍注
 
