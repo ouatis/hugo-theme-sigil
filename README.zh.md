@@ -2,14 +2,41 @@
 
 [English](README.md) | 中文 | [日本語](README.ja.md)
 
-一个简约的 Hugo 博客主题：旧纸底色、朱砂·墨绿·琥珀三色排印、Tufte 式边注、
-全文 RSS 与按内容切片的字体子集管线。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）深度定制。
+**一个简约的文学向 [Hugo](https://gohugo.io/) 主题：旧纸底色，三种墨色，排印退居内容之后。**
 
-**[在线演示](https://ouatis.com/hugo-theme-sigil/)**
+[![Hugo Themes](https://img.shields.io/badge/Hugo--Themes-@sigil-blue)](https://themes.gohugo.io/themes/hugo-theme-sigil/)
+[![Minimum Hugo Version](https://img.shields.io/static/v1?label=Hugo&message=v0.156.0%2B&color=blue&logo=hugo)](https://github.com/gohugoio/hugo/releases)
+[![Release](https://img.shields.io/github/v/tag/ouatis/hugo-theme-sigil?sort=semver&label=release)](https://github.com/ouatis/hugo-theme-sigil/releases)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-![Screenshot](docs/screenshot.png)
+> 基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) 深度定制——
+> 为何单独立项见[下文说明](#与-papermod-的分野)。
 
-## 快速开始
+|  |  |
+| --- | --- |
+| **在线演示** | <https://ouatis.com/hugo-theme-sigil/> |
+| **排版展示页** | <https://ouatis.com/hugo-theme-sigil/posts/typography/> |
+| **示例站源码** | [exampleSite/](exampleSite/) |
+
+![Screenshot](https://raw.githubusercontent.com/ouatis/hugo-theme-sigil/main/images/screenshot.png)
+
+---
+
+## 特性
+
+`∴ 朱砂回应 · 墨绿说明 · 琥珀点亮`
+
+- **Tufte 式边注** -- 宽屏（≥1280px）脚注排入引注右侧的边距，窄屏自动回退文末。
+- **圆形揭示的主题切换** -- 暗色从点击处扩散展开（View Transitions API），不支持时退为柔和过渡。
+- **幽灵年份归档** -- 归档页的年份是背景里的大号数字。
+- **全文 RSS** -- 订阅里读全文，不是摘要。
+- **CJK 字体子集** -- `build-fonts.sh` 按 unicode-range 切片输出 IBM Plex woff2，读者只下载几 KB。
+- **三色体系** -- 朱砂、墨绿、琥珀，再无第四色。
+- **PaperMod 基本盘** -- Fuse.js 搜索、分类标签、面包屑、目录、代码复制按钮、OG / Twitter / Schema 元数据，内置 zh-CN / en / ja 文案。
+
+## 安装
+
+先跑示例站试试：
 
 ```bash
 git clone https://github.com/ouatis/hugo-theme-sigil
@@ -20,8 +47,15 @@ hugo server --themesDir ../..
 在自己的站点使用：
 
 ```bash
+# 以 git 子模块方式（CI 部署推荐）
+git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
+# 或直接克隆
 git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
-# hugo.toml: theme = "hugo-theme-sigil"
+```
+
+```toml
+# hugo.toml
+theme = "hugo-theme-sigil"
 ```
 
 部署前把 `baseURL` 改成自己的域名（示例站默认 `https://example.com/`）。
@@ -70,6 +104,28 @@ scripts/build-fonts.sh
 
 脚本按站内用字生成 unicode-range 切片的 woff2 分片，读者首访按需下载几 KB；未运行则回退系统字体。脚注在宽屏（≥1280px）呈现在引注右侧的边距里（Tufte 式），窄屏自动回退文末。
 
+## 性能
+
+线上 demo 实测：无障碍 100 · 最佳实践 96 · CLS 0
+（[Lighthouse](https://developer.chrome.com/docs/lighthouse/)，移动端）。也可在
+[PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fouatis.com%2Fhugo-theme-sigil%2F)
+自行复测。
+
+## 与 PaperMod 的分野
+
+Sigil 是 PaperMod 的深度定制，但以下差异不适合回传上游，因此单独立项：
+
+- **Tufte 式边注**：宽屏下脚注克隆进引注旁的边距，窄屏回退文末。
+- **圆形揭示的主题切换**：暗色经由 View Transitions API 从点击处圆形展开，并带柔和回退。
+- **幽灵年份归档**：归档页把年份排成背景大字，而非表头行。
+- **全文 RSS 与字体子集管线**：`build-fonts.sh` 按 unicode-range 生成 IBM Plex 切片，CJK 读者下载 KB 而非 MB。
+- 严格的三色文学设计体系（朱砂 / 墨绿 / 琥珀）与 zh-CN 优先的多语言文案。
+
 ## 许可
 
-MIT — 见 [LICENSE](LICENSE)。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)；字体 [IBM Plex](https://github.com/IBM/plex)（IBM 开源字体许可）；图标 [Phosphor Icons](https://phosphoricons.com/)（MIT）。
+MIT — 见 [LICENSE](LICENSE)。
+
+基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) · 字体
+[IBM Plex](https://github.com/IBM/plex)（SIL OFL 1.1）· 图标
+[Phosphor Icons](https://phosphoricons.com/)（MIT）· 搜索
+[Fuse.js](https://github.com/krisk/fuse)（Apache-2.0）
