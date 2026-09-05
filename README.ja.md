@@ -38,6 +38,8 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 # theme = "hugo-theme-sigil"
 ```
 
+デプロイ前に `baseURL` を自分のドメインに変更してください（サンプルサイトは `https://example.com/` のまま入っています）。
+
 ## 設定
 
 | パラメータ | 説明 | デフォルト |

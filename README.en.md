@@ -44,6 +44,9 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 # theme = "hugo-theme-sigil"
 ```
 
+Remember to set `baseURL` to your own domain before deploying (the example
+site ships with `https://example.com/`).
+
 ## Configuration
 
 | Param | Description | Default |

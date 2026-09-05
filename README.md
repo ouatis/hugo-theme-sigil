@@ -36,6 +36,8 @@ git clone https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
 # theme = "hugo-theme-sigil"
 ```
 
+部署前记得把 `baseURL` 改成自己的域名（示例站默认是 `https://example.com/`）。
+
 ## 配置 / Configuration
 
 | 参数 | 说明 | 默认 |

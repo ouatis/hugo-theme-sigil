@@ -36,7 +36,7 @@ defaultContentLanguage = "zh-cn"
 
 [params]
   mainSections = ["posts"]
-  author = "SigiL"
+  author = "Your Name"
   ShowBreadCrumbs = true
   ShowReadingTime = true
   ShowWordCount = true
