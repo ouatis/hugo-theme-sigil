@@ -17,3 +17,21 @@
 
 - id: translations
   translation: "अनुवाद"
+
+- id: skip_to_content
+  translation: "सामग्री पर जाएँ"
+
+- id: breadcrumbs
+  translation: "ब्रेडक्रंब"
+
+- id: code_copied
+  translation: "कॉपी हो गया!"
+
+- id: code_copy
+  translation: "कॉपी"
+
+- id: home
+  translation: "मुख्य पृष्ठ"
+
+- id: words
+  translation: "{{ .Count }} शब्द"

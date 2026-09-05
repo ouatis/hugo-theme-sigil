@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "কপি হয়েছে!"
+
+- id: skip_to_content
+  translation: "সামগ্রীতে যান"
+
+- id: breadcrumbs
+  translation: "ব্রেডক্রাম্ব"

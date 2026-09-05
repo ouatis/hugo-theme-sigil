@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "gekopieerd!"
+
+- id: skip_to_content
+  translation: "Naar de inhoud"
+
+- id: breadcrumbs
+  translation: "Kruimelpad"

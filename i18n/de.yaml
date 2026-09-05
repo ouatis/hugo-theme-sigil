@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "Kopiert!"
+
+- id: skip_to_content
+  translation: "Zum Inhalt springen"
+
+- id: breadcrumbs
+  translation: "Brotkrumen"

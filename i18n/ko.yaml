@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "복사 완료!"
+
+- id: skip_to_content
+  translation: "본문으로 건너뛰기"
+
+- id: breadcrumbs
+  translation: "브레드크럼"

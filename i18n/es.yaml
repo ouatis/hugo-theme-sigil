@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "¡copiado!"
+
+- id: skip_to_content
+  translation: "Saltar al contenido"
+
+- id: breadcrumbs
+  translation: "Migas de pan"

@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "copiat !"
+
+- id: skip_to_content
+  translation: "Skip to content"
+
+- id: breadcrumbs
+  translation: "Home"

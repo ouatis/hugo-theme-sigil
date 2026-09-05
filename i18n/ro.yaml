@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "copiat!"
+
+- id: skip_to_content
+  translation: "Mergi la conținut"
+
+- id: breadcrumbs
+  translation: "Navigare"

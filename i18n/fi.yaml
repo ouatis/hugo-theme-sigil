@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "Kopioitu!"
+
+- id: skip_to_content
+  translation: "Siirry sisältöön"
+
+- id: breadcrumbs
+  translation: "Murupolku"

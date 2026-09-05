@@ -26,3 +26,12 @@
 
 - id: code_copied
   translation: "kopierad!"
+
+- id: skip_to_content
+  translation: "Hoppa till innehållet"
+
+- id: breadcrumbs
+  translation: "Brödsmulor"
+
+- id: words
+  translation: "{{ .Count }} ord"

@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "הועתק!"
+
+- id: skip_to_content
+  translation: "דלג לתוכן"
+
+- id: breadcrumbs
+  translation: "נתיב ניווט"

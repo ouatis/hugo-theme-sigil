@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "copiato!"
+
+- id: skip_to_content
+  translation: "Vai al contenuto"
+
+- id: breadcrumbs
+  translation: "Briciole di pane"

@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "已複製！"
+
+- id: skip_to_content
+  translation: "跳到內容"
+
+- id: breadcrumbs
+  translation: "麵包屑"

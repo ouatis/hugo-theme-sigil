@@ -14,3 +14,24 @@
 
 - id: translations
   translation: "Преводи"
+
+- id: skip_to_content
+  translation: "Към съдържанието"
+
+- id: breadcrumbs
+  translation: "Навигационна пътека"
+
+- id: code_copied
+  translation: "копирано!"
+
+- id: code_copy
+  translation: "копирай"
+
+- id: edit_post
+  translation: "Редактирай"
+
+- id: home
+  translation: "Начало"
+
+- id: words
+  translation: "{{ .Count }} думи"

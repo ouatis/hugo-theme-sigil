@@ -11,7 +11,7 @@
 
 - id: words
   translation: 
-    one: "字"
+    one: "1 字"
     other: "{{ .Count }} 字"
 
 - id: toc
@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "已复制！"
+
+- id: skip_to_content
+  translation: "跳到正文"
+
+- id: breadcrumbs
+  translation: "面包屑"

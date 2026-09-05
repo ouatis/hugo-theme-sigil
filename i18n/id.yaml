@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "disalin!"
+
+- id: skip_to_content
+  translation: "Lewati ke konten"
+
+- id: breadcrumbs
+  translation: "Home"

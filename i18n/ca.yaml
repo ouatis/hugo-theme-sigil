@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "copiat!"
+
+- id: skip_to_content
+  translation: "Ves al contingut"
+
+- id: breadcrumbs
+  translation: "Molla de pa"

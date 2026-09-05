@@ -37,3 +37,9 @@
 
 - id: code_copied
   translation: "скапіявана!"
+
+- id: skip_to_content
+  translation: "Перайсці да зместу"
+
+- id: breadcrumbs
+  translation: "Навафігацыйная сцежка"

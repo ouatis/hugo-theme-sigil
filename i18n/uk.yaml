@@ -23,3 +23,15 @@
 
 - id: code_copied
   translation: "скопійовано!"
+
+- id: skip_to_content
+  translation: "Перейти до змісту"
+
+- id: breadcrumbs
+  translation: "Навігаційний ланцюжок"
+
+- id: edit_post
+  translation: "Редагувати"
+
+- id: words
+  translation: "{{ .Count }} слів"

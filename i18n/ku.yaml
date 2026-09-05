@@ -23,3 +23,15 @@
 
 - id: code_copied
   translation: "Hat jêgirtin!"
+
+- id: skip_to_content
+  translation: "Skip to content"
+
+- id: breadcrumbs
+  translation: "Home"
+
+- id: edit_post
+  translation: "Home"
+
+- id: words
+  translation: "Home"

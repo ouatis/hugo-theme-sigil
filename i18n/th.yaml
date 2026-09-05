@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "คัดลอกแล้ว!"
+
+- id: skip_to_content
+  translation: "ข้ามไปที่เนื้อหา"
+
+- id: breadcrumbs
+  translation: "แถบนำทาง"

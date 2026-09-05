@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "Kopyalandı!"
+
+- id: skip_to_content
+  translation: "İçeriğe atla"
+
+- id: breadcrumbs
+  translation: "Sayfa yolu"

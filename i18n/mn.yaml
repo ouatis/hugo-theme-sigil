@@ -23,3 +23,15 @@
 
 - id: code_copied
   translation: "хуулсан!"
+
+- id: skip_to_content
+  translation: "Агуулгад шилжих"
+
+- id: breadcrumbs
+  translation: "Home"
+
+- id: edit_post
+  translation: "Home"
+
+- id: words
+  translation: "Home"

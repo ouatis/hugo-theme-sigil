@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "skopírované!"
+
+- id: skip_to_content
+  translation: "Skip to content"
+
+- id: breadcrumbs
+  translation: "Drobečková navigácia"

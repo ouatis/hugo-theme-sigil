@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "コピーされました!"
+
+- id: skip_to_content
+  translation: "本文へスキップ"
+
+- id: breadcrumbs
+  translation: "パンくずリスト"

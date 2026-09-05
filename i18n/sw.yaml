@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "nakiliwa!"
+
+- id: skip_to_content
+  translation: "Ruka hadi maudhui"
+
+- id: breadcrumbs
+  translation: "Home"

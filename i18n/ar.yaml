@@ -26,3 +26,15 @@
 
 - id: code_copy
   translation: "نسخ الكود"
+
+- id: skip_to_content
+  translation: "الانتقال إلى المحتوى"
+
+- id: breadcrumbs
+  translation: "مسار التنقل"
+
+- id: edit_post
+  translation: "تحرير"
+
+- id: words
+  translation: "{{ .Count }} كلمات"

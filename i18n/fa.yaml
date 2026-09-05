@@ -26,3 +26,12 @@
 
 - id: code_copied
   translation: "کپی شد!"
+
+- id: skip_to_content
+  translation: "پرش به محتوا"
+
+- id: breadcrumbs
+  translation: "مسیر راهنما"
+
+- id: words
+  translation: "{{ .Count }} کلمه"

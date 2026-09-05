@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "αντιγράφηκε!"
+
+- id: skip_to_content
+  translation: "Μετάβαση στο περιεχόμενο"
+
+- id: breadcrumbs
+  translation: "Πλοήγηση"

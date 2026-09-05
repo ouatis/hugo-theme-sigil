@@ -21,7 +21,7 @@
 {{- else }}
 <body id="top">
 {{- end }}
-    <a class="skip-link" href="#main-content">{{ if eq site.Language.Lang "en" }}Skip to content{{ else if eq site.Language.Lang "ja" }}本文へスキップ{{ else }}跳到正文{{ end }}</a>
+    <a class="skip-link" href="#main-content">{{ i18n "skip_to_content" | default "Skip to content" }}</a>
     {{ partialCached "header.html" . .Page -}}
     <main class="main" id="main-content">
         {{- block "main" . }}{{ end }}

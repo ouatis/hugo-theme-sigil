@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "Copié !"
+
+- id: skip_to_content
+  translation: "Aller au contenu"
+
+- id: breadcrumbs
+  translation: "Fil d'Ariane"

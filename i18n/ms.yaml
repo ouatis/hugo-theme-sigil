@@ -26,3 +26,12 @@
 
 - id: code_copied
   translation: "Disalin!"
+
+- id: skip_to_content
+  translation: "Lompat ke kandungan"
+
+- id: breadcrumbs
+  translation: "Home"
+
+- id: words
+  translation: "{{ .Count }} pata"

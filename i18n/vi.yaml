@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "Đã sao chép!"
+
+- id: skip_to_content
+  translation: "Chuyển đến nội dung"
+
+- id: breadcrumbs
+  translation: "Điều hướng phân cấp"

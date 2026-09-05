@@ -18,3 +18,21 @@
 - id: home
   translation: "Bosh sahifa"
   
+
+- id: skip_to_content
+  translation: "Kontentga o'tish"
+
+- id: breadcrumbs
+  translation: "Home"
+
+- id: code_copied
+  translation: "Home"
+
+- id: code_copy
+  translation: "Home"
+
+- id: edit_post
+  translation: "Home"
+
+- id: words
+  translation: "Home"

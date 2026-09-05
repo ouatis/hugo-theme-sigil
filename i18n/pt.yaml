@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "copiado!"
+
+- id: skip_to_content
+  translation: "Ir para o conteúdo"
+
+- id: breadcrumbs
+  translation: "Trilha de navegação"

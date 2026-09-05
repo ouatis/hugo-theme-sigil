@@ -31,3 +31,9 @@
 
 - id: code_copied
   translation: "kopirano!"
+
+- id: skip_to_content
+  translation: "Preskoči na sadržaj"
+
+- id: breadcrumbs
+  translation: "Navigacijski put"

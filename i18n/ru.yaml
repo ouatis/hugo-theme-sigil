@@ -37,3 +37,9 @@
 
 - id: code_copied
   translation: "скопировано!"
+
+- id: skip_to_content
+  translation: "Перейти к содержимому"
+
+- id: breadcrumbs
+  translation: "Навигационная цепочка"
