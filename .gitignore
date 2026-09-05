@@ -8,3 +8,6 @@ exampleSite/resources/
 static/fonts/ibm-plex/
 
 .cache/
+
+# Fonts copied into the demo at build time (CI: cp -r static/fonts exampleSite/static/)
+exampleSite/static/
