@@ -6,6 +6,8 @@
 組み版、Tufte 式の傍注、全文 RSS、サイト内の使用文字だけを切り出すフォントサブセット
 pipeline。[PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）を深くカスタム。
 
+**[デモ](https://ouatis.com/hugo-theme-sigil/)**
+
 ![Screenshot](docs/screenshot.png)
 
 ## クイックスタート

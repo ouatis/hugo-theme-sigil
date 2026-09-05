@@ -5,6 +5,8 @@
 一个简约的 Hugo 博客主题：旧纸底色、朱砂·墨绿·琥珀三色排印、Tufte 式边注、
 全文 RSS 与按内容切片的字体子集管线。基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT）深度定制。
 
+**[在线演示](https://ouatis.com/hugo-theme-sigil/)**
+
 ![Screenshot](docs/screenshot.png)
 
 ## 快速开始

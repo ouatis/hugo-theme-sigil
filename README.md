@@ -7,6 +7,8 @@ vermilion / ink-green / amber, IBM Plex Sans CJK typography, Tufte-style
 sidenotes, full-text RSS, and a font-subsetting pipeline. A deep customization
 of [PaperMod](https://github.com/adityatelange/hugo-PaperMod) (MIT).
 
+**[Live demo](https://ouatis.com/hugo-theme-sigil/)**
+
 ![Screenshot](docs/screenshot.png)
 
 ## Quick start
