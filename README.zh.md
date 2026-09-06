@@ -76,6 +76,7 @@ theme = "hugo-theme-sigil"
 | `disableSpecial1stPost` | `false` | 首页首条不再使用特殊样式 |
 | `ShowDefaultLanguageContent` | `false` | 非默认语言的首页/归档/RSS/搜索回退列出默认语言内容（界面翻译、内容单语的站点） |
 | `ShowContentLanguageNote` | `false` | 非默认语言首页显示 i18n `posts_language_note` 提示 |
+| `ShowTotalWords` | `false` | 首页计数旁标注总字数（中文计到万，英日计到 K） |
 | `homePageSize` | 全部 | 首页每页文章数 |
 
 继承自 PaperMod 的常用参数原样可用：

@@ -77,6 +77,7 @@ theme = "hugo-theme-sigil"
 | `disableSpecial1stPost` | `false` | トップページの最初のエントリを通常スタイルに |
 | `ShowDefaultLanguageContent` | `false` | 既定言語以外のホーム/アーカイブ/RSS/検索で、既定言語の内容を一覧表示（UIは翻訳済み・内容は単一言語のサイト向け） |
 | `ShowContentLanguageNote` | `false` | 既定言語以外のホームに i18n `posts_language_note` の注意書きを表示 |
+| `ShowTotalWords` | `false` | トップページの記事数の横に総文字数を表示（中国語は万、英日語はK単位） |
 | `homePageSize` | 全件 | トップページの1ページあたりの記事数 |
 
 PaperMod から継承した常用パラメータはそのまま使えます：

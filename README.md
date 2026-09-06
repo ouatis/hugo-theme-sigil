@@ -85,6 +85,7 @@ Theme-specific params:
 | `disableSpecial1stPost` | `false` | Plain styling for the first home entry |
 | `ShowDefaultLanguageContent` | `false` | On non-default-language home / archives / RSS / search, list the default language's content (for translated-UI, single-content sites) |
 | `ShowContentLanguageNote` | `false` | Show the i18n `posts_language_note` note on non-default-language homes |
+| `ShowTotalWords` | `false` | Total word count next to the homepage post count (万 for Chinese, K for English/Japanese) |
 | `homePageSize` | all | Number of posts per homepage page |
 
 Commonly used params inherited from PaperMod work as-is:

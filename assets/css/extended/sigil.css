@@ -562,6 +562,11 @@ a[hreflang="ja"] {
     font-size: 13px;
 }
 
+.sg-section-head__words::before {
+    content: "·";
+    margin: 0 0.45em;
+}
+
 /* 非中文首页的文章语言提示:作为标题副题,元信息用绿色 */
 .sg-lang-note {
     margin: 6px 0 0;

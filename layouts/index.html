@@ -84,6 +84,21 @@
 
   {{- if gt (len $pages) 0 }}
   <section class="sg-writing" aria-labelledby="recent-writing">
+    {{- /* ShowTotalWords:计数旁标注列表文章总字数(中文计到万,英日计到 K;纯整型四舍五入) */ -}}
+    {{- $totalWords := 0 }}{{ range $pages }}{{ $totalWords = add $totalWords .WordCount }}{{ end }}
+    {{- $wordsLabel := "" }}
+    {{- if and site.Params.ShowTotalWords (gt $totalWords 0) }}
+      {{- $rounded := div (add $totalWords 500) 1000 }}
+      {{- if eq site.Language.Lang "en" }}
+        {{- if ge $totalWords 1000 }}{{ $wordsLabel = printf "%dK words" $rounded }}{{ else }}{{ $wordsLabel = printf "%d words" $totalWords }}{{ end }}
+      {{- else if eq site.Language.Lang "ja" }}
+        {{- if ge $totalWords 1000 }}{{ $wordsLabel = printf "%dK文字" $rounded }}{{ else }}{{ $wordsLabel = printf "%d文字" $totalWords }}{{ end }}
+      {{- else if ge $totalWords 10000 }}
+        {{- if eq (mod $rounded 10) 0 }}{{ $wordsLabel = printf "%d 万字" (div $rounded 10) }}{{ else }}{{ $wordsLabel = printf "%d.%d 万字" (div $rounded 10) (mod $rounded 10) }}{{ end }}
+      {{- else }}
+        {{- $wordsLabel = printf "%d 字" $totalWords }}
+      {{- end }}
+    {{- end }}
     <header class="sg-section-head">
       <div>
         <h2 id="recent-writing">{{ if eq site.Language.Lang "en" }}Updated My Journal{{ else if eq site.Language.Lang "ja" }}最近の更新{{ else }}最近更新{{ end }}{{ if ne site.Language.Lang "en" }}<span class="sg-section-head__en">Update My Journal</span>{{ end }}</h2>
@@ -93,7 +108,7 @@
         {{- end }}
         {{- end }}
       </div>
-      <p class="sg-section-head__count">{{ len $pages }}{{ if eq site.Language.Lang "en" }} posts{{ else if eq site.Language.Lang "ja" }} 編{{ else }} 篇文章{{ end }}</p>
+      <p class="sg-section-head__count">{{ len $pages }}{{ if eq site.Language.Lang "en" }} posts{{ else if eq site.Language.Lang "ja" }} 編{{ else }} 篇文章{{ end }}{{ with $wordsLabel }}<span class="sg-section-head__words">{{ . }}</span>{{ end }}</p>
     </header>
 
     <div class="sg-feed">
