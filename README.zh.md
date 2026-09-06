@@ -67,6 +67,7 @@ theme = "hugo-theme-sigil"
 | 参数 | 默认 | 说明 |
 | --- | --- | --- |
 | `sgKicker` | 不显示 | 首页标题上方的小字 |
+| `sgHomeTitle` | 站点标题 | Hero 大标题覆写（浏览器标签页 `<title>` 仍用完整站点标题） |
 | `sgReading` / `sgPlaying` / `sgMotto` | 不显示 | Hero 印章下方的轮换状态 |
 | `sgSealImage` | ∴ 字形 | 首页徽记图片 |
 | `ShowFullTextinRSS` | `false` | RSS 输出全文 |

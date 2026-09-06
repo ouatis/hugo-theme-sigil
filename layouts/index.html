@@ -27,7 +27,7 @@
       {{- with site.Params.sgKicker }}
       <p class="sg-kicker">{{ . }}</p>
       {{- end }}
-      <h1 id="sg-title">{{ site.Title }}</h1>
+      <h1 id="sg-title">{{ with site.Params.sgHomeTitle }}{{ . }}{{ else }}{{ site.Title }}{{ end }}</h1>
       {{- with site.Params.homeInfoParams.content }}
       <p class="sg-hero__intro">{{ . }}</p>
       {{- end }}

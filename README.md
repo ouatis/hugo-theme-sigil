@@ -76,6 +76,7 @@ Theme-specific params:
 | Param | Default | Description |
 | --- | --- | --- |
 | `sgKicker` | hidden | Small line above the homepage title |
+| `sgHomeTitle` | site title | Hero title override (keeps browser-tab `<title>` on the full site title) |
 | `sgReading` / `sgPlaying` / `sgMotto` | hidden | Rotating status under the hero seal |
 | `sgSealImage` | ∴ glyph | Seal image on the homepage |
 | `ShowFullTextinRSS` | `false` | Full article content in the RSS feed |

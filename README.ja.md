@@ -68,6 +68,7 @@ theme = "hugo-theme-sigil"
 | パラメータ | デフォルト | 説明 |
 | --- | --- | --- |
 | `sgKicker` | 非表示 | トップページのタイトル上部の小さな行 |
+| `sgHomeTitle` | サイトタイトル | Hero 大見出しの上書き（タブの `<title>` は完全なサイトタイトルのまま） |
 | `sgReading` / `sgPlaying` / `sgMotto` | 非表示 | Hero の印章下の輪換ステータス |
 | `sgSealImage` | ∴ 文字印章 | トップページの印章画像 |
 | `ShowFullTextinRSS` | `false` | RSS に全文を出力 |
