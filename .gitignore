@@ -4,8 +4,10 @@ exampleSite/public/
 exampleSite/resources/
 .hugo_build.lock
 
-# Generated IBM Plex split assets
-static/fonts/ibm-plex/
+# Generated IBM Plex split assets: latin ships with the repo (committed),
+# SC/JP stay local-only until regenerated
+static/fonts/ibm-plex/sc/
+static/fonts/ibm-plex/jp/
 
 .cache/
 

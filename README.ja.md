@@ -96,16 +96,16 @@ PaperMod から継承した常用パラメータはそのまま使えます：
 
 ## フォントと傍注
 
-初回ビルド前に実行：
+ラテン文字のフォントはリポジトリに同梱済み（`static/fonts/ibm-plex/latin/`）で、
+導入直後から IBM Plex の組み版になります。簡体字/日本語スライスが必要なときは、
+ピン留めした IBM 公式パッケージから再生成します（bash または pure python）：
 
 ```bash
-pip install "fonttools[woff]"
-scripts/build-fonts.sh
+bash scripts/build-fonts.sh        # または: python scripts/build-fonts.py
 ```
 
-スクリプトはサイト内の使用文字から unicode-range ごとの woff2 スライスを生成し、
-読者は必要な数 KB だけをダウンロードします。実行しない場合はシステムフォントに
-フォールバックします。脚注は広い画面（≥1280px、Tufte 式）では参照箇所の右側の余白に表示され、
+スクリプトは unicode-range ごとの woff2 スライスを出力し、読者は必要な数 KB だけを
+ダウンロードします。脚注は広い画面（≥1280px、Tufte 式）では参照箇所の右側の余白に表示され、
 狭い画面では文末にフォールバックします。
 
 ## パフォーマンス

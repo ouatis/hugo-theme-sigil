@@ -95,14 +95,14 @@ theme = "hugo-theme-sigil"
 
 ## 字体与边注
 
-首次构建前运行：
+拉丁字体已随仓库分发（`static/fonts/ibm-plex/latin/`），开箱即是 IBM Plex 观感。
+需要简中/日文切片时，从固定的 IBM 官方包重新生成——bash 或纯 python 任选：
 
 ```bash
-pip install "fonttools[woff]"
-scripts/build-fonts.sh
+bash scripts/build-fonts.sh        # 或：python scripts/build-fonts.py
 ```
 
-脚本按站内用字生成 unicode-range 切片的 woff2 分片，读者首访按需下载几 KB；未运行则回退系统字体。脚注在宽屏（≥1280px）呈现在引注右侧的边距里（Tufte 式），窄屏自动回退文末。
+脚本按 unicode-range 输出 woff2 分片，读者按需下载几 KB。脚注在宽屏（≥1280px）呈现在引注右侧的边距里（Tufte 式），窄屏自动回退文末。
 
 ## 性能
 

@@ -106,18 +106,18 @@ example site is in English; the theme ships with zh-CN / en / ja strings.
 
 ## Fonts & sidenotes
 
-Before your first build:
+Latin fonts ship with the repo (`static/fonts/ibm-plex/latin/`), so you get
+proper IBM Plex typography out of the box. For the Simplified-Chinese and
+Japanese slices, regenerate from the pinned IBM packages — bash or pure
+python, whichever your machine speaks:
 
 ```bash
-pip install "fonttools[woff]"
-scripts/build-fonts.sh
+bash scripts/build-fonts.sh        # or: python scripts/build-fonts.py
 ```
 
-The script emits woff2 slices keyed by unicode-range from the glyphs your site
-actually uses — readers download a few KB on demand; without it the theme
-falls back to system fonts. Footnotes render as margin notes beside their
-reference on wide screens (≥1280px, Tufte-style) and fall back to endnotes on
-narrow screens.
+The script emits woff2 slices keyed by unicode-range — readers download a few
+KB on demand. Footnotes render as margin notes beside their reference on wide
+screens (≥1280px, Tufte-style) and fall back to endnotes on narrow screens.
 
 ## Performance
 
