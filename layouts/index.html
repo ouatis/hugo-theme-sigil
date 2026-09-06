@@ -126,7 +126,7 @@
               <span class="sg-entry__category">{{ .LinkTitle }}</span>
               {{- end }}
               {{- end }}
-              <span>{{ .ReadingTime }}{{ if eq site.Language.Lang "en" }} min{{ else if eq site.Language.Lang "ja" }} 分{{ else }} 分钟{{ end }}</span>
+              <span class="sg-entry__time">{{ partial "sg-icon.html" (dict "name" "clock" "size" 11) }}{{ .ReadingTime }}{{ if eq site.Language.Lang "en" }} min{{ else if eq site.Language.Lang "ja" }} 分{{ else }} 分钟{{ end }}</span>
             </div>
           </div>
           <span class="sg-entry__arrow" aria-hidden="true">→</span>

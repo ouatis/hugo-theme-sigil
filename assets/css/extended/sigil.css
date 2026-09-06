@@ -681,6 +681,12 @@ a[hreflang="ja"] {
     font-size: 12px;
 }
 
+.sg-entry__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
 .sg-entry.is-latest h3 {
     font-size: 30px;
 }
@@ -836,6 +842,13 @@ a[hreflang="ja"] {
     margin-top: 20px;
     color: var(--secondary);
     line-height: 1.6;
+}
+
+/* 元信息小图标(Phosphor):日期/时长/作者,与文字同色 */
+.post-meta__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .breadcrumbs {
@@ -1253,6 +1266,9 @@ h6:hover .anchor {
 }
 
 .footer .footer-views {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 }

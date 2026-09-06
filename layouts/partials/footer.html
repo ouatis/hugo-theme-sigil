@@ -23,7 +23,7 @@
     <span class="tri-sep tri-sep-views" aria-hidden="true">∴</span>
 
     <span class="footer-views" title="累计页面浏览量 · 统计自 {{ .since }}">
-        {{ lang.FormatNumber 0 .total }} views
+        {{ partial "sg-icon.html" (dict "name" "eye" "size" 12) }}{{ lang.FormatNumber 0 .total }} views
     </span>
     {{- end }}
     {{- end }}

@@ -1,11 +1,11 @@
 {{- $scratch := newScratch }}
 
 {{- if not .Date.IsZero -}}
-{{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default ":date_long" site.Params.DateFormat)))) }}
+{{- $scratch.Add "meta" (slice (printf "<span class='post-meta__item' title='%s'>%s%s</span>" (.Date) (partial "sg-icon.html" (dict "name" "calendar" "size" 13)) (.Date | time.Format (default ":date_long" site.Params.DateFormat)))) }}
 {{- end }}
 
 {{- if (.Param "ShowReadingTime") -}}
-{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)))) }}
+{{- $scratch.Add "meta" (slice (printf "<span class='post-meta__item'>%s%s</span>" (partial "sg-icon.html" (dict "name" "clock" "size" 13)) (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)))) }}
 {{- end }}
 
 {{- if (.Param "ShowWordCount") -}}
@@ -14,7 +14,7 @@
 
 {{- if not (.Param "hideAuthor") -}}
 {{- with (partial "author.html" .) }}
-{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" .)) }}
+{{- $scratch.Add "meta" (slice (printf "<span class='post-meta__item'>%s%s</span>" (partial "sg-icon.html" (dict "name" "pen-nib" "size" 13)) .)) }}
 {{- end }}
 {{- end }}
 
