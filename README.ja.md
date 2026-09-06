@@ -74,6 +74,9 @@ theme = "hugo-theme-sigil"
 | `ShowAllPagesInArchive` | `false` | アーカイブに投稿以外のページも収録 |
 | `disableLangToggle` | `false` | 言語切り替えを隠す |
 | `disableSpecial1stPost` | `false` | トップページの最初のエントリを通常スタイルに |
+| `ShowDefaultLanguageContent` | `false` | 既定言語以外のホーム/アーカイブ/RSS/検索で、既定言語の内容を一覧表示（UIは翻訳済み・内容は単一言語のサイト向け） |
+| `ShowContentLanguageNote` | `false` | 既定言語以外のホームに i18n `posts_language_note` の注意書きを表示 |
+| `homePageSize` | 全件 | トップページの1ページあたりの記事数 |
 
 PaperMod から継承した常用パラメータはそのまま使えます：
 
@@ -91,7 +94,7 @@ PaperMod から継承した常用パラメータはそのまま使えます：
 | `homeInfoParams` / `profileMode` | — | トップページのモードと内容 |
 | `hideFooter`、`hideMeta`、`hideSummary` など | `false` | ページ単位の上書き |
 
-傍注・アーカイブの背景年号・円形揭示のテーマ切り替えは自動動作で、設定不要。完全な例は
+傍注・アーカイブの背景年号・円形揭示のテーマ切り替えは自動動作で、設定不要。サイトが `data/analytics.json`（`{ "total": N, "since": "YYYY-MM-DD" }` 形式）を提供すると、フッターに累計閲覧数を表示します。完全な例は
 [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照。サンプルサイトは英語です。テーマには zh-CN / en / ja の文案が同梱されています。
 
 ## フォントと傍注

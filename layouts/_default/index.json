@@ -1,5 +1,10 @@
 {{- $.Scratch.Add "index" slice -}}
-{{- range site.RegularPages -}}
+{{- $contentSite := site }}
+{{- /* ShowDefaultLanguageContent: 非默认语言的列表回退到默认语言内容(界面仍是当前语言) */ -}}
+{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang site.DefaultLanguage.Lang) -}}
+{{- $contentSite = index hugo.Sites 0 -}}
+{{- end -}}
+{{- range $contentSite.RegularPages -}}
     {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) }}
     {{- $.Scratch.Add "index" (dict "title" .Title "content" .Plain "permalink" .Permalink "summary" .Summary) -}}
     {{- end }}

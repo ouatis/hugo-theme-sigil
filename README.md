@@ -82,6 +82,9 @@ Theme-specific params:
 | `ShowAllPagesInArchive` | `false` | Archives list all pages, not only posts |
 | `disableLangToggle` | `false` | Hide the language switcher |
 | `disableSpecial1stPost` | `false` | Plain styling for the first home entry |
+| `ShowDefaultLanguageContent` | `false` | On non-default-language home / archives / RSS / search, list the default language's content (for translated-UI, single-content sites) |
+| `ShowContentLanguageNote` | `false` | Show the i18n `posts_language_note` note on non-default-language homes |
+| `homePageSize` | all | Number of posts per homepage page |
 
 Commonly used params inherited from PaperMod work as-is:
 
@@ -100,7 +103,9 @@ Commonly used params inherited from PaperMod work as-is:
 | `hideFooter`, `hideMeta`, `hideSummary`, … | `false` | Per-page overrides |
 
 Sidenotes, the ghost-year archive background, and the circular-reveal theme
-toggle are automatic — no param needed. See
+toggle are automatic — no param needed. The footer
+additionally shows a cumulative page-view counter when the site provides a
+`data/analytics.json` file shaped `{ "total": N, "since": "YYYY-MM-DD" }`. See
 [exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example. The
 example site is in English; the theme ships with zh-CN / en / ja strings.
 

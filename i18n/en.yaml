@@ -37,3 +37,6 @@
 
 - id: breadcrumbs
   translation: "Breadcrumb"
+
+- id: posts_language_note
+  translation: "Posts are currently available in Chinese only."

@@ -1,7 +1,14 @@
 {{- define "main" }}
-{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $contentSite := site }}
+{{- /* ShowDefaultLanguageContent: 非默认语言的列表回退到默认语言内容(界面仍是当前语言) */ -}}
+{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang site.DefaultLanguage.Lang) -}}
+{{- $contentSite = index hugo.Sites 0 -}}
+{{- end -}}
+{{- $pages := where $contentSite.RegularPages "Type" "in" site.Params.mainSections }}
 {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
 {{- $paginator := .Paginate $pages }}
+{{- /* homePageSize: 首页列表篇数;不设则用全站 paginate 配置 */ -}}
+{{- with site.Params.homePageSize -}}{{- $paginator = $.Paginate $pages (int .) -}}{{- end -}}
 {{- $offset := mul (sub $paginator.PageNumber 1) $paginator.PagerSize }}
 {{- $socialLabel := "社交链接" -}}
 {{- $readPrefix := "阅读：" -}}
@@ -80,6 +87,11 @@
     <header class="sg-section-head">
       <div>
         <h2 id="recent-writing">{{ if eq site.Language.Lang "en" }}Updated My Journal{{ else if eq site.Language.Lang "ja" }}最近の更新{{ else }}最近更新{{ end }}{{ if ne site.Language.Lang "en" }}<span class="sg-section-head__en">Update My Journal</span>{{ end }}</h2>
+        {{- if and site.Params.ShowContentLanguageNote (ne site.Language.Lang site.DefaultLanguage.Lang) }}
+        {{- with i18n "posts_language_note" }}
+        <p class="sg-lang-note">{{ . }}</p>
+        {{- end }}
+        {{- end }}
       </div>
       <p class="sg-section-head__count">{{ len $pages }}{{ if eq site.Language.Lang "en" }} posts{{ else if eq site.Language.Lang "ja" }} 編{{ else }} 篇文章{{ end }}</p>
     </header>

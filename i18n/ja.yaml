@@ -37,3 +37,6 @@
 
 - id: breadcrumbs
   translation: "パンくずリスト"
+
+- id: posts_language_note
+  translation: "記事は現在、中国語のみの掲載です。"

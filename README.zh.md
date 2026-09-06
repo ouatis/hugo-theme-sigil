@@ -73,6 +73,9 @@ theme = "hugo-theme-sigil"
 | `ShowAllPagesInArchive` | `false` | 归档收录全部页面而非仅文章 |
 | `disableLangToggle` | `false` | 隐藏语言切换 |
 | `disableSpecial1stPost` | `false` | 首页首条不再使用特殊样式 |
+| `ShowDefaultLanguageContent` | `false` | 非默认语言的首页/归档/RSS/搜索回退列出默认语言内容（界面翻译、内容单语的站点） |
+| `ShowContentLanguageNote` | `false` | 非默认语言首页显示 i18n `posts_language_note` 提示 |
+| `homePageSize` | 全部 | 首页每页文章数 |
 
 继承自 PaperMod 的常用参数原样可用：
 
@@ -90,7 +93,7 @@ theme = "hugo-theme-sigil"
 | `homeInfoParams` / `profileMode` | — | 首页模式及其内容 |
 | `hideFooter`、`hideMeta`、`hideSummary` 等 | `false` | 页面级覆盖 |
 
-边注、归档背景年份、圆形揭示的主题切换均为自动行为，无需配置。完整示例见
+边注、归档背景年份、圆形揭示的主题切换均为自动行为，无需配置；站点提供 `data/analytics.json`（形如 `{ "total": N, "since": "YYYY-MM-DD" }`）时，页脚自动展示累计浏览量。完整示例见
 [exampleSite/hugo.toml](exampleSite/hugo.toml)。示例站内容为英文；主题内置 zh-CN / en / ja 文案。
 
 ## 字体与边注
