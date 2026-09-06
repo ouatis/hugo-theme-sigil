@@ -1,7 +1,7 @@
 {{- define "main" }}
 {{- $contentSite := site }}
 {{- /* ShowDefaultLanguageContent: 非默认语言的列表回退到默认语言内容(界面仍是当前语言) */ -}}
-{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Lang) -}}
+{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Language.Lang) -}}
 {{- $contentSite = index hugo.Sites 0 -}}
 {{- end -}}
 {{- $pages := where $contentSite.RegularPages "Type" "in" site.Params.mainSections }}
@@ -87,7 +87,7 @@
     <header class="sg-section-head">
       <div>
         <h2 id="recent-writing">{{ if eq site.Language.Lang "en" }}Updated My Journal{{ else if eq site.Language.Lang "ja" }}最近の更新{{ else }}最近更新{{ end }}{{ if ne site.Language.Lang "en" }}<span class="sg-section-head__en">Update My Journal</span>{{ end }}</h2>
-        {{- if and site.Params.ShowContentLanguageNote (ne site.Language.Lang hugo.Sites.Default.Lang) }}
+        {{- if and site.Params.ShowContentLanguageNote (ne site.Language.Lang hugo.Sites.Default.Language.Lang) }}
         {{- with i18n "posts_language_note" }}
         <p class="sg-lang-note">{{ . }}</p>
         {{- end }}

@@ -1,7 +1,7 @@
 {{- $.Scratch.Add "index" slice -}}
 {{- $contentSite := site }}
 {{- /* ShowDefaultLanguageContent: 非默认语言的列表回退到默认语言内容(界面仍是当前语言) */ -}}
-{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Lang) -}}
+{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Language.Lang) -}}
 {{- $contentSite = index hugo.Sites 0 -}}
 {{- end -}}
 {{- range $contentSite.RegularPages -}}
