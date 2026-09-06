@@ -20,9 +20,12 @@
                         {{- end }}
                     {{- end }}
                     <img src="{{ $img.Permalink }}" alt="{{ $label_text }}"
+                        width="{{ $img.Width }}"
                         height="{{- site.Params.label.iconHeight | default "30" -}}">
                 {{- else }}
+                {{- /* 静态文件拿不到尺寸,按方形约定与 iconHeight 同值,避免只有 height 的属性期失真 */ -}}
                 <img src="{{- site.Params.label.icon | absURL -}}" alt="{{ $label_text }}"
+                    width="{{- site.Params.label.iconHeight | default "30" -}}"
                     height="{{- site.Params.label.iconHeight | default "30" -}}">
                 {{- end -}}
                 {{- else if hasPrefix site.Params.label.iconSVG "<svg" }}
