@@ -4,7 +4,7 @@
     --main-width: 760px;
     --header-height: 72px;
     --theme: #f4f6f3;
-    --entry: #ffffff;
+    --entry: #fbfcfa;
     --primary: #1d2420;
     --secondary: #68716b;
     --tertiary: #d8ddd9;
@@ -15,7 +15,7 @@
     --sg-red: #ad3e32;
     --sg-green: #2f6754;
     --sg-amber-rgb: 208, 168, 92; /* 万事皆三:朱砂·墨绿·琥珀,三色足矣 */
-    --sg-surface: #ffffff;
+    --sg-surface: #fbfcfa;
     --sg-serif: "IBM Plex Sans", "IBM Plex Sans SC", "IBM Plex Sans JP", sans-serif;
     --sg-sans: "IBM Plex Sans", "IBM Plex Sans SC", "IBM Plex Sans JP", sans-serif;
     color-scheme: light;
@@ -34,7 +34,7 @@ html:lang(ja) {
 
 :root[data-theme="dark"] {
     --theme: #151917;
-    --entry: #1d221f;
+    --entry: #1b201d;
     --primary: #eef1ed;
     --secondary: #a4ada7;
     --tertiary: #3a433e;
@@ -42,9 +42,9 @@ html:lang(ja) {
     --code-block-bg: #101311;
     --code-bg: #232a26;
     --border: #343d38;
-    --sg-red: #e07061;
-    --sg-green: #648f77;
-    --sg-surface: #1b201d;
+    --sg-red: #cf796c;
+    --sg-green: #5f876f;
+    --sg-surface: #191e1b;
     color-scheme: dark;
 }
 
@@ -147,7 +147,17 @@ body {
 }
 
 .post-content p {
-    margin-bottom: 24px;
+    margin-bottom: 22px;
+}
+
+/* Keep article metadata subordinate to the reading column. */
+.post-meta,
+.breadcrumbs {
+    letter-spacing: 0.01em;
+}
+
+.post-meta {
+    opacity: 0.86;
 }
 
 .list,
@@ -334,6 +344,18 @@ a[hreflang="ja"] {
     padding: 52px 0 44px;
     border-bottom: 1px solid var(--border);
 }
+
+/* Keep the homepage treatment restrained for long-term reading. */
+.sg-seal {
+    opacity: 0.72;
+}
+
+.sg-seal__frame::before,
+.sg-seal__frame::after,
+.sg-now {
+    opacity: 0.35;
+}
+
 
 .sg-kicker {
     color: var(--sg-green);
@@ -582,11 +604,11 @@ a[hreflang="ja"] {
 .sg-entry {
     position: relative;
     display: grid;
-    min-height: 124px;
+    min-height: 112px;
     grid-template-columns: 48px 112px minmax(0, 1fr) 32px;
     align-items: center;
     gap: 24px;
-    padding: 22px 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--border);
 }
 
@@ -596,7 +618,7 @@ a[hreflang="ja"] {
 
 .sg-entry.is-latest::before {
     position: absolute;
-    inset-block: 22px;
+    inset-block: 20px;
     inset-inline-start: -8px;
     width: 2px;
     background: var(--sg-red);
@@ -688,7 +710,7 @@ a[hreflang="ja"] {
 }
 
 .sg-entry.is-latest h3 {
-    font-size: 30px;
+    font-size: 27px;
 }
 
 .sg-entry__category {
@@ -792,15 +814,15 @@ a[hreflang="ja"] {
 .post-single,
 .page-header,
 .main > .post-content {
-    max-width: 760px;
+    max-width: 720px;
     margin-inline: auto;
 }
 
 .post-header {
     position: relative;
     margin-top: 48px;
-    margin-bottom: 36px;
-    padding-bottom: 32px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
     border-bottom: 1px solid var(--border);
 }
 
@@ -808,8 +830,8 @@ a[hreflang="ja"] {
     position: absolute;
     bottom: -1px;
     left: 0;
-    width: 72px;
-    height: 2px;
+    width: 48px;
+    height: 1px;
     background: var(--sg-red);
     content: "";
 }
@@ -838,8 +860,8 @@ a[hreflang="ja"] {
 .post-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 14px;
-    margin-top: 20px;
+    gap: 4px 12px;
+    margin-top: 16px;
     color: var(--secondary);
     line-height: 1.6;
 }
@@ -892,7 +914,7 @@ a[hreflang="ja"] {
     margin-inline: auto;
     font-family: var(--sg-serif);
     font-size: 18px;
-    line-height: 2.05;
+    line-height: 1.82;
     letter-spacing: 0.01em;
     text-align: justify;
 }
@@ -950,13 +972,23 @@ a[hreflang="ja"] {
 
 /* 引文:系统楷体书引,无楷体设备回退宋体子集;绿色标线=元信息,红色留给交互 */
 .post-content blockquote {
-    margin: 2.2em 0;
-    padding: 0 20px;
-    border-inline-start: 2px solid var(--sg-green);
+    margin: 2em 0;
+    padding: 0 18px;
+    border-inline-start: 1px solid var(--sg-green);
     color: var(--secondary);
     font-family: var(--sg-serif);
     font-size: 0.94em;
     line-height: 1.9;
+}
+
+/* Listing pages should read as one index, not a stack of white cards. */
+.post-entry {
+    background: transparent;
+    border-color: color-mix(in srgb, var(--border) 72%, transparent);
+}
+
+.post-entry:hover {
+    background: color-mix(in srgb, var(--entry) 55%, transparent);
 }
 
 /* 开篇题记略收紧、略提亮；正文段落节奏保持不变。 */
@@ -1237,10 +1269,20 @@ h6:hover .anchor {
     padding: 4px 12px;
     border: 1px solid var(--border);
     color: var(--sg-green);
-    line-height: 1.8;
+    line-height: 1.6;
     background: transparent;
     text-decoration: none;
     transition: color 180ms ease, border-color 180ms ease;
+}
+
+.post-tags a,
+.share-buttons,
+.paginav {
+    background: transparent;
+}
+
+.share-buttons {
+    border-color: color-mix(in srgb, var(--border) 72%, transparent);
 }
 
 .post-tags a:hover,
@@ -1333,7 +1375,7 @@ h6:hover .anchor {
 .archive-year {
     position: relative;
     --year-size: clamp(88px, 15vw, 132px);
-    margin-top: 76px;
+    margin-top: 64px;
 }
 
 /* 巨大年份幽灵数字:垫底装饰,首月列表从其下半部叠过 */
@@ -1349,7 +1391,7 @@ h6:hover .anchor {
     font-weight: 700;
     letter-spacing: -0.03em;
     color: var(--primary);
-    opacity: 0.08;
+    opacity: 0.06;
     pointer-events: none;
     user-select: none;
     scroll-margin-top: 16px;
@@ -1365,7 +1407,7 @@ h6:hover .anchor {
 }
 
 .archive-year .archive-month:first-of-type {
-    padding-top: calc(var(--year-size) * 0.5);
+    padding-top: calc(var(--year-size) * 0.42);
 }
 
 .archive-month {
@@ -1378,10 +1420,11 @@ h6:hover .anchor {
     align-items: baseline;
     gap: 8px;
     margin: 0;
-    padding: 18px 4px 8px;
+    padding: 20px 4px 9px;
     color: var(--sg-green);
     font-family: var(--sg-sans);
-    font-size: 15px;
+    font-size: 14px;
+    letter-spacing: 0.04em;
     font-weight: 400;
 }
 
@@ -1390,9 +1433,9 @@ h6:hover .anchor {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: baseline;
-    gap: 16px;
+    gap: 20px;
     margin: 0;
-    padding: 14px 4px;
+    padding: 13px 4px;
 }
 
 /* 只在同月条目之间画线;组间分隔交给下个月的 archive-posts 顶线,避免双线 */
@@ -1418,9 +1461,9 @@ h6:hover .anchor {
 .archive-entry-title {
     margin: 0;
     font-family: var(--sg-serif);
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.5;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--primary);
 }
 
@@ -1500,7 +1543,7 @@ h6:hover .anchor {
 }
 
 .terms-tags--weighted a {
-    font-size: calc(14px + (var(--weight, 1) * 0.5px));
+    font-size: calc(14px + (var(--weight, 1) * 0.3px));
 }
 
 /* Search */
@@ -1517,14 +1560,14 @@ h6:hover .anchor {
     box-sizing: border-box;
     display: block;
     width: 100%;
-    min-height: 48px;
+    min-height: 46px;
     padding: 12px 14px;
     border: 1px solid var(--border);
     border-radius: 2px;
     background: transparent;
     color: var(--primary);
     font-family: var(--sg-sans);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
 }
 
@@ -1543,7 +1586,7 @@ h6:hover .anchor {
 #searchResults li {
     min-height: 0;
     margin: 0;
-    padding: 15px 4px;
+    padding: 16px 4px;
     border-bottom: 1px solid var(--border);
     border-radius: 0;
     background: transparent;
@@ -1554,13 +1597,14 @@ h6:hover .anchor {
 #searchResults li .entry-header {
     color: var(--primary);
     font-family: var(--sg-serif);
-    font-size: 18px;
+    font-size: 17px;
+    font-weight: 600;
     line-height: 1.5;
 }
 
 #searchResults li:hover,
 #searchResults li.focus {
-    padding-inline-start: 10px;
+    padding-inline-start: 8px;
 }
 
 #searchResults li:hover .entry-header,
@@ -1642,8 +1686,8 @@ h6:hover .anchor {
 
 .related-posts {
     margin-top: 44px;
-    padding-top: 26px;
-    border-top: 2px solid var(--primary);
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
     font-family: var(--sg-serif);
 }
 
@@ -1676,7 +1720,7 @@ h6:hover .anchor {
     align-items: baseline;
     justify-content: space-between;
     gap: 16px;
-    padding: 13px 2px;
+    padding: 15px 2px;
     color: var(--primary);
     font-family: var(--sg-serif);
     font-size: 17px;
@@ -2027,7 +2071,8 @@ h6:hover .anchor {
 
     .post-title,
     .page-header h1 {
-        font-size: 34px;
+        font-size: 32px;
+        line-height: 1.34;
     }
 
     .page-header {
@@ -2052,7 +2097,11 @@ h6:hover .anchor {
 
     .archive-year {
         --year-size: 72px;
-        margin-top: 48px;
+        margin-top: 40px;
+    }
+
+    .archive-year-header {
+        opacity: 0.045;
     }
 
     .archive-month-header {
