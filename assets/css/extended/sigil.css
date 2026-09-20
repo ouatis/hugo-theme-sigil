@@ -347,13 +347,12 @@ a[hreflang="ja"] {
 
 /* Keep the homepage treatment restrained for long-term reading. */
 .sg-seal {
-    opacity: 0.72;
+    opacity: 0.92;
 }
 
-.sg-seal__frame::before,
 .sg-seal__frame::after,
 .sg-now {
-    opacity: 0.35;
+    opacity: 0.5;
 }
 
 
@@ -430,19 +429,8 @@ a[hreflang="ja"] {
     content: "";
 }
 
-/* 万事皆三:徽记外再加第三重环 */
-.sg-seal__frame::before {
-    position: absolute;
-    inset: -18px;
-    border: 1px solid var(--tertiary);
-    border-radius: 50%;
-    opacity: 0.55;
-    content: "";
-}
-
 /* 徽记悬停涟漪:仅悬停瞬间外环扩散增亮,像石子入水;图片本身不动 */
-.sg-seal__frame::after,
-.sg-seal__frame::before {
+.sg-seal__frame::after {
     transition: transform 600ms ease, opacity 600ms ease;
 }
 
@@ -451,18 +439,18 @@ a[hreflang="ja"] {
     opacity: 1;
 }
 
-.sg-seal:hover .sg-seal__frame::before {
-    transform: scale(1.08);
-    opacity: 0.85;
-}
-
-/* 徽记:hero 直接用原版照片(avatar.webp),不做反相处理。 */
+/* 徽记:hero 直接使用原版素描肖像。 */
 .sg-seal img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+}
+
+/* 深色纸面上反转纸白与墨线,避免肖像成为突兀的亮色圆牌。 */
+html[data-theme="dark"] .sg-seal img {
+    filter: invert(0.92) grayscale(1);
 }
 
 /* 未配置印章图片时的默认字形印章 */
@@ -2489,8 +2477,7 @@ body {
         transition: none;
     }
 
-    .sg-seal__frame::after,
-    .sg-seal__frame::before {
+    .sg-seal__frame::after {
         transition: none;
     }
 }
