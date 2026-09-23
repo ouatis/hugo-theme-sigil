@@ -3,6 +3,8 @@ import * as params from '@params';
 let fuse; // holds our search engine
 let resList = document.getElementById('searchResults');
 let sInput = document.getElementById('searchInput');
+let sEmpty = document.getElementById('searchEmpty');
+let minLabel = document.getElementById('searchbox').getAttribute('data-min') || 'min';
 let first, last, current_elem = null
 let resultsAvailable = false;
 
@@ -69,7 +71,18 @@ function activeToggle(ae) {
 function reset() {
     resultsAvailable = false;
     resList.innerHTML = sInput.value = ''; // clear inputbox and searchResults
+    if (sEmpty) sEmpty.hidden = true; // hide the no-results whisper
     sInput.focus(); // shift focus to input box
+}
+
+// meta line under the title: date ∴ category ∴ reading time (homepage entry language)
+function entryMeta(item) {
+    let parts = [];
+    if (item.date) parts.push(`<time>${item.date}</time>`);
+    if (item.category) parts.push(`<span>${item.category}</span>`);
+    if (item.readingtime) parts.push(`<span>${item.readingtime} ${minLabel}</span>`);
+    if (parts.length === 0) return '';
+    return `<p class="entry-meta">${parts.join('<span class="entry-meta__sep" aria-hidden="true">∴</span>')}</p>`;
 }
 
 // execute search as each character is typed
@@ -89,6 +102,7 @@ sInput.onkeyup = function (e) {
 
             for (let item in results) {
                 resultSet += `<li class="post-entry"><header class="entry-header">${results[item].item.title}&nbsp;»</header>` +
+                    entryMeta(results[item].item) +
                     `<a href="${results[item].item.permalink}" aria-label="${results[item].item.title}"></a></li>`
             }
 
@@ -100,6 +114,8 @@ sInput.onkeyup = function (e) {
             resultsAvailable = false;
             resList.innerHTML = '';
         }
+        // whisper only when a real query came back empty, not while typing blanks
+        if (sEmpty) sEmpty.hidden = !(this.value.trim() !== '' && results.length === 0);
     }
 }
 

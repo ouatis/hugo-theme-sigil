@@ -43,3 +43,25 @@
     transform: scale(0.98);
     border: 2px solid var(--tertiary);
 }
+
+/* 条目元信息行:日期 ∴ 分类 ∴ 时长,与首页条目同一套设计语言 */
+#searchResults .entry-meta {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--secondary);
+}
+
+#searchResults .entry-meta__sep {
+    margin: 0 0.35em;
+    font-size: 10px;
+    color: rgba(var(--sg-amber-rgb), 0.9);
+}
+
+/* 无结果低语:查询有字却无果时由 fastsearch.js 显出 */
+.search-empty {
+    margin: 16px 0;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--secondary);
+}

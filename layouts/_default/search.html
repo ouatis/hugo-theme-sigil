@@ -15,19 +15,28 @@
 {{- $searchLabel := "搜索" -}}
 {{- $resultsLabel := "搜索结果" -}}
 {{- $tryLabel := "试试：" -}}
+{{- $minLabel := "分钟" -}}
+{{- $emptyLabel := "没有找到相关文章。" -}}
 {{- if eq site.Language.Lang "en" -}}
   {{- $searchLabel = "Search" -}}
   {{- $resultsLabel = "Search results" -}}
   {{- $tryLabel = "Try: " -}}
+  {{- $minLabel = "min" -}}
+  {{- $emptyLabel = "No results found." -}}
 {{- else if eq site.Language.Lang "ja" -}}
   {{- $searchLabel = "検索" -}}
   {{- $resultsLabel = "検索結果" -}}
   {{- $tryLabel = "試す: " -}}
+  {{- $minLabel = "分" -}}
+  {{- $emptyLabel = "関連記事が見つかりませんでした。" -}}
 {{- end -}}
+{{- /* sgSearchEmpty:站点级覆盖无结果时的低语文案 */ -}}
+{{- with site.Params.sgSearchEmpty }}{{ $emptyLabel = . }}{{ end }}
 
-<div id="searchbox">
+<div id="searchbox" data-min="{{ $minLabel }}">
     <input id="searchInput" autofocus placeholder="{{ .Params.placeholder | default (printf "%s ↵" .Title) }}"
         aria-label="{{ $searchLabel }}" type="search" autocomplete="off" maxlength="64">
+    <p id="searchEmpty" class="search-empty" hidden>{{ $emptyLabel }}</p>
     <ul id="searchResults" aria-label="{{ $resultsLabel }}"></ul>
 </div>
 
