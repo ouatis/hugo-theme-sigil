@@ -2662,3 +2662,26 @@ html .header {
         transition: none;
     }
 }
+
+/* ===== 窄屏展开限高:系列与目录的长列表在块内滚动,不撑长页面 =====
+   (≥1440 的悬浮面板本就自带限高,此处只管 <1440 的折叠块) */
+@media (max-width: 1439px) {
+    .sg-series-details .sg-series__scroll,
+    .toc .inner {
+        max-height: min(46vh, 460px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+    }
+
+    /* 平板起双栏:列表高度减半 */
+    .sg-series-details .sg-series__list {
+        columns: 2;
+        column-gap: 24px;
+    }
+}
+
+.sg-series-details .sg-series__list li,
+.sg-series__list li {
+    break-inside: avoid;
+}
