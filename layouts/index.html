@@ -71,7 +71,7 @@
         <span class="sg-now__item sg-now__item--motto"><span class="sg-now__glyph" aria-hidden="true">∴</span><span>{{ . }}</span></span>
         {{- end }}
         {{- if site.Params.sgDaysInCage }}
-        <span class="sg-now__item sg-now__item--days"><span>Day {{ $cageDays }} in the Cage</span></span>
+        <span class="sg-now__item sg-now__item--days">{{ partial "sg-icon.html" (dict "name" "hourglass" "size" 14) }}<span>Day {{ $cageDays }} in the Cage</span></span>
         {{- end }}
       </figcaption>
       {{- end }}
