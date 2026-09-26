@@ -1195,7 +1195,8 @@ h6:hover .anchor {
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
     }
 
-    .sg-toc.is-open .sg-toc__panel {
+    /* 用 ID 精确定位:系列面板共享 .sg-toc__panel 几何,若按类展开会连带系列面板 */
+    .sg-toc.is-open #sg-toc-panel {
         visibility: visible;
         opacity: 1;
         transform: none;
