@@ -26,6 +26,20 @@
     border-bottom: 1px solid var(--secondary);
 }
 
+/* 香火线:逐日浏览量细墨线。绿色与纪念日低语同源,主题只描线不画轴,
+   path 由站点脚本预算进 data/analytics.json */
+.footer .footer-spark {
+    margin-inline-start: 7px;
+    color: var(--sg-green);
+    vertical-align: -2px;
+}
+
+.footer .footer-spark path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+}
+
 .footer a:hover {
     border-bottom: 1px solid var(--primary);
 }

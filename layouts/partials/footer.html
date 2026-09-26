@@ -18,13 +18,19 @@
     </span>
 
     {{- /* 可选:站点提供 data/analytics.json({total, since}) 时,页脚展示累计浏览量 */ -}}
-    {{- with site.Data.analytics }}
+    {{- with hugo.Data.analytics }}
     {{- if .total }}
     <span class="tri-sep tri-sep-views" aria-hidden="true">∴</span>
 
     <span class="footer-views" title="累计页面浏览量 · 统计自 {{ .since }}">
         {{ partial "sg-icon.html" (dict "name" "eye" "size" 12) }}{{ lang.FormatNumber 0 .total }} views
     </span>
+
+    {{- /* 香火线:近 120 日逐日浏览量,path 由站点脚本预算进 analytics.json,
+           主题只描线不画轴;无数据站点(如 exampleSite)自然缺席 */ -}}
+    {{- with .sparkline }}
+    <svg class="footer-spark" viewBox="0 0 120 14" width="120" height="14" aria-hidden="true" focusable="false"><title>近 120 日逐日浏览量</title><path d="{{ . }}"/></svg>
+    {{- end }}
     {{- end }}
     {{- end }}
 </footer>

@@ -113,7 +113,8 @@
 
     <div class="sg-feed">
       {{- range $index, $page := $paginator.Pages }}
-      {{- $number := add (add $offset $index) 1 }}
+      {{- /* 编号从旧往新:最老一篇 01,最新一篇即总篇数——编号是身位,不是位置 */ -}}
+      {{- $number := sub (len $pages) (add $offset $index) }}
       <article class="sg-entry{{ if and (eq $paginator.PageNumber 1) (eq $index 0) }} is-latest{{ end }}">
         <a class="sg-entry__link" href="{{ .RelPermalink }}" aria-label="{{ $readPrefix }}{{ .Title }}"></a>
         <p class="sg-entry__number" aria-hidden="true">{{ printf "%02d" $number }}</p>

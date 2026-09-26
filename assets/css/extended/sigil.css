@@ -32,6 +32,13 @@ html:lang(ja) {
     --sg-sans: "IBM Plex Sans JP", "IBM Plex Sans", sans-serif;
 }
 
+/* 标点挤压:行首全角开标点收半宽,连续标点的收窄由浏览器 normal 行为承担。
+   渐进增强:Chromium 123+/Safari 18.2+ 且字体带 halt/chws 特征时生效;
+   trim-both/trim-all 规范有定义、浏览器尚未实现,故取 trim-start,其余环境零损失 */
+body {
+    text-spacing-trim: trim-start;
+}
+
 :root[data-theme="dark"] {
     --theme: #151917;
     --entry: #1b201d;
