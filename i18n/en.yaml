@@ -40,3 +40,19 @@
 
 - id: posts_language_note
   translation: "Posts are currently available in Chinese only."
+
+# Sigil:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+- id: recentWriting
+  translation: "Updated My Journal"
+- id: postsSuffix
+  translation:  " posts"
+- id: socialLinks
+  translation: Social links
+- id: readPrefix
+  translation: "Read: "
+- id: paginationAria
+  translation: Pagination
+- id: sgNowReading
+  translation: "Reading:"
+- id: sgNowPlaying
+  translation: "Playing:"

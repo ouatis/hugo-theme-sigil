@@ -22,15 +22,8 @@
 {{- if and site.Params.sgDaysInCage (gt (len $pages) 0) }}
   {{- $cageDays = div (sub now.Unix (index ($pages.ByDate) 0).Date.Unix) 86400 }}
 {{- end }}
-{{- $socialLabel := "社交链接" -}}
-{{- $readPrefix := "阅读：" -}}
-{{- if eq site.Language.Lang "en" -}}
-  {{- $socialLabel = "Social links" -}}
-  {{- $readPrefix = "Read: " -}}
-{{- else if eq site.Language.Lang "ja" -}}
-  {{- $socialLabel = "ソーシャルリンク" -}}
-  {{- $readPrefix = "読む: " -}}
-{{- end -}}
+{{- $socialLabel := i18n "socialLinks" | default "Social links" -}}
+{{- $readPrefix := i18n "readPrefix" | default "Read: " -}}
 
 <div class="sg-home">
   {{- if eq $paginator.PageNumber 1 }}
@@ -60,12 +53,12 @@
         {{- end }}
       </div>
       {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto site.Params.sgDaysInCage }}
-      <figcaption class="sg-now" data-rotate="true" aria-label="Current reading and playing" aria-live="polite">
+      <figcaption class="sg-now" data-rotate="true" aria-label="Current status" aria-live="polite">
         {{- with site.Params.sgReading }}
-        <span class="sg-now__item sg-now__item--reading">{{ partial "sg-icon.html" (dict "name" "book-open" "size" 14) }}<span>Reading: {{ . }}</span></span>
+        <span class="sg-now__item sg-now__item--reading">{{ partial "sg-icon.html" (dict "name" "book-open" "size" 14) }}<span>{{ i18n "sgNowReading" | default "Reading:" }} {{ . }}</span></span>
         {{- end }}
         {{- with site.Params.sgPlaying }}
-        <span class="sg-now__item sg-now__item--playing">{{ partial "sg-icon.html" (dict "name" "game-controller" "size" 14) }}<span>Playing: {{ . }}</span></span>
+        <span class="sg-now__item sg-now__item--playing">{{ partial "sg-icon.html" (dict "name" "game-controller" "size" 14) }}<span>{{ i18n "sgNowPlaying" | default "Playing:" }} {{ . }}</span></span>
         {{- end }}
         {{- with $sgMotto }}
         <span class="sg-now__item sg-now__item--motto"><span class="sg-now__glyph" aria-hidden="true">∴</span><span>{{ . }}</span></span>
@@ -116,14 +109,14 @@
     {{- end }}
     <header class="sg-section-head">
       <div>
-        <h2 id="recent-writing">{{ if eq site.Language.Lang "en" }}Updated My Journal{{ else if eq site.Language.Lang "ja" }}最近の更新{{ else }}最近更新{{ end }}{{ if ne site.Language.Lang "en" }}<span class="sg-section-head__en">Updated My Journal</span>{{ end }}</h2>
+        <h2 id="recent-writing">{{ i18n "recentWriting" | default "Updated My Journal" }}{{ if or (eq site.Language.Lang "ja") (strings.HasPrefix site.Language.Lang "zh") }}<span class="sg-section-head__en">Updated My Journal</span>{{ end }}</h2>
         {{- if and site.Params.ShowContentLanguageNote (ne site.Language.Lang hugo.Sites.Default.Language.Lang) }}
         {{- with i18n "posts_language_note" }}
         <p class="sg-lang-note">{{ . }}</p>
         {{- end }}
         {{- end }}
       </div>
-      <p class="sg-section-head__count">{{ len $pages }}{{ if eq site.Language.Lang "en" }} posts{{ else if eq site.Language.Lang "ja" }} 編{{ else }} 篇文章{{ end }}{{ with $wordsLabel }}<span class="sg-section-head__words">{{ . }}</span>{{ end }}</p>
+      <p class="sg-section-head__count">{{ len $pages }}{{ i18n "postsSuffix" | default " posts" }}{{ with $wordsLabel }}<span class="sg-section-head__words">{{ . }}</span>{{ end }}</p>
     </header>
 
     <div class="sg-feed">
@@ -154,11 +147,11 @@
 
   {{- if gt $paginator.TotalPages 1 }}
   {{- /* 方向词一次算好,文字与 aria-label 共用:窄屏下 __word 被 CSS 隐藏,
-         没有标签的话链接在移动端是无名的(Lighthouse link-name 实测) */ -}}
-  {{- $prevWord := "上一页" }}{{ $nextWord := "下一页" }}
-  {{- if eq site.Language.Lang "en" }}{{ $prevWord = "Prev" }}{{ $nextWord = "Next" }}
-  {{- else if eq site.Language.Lang "ja" }}{{ $prevWord = "前へ" }}{{ $nextWord = "次へ" }}{{ end }}
-  <nav class="sg-pagination" aria-label="{{ if eq site.Language.Lang "en" }}Pagination{{ else if eq site.Language.Lang "ja" }}ページ送り{{ else }}文章分页{{ end }}">
+         没有标签的话链接在移动端是无名的(Lighthouse link-name 实测)。
+         走 i18n(站点 i18n 可覆盖),缺失语言回落 Prev/Next */ -}}
+  {{- $prevWord := i18n "prev_page" | default "Prev" -}}
+  {{- $nextWord := i18n "next_page" | default "Next" -}}
+  <nav class="sg-pagination" aria-label="{{ i18n "paginationAria" | default "Pagination" }}">
     <span class="sg-pagination__side">
       {{- if $paginator.HasPrev }}
       <a href="{{ $paginator.Prev.URL }}" aria-label="{{ $prevWord }}"><span aria-hidden="true">←</span> <span class="sg-pagination__word">{{ $prevWord }}</span></a>

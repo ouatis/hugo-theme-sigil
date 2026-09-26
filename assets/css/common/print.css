@@ -1,0 +1,49 @@
+/* ===== 打印:给「把长文打出来读」的人 =====
+   仅 @media print 生效,屏幕零影响。藏起一切交互件,
+   正文黑字白底;边注在纸面内联回段落(浏览器支持 :has 时,
+   同时隐藏文末脚注避免重复;不支持 :has 的浏览器保留脚注,安全回退) */
+@media print {
+    .header,
+    .footer,
+    .top-link,
+    .breadcrumbs,
+    .toc,
+    .post-tags,
+    .post-nav-links,
+    .related-posts,
+    .share-icons,
+    .copy-code,
+    .sg-pagination,
+    #sg-progress {
+        display: none !important;
+    }
+
+    html,
+    body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    .post-content a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-content .sidenote {
+        display: inline;
+        float: none;
+        margin: 0;
+        border: 0;
+        font-size: 0.85em;
+    }
+
+    .post-content:has(.sidenote) .footnotes {
+        display: none;
+    }
+
+    .post-content blockquote,
+    .post-content figure,
+    .post-content .highlight {
+        break-inside: avoid;
+    }
+}

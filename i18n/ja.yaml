@@ -40,3 +40,15 @@
 
 - id: posts_language_note
   translation: "記事は現在、中国語のみの掲載です。"
+
+# Sigil:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+- id: recentWriting
+  translation: "最近の更新"
+- id: postsSuffix
+  translation:  " 編"
+- id: socialLinks
+  translation: ソーシャルリンク
+- id: readPrefix
+  translation: "読む: "
+- id: paginationAria
+  translation: ページ送り

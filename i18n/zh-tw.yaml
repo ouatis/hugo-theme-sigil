@@ -37,3 +37,15 @@
 
 - id: breadcrumbs
   translation: "麵包屑"
+
+# Sigil:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+- id: recentWriting
+  translation: "最近更新"
+- id: postsSuffix
+  translation:  " 篇文章"
+- id: socialLinks
+  translation: 社交链接
+- id: readPrefix
+  translation: "阅读："
+- id: paginationAria
+  translation: 文章分页
