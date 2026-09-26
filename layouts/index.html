@@ -6,9 +6,15 @@
 {{- end -}}
 {{- $pages := where $contentSite.RegularPages "Type" "in" site.Params.mainSections }}
 {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
-{{- $paginator := .Paginate $pages }}
-{{- /* homePageSize: 首页列表篇数;不设则用全站 paginate 配置 */ -}}
-{{- with site.Params.homePageSize -}}{{- $paginator = $.Paginate $pages (int .) -}}{{- end -}}
+{{- /* homePageSize: 首页列表篇数;不设则用全站 paginate 配置。
+     同页对 .Paginate 只有首次调用生效——原先「先按默认调、再带 homePageSize
+     重调」的写法,重调会被忽略,配置值从未起作用;改为先判页大小,只调一次 */ -}}
+{{- $paginator := "" }}
+{{- if site.Params.homePageSize }}
+{{- $paginator = .Paginate $pages (int site.Params.homePageSize) }}
+{{- else }}
+{{- $paginator = .Paginate $pages }}
+{{- end }}
 {{- $offset := mul (sub $paginator.PageNumber 1) $paginator.PagerSize }}
 {{- $socialLabel := "社交链接" -}}
 {{- $readPrefix := "阅读：" -}}
