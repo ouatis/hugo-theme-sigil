@@ -1,0 +1,57 @@
+{{- /* 构建期配置校验:参数拼错、类型不对、文件缺失时输出人话警告,
+     替代静默失效(前案:homePageSize 静默四个月;avatar.png 404 三十天才被发现)。
+     partialCached 全站只跑一次;所有检查 with/isset 守卫,未配置零输出。
+     文件探测顺序:resources(assets/捆绑)优先,静态顶层文件按 basename 兜底 */ -}}
+{{- $staticFiles := dict -}}
+{{- range readDir "." -}}
+    {{- if and .IsDir (eq .Name "static") -}}
+        {{- range readDir "static" -}}{{- $staticFiles = merge $staticFiles (dict .Name true) -}}{{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* 文件存在性:sgSealImage / label.icon / assets.favicon / params.images */ -}}
+{{- range $keys := slice (slice "sgSealImage" (site.Params.sgSealImage | default ""))
+        (slice "label.icon" (site.Params.label.icon | default ""))
+        (slice "assets.favicon" (site.Params.assets.favicon | default "")) -}}
+    {{- $key := index $keys 0 -}}
+    {{- with index $keys 1 -}}
+        {{- $ok := false -}}
+        {{- with resources.Get . -}}{{- $ok = true -}}{{- end -}}
+        {{- if not $ok -}}{{- with index $staticFiles (path.Base .) -}}{{- $ok = true -}}{{- end -}}{{- end -}}
+        {{- if not $ok -}}
+            {{- warnf (printf "[sigil] %s 指向的文件不存在: %s —— 对应图标/印章将 404" $key .) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with site.Params.images -}}
+    {{- range . -}}
+        {{- $ok := false -}}
+        {{- with resources.Get . -}}{{- $ok = true -}}{{- end -}}
+        {{- if not $ok -}}{{- with index $staticFiles (path.Base .) -}}{{- $ok = true -}}{{- end -}}{{- end -}}
+        {{- if not $ok -}}
+            {{- warnf (printf "[sigil] images(opengraph 卡片)指向的文件不存在: %s" .) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* 类型校验(TOML 整数在 Hugo 里是 int64,int/int64 都算合法) */ -}}
+{{- with site.Params.homePageSize -}}
+    {{- $t := printf "%T" . -}}
+    {{- if and (ne $t "int") (ne $t "int64") -}}
+        {{- warnf (printf "[sigil] homePageSize 应为整数,当前为 %T(%q)——将被忽略" . .) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with site.Params.label.iconHeight -}}
+    {{- $t := printf "%T" . -}}
+    {{- if and (ne $t "int") (ne $t "int64") -}}
+        {{- warnf (printf "[sigil] label.iconHeight 应为整数,当前为 %T(%q)" . .) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with site.Params.sgDaysInCage -}}
+    {{- if ne (printf "%T" .) "bool" -}}
+        {{- warnf (printf "[sigil] sgDaysInCage 应为 true/false,当前为 %T——将被忽略" .) -}}
+    {{- end -}}
+{{- end -}}

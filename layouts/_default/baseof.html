@@ -2,6 +2,9 @@
 {{- errorf "=> hugo v0.146.0 or greater is required for hugo-PaperMod to build " }}
 {{- end -}}
 
+{{- /* 构建期配置校验:参数问题在 CI 日志里说人话,而非静默失效 */ -}}
+{{- partialCached "validate.html" . -}}
+
 <!DOCTYPE html>
 {{- $theme := site.Params.defaultTheme | default "auto" }}
 {{- if eq $theme "dark" }}
