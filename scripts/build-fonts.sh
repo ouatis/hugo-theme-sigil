@@ -77,6 +77,19 @@ for weight in Regular SemiBold Bold; do
     fi
 done
 
+# 每条 @font-face 补 font-display: swap——官方分片 css 没有这一行,
+# 字体加载期文字会按浏览器默认策略隐身(Speed Index 杀手)
+python3 - <<'PY'
+import glob, re
+for path in glob.glob("static/fonts/ibm-plex/*/*.css"):
+    css = open(path, encoding="utf-8").read()
+    if "font-display" in css:
+        continue
+    css, n = re.subn(r'(@font-face\s*\{[^}]*?)\}', r'\1  font-display: swap;\n}', css)
+    open(path, "w", encoding="utf-8").write(css)
+    print(f"font-display: swap -> {path} ({n} faces)")
+PY
+
 {
     printf '%s\n' "/* IBM Plex Sans family, generated from @ibm/plex-sans ${IBM_PLEX_VERSION} packages. */"
     printf '%s\n' '@import url("./latin/IBMPlexSans-Regular.css");'

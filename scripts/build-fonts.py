@@ -89,6 +89,21 @@ def write_result_css(mode: str) -> None:
     (FONT_DIR / "result.css").write_text("".join(lines), encoding="utf-8")
 
 
+def add_font_display() -> int:
+    """官方分片 css 没有 font-display,字体加载期文字会隐身;逐条补 swap。"""
+    import re
+    faces = 0
+    for css_path in FONT_DIR.glob("*/*.css"):
+        css = css_path.read_text(encoding="utf-8")
+        if "font-display" in css:
+            continue
+        css, n = re.subn(r"(@font-face\s*\{[^}]*?)\}",
+                         r"\1  font-display: swap;\n}", css)
+        css_path.write_text(css, encoding="utf-8")
+        faces += n
+    return faces
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--latin", action="store_true",
@@ -108,6 +123,7 @@ def main() -> None:
         for weight in WEIGHTS:
             total += extract_weight(archives[pkg], pkg, weight, dest)
 
+    total += add_font_display()
     write_result_css(mode)
     print(f"IBM Plex assets ({mode} mode): {total} files -> {FONT_DIR}")
 
