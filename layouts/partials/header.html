@@ -19,12 +19,13 @@
                             {{- $img = $img.Resize "x30" }}
                         {{- end }}
                     {{- end }}
-                    <img src="{{ $img.Permalink }}" alt="{{ $label_text }}"
+                    {{- /* alt 留空:紧邻的 $label_text 已是链接可见名,alt 同文会被读屏念两遍(image-redundant-alt) */ -}}
+                    <img src="{{ $img.Permalink }}" alt=""
                         width="{{ $img.Width }}"
                         height="{{- site.Params.label.iconHeight | default "30" -}}">
                 {{- else }}
                 {{- /* 静态文件拿不到尺寸,按方形约定与 iconHeight 同值,避免只有 height 的属性期失真 */ -}}
-                <img src="{{- site.Params.label.icon | absURL -}}" alt="{{ $label_text }}"
+                <img src="{{- site.Params.label.icon | absURL -}}" alt=""
                     width="{{- site.Params.label.iconHeight | default "30" -}}"
                     height="{{- site.Params.label.iconHeight | default "30" -}}">
                 {{- end -}}
