@@ -1,0 +1,37 @@
+{{- /* 解析 sgSeriesFrom 指向的策展页,提取系列阅读顺序。
+     策展页正文即唯一事实来源:h3 = 卷标题(暂不展示,留作扩展),
+     ol start = 连续编号起点,li 链接 = 已发布章节,li 内 sg-tbd span = 未写占位。
+     partialCached 全站只跑一次(系列结构是全站常量)。
+     返回:nil(未配置/页面不存在)或 dict { entries, total, from, title } */ -}}
+{{- $from := site.Params.sgSeriesFrom -}}
+{{- if not $from -}}{{- return nil -}}{{- end -}}
+{{- $page := site.GetPage $from -}}
+{{- if not $page -}}{{- return nil -}}{{- end -}}
+
+{{- $matches := findRESubmatch `<h3[^>]*>([^<]*)</h3>|<ol[^>]*start="?(\d+)"?[^>]*>|<li><a href="?([^">]+)"?[^>]*>([^<]+)</a></li>|<li><span class="?sg-tbd"?>([^<]+)</span>\s*</li>` $page.Content -}}
+
+{{- $entries := slice -}}
+{{- $num := 0 -}}
+{{- range $m := $matches -}}
+    {{- if index $m 1 -}}
+        {{- /* 卷标题:暂不入条目 */ -}}
+    {{- else if index $m 2 -}}
+        {{- $num = int (index $m 2) -}}
+    {{- else if index $m 3 -}}
+        {{- $entries = $entries | append (dict
+                "href" (index $m 3)
+                "title" (index $m 4)
+                "num" $num
+                "tbd" false) -}}
+        {{- $num = add $num 1 -}}
+    {{- else if index $m 5 -}}
+        {{- $entries = $entries | append (dict
+                "title" (index $m 5)
+                "num" $num
+                "tbd" true) -}}
+        {{- $num = add $num 1 -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if not $entries -}}{{- return nil -}}{{- end -}}
+{{- return dict "entries" $entries "total" (len $entries) "from" $from "title" $page.Title -}}

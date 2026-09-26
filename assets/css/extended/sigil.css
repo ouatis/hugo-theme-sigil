@@ -2567,3 +2567,98 @@ html .header {
         white-space: normal;
     }
 }
+
+/* ===== 系列导航(sgSeriesFrom 指向策展页):宽屏悬浮第二页签,窄屏目录上方折叠块 ===== */
+.sg-toc__toggle--series {
+    margin-top: 8px;
+}
+
+@media (min-width: 1440px) {
+    .sg-toc.is-series-open .sg-series-panel {
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+        width: 280px;
+    }
+}
+
+.sg-series__list {
+    list-style: none;
+    margin: 0;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-family: var(--sg-sans);
+}
+
+.sg-series__item {
+    padding: 3px 0;
+}
+
+.sg-series__item a {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.sg-series__item a:hover {
+    color: var(--sg-red);
+}
+
+.sg-series__item.is-current {
+    color: var(--sg-red);
+    font-weight: 600;
+}
+
+.sg-series__item.is-tbd {
+    color: var(--secondary);
+    opacity: 0.6;
+}
+
+.sg-series__tbd-mark {
+    font-size: 11px;
+    opacity: 0.85;
+    margin-left: 4px;
+}
+
+/* 窄屏折叠块:与 .toc 同生命周期(≥1440 让位给悬浮版) */
+.sg-series-details {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--code-bg);
+    margin: 0 0 10px;
+}
+
+.sg-series-details summary {
+    padding: 8px 16px;
+    cursor: pointer;
+    color: var(--sg-green);
+    font-size: 14px;
+    list-style: none;
+}
+
+.sg-series-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.sg-series-details summary::before {
+    content: "▸ ";
+}
+
+.sg-series-details[open] summary::before {
+    content: "▾ ";
+}
+
+.sg-series__scroll {
+    padding: 4px 16px 10px;
+}
+
+@media (min-width: 1440px) {
+    .sg-series-details {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sg-series-panel {
+        transition: none;
+    }
+}

@@ -49,6 +49,7 @@ Common PaperMod options work as usual. Sigil-specific options:
 | `ShowFullTextinRSS` | `false` | Include full articles in RSS |
 | `ShowAllPagesInArchive` | `false` | Include all pages in archives |
 | `homePageSize` | all | Homepage posts per page |
+| `sgSeriesFrom` | hidden | Series navigation: points to a curation page whose body list defines the reading order; `sgSeriesTab` sets the tab label |
 
 Frequently used inherited options include `defaultTheme`, `ShowToc`,
 `TocOpen`, `ShowCodeCopyButtons`, `ShowBreadCrumbs`, `ShowReadingTime`,

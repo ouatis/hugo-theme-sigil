@@ -4,17 +4,49 @@
 {{- if eq site.Language.Lang "en" }}{{- $tocTitle = "Contents" -}}{{- end }}
 {{- if eq site.Language.Lang "ja" }}{{- $tocTitle = "目次" -}}{{- end }}
 
+{{- /* 系列阅读顺序:sgSeriesFrom 指向策展页;当前页出现在其章节列表中时启用 */ -}}
+{{- $self := .RelPermalink -}}
+{{- $series := partialCached "series-order.html" . -}}
+{{- $seriesCur := -1 -}}
+{{- if $series -}}
+    {{- range $i, $e := $series.entries -}}
+        {{- if and (not $e.tbd) (eq $e.href $self) -}}{{- $seriesCur = $i -}}{{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- $inSeries := ge $seriesCur 0 -}}
+
 {{- /* 宽屏左侧悬浮目录,默认收起,点击页签展开;窄屏回退到下方折叠框 */ -}}
 <aside class="sg-toc" aria-label="{{ $tocTitle }}">
     <button class="sg-toc__toggle" type="button" aria-expanded="false" aria-controls="sg-toc-panel" title="{{ $tocTitle }}">
         <span class="sg-toc__toggle-label">{{ $tocTitle }}</span>
     </button>
+    {{- if $inSeries }}
+    <button class="sg-toc__toggle sg-toc__toggle--series" type="button" aria-expanded="false" aria-controls="sg-series-panel" title="{{ $series.title }}">
+        <span class="sg-toc__toggle-label">{{ site.Params.sgSeriesTab | default "系列" }}</span>
+    </button>
+    {{- end }}
     <div class="sg-toc__panel" id="sg-toc-panel">
         <div class="sg-toc__scroll">
             {{- .TableOfContents -}}
         </div>
     </div>
+    {{- if $inSeries }}
+    <div class="sg-toc__panel sg-series-panel" id="sg-series-panel">
+        <div class="sg-toc__scroll">
+            {{- partial "series-list.html" (dict "entries" $series.entries "cur" $seriesCur) -}}
+        </div>
+    </div>
+    {{- end }}
 </aside>
+
+{{- if $inSeries }}
+<details class="sg-series-details">
+    <summary><span class="sg-series__summary">∴ {{ $series.title }} · 第 {{ (index $series.entries $seriesCur).num }} 篇 / 共 {{ $series.total }} 篇</span></summary>
+    <div class="sg-series__scroll">
+        {{- partial "series-list.html" (dict "entries" $series.entries "cur" $seriesCur) -}}
+    </div>
+</details>
+{{- end }}
 
 <div class="toc">
     <details {{ if (.Param "TocOpen") }} open{{ end }}>
@@ -38,7 +70,8 @@
         if (!toc) return;
 
         var KEY = 'sg-toc-open';
-        var btn = toc.querySelector('.sg-toc__toggle');
+        var btn = toc.querySelector('.sg-toc__toggle:not(.sg-toc__toggle--series)');
+        var sbtn = toc.querySelector('.sg-toc__toggle--series');
         try {
             if (localStorage.getItem(KEY) === '1') {
                 toc.classList.add('is-open');
@@ -48,7 +81,18 @@
         btn.addEventListener('click', function () {
             var open = toc.classList.toggle('is-open');
             btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            /* 双页签互斥:开目录时收起系列 */
+            toc.classList.remove('is-series-open');
+            if (sbtn) sbtn.setAttribute('aria-expanded', 'false');
             try { localStorage.setItem(KEY, open ? '1' : '0'); } catch (e) {}
+        });
+        if (sbtn) sbtn.addEventListener('click', function () {
+            var open = toc.classList.toggle('is-series-open');
+            sbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            /* 开系列时收起目录 */
+            toc.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+            try { localStorage.setItem(KEY, '0'); } catch (e) {}
         });
 
         var links = {};

@@ -55,3 +55,9 @@
         {{- warnf (printf "[sigil] sgDaysInCage 应为 true/false,当前为 %T——将被忽略" .) -}}
     {{- end -}}
 {{- end -}}
+
+{{- with site.Params.sgSeriesFrom -}}
+    {{- if not (site.GetPage .) -}}
+        {{- warnf (printf "[sigil] sgSeriesFrom 指向的页面不存在: %s —— 系列导航不启用" .) -}}
+    {{- end -}}
+{{- end -}}

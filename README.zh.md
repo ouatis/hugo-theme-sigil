@@ -49,6 +49,7 @@ PaperMod 的常用配置可以继续使用。Sigil 专属配置：
 | `ShowFullTextinRSS` | `false` | RSS 输出全文 |
 | `ShowAllPagesInArchive` | `false` | 归档包含所有页面 |
 | `homePageSize` | 全部 | 首页每页文章数 |
+| `sgSeriesFrom` | 隐藏 | 系列导航:指向策展页,其正文列表即阅读顺序(含未写占位);`sgSeriesTab` 定页签短标 |
 
 完整示例见 [exampleSite/hugo.toml](exampleSite/hugo.toml)。
 

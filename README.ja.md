@@ -49,6 +49,7 @@ PaperMod の一般的な設定を利用できます。Sigil 固有の設定：
 | `ShowFullTextinRSS` | `false` | RSS に全文を含める |
 | `ShowAllPagesInArchive` | `false` | アーカイブに全ページを含める |
 | `homePageSize` | すべて | 1ページの投稿数 |
+| `sgSeriesFrom` | 非表示 | シリーズナビ:策展ページの本文リストを読み順に;`sgSeriesTab` でタブラベル |
 
 完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照してください。
 
