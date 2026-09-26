@@ -54,7 +54,7 @@
     <figure class="sg-seal">
       <div class="sg-seal__frame">
         {{- with site.Params.sgSealImage }}
-        <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320">
+        <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320" fetchpriority="high">
         {{- else }}
         <span class="sg-seal__glyph" aria-hidden="true">∴</span>
         {{- end }}

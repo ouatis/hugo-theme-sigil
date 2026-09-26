@@ -82,6 +82,12 @@ body {
     color: rgba(var(--sg-amber-rgb), 0.95);
 }
 
+/* 暗色下的一点灯感:∴ 极弱琥珀光晕,亮色不加 */
+[data-theme="dark"] .tri-sep,
+[data-theme="dark"] .sg-now__glyph {
+    text-shadow: 0 0 8px rgba(var(--sg-amber-rgb), 0.4);
+}
+
 /* 跳到正文:键盘用户 Tab 一下直达内容,平时隐藏 */
 .skip-link {
     position: fixed;
