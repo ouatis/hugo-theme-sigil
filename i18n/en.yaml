@@ -56,3 +56,9 @@
   translation: "Reading:"
 - id: sgNowPlaying
   translation: "Playing:"
+
+# 分页(列表页)用「页」,区别于文章导航的 prev_page/next_page
+- id: pagination_prev
+  translation: "Prev"
+- id: pagination_next
+  translation: "Next"

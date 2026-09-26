@@ -149,8 +149,8 @@
   {{- /* 方向词一次算好,文字与 aria-label 共用:窄屏下 __word 被 CSS 隐藏,
          没有标签的话链接在移动端是无名的(Lighthouse link-name 实测)。
          走 i18n(站点 i18n 可覆盖),缺失语言回落 Prev/Next */ -}}
-  {{- $prevWord := i18n "prev_page" | default "Prev" -}}
-  {{- $nextWord := i18n "next_page" | default "Next" -}}
+  {{- $prevWord := i18n "pagination_prev" | default "Prev" -}}
+  {{- $nextWord := i18n "pagination_next" | default "Next" -}}
   <nav class="sg-pagination" aria-label="{{ i18n "paginationAria" | default "Pagination" }}">
     <span class="sg-pagination__side">
       {{- if $paginator.HasPrev }}

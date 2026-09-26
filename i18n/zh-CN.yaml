@@ -49,3 +49,9 @@
   translation: "阅读："
 - id: paginationAria
   translation: 文章分页
+
+# 分页(列表页)用「页」,区别于文章导航的 prev_page/next_page
+- id: pagination_prev
+  translation: "上一页"
+- id: pagination_next
+  translation: "下一页"
