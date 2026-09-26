@@ -16,6 +16,12 @@
 {{- $paginator = .Paginate $pages }}
 {{- end }}
 {{- $offset := mul (sub $paginator.PageNumber 1) $paginator.PagerSize }}
+{{- /* Day N in the Cage:状态条天数计数,从最早一篇起算(构建时静态值,
+   每日定时重建自动 +1);sgDaysInCage 缺省或 false 不显示 */ -}}
+{{- $cageDays := 0 }}
+{{- if and site.Params.sgDaysInCage (gt (len $pages) 0) }}
+  {{- $cageDays = div (sub now.Unix (index ($pages.ByDate) 0).Date.Unix) 86400 }}
+{{- end }}
 {{- $socialLabel := "社交链接" -}}
 {{- $readPrefix := "阅读：" -}}
 {{- if eq site.Language.Lang "en" -}}
@@ -53,7 +59,7 @@
         <span class="sg-seal__glyph" aria-hidden="true">∴</span>
         {{- end }}
       </div>
-      {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto }}
+      {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto site.Params.sgDaysInCage }}
       <figcaption class="sg-now" data-rotate="true" aria-label="Current reading and playing" aria-live="polite">
         {{- with site.Params.sgReading }}
         <span class="sg-now__item sg-now__item--reading">{{ partial "sg-icon.html" (dict "name" "book-open" "size" 14) }}<span>Reading: {{ . }}</span></span>
@@ -64,11 +70,14 @@
         {{- with $sgMotto }}
         <span class="sg-now__item sg-now__item--motto"><span class="sg-now__glyph" aria-hidden="true">∴</span><span>{{ . }}</span></span>
         {{- end }}
+        {{- if site.Params.sgDaysInCage }}
+        <span class="sg-now__item sg-now__item--days"><span>Day {{ $cageDays }} in the Cage</span></span>
+        {{- end }}
       </figcaption>
       {{- end }}
     </figure>
   </section>
-  {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto }}
+  {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto site.Params.sgDaysInCage }}
   <script>
   (function () {
       var strip = document.querySelector(".sg-now");

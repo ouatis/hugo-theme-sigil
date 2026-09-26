@@ -45,6 +45,7 @@ Common PaperMod options work as usual. Sigil-specific options:
 | `sgHomeTitle` | site title | Homepage title |
 | `sgReading` / `sgPlaying` / `sgMotto` | hidden | Homepage status line |
 | `sgSealImage` | `∴` | Homepage seal image |
+| `sgDaysInCage` | `false` | Status line day counter — "Day N in the Cage", counted from the earliest post |
 | `ShowFullTextinRSS` | `false` | Include full articles in RSS |
 | `ShowAllPagesInArchive` | `false` | Include all pages in archives |
 | `homePageSize` | all | Homepage posts per page |

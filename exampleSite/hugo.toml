@@ -41,6 +41,7 @@ defaultContentLanguage = "en"
   ShowReadingTime = true
   ShowWordCount = true
   ShowTotalWords = true
+  sgDaysInCage = true
   hideSummary = true
   ShowToc = true
   TocOpen = true

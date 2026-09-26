@@ -45,6 +45,7 @@ PaperMod 的常用配置可以继续使用。Sigil 专属配置：
 | `sgHomeTitle` | 站点标题 | 首页标题 |
 | `sgReading` / `sgPlaying` / `sgMotto` | 隐藏 | 首页状态文字 |
 | `sgSealImage` | `∴` | 首页印章图片 |
+| `sgDaysInCage` | `false` | 状态条天数计数「Day N in the Cage」,从最早一篇起算 |
 | `ShowFullTextinRSS` | `false` | RSS 输出全文 |
 | `ShowAllPagesInArchive` | `false` | 归档包含所有页面 |
 | `homePageSize` | 全部 | 首页每页文章数 |

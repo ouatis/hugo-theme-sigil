@@ -45,6 +45,7 @@ PaperMod の一般的な設定を利用できます。Sigil 固有の設定：
 | `sgHomeTitle` | サイトタイトル | ホームタイトル |
 | `sgReading` / `sgPlaying` / `sgMotto` | 非表示 | ホームのステータス |
 | `sgSealImage` | `∴` | ホームの印章画像 |
+| `sgDaysInCage` | `false` | ステータス行の経過日数「Day N in the Cage」,最古の投稿から起算 |
 | `ShowFullTextinRSS` | `false` | RSS に全文を含める |
 | `ShowAllPagesInArchive` | `false` | アーカイブに全ページを含める |
 | `homePageSize` | すべて | 1ページの投稿数 |
