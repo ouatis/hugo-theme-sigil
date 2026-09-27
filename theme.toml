@@ -14,7 +14,7 @@ features = [
   "archives, taxonomies, breadcrumbs",
   "multilingual (zh/en/ja built in)",
 ]
-min_version = "0.156.0"
+min_version = "0.166.0"
 
 [author]
   name = "SigiL"
