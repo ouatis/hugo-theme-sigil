@@ -1,0 +1,57 @@
+- id: prev_page
+  translation: "上一页"
+
+- id: next_page
+  translation: "下一页"
+
+- id: read_time
+  translation:
+    one : "1 分钟"
+    other: "{{ .Count }} 分钟"
+
+- id: words
+  translation: 
+    one: "1 字"
+    other: "{{ .Count }} 字"
+
+- id: toc
+  translation: "目录"
+
+- id: translations
+  translation: "语言"
+
+- id: home
+  translation: "主页"
+
+- id: edit_post
+  translation: "编辑"
+
+- id: code_copy
+  translation: "复制"
+
+- id: code_copied
+  translation: "已复制！"
+
+- id: skip_to_content
+  translation: "跳到正文"
+
+- id: breadcrumbs
+  translation: "面包屑"
+
+# Sigil:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+- id: recentWriting
+  translation: "最近更新"
+- id: postsSuffix
+  translation:  " 篇文章"
+- id: socialLinks
+  translation: 社交链接
+- id: readPrefix
+  translation: "阅读："
+- id: paginationAria
+  translation: 文章分页
+
+# 分页(列表页)用「页」,区别于文章导航的 prev_page/next_page
+- id: pagination_prev
+  translation: "上一页"
+- id: pagination_next
+  translation: "下一页"

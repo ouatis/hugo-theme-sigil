@@ -1,0 +1,193 @@
+{{- /* 万事皆三:页脚以版权、所以符和引擎致谢保持精简 */}}
+{{- if not (.Param "hideFooter") }}
+<footer class="footer">
+    {{- if not site.Params.footer.hideCopyright }}
+        {{- if site.Copyright }}
+        <span>2012–{{ now.Year }} {{ site.Copyright | markdownify }}</span>
+        {{- else }}
+        <span>&copy; {{ now.Year }} <a href="{{ "" | absLangURL }}">{{ site.Title }}</a></span>
+        {{- end }}
+    {{- end }}
+
+    <span class="tri-sep" aria-hidden="true">∴</span>
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/ouatis/hugo-theme-sigil/" rel="noopener noreferrer" target="_blank">Sigil</a>
+    </span>
+
+    {{- /* 可选:站点提供 data/analytics.json({total, since}) 时,页脚展示累计浏览量 */ -}}
+    {{- with hugo.Data.analytics }}
+    {{- if .total }}
+    <span class="tri-sep tri-sep-views" aria-hidden="true">∴</span>
+
+    <span class="footer-views" title="累计页面浏览量 · 统计自 {{ .since }}">
+        {{ partial "sg-icon.html" (dict "name" "eye" "size" 12) }}{{ lang.FormatNumber 0 .total }} views
+    </span>
+
+    {{- /* 香火线:近 120 日逐日浏览量,path 由站点脚本预算进 analytics.json,
+           主题只描线不画轴;无数据站点(如 exampleSite)自然缺席 */ -}}
+    {{- with .sparkline }}
+    <svg class="footer-spark" viewBox="0 0 120 14" width="120" height="14" aria-hidden="true" focusable="false"><title>近 120 日逐日浏览量</title><path d="{{ . }}"/></svg>
+    {{- end }}
+    {{- end }}
+    {{- end }}
+</footer>
+{{- end }}
+
+{{- if (not site.Params.disableScrollToTop) }}
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    {{ partial "sg-icon.html" (dict "name" "arrow-up" "size" 14) }}
+</a>
+{{- end }}
+
+{{- partial "extend_footer.html" . }}
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        // Set the scroll position
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+
+{{- if (not site.Params.disableScrollToTop) }}
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+{{- end }}
+
+{{- if (not site.Params.disableThemeToggle) }}
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", (e) => {
+        const html = document.querySelector("html");
+        const flip = () => {
+            if (html.dataset.theme === "dark") {
+                html.dataset.theme = "light";
+                localStorage.setItem("pref-theme", "light");
+            } else {
+                html.dataset.theme = "dark";
+                localStorage.setItem("pref-theme", "dark");
+            }
+        };
+        /* antfu.me 式主题切换:新主题从点击处圆形揭示。旧浏览器或
+           prefers-reduced-motion 时退回直接切换。 */
+        if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            flip();
+            return;
+        }
+        let x = e.clientX, y = e.clientY;
+        if (!x && !y) {
+            const r = e.currentTarget.getBoundingClientRect();
+            x = r.left + r.width / 2;
+            y = r.top + r.height / 2;
+        }
+        const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        const transition = document.startViewTransition(flip);
+        transition.ready.then(() => {
+            document.documentElement.animate(
+                {
+                    clipPath: [
+                        `circle(0px at ${x}px ${y}px)`,
+                        `circle(${endRadius}px at ${x}px ${y}px)`,
+                    ],
+                },
+                {
+                    duration: 400,
+                    easing: "ease-in-out",
+                    pseudoElement: "::view-transition-new(root)",
+                },
+            );
+        });
+    })
+</script>
+{{- end }}
+
+{{- if (and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") (.Param "ShowCodeCopyButtons")) }}
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '{{- i18n "code_copy" | default "copy" }}';
+
+        function copyingDone() {
+            copybutton.innerHTML = '{{- i18n "code_copied" | default "copied!" }}';
+            setTimeout(() => {
+                copybutton.innerHTML = '{{- i18n "code_copy" | default "copy" }}';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            // td containing LineNos
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            // table containing LineNos and code
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            // code blocks not having highlight as parent class
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+{{- end }}

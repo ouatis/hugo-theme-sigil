@@ -1,0 +1,65 @@
+baseURL = "https://example.com/"
+title = "sigil-demo"
+theme = "hugo-theme-sigil"
+
+defaultContentLanguage = "en"
+
+[languages]
+  [languages.en]
+    label = "English"
+    weight = 1
+    title = "sigil-demo"
+    [languages.en.params]
+      [languages.en.params.homeInfoParams]
+        content = "The example site for the Sigil Hugo theme."
+
+    [[languages.en.menus.main]]
+        identifier = "about"
+        name = "About"
+        url = "/about/"
+    [[languages.en.menus.main]]
+        identifier = "archives"
+        name = "Archives"
+        url = "/archives/"
+    [[languages.en.menus.main]]
+        identifier = "categories"
+        name = "Categories"
+        url = "/categories/"
+    [[languages.en.menus.main]]
+        identifier = "tags"
+        name = "Tags"
+        url = "/tags/"
+    [[languages.en.menus.main]]
+        identifier = "search"
+        name = "Search"
+        url = "/search/"
+
+[params]
+  mainSections = ["posts"]
+  author = "Your Name"
+  ShowBreadCrumbs = true
+  ShowReadingTime = true
+  ShowWordCount = true
+  ShowTotalWords = true
+  sgDaysInCage = true
+  hideSummary = true
+  ShowToc = true
+  TocOpen = true
+  ShowCodeCopyButtons = true
+  # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
+  robotsNoIndex = true
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com"
+
+  [params.assets]
+    theme_color = "#f4f6f3"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    # 主题自带 Catppuccin Macchiato 的 chroma class 样式,走 class 模式
+    noClasses = false

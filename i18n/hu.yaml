@@ -1,0 +1,37 @@
+- id: prev_page
+  translation: "Előző oldal"
+
+- id: next_page
+  translation: "Következő oldal"
+
+- id: read_time
+  translation:
+    one: "1 perc"
+    other: "{{ .Count }} perc"
+
+- id: toc
+  translation: "Tartalomjegyzék"
+
+- id: translations
+  translation: "Fordítások"
+
+- id: skip_to_content
+  translation: "Ugrás a tartalomra"
+
+- id: breadcrumbs
+  translation: "Navigációs útvonal"
+
+- id: code_copied
+  translation: "másolva!"
+
+- id: code_copy
+  translation: "másolás"
+
+- id: edit_post
+  translation: "Szerkesztés"
+
+- id: home
+  translation: "Kezdőlap"
+
+- id: words
+  translation: "{{ .Count }} szó"

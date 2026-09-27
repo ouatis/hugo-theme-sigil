@@ -1,0 +1,27 @@
+name = "Sigil"
+license = "MIT"
+licenselink = "https://github.com/ouatis/hugo-theme-sigil/blob/main/LICENSE"
+description = "A minimal Hugo blog theme. Vermilion, ink-green and amber on old paper; margin sidenotes, full-text RSS and a font-subsetting pipeline. Based on PaperMod."
+homepage = "https://github.com/ouatis/hugo-theme-sigil"
+demosite = "https://ouatis.com/hugo-theme-sigil/"
+tags = ["blog", "minimal", "dark", "light", "multilingual", "typography", "search"]
+features = [
+  "sidenotes (tufte-style margin footnotes)",
+  "full-text RSS",
+  "font subsetting pipeline (build-fonts.sh)",
+  "dark & light modes",
+  "on-the-fly search (fuse)",
+  "archives, taxonomies, breadcrumbs",
+  "multilingual (zh/en/ja built in)",
+]
+min_version = "0.156.0"
+
+[author]
+  name = "SigiL"
+  homepage = "https://github.com/ouatis"
+
+# Fork of PaperMod; per the gallery rules, see README for why it is a separate theme.
+[original]
+  author = "Aditya Telange"
+  homepage = "https://github.com/adityatelange/hugo-PaperMod"
+  repo = "https://github.com/adityatelange/hugo-PaperMod"

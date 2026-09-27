@@ -1,0 +1,64 @@
+- id: prev_page
+  translation: "Prev"
+
+- id: next_page
+  translation: "Next"
+
+- id: read_time
+  translation:
+    one : "1 min"
+    other: "{{ .Count }} min"
+
+- id: words
+  translation:
+    one : "word"
+    other: "{{ .Count }} words"
+
+- id: toc
+  translation: "Table of Contents"
+
+- id: translations
+  translation: "Translations"
+
+- id: home
+  translation: "Home"
+
+- id: edit_post
+  translation: "Edit"
+
+- id: code_copy
+  translation: "copy"
+
+- id: code_copied
+  translation: "copied!"
+
+- id: skip_to_content
+  translation: "Skip to content"
+
+- id: breadcrumbs
+  translation: "Breadcrumb"
+
+- id: posts_language_note
+  translation: "Posts are currently available in Chinese only."
+
+# Sigil:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+- id: recentWriting
+  translation: "Updated My Journal"
+- id: postsSuffix
+  translation:  " posts"
+- id: socialLinks
+  translation: Social links
+- id: readPrefix
+  translation: "Read: "
+- id: paginationAria
+  translation: Pagination
+- id: sgNowReading
+  translation: "Reading:"
+- id: sgNowPlaying
+  translation: "Playing:"
+
+# 分页(列表页)用「页」,区别于文章导航的 prev_page/next_page
+- id: pagination_prev
+  translation: "Prev"
+- id: pagination_next
+  translation: "Next"

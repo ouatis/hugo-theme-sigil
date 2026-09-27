@@ -1,0 +1,31 @@
+{{- /* JSON Feed 1.1(https://jsonfeed.org/version/1.1):与 RSS 同内容同页面集,
+     机器表面补全;站点在 outputs 的 home 里加 "JSONFeed" 即启用 */ -}}
+{{- $contentSite := site -}}
+{{- /* ShowDefaultLanguageContent:非默认语言的 feed 回退到默认语言内容 */ -}}
+{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Language.Lang) -}}
+{{- $contentSite = index hugo.Sites 0 -}}
+{{- end -}}
+{{- $pages := where $contentSite.RegularPages "Type" "in" site.Params.mainSections -}}
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": {{ site.Title | jsonify }},
+  "home_page_url": {{ site.BaseURL | jsonify }},
+  "feed_url": {{ absURL "feed.json" | jsonify }},
+  {{- with site.Params.description }}"description": {{ . | jsonify }},{{ end }}
+  "language": {{ site.Language.LanguageCode | default site.Language.Lang | jsonify }},
+  {{- with site.Params.author }}"authors": [{ "name": {{ . | jsonify }} }],{{ end }}
+  {{- with site.Params.assets.favicon }}"favicon": {{ . | absURL | jsonify }},{{ end }}
+  "items": [{{ range $i, $e := $pages }}{{ if gt $i 0 }},{{ end }}
+    {
+      "id": {{ $e.Permalink | jsonify }},
+      "url": {{ $e.Permalink | jsonify }},
+      "title": {{ $e.Title | jsonify }},
+      "content_html": {{ $e.Content | jsonify }},
+      {{- with $e.Summary }}"summary": {{ . | jsonify }},{{ end }}
+      "date_published": {{ ($e.Date.Format "2006-01-02T15:04:05-07:00") | jsonify }},
+      {{- with $e.Lastmod }}"date_modified": {{ (.Format "2006-01-02T15:04:05-07:00") | jsonify }},{{ end -}}
+      {{- with $e.Params.tags }}"tags": {{ . | jsonify }},{{ end -}}
+      "language": {{ $e.Language.Lang | jsonify }}
+    }
+  {{- end }}]
+}

@@ -1,0 +1,13 @@
+# Gallery/builder metadata: supported Hugo versions for this theme.
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.156.0"
+
+# JSON Feed 1.1:站点在 outputs 的 home 里加 "JSONFeed" 即启用(与 RSS 并存)
+[mediaTypes."application/feed+json"]
+  suffixes = ["json"]
+
+[outputFormats.JSONFeed]
+  mediaType = "application/feed+json"
+  baseName = "feed"

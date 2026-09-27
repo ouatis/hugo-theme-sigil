@@ -1,0 +1,15 @@
+{{- /* 系列章节列表:入参 dict { entries, cur }(cur = 当前篇下标,-1 表示非系列页)。
+     已发布章节为链接,当前篇朱红无链接,未写篇灰显带标 */ -}}
+{{- $entries := .entries -}}
+{{- $cur := .cur -}}
+<ol class="sg-series__list">
+    {{- range $i, $e := $entries -}}
+        {{- if $e.tbd -}}
+            <li class="sg-series__item is-tbd">{{ $e.title }}<span class="sg-series__tbd-mark">未写</span></li>
+        {{- else if eq $i $cur -}}
+            <li class="sg-series__item is-current">{{ $e.title }}</li>
+        {{- else -}}
+            <li class="sg-series__item"><a href="{{ $e.href }}">{{ $e.title }}</a></li>
+        {{- end -}}
+    {{- end -}}
+</ol>
