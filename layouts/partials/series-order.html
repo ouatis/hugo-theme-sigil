@@ -2,12 +2,15 @@
      策展页正文即唯一事实来源:h3 = 卷标题(暂不展示,留作扩展),
      ol start = 连续编号起点,li 链接 = 已发布章节,li 内 sg-tbd span = 未写占位。
      partialCached 全站只跑一次(系列结构是全站常量)。
-     返回:nil(未配置/页面不存在)或 dict { entries, total, from, title } */ -}}
-{{- $from := site.Params.sgSeriesFrom -}}
-{{- if not $from -}}{{- return nil -}}{{- end -}}
-{{- $page := site.GetPage $from -}}
-{{- if not $page -}}{{- return nil -}}{{- end -}}
+     返回:nil(未配置/页面不存在)或 dict { entries, total, from, title }。
+     守卫用 printf 强制字符串化 + and 惰性求值——缺参时 GetPage(nil) 会抛
+     invalid value(demo 站实测) */ -}}
+{{- $from := "" -}}
+{{- with site.Params.sgSeriesFrom -}}{{- $from = printf "%s" . -}}{{- end -}}
+{{- $page := "" -}}
+{{- if $from -}}{{- $page = site.GetPage $from -}}{{- end -}}
 
+{{- if and $from $page -}}
 {{- $matches := findRESubmatch `<h3[^>]*>([^<]*)</h3>|<ol[^>]*start="?(\d+)"?[^>]*>|<li><a href="?([^">]+)"?[^>]*>([^<]+)</a></li>|<li><span class="?sg-tbd"?>([^<]+)</span>\s*</li>` $page.Content -}}
 
 {{- $entries := slice -}}
@@ -35,3 +38,4 @@
 
 {{- if not $entries -}}{{- return nil -}}{{- end -}}
 {{- return dict "entries" $entries "total" (len $entries) "from" $from "title" $page.Title -}}
+{{- else -}}{{- return nil -}}{{- end -}}
