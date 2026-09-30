@@ -145,10 +145,21 @@ document.onkeydown = function (e) {
         }
     } else if (current_elem) ae = current_elem;
 
+    // 输入法组合期(选词确认)的一切按键都不属于搜索导航,
+    // 否则拼音敲完按 Enter 上屏会直接跳进第一条结果
+    if (e.isComposing) return;
+
     if (key === "Escape") {
         reset()
     } else if (!resultsAvailable || !inbox) {
         return
+    } else if (key === "Enter") {
+        // 回车直达:焦点在结果上开高亮项,否则开第一条
+        let target = (ae && resList.contains(ae)) ? ae : first.lastChild;
+        if (target) {
+            e.preventDefault();
+            target.click();
+        }
     } else if (key === "ArrowDown") {
         e.preventDefault();
         if (ae == sInput) {
