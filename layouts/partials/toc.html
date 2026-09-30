@@ -95,6 +95,26 @@
             try { localStorage.setItem(KEY, '0'); } catch (e) {}
         });
 
+        /* 点击展开区域之外:目录与系列一并收起。
+           页签与面板都在 .sg-toc 内,closest 命中即不算「外面」;
+           面板内选字、滚动、点链接都不收,只收真正的外部点击。 */
+        document.addEventListener('click', function (e) {
+            if (!e.target || !e.target.closest) return;
+            if (e.target.closest('.sg-toc')) return;
+            var openToc = toc.classList.contains('is-open');
+            var openSeries = sbtn && toc.classList.contains('is-series-open');
+            if (!openToc && !openSeries) return;
+            if (openToc) {
+                toc.classList.remove('is-open');
+                btn.setAttribute('aria-expanded', 'false');
+                try { localStorage.setItem(KEY, '0'); } catch (err) {}
+            }
+            if (openSeries) {
+                toc.classList.remove('is-series-open');
+                sbtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
         var links = {};
         toc.querySelectorAll('a[href^="#"]').forEach(function (a) {
             links[a.getAttribute('href').slice(1)] = a;
