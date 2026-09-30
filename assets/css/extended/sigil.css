@@ -123,7 +123,7 @@ body {
 }
 .post-content thead th {
     border-bottom: 2px solid var(--sg-green);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 /* 代码块：细边框收进纸面 */
@@ -716,7 +716,7 @@ html[data-theme="dark"] .sg-seal img {
 
 .sg-entry__category {
     color: var(--sg-green);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .sg-entry__arrow {
@@ -764,7 +764,7 @@ html[data-theme="dark"] .sg-seal img {
 
 .sg-pagination__side a {
     color: var(--primary);
-    font-weight: 600;
+    font-weight: 700;
     white-space: nowrap;
 }
 
@@ -790,7 +790,7 @@ html[data-theme="dark"] .sg-seal img {
     padding: 0 6px;
     border: 1px solid transparent;
     color: var(--secondary);
-    font-weight: 600;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
     transition: color 0.18s ease, border-color 0.18s ease;
 }
@@ -969,6 +969,19 @@ html[data-theme="dark"] .sg-seal img {
 .post-content a:focus-visible {
     color: var(--sg-red);
     text-decoration-color: var(--sg-red);
+}
+
+/* 外链传送门:众门之城的外链记号——正文外链尾随一扇门形小标,
+   currentColor 随链接朱砂;相对链接与本域绝对链接不加 */
+.post-content a[href^="http"]:not([href*="ouatis.com"]):not([href*="localhost"]):not([href*="127.0.0.1"])::after {
+    content: "";
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-inline-start: 0.22em;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232,216H208V40a16,16,0,0,0-16-16H64A16,16,0,0,0,48,40V216H24a8,8,0,0,0,0,16H232a8,8,0,0,0,0-16Zm-64,0H64V40H168Zm-40-84a12,12,0,1,1,12,12A12,12,0,0,1,128,132Z'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232,216H208V40a16,16,0,0,0-16-16H64A16,16,0,0,0,48,40V216H24a8,8,0,0,0,0,16H232a8,8,0,0,0,0-16Zm-64,0H64V40H168Zm-40-84a12,12,0,1,1,12,12A12,12,0,0,1,128,132Z'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 
 /* 引文:系统楷体书引,无楷体设备回退宋体子集;绿色标线=元信息,红色留给交互 */
@@ -1465,7 +1478,7 @@ h6:hover .anchor {
     font-family: var(--sg-serif);
     font-size: 17px;
     line-height: 1.5;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--primary);
 }
 
@@ -1579,40 +1592,6 @@ h6:hover .anchor {
     outline: none;
 }
 
-#searchResults {
-    margin: 24px 0 0;
-    padding: 0;
-    font-family: var(--sg-serif);
-}
-
-#searchResults li {
-    min-height: 0;
-    margin: 0;
-    padding: 16px 4px;
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-    transition: color 180ms ease, padding-inline-start 180ms ease;
-}
-
-#searchResults li .entry-header {
-    color: var(--primary);
-    font-family: var(--sg-serif);
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 1.5;
-}
-
-#searchResults li:hover,
-#searchResults li.focus {
-    padding-inline-start: 8px;
-}
-
-#searchResults li:hover .entry-header,
-#searchResults li.focus .entry-header {
-    color: var(--sg-red);
-}
 
 /* Search page enhancements */
 .search-suggestions {
@@ -1670,7 +1649,7 @@ h6:hover .anchor {
 
 .paginav a span:not(.title) {
     color: var(--primary);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .paginav a:hover span:not(.title) {
@@ -2123,10 +2102,6 @@ h6:hover .anchor {
     #searchbox input {
         min-height: 46px;
         font-size: 15px;
-    }
-
-    #searchResults li .entry-header {
-        font-size: 17px;
     }
 
     .post-description {
@@ -2606,7 +2581,7 @@ html .header {
 
 .sg-series__item.is-current {
     color: var(--sg-red);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .sg-series__item.is-tbd {
