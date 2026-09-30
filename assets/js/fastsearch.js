@@ -5,6 +5,7 @@ let resList = document.getElementById('searchResults');
 let sInput = document.getElementById('searchInput');
 let sEmpty = document.getElementById('searchEmpty');
 let minLabel = document.getElementById('searchbox').getAttribute('data-min') || 'min';
+let readPrefix = document.getElementById('searchbox').getAttribute('data-read') || '';
 let first, last, current_elem = null
 let resultsAvailable = false;
 
@@ -75,14 +76,22 @@ function reset() {
     sInput.focus(); // shift focus to input box
 }
 
-// meta line under the title: date ∴ category ∴ reading time (homepage entry language)
-function entryMeta(item) {
-    let parts = [];
-    if (item.date) parts.push(`<time>${item.date}</time>`);
-    if (item.category) parts.push(`<span>${item.category}</span>`);
-    if (item.readingtime) parts.push(`<span>${item.readingtime} ${minLabel}</span>`);
-    if (parts.length === 0) return '';
-    return `<p class="entry-meta">${parts.join('<span class="entry-meta__sep" aria-hidden="true">∴</span>')}</p>`;
+// 搜索结果条目:复用首页 sg-entry 的行式结构(编号+日期+主栏+箭头),
+// 样式随 sigil.css 全量继承;<a> 必须保持为 li 的末子节点(键盘导航依赖 lastChild)
+function entryHTML(item, rank) {
+    const number = String(rank + 1).padStart(2, '0');
+    const iso = item.date ? item.date.replace(/\./g, '-') : '';
+    const meta =
+        (item.category ? `<span class="sg-entry__category">${item.category}</span>` : '') +
+        (item.readingtime ? `<span class="sg-entry__time">${item.readingtime} ${minLabel}</span>` : '');
+    return `<li class="sg-entry">` +
+        `<p class="sg-entry__number" aria-hidden="true">${number}</p>` +
+        (item.date ? `<time class="sg-entry__date"${iso ? ` datetime="${iso}"` : ''}>${item.date}</time>` : '<span class="sg-entry__date"></span>') +
+        `<div class="sg-entry__main"><h3>${item.title}</h3>` +
+        (meta ? `<div class="sg-entry__meta">${meta}</div>` : '') +
+        `</div>` +
+        `<span class="sg-entry__arrow" aria-hidden="true">→</span>` +
+        `<a class="sg-entry__link" href="${item.permalink}" aria-label="${readPrefix}${item.title}"></a></li>`;
 }
 
 // execute search as each character is typed
@@ -100,11 +109,9 @@ sInput.onkeyup = function (e) {
             // build our html if result exists
             let resultSet = ''; // our results bucket
 
-            for (let item in results) {
-                resultSet += `<li class="post-entry"><header class="entry-header">${results[item].item.title}&nbsp;»</header>` +
-                    entryMeta(results[item].item) +
-                    `<a href="${results[item].item.permalink}" aria-label="${results[item].item.title}"></a></li>`
-            }
+            results.forEach(function (r, rank) {
+                resultSet += entryHTML(r.item, rank);
+            });
 
             resList.innerHTML = resultSet;
             resultsAvailable = true;

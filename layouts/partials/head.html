@@ -62,7 +62,20 @@
 
 {{- /* order is important */}}
 {{- $core := (slice $theme_vars $reset $common $chroma_styles $chroma_mod $includes_all $media) | resources.Concat "assets/css/core.css" | resources.Minify }}
-{{- $extended := (resources.Match "css/extended/*.css") | resources.Concat "assets/css/extended.css" | resources.Minify }}
+{{- /* extended:主题自带文件在前(sigil/fonts),站点覆盖文件在后——
+     Hugo 的 Match 先列站点挂载再列主题挂载,直接 Concat 会让主题规则
+     反过来压掉站点的同名覆盖;这里显式重排,保证「站点 extended 必胜」。 */ -}}
+{{- $extOrdered := slice }}
+{{- range slice "css/extended/sigil.css" "css/extended/fonts.css" }}
+{{- $extOrdered = $extOrdered | append (resources.Get .) }}
+{{- end }}
+{{- range resources.Match "css/extended/*.css" }}
+{{- /* .Name 带前导斜杠;findRE 兼容有无斜杠两种形态 */ -}}
+{{- if not (findRE "^/?css/extended/(sigil|fonts)[.]css$" .Name) }}
+{{- $extOrdered = $extOrdered | append . }}
+{{- end }}
+{{- end }}
+{{- $extended := $extOrdered | resources.Concat "assets/css/extended.css" | resources.Minify }}
 
 {{- /* bundle all required css */}}
 {{- /* Add extended css after theme style */ -}}
