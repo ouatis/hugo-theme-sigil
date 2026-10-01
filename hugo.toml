@@ -11,3 +11,17 @@
 [outputFormats.JSONFeed]
   mediaType = "application/feed+json"
   baseName = "feed"
+
+# llms.txt / llms-full.txt:机器可读站点索引(llmstxt.org 约定)。
+# 站点在 outputs 的 home 里加 "LLMSTXT"(索引)与/或 "LLMSFULL"(全文)即启用
+[outputFormats.LLMSTXT]
+  mediaType = "text/plain"
+  baseName = "llms"
+  isPlainText = true
+  notAlternative = true
+
+[outputFormats.LLMSFULL]
+  mediaType = "text/plain"
+  baseName = "llms-full"
+  isPlainText = true
+  notAlternative = true

@@ -106,3 +106,11 @@
     other: "{{ .Count }}文字"
 - id: sgWordsK
   translation: "{{ .Count }}K文字"
+
+# llms.txt 章節ヘッダ(機械可読サイトインデックス)
+- id: llmsPages
+  translation: "主要なページ"
+- id: llmsPosts
+  translation: "全ての記事"
+- id: llmsRssNote
+  translation: "全文フィード"

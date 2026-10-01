@@ -19,6 +19,8 @@
 - ページ単位で有効化:KaTeX 数式(同梱)、Mermaid 図(固定版 CDN)、画像ライトボックス(glightbox、同梱)
 - 記事タイトルから OG 画像カードを自動生成(`images.Text`、ビルド時のみ)
 - 外部リンクの扉マークはレンダーフックがホスト名で判定(ドメイン直書きなし)
+- `llms.txt`(任意で `llms-full.txt`)— AI エージェント向けの機械可読サイトインデックス
+- メンテナとエージェントは [AGENTS.md](AGENTS.md) へ:ビルド/検証コマンドと既知の落とし穴。`scripts/check.sh` が一回きりの検証
 
 ## インストール
 
@@ -73,6 +75,20 @@ PaperMod の一般的な設定を利用できます。Sigil 固有の設定：
 | `ogAutoCard` | `false` | カバー画像のないページに、タイトル+サイト名で 1200×630 の OG カードをビルド時に生成 |
 | `ogCardFont` | 同梱 Plex Serif | OG カード用 TTF の `resources.Get` パス。同梱はラテン文字のみ — CJK サイトはタイトル用字のサブセット TTF を用意して指定 |
 | `analytics.*` | 非表示 | サードパーティ統計(本番のみ):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
+| `llmsTxtIntro` | 非表示 | `llms.txt` 内の任意の一文紹介 |
+
+### エージェント可読出力(llms.txt)
+
+home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
+`LLMSFULL`(同じヘッダ + 各投稿の全文)を加えると有効になります:
+
+```toml
+[outputs]
+  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+```
+
+キーページ節は About/アーカイブ/タクソノミー/RSS を自動検出。
+手で編み込むなら `layouts/home.llmstxt.txt` を上書きしてください。
 
 完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照してください。
 

@@ -19,6 +19,8 @@ Demo: <https://ouatis.com/hugo-theme-sigil/>
 - Opt-in per page: KaTeX math (vendored), Mermaid diagrams (pinned CDN), image lightbox (glightbox, vendored)
 - Auto-generated OG card images from post titles (`images.Text`, build-time only)
 - External links marked with a door glyph via a render hook (host-aware, no hardcoded domains)
+- `llms.txt` (and optional `llms-full.txt`) — a machine-readable site index for AI agents
+- Maintainers and agents: see [AGENTS.md](AGENTS.md) for build/verify commands and pitfalls; `scripts/check.sh` is the one-shot verification
 
 ## Install
 
@@ -73,6 +75,20 @@ Common PaperMod options work as usual. Sigil-specific options:
 | `ogAutoCard` | `false` | Build-time 1200×630 OG card (title + site name on paper, ∴ mark) for pages without any cover/image |
 | `ogCardFont` | built-in Plex Serif | `resources.Get` path to a TTF for OG cards. The bundled Latin font cannot draw CJK — CJK sites should subset a TTF for their titles and point this at it |
 | `analytics.*` | hidden | Third-party stats, production only: `analytics.plausible.domain`, `analytics.umami` (`src` + `id`), `analytics.goatcounter.code`, `analytics.fathom.site` |
+| `llmsTxtIntro` | hidden | Optional one-paragraph introduction inside `llms.txt` |
+
+### Agent-readable output (llms.txt)
+
+Add `LLMSTXT` (an index of pages and posts) and optionally `LLMSFULL` (the
+same header, then every post's full text) to the home outputs:
+
+```toml
+[outputs]
+  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+```
+
+The key pages section detects About / Archives / taxonomies / RSS
+automatically; override `layouts/home.llmstxt.txt` to curate it.
 
 Frequently used inherited options include `defaultTheme`, `ShowToc`,
 `TocOpen`, `ShowCodeCopyButtons`, `ShowBreadCrumbs`, `ShowReadingTime`,

@@ -113,3 +113,11 @@
     other: "{{ .Count }} words"
 - id: sgWordsK
   translation: "{{ .Count }}K words"
+
+# llms.txt 章节头(机器可读站点索引)
+- id: llmsPages
+  translation: "Pages"
+- id: llmsPosts
+  translation: "All posts"
+- id: llmsRssNote
+  translation: "full-text feed"

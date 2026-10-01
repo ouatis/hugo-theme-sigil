@@ -19,6 +19,8 @@
 - 页面级可选:KaTeX 数学(已同捆)、Mermaid 图表(定版 CDN)、图片灯箱(glightbox,已同捆)
 - 用文章标题自动生成 OG 卡片图(`images.Text`,仅构建期)
 - 外链门形记号由渲染钩子按主机名判定,不写死任何域名
+- `llms.txt`(可选 `llms-full.txt`)——面向 AI Agent 的机器可读站点索引
+- 维护者与 Agent 请读 [AGENTS.md](AGENTS.md):构建/验证命令与已知坑;`scripts/check.sh` 是一条命令的完整验证
 
 ## 安装
 
@@ -73,6 +75,20 @@ PaperMod 的常用配置可以继续使用。Sigil 专属配置：
 | `ogAutoCard` | `false` | 无封面/图片的文章,构建期用标题+站名排一张 1200×630 的 OG 卡片(纸底∴) |
 | `ogCardFont` | 内附 Plex Serif | OG 卡片字体的 `resources.Get` 路径(TTF)。内附拉丁字体画不了汉字——中日站点应为标题用字做子集 TTF 并指向它 |
 | `analytics.*` | 隐藏 | 第三方统计(仅生产环境):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
+| `llmsTxtIntro` | 隐藏 | `llms.txt` 里可选的一段站点导语 |
+
+### Agent 可读输出(llms.txt)
+
+把 `LLMSTXT`(页面与文章索引)与可选的 `LLMSFULL`(同一头部,其后逐篇全文)
+加进 home outputs 即启用:
+
+```toml
+[outputs]
+  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+```
+
+关键页面一节自动探测 关于/归档/词目/RSS;要手工策展就覆盖
+`layouts/home.llmstxt.txt`。
 
 完整示例见 [exampleSite/hugo.toml](exampleSite/hugo.toml)。
 

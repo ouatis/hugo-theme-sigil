@@ -103,3 +103,11 @@
     other: "{{ .Count }} 字"
 - id: sgWordsK
   translation: "{{ .Count }}K 字"
+
+# llms.txt 章节头(机器可读站点索引)
+- id: llmsPages
+  translation: "主要页面"
+- id: llmsPosts
+  translation: "全部文章"
+- id: llmsRssNote
+  translation: "全文输出"

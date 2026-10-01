@@ -17,6 +17,7 @@ features = [
   "opt-in image lightbox (glightbox, vendored)",
   "auto-generated OG card images from titles (images.Text)",
   "external-link door markers via render hook",
+  "llms.txt / llms-full.txt machine-readable site index for AI agents",
 ]
 min_version = "0.166.0"
 

@@ -1,0 +1,31 @@
+{{- /* llms.txt / llms-full.txt 共用的头部:站名、描述、可选导语(llmsTxtIntro)、
+     体量与语言事实、自动探测的关键页面(关于/归档/词目/RSS 存在才列)。
+     站点把 LLMSTXT/LLMSFULL 加进 home outputs 才会渲染;可整文件覆盖定制 */ -}}
+{{- $posts := where site.RegularPages "Type" "in" site.Params.mainSections -}}
+{{- $totalWords := 0 }}{{ range $posts }}{{ $totalWords = add $totalWords .WordCount }}{{ end }}# {{ site.Title }}
+{{- with site.Params.description }}
+
+> {{ . }}
+{{- end }}
+{{- with site.Params.llmsTxtIntro }}
+
+{{ . }}
+{{- end }}
+
+{{- $langs := slice }}{{ range hugo.Sites }}{{ $langs = $langs | append .Language.Lang }}{{ end }}
+{{ len $posts }} posts, ~{{ div (add $totalWords 500) 1000 }}K words, languages: {{ delimit $langs ", " }}.
+
+## {{ i18n "llmsPages" | default "Pages" }}
+
+{{- with site.GetPage "/about" }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Description }} — {{ . }}{{ end }}
+{{- end }}
+{{- with site.GetPage "/archives" }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Description }} — {{ . }}{{ end }}
+{{- end }}
+{{- if or (gt (len site.Taxonomies.categories) 0) (gt (len site.Taxonomies.tags) 0) }}
+- [{{ i18n "navCategories" | default "Categories" }}]({{ "categories/" | absLangURL }}), [{{ i18n "navTags" | default "Tags" }}]({{ "tags/" | absLangURL }})
+{{- end }}
+{{- with site.Home.OutputFormats.Get "rss" }}
+- [RSS]({{ .Permalink }}){{ with i18n "llmsRssNote" | default "full-text feed" }} — {{ . }}{{ end }}
+{{- end }}
