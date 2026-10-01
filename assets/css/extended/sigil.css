@@ -2595,6 +2595,29 @@ html .header {
     margin-left: 4px;
 }
 
+/* details 展开动画:content-visibility + interpolate-size 渐进增强,
+   Chrome 129+ 平滑展开,旧浏览器保持原生瞬开;reduced-motion 豁免。
+   覆盖窄屏目录、系列折叠块与 collapse shortcode 的全部 details */
+:root {
+    interpolate-size: allow-keywords;
+}
+
+details::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition: content-visibility 400ms allow-discrete, block-size 400ms ease;
+}
+
+details[open]::details-content {
+    block-size: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    details::details-content {
+        transition: none;
+    }
+}
+
 /* 窄屏折叠块:与 .toc 同生命周期(≥1440 让位给悬浮版) */
 .sg-series-details {
     border: 1px solid var(--border);
