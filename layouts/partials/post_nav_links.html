@@ -32,7 +32,7 @@
 {{- if and (ne (.Param "showRelated") false) $related }}
 {{- $relatedTitle := i18n "relatedPosts" | default "Related writing" }}
 <nav class="related-posts">
-  <h3 class="related-posts-title">{{ $relatedTitle }}</h3>
+  <h2 class="related-posts-title">{{ $relatedTitle }}</h2>
   <ul>
     {{- range $related }}
     <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
