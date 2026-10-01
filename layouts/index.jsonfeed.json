@@ -12,7 +12,7 @@
   "home_page_url": {{ site.BaseURL | jsonify }},
   "feed_url": {{ absURL "feed.json" | jsonify }},
   {{- with site.Params.description }}"description": {{ . | jsonify }},{{ end }}
-  "language": {{ site.Language.LanguageCode | default site.Language.Lang | jsonify }},
+  "language": {{ site.Language.Locale | default site.Language.Lang | jsonify }},
   {{- with site.Params.author }}"authors": [{ "name": {{ . | jsonify }} }],{{ end }}
   {{- with site.Params.assets.favicon }}"favicon": {{ . | absURL | jsonify }},{{ end }}
   "items": [{{ range $i, $e := $pages }}{{ if gt $i 0 }},{{ end }}
