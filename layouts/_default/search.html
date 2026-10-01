@@ -12,27 +12,12 @@
 </header>
 
 
-{{- $searchLabel := "搜索" -}}
-{{- $resultsLabel := "搜索结果" -}}
-{{- $tryLabel := "试试：" -}}
-{{- $minLabel := "分钟" -}}
-{{- $emptyLabel := "没有找到相关文章。" -}}
-{{- $readLabel := "阅读：" -}}
-{{- if eq site.Language.Lang "en" -}}
-  {{- $searchLabel = "Search" -}}
-  {{- $resultsLabel = "Search results" -}}
-  {{- $tryLabel = "Try: " -}}
-  {{- $minLabel = "min" -}}
-  {{- $emptyLabel = "No results found." -}}
-  {{- $readLabel = "Read: " -}}
-{{- else if eq site.Language.Lang "ja" -}}
-  {{- $searchLabel = "検索" -}}
-  {{- $resultsLabel = "検索結果" -}}
-  {{- $tryLabel = "試す: " -}}
-  {{- $minLabel = "分" -}}
-  {{- $emptyLabel = "関連記事が見つかりませんでした。" -}}
-  {{- $readLabel = "読む: " -}}
-{{- end -}}
+{{- $searchLabel := i18n "searchInputLabel" | default "Search" -}}
+{{- $resultsLabel := i18n "searchResultsLabel" | default "Search results" -}}
+{{- $tryLabel := i18n "searchTryLabel" | default "Try: " -}}
+{{- $minLabel := i18n "minutesShort" | default " min" -}}
+{{- $emptyLabel := i18n "searchEmptyLabel" | default "No results found." -}}
+{{- $readLabel := i18n "readPrefix" | default "Read: " }}
 {{- /* sgSearchEmpty:站点级覆盖无结果时的低语文案 */ -}}
 {{- with site.Params.sgSearchEmpty }}{{ $emptyLabel = . }}{{ end }}
 

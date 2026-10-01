@@ -3,8 +3,9 @@
 {{- if .Title }}
 <header class="page-header">
     <h1>
+        {{- /* 站点没本地化词目标题时回落 i18n(如默认的 "Categories") */ -}}
         {{- if eq .Title "Categories" -}}
-            {{- if eq site.Language.Lang "en" -}}Categories{{ else if eq site.Language.Lang "ja" -}}カテゴリー{{ else }}分类{{ end -}}
+            {{- i18n "categories" | default "Categories" -}}
         {{- else -}}{{ .Title }}{{- end -}}
     </h1>
     {{- if .Description }}

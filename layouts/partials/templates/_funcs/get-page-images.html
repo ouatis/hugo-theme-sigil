@@ -18,6 +18,16 @@
     {{- $imgParams = first 1 . }}
   {{- end }}
 {{- end }}
+{{- /* OG 自动卡片:站点/页面开 ogAutoCard 且无任何图像来源时,
+     构建期排一张 1200×630 的文学卡片(标题+站名,纸底∴) */ -}}
+{{- if and (not $imgParams) (not $imgs) (.Param "ogAutoCard") }}
+  {{- with partial "og_card.html" . }}
+    {{- $imgs = $imgs | append (dict
+      "Image" .
+      "RelPermalink" .RelPermalink
+      "Permalink" .Permalink) }}
+  {{- end }}
+{{- end }}
 {{/* Parse page's images parameter. */}}
 {{- range $imgParams }}
   {{- $img := . }}

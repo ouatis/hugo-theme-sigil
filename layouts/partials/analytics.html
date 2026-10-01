@@ -1,0 +1,24 @@
+{{- /* 第三方统计:配置哪个引擎就加载哪个,全部未配置则零输出。
+     由 head.html 在生产环境守卫内调用,开发预览不打点。
+     [params.analytics]
+       [params.analytics.plausible]
+         domain = "yoursite.com"
+       [params.analytics.umami]
+         src = "https://analytics.example.com/script.js"
+         id = "website-id"
+       [params.analytics.goatcounter]
+         code = "yoursite.goatcounter.com"
+       [params.analytics.fathom]
+         site = "ABCDEFGH" */ -}}
+{{- with site.Params.analytics.plausible }}
+<script defer data-domain="{{ .domain }}" src="https://plausible.io/js/script.js"></script>
+{{- end }}
+{{- with site.Params.analytics.umami }}
+<script defer src="{{ .src }}" data-website-id="{{ .id }}"></script>
+{{- end }}
+{{- with site.Params.analytics.goatcounter }}
+<script data-goatcounter="https://{{ .code }}/count" async src="https://gc.zgo.at/count.js"></script>
+{{- end }}
+{{- with site.Params.analytics.fathom }}
+<script defer src="https://cdn.usefathom.com/script.js" data-site="{{ .site }}"></script>
+{{- end }}

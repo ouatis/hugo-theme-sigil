@@ -1,0 +1,85 @@
+{{- /* 自动 OG 卡片(入参:页面)。纸底 1200×630,朱砂∴与灰线烤在底卡里,
+     标题与站名用 images.Text 构建期排版,零运行时成本。
+     字体:站点参数 ogCardFont(resources.Get 的 assets 路径;中日站点
+     应提供覆盖标题用字的 CJK 子集 TTF),缺省用主题内附 IBM Plex Serif(拉丁)。
+     标题按显示宽度贪心换行:东亚字符记 2 单位、其余 1,每行 30 单位,
+     最多 3 行,超出截断补省略号;拉丁文尽量断在最后一个空格 */ -}}
+{{- $font := "" }}
+{{- with .Param "ogCardFont" }}{{ $font = resources.Get . }}{{ end }}
+{{- if not $font }}{{ $font = resources.Get "og/plex-serif-regular.ttf" }}{{ end }}
+{{- $base := resources.Get "og/base.png" }}
+{{- if and $font $base }}
+{{- $title := .Title | plainify | htmlUnescape }}
+
+{{- $budget := 30 }}
+{{- $maxLines := 3 }}
+{{- /* 东亚全宽:汉字、假名、谚文,外加 CJK 标点与省略号等全宽符号(字面写入字符类) */ -}}
+{{- $cjkRe := `^[ᄀ-ᇿ가-힣⺀-ￆ！-～、。〈〉《》「」『』【】〔〕・ー…―“”‘’]` }}
+
+{{- /* 总宽预检:超限先截断,给省略号留 2 单位 */ -}}
+{{- $runes := split $title "" }}
+{{- $totalW := 0 }}
+{{- range $r := $runes }}
+{{- if findRE $cjkRe $r }}{{ $totalW = add $totalW 2 }}{{ else }}{{ $totalW = add $totalW 1 }}{{ end }}
+{{- end }}
+{{- if gt $totalW (mul $budget $maxLines) }}
+{{- $kept := "" }}
+{{- $w := 0 }}
+{{- range $r := $runes }}
+{{- $rw := 1 }}
+{{- if findRE $cjkRe $r }}{{ $rw = 2 }}{{ end }}
+{{- if gt (add $w $rw) (sub (mul $budget $maxLines) 2) }}{{ break }}{{ end }}
+{{- $kept = printf "%s%s" $kept $r }}
+{{- $w = add $w $rw }}
+{{- end }}
+{{- $title = printf "%s…" $kept }}
+{{- $runes = split $title "" }}
+{{- end }}
+
+{{- /* 贪心换行;行内记住最后一个空格的位置与前宽,溢出时优先断在那 */ -}}
+{{- $lines := slice }}
+{{- $cur := "" }}
+{{- $curW := 0 }}
+{{- $spAt := -1 }}
+{{- $spW := 0 }}
+{{- range $r := $runes }}
+{{- $rw := 1 }}
+{{- if findRE $cjkRe $r }}{{ $rw = 2 }}{{ end }}
+{{- if gt (add $curW $rw) $budget }}
+{{- if gt $spAt 0 }}
+{{- $head := substr $cur 0 $spAt }}
+{{- $rest := substr $cur (add $spAt 1) }}
+{{- $lines = $lines | append $head }}
+{{- $cur = printf "%s%s" $rest $r }}
+{{- $curW = add (sub (sub $curW $spW) 1) $rw }}
+{{- $spAt = -1 }}
+{{- $spW = 0 }}
+{{- $w2 := 0 }}
+{{- range $i, $r2 := split $rest "" }}
+{{- if eq $r2 " " }}{{ $spAt = $i }}{{ $spW = $w2 }}{{ end }}
+{{- $w2 = add $w2 1 }}
+{{- end }}
+{{- else }}
+{{- $lines = $lines | append $cur }}
+{{- $cur = $r }}
+{{- $curW = $rw }}
+{{- $spAt = -1 }}
+{{- $spW = 0 }}
+{{- end }}
+{{- else }}
+{{- $cur = printf "%s%s" $cur $r }}
+{{- $curW = add $curW $rw }}
+{{- if eq $r " " }}{{ $spAt = sub (len $cur) 1 }}{{ $spW = sub $curW 1 }}{{ end }}
+{{- end }}
+{{- end }}
+{{- if ne $cur "" }}{{ $lines = $lines | append $cur }}{{ end }}
+
+{{- $n := len $lines }}
+{{- /* 行高 88px 的竖直居中:标题区 y 170..500,底线在 511 */ -}}
+{{- $titleY := 203 }}
+{{- if eq $n 1 }}{{ $titleY = 291 }}{{ else if eq $n 2 }}{{ $titleY = 247 }}{{ end }}
+{{- $text := delimit $lines "\n" }}
+{{- return $base.Filter
+    (images.Text $text (dict "font" $font "x" 120 "y" $titleY "size" 62 "linespacing" 28 "color" "#1f1f1f" "anchor" "topleft"))
+    (images.Text (site.Title | plainify | htmlUnescape) (dict "font" $font "x" 120 "y" 540 "size" 30 "color" "#6c6c6c" "anchor" "topleft")) }}
+{{- end }}

@@ -1,21 +1,11 @@
-{{- $categories := "分类" -}}
-{{- $tags := "标签" -}}
-{{- $search := "搜索" -}}
-{{- $aria := "内容导航" -}}
-{{- if eq site.Language.Lang "en" -}}
-  {{- $categories = "Categories" -}}
-  {{- $tags = "Tags" -}}
-  {{- $search = "Search" -}}
-  {{- $aria = "Content navigation" -}}
-{{- else if eq site.Language.Lang "ja" -}}
-  {{- $categories = "カテゴリー" -}}
-  {{- $tags = "タグ" -}}
-  {{- $search = "検索" -}}
-  {{- $aria = "コンテンツナビゲーション" -}}
-{{- end -}}
+{{- $categories := i18n "navCategories" | default "Categories" -}}
+{{- $tags := i18n "navTags" | default "Tags" -}}
+{{- $search := i18n "navSearch" | default "Search" -}}
+{{- $aria := i18n "navAria" | default "Content navigation" -}}
 
 <nav class="sg-trivium" aria-label="{{ $aria }}">
-  {{- $showTaxonomies := eq site.Language.Lang "zh-cn" -}}
+  {{- /* 有分类或标签词目才显示对应入口——按内容判断,不按语言硬编码 */ -}}
+  {{- $showTaxonomies := or (gt (len site.Taxonomies.categories) 0) (gt (len site.Taxonomies.tags) 0) -}}
   {{- if $showTaxonomies }}
   <a href="{{ "/categories/" | absLangURL }}">{{ $categories }}</a>
   <span class="tri-sep" aria-hidden="true">∴</span>

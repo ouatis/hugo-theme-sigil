@@ -58,3 +58,51 @@
   translation: "前へ"
 - id: pagination_next
   translation: "次へ"
+
+# Sigil:汎用 UI 文字列(404/検索/ナビ/関連記事/アーカイブ/シリーズ/フッター)
+- id: notFoundLead
+  translation: "存在しない路地に迷い込みました。"
+- id: searchInputLabel
+  translation: "検索"
+- id: searchPlaceholder
+  translation: "サイトを検索…"
+- id: backHome
+  translation: "ホームへ戻る"
+- id: browseArchives
+  translation: "アーカイブを見る"
+- id: searchResultsLabel
+  translation: "検索結果"
+- id: searchTryLabel
+  translation: "試す: "
+- id: searchEmptyLabel
+  translation: "関連記事が見つかりませんでした。"
+- id: minutesShort
+  translation: "分"
+- id: navCategories
+  translation: "カテゴリー"
+- id: navTags
+  translation: "タグ"
+- id: navSearch
+  translation: "検索"
+- id: navAria
+  translation: "コンテンツナビゲーション"
+- id: relatedPosts
+  translation: "関連記事"
+- id: categories
+  translation: "カテゴリー"
+- id: tags
+  translation: "タグ"
+- id: seriesUnwritten
+  translation: "未執筆"
+- id: footerViews
+  translation:
+    other: "{{ .Count }} 回閲覧"
+- id: footerViewsTitle
+  translation: "累計閲覧数 · {{ . }} から"
+- id: footerSparkTitle
+  translation: "直近120日の日別閲覧数"
+- id: sgWords
+  translation:
+    other: "{{ .Count }}文字"
+- id: sgWordsK
+  translation: "{{ .Count }}K文字"

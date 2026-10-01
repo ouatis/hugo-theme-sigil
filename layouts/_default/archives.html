@@ -48,12 +48,14 @@
   <div class="archive-month">
     <h3 class="archive-month-header" id="{{ $year }}-{{ .Key }}">
       <a class="archive-header-link" href="#{{ $year }}-{{ .Key }}">
+        {{- /* 英文月名沿用词表;中文「N 月」;其余语言用本地化月名(法语/日语等)。
+               用组内年月合成日期,不借文章日期(内外分组键可能错位) */ -}}
         {{- if eq site.Language.Lang "en" }}
         {{- index $month_names (sub (int .Key) 1) }}
-        {{- else if eq site.Language.Lang "ja" }}
-        {{- .Key }}月
-        {{- else }}
+        {{- else if strings.HasPrefix site.Language.Lang "zh" }}
         {{- .Key }} 月
+        {{- else }}
+        {{- (time.AsTime (printf "%04d-%02d-01" (int $year) (int .Key))) | time.Format "January" }}
         {{- end }}
       </a>
     </h3>

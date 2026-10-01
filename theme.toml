@@ -13,6 +13,10 @@ features = [
   "on-the-fly search (fuse)",
   "archives, taxonomies, breadcrumbs",
   "multilingual (zh/en/ja built in)",
+  "opt-in KaTeX math and mermaid diagrams (vendored / pinned CDN)",
+  "opt-in image lightbox (glightbox, vendored)",
+  "auto-generated OG card images from titles (images.Text)",
+  "external-link door markers via render hook",
 ]
 min_version = "0.166.0"
 

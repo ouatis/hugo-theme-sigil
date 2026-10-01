@@ -1,0 +1,33 @@
+{{- /* glightbox:页面或站点设 lightbox: true 时加载(同捆,零第三方请求)。
+     正文图片点击放大,多图自然成组出现前后导航;已在链接里的图不包,
+     图有 figcaption 时其文字作灯箱说明 */ -}}
+{{- with resources.Get "glightbox/glightbox.min.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{- end }}
+{{- $js := resources.Get "glightbox/glightbox.min.js" }}
+{{- if not site.Params.assets.disableFingerprinting }}
+{{- $js = $js | fingerprint }}
+{{- end }}
+<script defer src="{{ $js.RelPermalink }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof GLightbox === "undefined") return;
+    var wrapped = [];
+    document.querySelectorAll(".post-content img").forEach(function (img) {
+        if (img.closest("a") || img.closest(".sg-mermaid")) return;
+        var a = document.createElement("a");
+        a.className = "sg-zoom";
+        a.href = img.currentSrc || img.src;
+        a.setAttribute("aria-label", img.alt || "image");
+        var fig = img.closest("figure");
+        if (fig) {
+            var cap = fig.querySelector("figcaption");
+            if (cap) a.setAttribute("data-description", cap.textContent.trim());
+        }
+        img.parentNode.insertBefore(a, img);
+        a.appendChild(img);
+        wrapped.push(a);
+    });
+    if (wrapped.length) GLightbox({ selector: ".sg-zoom" });
+});
+</script>

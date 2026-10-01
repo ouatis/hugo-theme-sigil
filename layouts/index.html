@@ -92,19 +92,23 @@
 
   {{- if gt (len $pages) 0 }}
   <section class="sg-writing" aria-labelledby="recent-writing">
-    {{- /* ShowTotalWords:计数旁标注列表文章总字数(中文计到万,英日计到 K;纯整型四舍五入) */ -}}
+    {{- /* ShowTotalWords:计数旁标注列表文章总字数。中文按万进位;其余语言
+         走 i18n(sgWords/sgWordsK),缺失语言回落英文 */ -}}
     {{- $totalWords := 0 }}{{ range $pages }}{{ $totalWords = add $totalWords .WordCount }}{{ end }}
     {{- $wordsLabel := "" }}
     {{- if and site.Params.ShowTotalWords (gt $totalWords 0) }}
-      {{- $rounded := div (add $totalWords 500) 1000 }}
-      {{- if eq site.Language.Lang "en" }}
-        {{- if ge $totalWords 1000 }}{{ $wordsLabel = printf "%dK words" $rounded }}{{ else }}{{ $wordsLabel = printf "%d words" $totalWords }}{{ end }}
-      {{- else if eq site.Language.Lang "ja" }}
-        {{- if ge $totalWords 1000 }}{{ $wordsLabel = printf "%dK文字" $rounded }}{{ else }}{{ $wordsLabel = printf "%d文字" $totalWords }}{{ end }}
-      {{- else if ge $totalWords 10000 }}
-        {{- if eq (mod $rounded 10) 0 }}{{ $wordsLabel = printf "%d 万字" (div $rounded 10) }}{{ else }}{{ $wordsLabel = printf "%d.%d 万字" (div $rounded 10) (mod $rounded 10) }}{{ end }}
+      {{- if strings.HasPrefix site.Language.Lang "zh" }}
+        {{- $rounded := div (add $totalWords 500) 1000 }}
+        {{- if ge $totalWords 10000 }}
+          {{- if eq (mod $rounded 10) 0 }}{{ $wordsLabel = printf "%d 万字" (div $rounded 10) }}{{ else }}{{ $wordsLabel = printf "%d.%d 万字" (div $rounded 10) (mod $rounded 10) }}{{ end }}
+        {{- else }}
+          {{- $wordsLabel = printf "%d 字" $totalWords }}
+        {{- end }}
+      {{- else if ge $totalWords 1000 }}
+        {{- $rounded := div (add $totalWords 500) 1000 }}
+        {{- $wordsLabel = i18n "sgWordsK" $rounded | default (printf "%dK words" $rounded) }}
       {{- else }}
-        {{- $wordsLabel = printf "%d 字" $totalWords }}
+        {{- $wordsLabel = i18n "sgWords" $totalWords | default (printf "%d words" $totalWords) }}
       {{- end }}
     {{- end }}
     <header class="sg-section-head">
@@ -135,7 +139,7 @@
               <span class="sg-entry__category">{{ .LinkTitle }}</span>
               {{- end }}
               {{- end }}
-              <span class="sg-entry__time">{{ partial "sg-icon.html" (dict "name" "clock" "size" 11) }}{{ .ReadingTime }}{{ if eq site.Language.Lang "en" }} min{{ else if eq site.Language.Lang "ja" }} 分{{ else }} 分钟{{ end }}</span>
+              <span class="sg-entry__time">{{ partial "sg-icon.html" (dict "name" "clock" "size" 11) }}{{ .ReadingTime }}{{ i18n "minutesShort" | default " min" }}</span>
             </div>
           </div>
           <span class="sg-entry__arrow" aria-hidden="true">→</span>

@@ -30,8 +30,7 @@
 {{- end }}
 {{- $related = first 3 $related }}
 {{- if and (ne (.Param "showRelated") false) $related }}
-{{- $relatedTitle := "相关文章" }}
-{{- if eq site.Language.Lang "en" }}{{- $relatedTitle = "Related writing" }}{{- else if eq site.Language.Lang "ja" }}{{- $relatedTitle = "関連記事" }}{{- end }}
+{{- $relatedTitle := i18n "relatedPosts" | default "Related writing" }}
 <nav class="related-posts">
   <h3 class="related-posts-title">{{ $relatedTitle }}</h3>
   <ul>

@@ -16,8 +16,13 @@
 - IBM Plex 字体与 CJK 字体子集
 - JSON Feed 1.1(`/feed.json`,与 RSS 并存,构建期自动生成)
 - 搜索、分类、标签、面包屑、目录、代码复制和多语言字符串
+- 页面级可选:KaTeX 数学(已同捆)、Mermaid 图表(定版 CDN)、图片灯箱(glightbox,已同捆)
+- 用文章标题自动生成 OG 卡片图(`images.Text`,仅构建期)
+- 外链门形记号由渲染钩子按主机名判定,不写死任何域名
 
 ## 安装
+
+以 git 子模块安装：
 
 ```bash
 git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
@@ -26,6 +31,19 @@ git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-s
 ```toml
 # hugo.toml
 theme = "hugo-theme-sigil"
+```
+
+或以 [Hugo module](https://gohugo.io/hugo-modules/) 安装：
+
+```bash
+hugo mod init github.com/you/your-site   # 站点已有 go.mod 则跳过
+```
+
+```toml
+# hugo.toml
+[module]
+  [[module.imports]]
+    path = "github.com/ouatis/hugo-theme-sigil"
 ```
 
 预览示例站：
@@ -51,6 +69,10 @@ PaperMod 的常用配置可以继续使用。Sigil 专属配置：
 | `ShowAllPagesInArchive` | `false` | 归档包含所有页面 |
 | `homePageSize` | 全部 | 首页每页文章数 |
 | `sgSeriesFrom` | 隐藏 | 系列导航:指向策展页,其正文列表即阅读顺序(含未写占位);`sgSeriesTab` 定页签短标 |
+| `math` / `mermaid` / `lightbox` | `false` | 页面 frontmatter 或站点级开启:KaTeX 数学、Mermaid 图表、图片灯箱;未开启的页面零加载。`$$…$$` 开箱即用;行内 `\(…\)` 需另启用 goldmark passthrough(见 [exampleSite/hugo.toml](exampleSite/hugo.toml)) |
+| `ogAutoCard` | `false` | 无封面/图片的文章,构建期用标题+站名排一张 1200×630 的 OG 卡片(纸底∴) |
+| `ogCardFont` | 内附 Plex Serif | OG 卡片字体的 `resources.Get` 路径(TTF)。内附拉丁字体画不了汉字——中日站点应为标题用字做子集 TTF 并指向它 |
+| `analytics.*` | 隐藏 | 第三方统计(仅生产环境):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
 
 完整示例见 [exampleSite/hugo.toml](exampleSite/hugo.toml)。
 
@@ -69,4 +91,5 @@ python scripts/build-fonts.py
 MIT，详见 [LICENSE](LICENSE)。
 
 基于 PaperMod；字体使用 IBM Plex（SIL OFL 1.1），图标使用 Phosphor
-Icons（MIT），搜索使用 Fuse.js（Apache-2.0）。
+Icons（MIT），搜索使用 Fuse.js（Apache-2.0），数学排版使用 KaTeX（MIT，已同捆），
+灯箱使用 glightbox（MIT，已同捆），图表使用 Mermaid（MIT，按需经定版 CDN 加载）。

@@ -1,0 +1,30 @@
+{{- /* KaTeX:页面 frontmatter 或站点参数设 math: true 时加载。
+     分片打进本仓库 assets/katex,零第三方请求;字体目录只在启用页发布 */ -}}
+{{- with resources.Get "katex/katex.min.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{- end }}
+{{- /* 样式表按相对路径引用 fonts/,复制同名资源并取 Permalink 触发发布 */ -}}
+{{- range resources.Match "katex/fonts/*" }}
+{{- with resources.Copy .Name . }}{{ .RelPermalink }}{{ end }}
+{{- end }}
+{{- $js := resources.Get "katex/katex.min.js" }}
+{{- $ar := resources.Get "katex/auto-render.min.js" }}
+{{- if not site.Params.assets.disableFingerprinting }}
+{{- $js = $js | fingerprint }}
+{{- $ar = $ar | fingerprint }}
+{{- end }}
+<script defer src="{{ $js.RelPermalink }}"></script>
+<script defer src="{{ $ar.RelPermalink }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof renderMathInElement === "undefined") return;
+    renderMathInElement(document.body, {
+        delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "\\(", right: "\\)", display: false },
+        ],
+        throwOnError: false,
+    });
+});
+</script>

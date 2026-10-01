@@ -22,14 +22,14 @@
     {{- if .total }}
     <span class="tri-sep tri-sep-views" aria-hidden="true">∴</span>
 
-    <span class="footer-views" title="累计页面浏览量 · 统计自 {{ .since }}">
-        {{ partial "sg-icon.html" (dict "name" "eye" "size" 12) }}{{ lang.FormatNumber 0 .total }} views
+    <span class="footer-views" title="{{ i18n "footerViewsTitle" .since | default (printf "Total page views since %s" .since) }}">
+        {{ partial "sg-icon.html" (dict "name" "eye" "size" 12) }}{{ i18n "footerViews" (int .total) | default (printf "%s views" (lang.FormatNumber 0 .total)) }}
     </span>
 
     {{- /* 香火线:近 120 日逐日浏览量,path 由站点脚本预算进 analytics.json,
            主题只描线不画轴;无数据站点(如 exampleSite)自然缺席 */ -}}
     {{- with .sparkline }}
-    <svg class="footer-spark" viewBox="0 0 120 14" width="120" height="14" aria-hidden="true" focusable="false"><title>近 120 日逐日浏览量</title><path d="{{ . }}"/></svg>
+    <svg class="footer-spark" viewBox="0 0 120 14" width="120" height="14" aria-hidden="true" focusable="false"><title>{{ i18n "footerSparkTitle" | default "Daily views, last 120 days" }}</title><path d="{{ . }}"/></svg>
     {{- end }}
     {{- end }}
     {{- end }}
@@ -108,6 +108,8 @@
                 html.dataset.theme = "dark";
                 localStorage.setItem("pref-theme", "dark");
             }
+            /* 让按需加载的组件(如 mermaid)跟进新主题重绘 */
+            document.dispatchEvent(new CustomEvent("sg:themechange", { detail: { theme: html.dataset.theme } }));
         };
         /* antfu.me 式主题切换:新主题从点击处圆形揭示。旧浏览器或
            prefers-reduced-motion 时退回直接切换。 */

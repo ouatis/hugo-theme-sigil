@@ -62,3 +62,54 @@
   translation: "Prev"
 - id: pagination_next
   translation: "Next"
+
+# Sigil:通用 UI 字串(404/搜索/发现导航/相关文章/归档/术语页/系列/页脚)。
+# 模板一律 i18n "key" | default "英文" 兜底,新增语言缺失键时界面不残缺
+- id: notFoundLead
+  translation: "You've walked into a lane that doesn't exist."
+- id: searchInputLabel
+  translation: "Search"
+- id: searchPlaceholder
+  translation: "Search the site…"
+- id: backHome
+  translation: "Back home"
+- id: browseArchives
+  translation: "Browse archives"
+- id: searchResultsLabel
+  translation: "Search results"
+- id: searchTryLabel
+  translation: "Try: "
+- id: searchEmptyLabel
+  translation: "No results found."
+- id: minutesShort
+  translation: " min"
+- id: navCategories
+  translation: "Categories"
+- id: navTags
+  translation: "Tags"
+- id: navSearch
+  translation: "Search"
+- id: navAria
+  translation: "Content navigation"
+- id: relatedPosts
+  translation: "Related writing"
+- id: categories
+  translation: "Categories"
+- id: tags
+  translation: "Tags"
+- id: seriesUnwritten
+  translation: "unwritten"
+- id: footerViews
+  translation:
+    one: "{{ .Count }} view"
+    other: "{{ .Count }} views"
+- id: footerViewsTitle
+  translation: "Total page views since {{ . }}"
+- id: footerSparkTitle
+  translation: "Daily views, last 120 days"
+- id: sgWords
+  translation:
+    one: "{{ .Count }} word"
+    other: "{{ .Count }} words"
+- id: sgWordsK
+  translation: "{{ .Count }}K words"

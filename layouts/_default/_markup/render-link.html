@@ -1,0 +1,13 @@
+{{- /* 外链判定走渲染钩子:绝对链接中与站点 baseURL 同主机的视为内部,
+     其余加 sg-ext 类,CSS 据此尾随门形小标。
+     前案在 CSS 里用 href 子串猜内外,把作者域名写死在选择器里——
+     别人的站点全站挂门;主机名比对才是通用做法。
+     无主机的绝对链接(mailto:/tel:)与协议相对链接不算外链,与旧表现一致 */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $ext := false -}}
+{{- if and $u.IsAbs $u.Host -}}
+  {{- $destHost := strings.TrimPrefix "www." $u.Host -}}
+  {{- $siteHost := strings.TrimPrefix "www." (urls.Parse site.BaseURL).Host -}}
+  {{- $ext = ne $destHost $siteHost -}}
+{{- end -}}
+<a href="{{ .Destination }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $ext }} class="sg-ext"{{ end }}>{{ .Text }}</a>

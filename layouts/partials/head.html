@@ -208,11 +208,17 @@
 </script>
 {{- end }}
 
+{{- /* 数学、图表与灯箱:页面/站点参数按需加载 */ -}}
+{{- if .Param "math" }}{{ partial "math.html" . }}{{ end -}}
+{{- if .Param "mermaid" }}{{ partial "mermaid.html" . }}{{ end -}}
+{{- if .Param "lightbox" }}{{ partial "lightbox.html" . }}{{ end -}}
+
 {{- partial "extend_head.html" . -}}
 
 {{- /* Misc */}}
 {{- if hugo.IsProduction | or (eq site.Params.env "production") }}
 {{- partial "google_analytics.html" . }}
+{{- partial "analytics.html" . }}
 {{- partial "templates/opengraph.html" . }}
 {{- partial "templates/twitter_cards.html" . }}
 {{- partial "templates/schema_json.html" . }}

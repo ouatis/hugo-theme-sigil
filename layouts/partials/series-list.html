@@ -5,7 +5,7 @@
 <ol class="sg-series__list">
     {{- range $i, $e := $entries -}}
         {{- if $e.tbd -}}
-            <li class="sg-series__item is-tbd">{{ $e.title }}<span class="sg-series__tbd-mark">未写</span></li>
+            <li class="sg-series__item is-tbd">{{ $e.title }}<span class="sg-series__tbd-mark">{{ i18n "seriesUnwritten" | default "unwritten" }}</span></li>
         {{- else if eq $i $cur -}}
             <li class="sg-series__item is-current">{{ $e.title }}</li>
         {{- else -}}

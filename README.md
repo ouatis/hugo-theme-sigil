@@ -16,8 +16,13 @@ Demo: <https://ouatis.com/hugo-theme-sigil/>
 - IBM Plex typography with CJK font subsetting
 - JSON Feed 1.1 (`/feed.json`, alongside RSS, generated at build)
 - Search, taxonomies, breadcrumbs, TOC, code-copy buttons, and multilingual strings
+- Opt-in per page: KaTeX math (vendored), Mermaid diagrams (pinned CDN), image lightbox (glightbox, vendored)
+- Auto-generated OG card images from post titles (`images.Text`, build-time only)
+- External links marked with a door glyph via a render hook (host-aware, no hardcoded domains)
 
 ## Install
+
+As a git submodule:
 
 ```bash
 git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
@@ -26,6 +31,19 @@ git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-s
 ```toml
 # hugo.toml
 theme = "hugo-theme-sigil"
+```
+
+Or as a [Hugo module](https://gohugo.io/hugo-modules/):
+
+```bash
+hugo mod init github.com/you/your-site   # skip if the site already has go.mod
+```
+
+```toml
+# hugo.toml
+[module]
+  [[module.imports]]
+    path = "github.com/ouatis/hugo-theme-sigil"
 ```
 
 Preview the example site:
@@ -51,6 +69,10 @@ Common PaperMod options work as usual. Sigil-specific options:
 | `ShowAllPagesInArchive` | `false` | Include all pages in archives |
 | `homePageSize` | all | Homepage posts per page |
 | `sgSeriesFrom` | hidden | Series navigation: points to a curation page whose body list defines the reading order; `sgSeriesTab` sets the tab label |
+| `math` / `mermaid` / `lightbox` | `false` | Opt-in per page (frontmatter) or site-wide: KaTeX math, Mermaid diagrams, image lightbox. Nothing loads on pages that don't ask. `$$…$$` works out of the box; for inline `\(…\)` also enable goldmark passthrough as in [exampleSite/hugo.toml](exampleSite/hugo.toml) |
+| `ogAutoCard` | `false` | Build-time 1200×630 OG card (title + site name on paper, ∴ mark) for pages without any cover/image |
+| `ogCardFont` | built-in Plex Serif | `resources.Get` path to a TTF for OG cards. The bundled Latin font cannot draw CJK — CJK sites should subset a TTF for their titles and point this at it |
+| `analytics.*` | hidden | Third-party stats, production only: `analytics.plausible.domain`, `analytics.umami` (`src` + `id`), `analytics.goatcounter.code`, `analytics.fathom.site` |
 
 Frequently used inherited options include `defaultTheme`, `ShowToc`,
 `TocOpen`, `ShowCodeCopyButtons`, `ShowBreadCrumbs`, `ShowReadingTime`,
@@ -73,4 +95,6 @@ python scripts/build-fonts.py
 MIT. See [LICENSE](LICENSE).
 
 Based on PaperMod. Fonts: IBM Plex, SIL OFL 1.1. Icons: Phosphor Icons, MIT.
-Search: Fuse.js, Apache-2.0.
+Search: Fuse.js, Apache-2.0. Math: KaTeX, MIT (vendored). Lightbox: glightbox,
+MIT (vendored). Diagrams: Mermaid, MIT (loaded from a pinned CDN on pages that
+ask for it).

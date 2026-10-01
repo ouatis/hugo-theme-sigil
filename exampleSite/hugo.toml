@@ -46,6 +46,7 @@ defaultContentLanguage = "en"
   ShowToc = true
   TocOpen = true
   ShowCodeCopyButtons = true
+  ogAutoCard = true
   # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
   robotsNoIndex = true
 
@@ -60,6 +61,11 @@ defaultContentLanguage = "en"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    [markup.goldmark.extensions.passthrough]
+      enable = true
+      [markup.goldmark.extensions.passthrough.delimiters]
+        inline = [['\(', '\)']]
+        block = [['$$', '$$'], ['\[', '\]']]
   [markup.highlight]
     # 主题自带 Catppuccin Macchiato 的 chroma class 样式,走 class 模式
     noClasses = false

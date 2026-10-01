@@ -55,3 +55,51 @@
   translation: "上一页"
 - id: pagination_next
   translation: "下一页"
+
+# Sigil:通用 UI 字串(404/搜索/发现导航/相关文章/归档/术语页/系列/页脚)
+- id: notFoundLead
+  translation: "你走到了一条不存在的巷子。"
+- id: searchInputLabel
+  translation: "搜索"
+- id: searchPlaceholder
+  translation: "搜索全站……"
+- id: backHome
+  translation: "回主页"
+- id: browseArchives
+  translation: "去归档翻翻"
+- id: searchResultsLabel
+  translation: "搜索结果"
+- id: searchTryLabel
+  translation: "试试："
+- id: searchEmptyLabel
+  translation: "没有找到相关文章。"
+- id: minutesShort
+  translation: " 分钟"
+- id: navCategories
+  translation: "分类"
+- id: navTags
+  translation: "标签"
+- id: navSearch
+  translation: "搜索"
+- id: navAria
+  translation: "内容导航"
+- id: relatedPosts
+  translation: "相关文章"
+- id: categories
+  translation: "分类"
+- id: tags
+  translation: "标签"
+- id: seriesUnwritten
+  translation: "未写"
+- id: footerViews
+  translation:
+    other: "{{ .Count }} 次浏览"
+- id: footerViewsTitle
+  translation: "累计页面浏览量 · 统计自 {{ . }}"
+- id: footerSparkTitle
+  translation: "近 120 日逐日浏览量"
+- id: sgWords
+  translation:
+    other: "{{ .Count }} 字"
+- id: sgWordsK
+  translation: "{{ .Count }}K 字"
