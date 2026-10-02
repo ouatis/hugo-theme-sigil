@@ -11,7 +11,7 @@
 {{- if $from -}}{{- $page = site.GetPage $from -}}{{- end -}}
 
 {{- if and $from $page -}}
-{{- $matches := findRESubmatch `<h3[^>]*>([^<]*)</h3>|<ol[^>]*start="?(\d+)"?[^>]*>|<li><a href="?([^">]+)"?[^>]*>([^<]+)</a></li>|<li><span class="?sg-tbd"?>([^<]+)</span>\s*</li>` $page.Content -}}
+{{- $matches := findRESubmatch `<h3[^>]*>([^<]*)</h3>|<ol[^>]*start="?(\d+)"?[^>]*>|<li><a href="?([^">]+)"?[^>]*>([^<]+)</a>\s*</li>|<li><span class="?sg-tbd"?>([^<]+)</span>\s*</li>` $page.Content -}}
 
 {{- $entries := slice -}}
 {{- $num := 0 -}}
@@ -35,6 +35,7 @@
         {{- $num = add $num 1 -}}
     {{- end -}}
 {{- end -}}
+
 
 {{- if not $entries -}}{{- return nil -}}{{- end -}}
 {{- return dict "entries" $entries "total" (len $entries) "from" $from "title" $page.Title -}}

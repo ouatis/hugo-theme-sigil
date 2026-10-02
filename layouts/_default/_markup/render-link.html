@@ -10,4 +10,5 @@
   {{- $siteHost := strings.TrimPrefix "www." (urls.Parse site.BaseURL).Host -}}
   {{- $ext = ne $destHost $siteHost -}}
 {{- end -}}
-<a href="{{ .Destination }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $ext }} class="sg-ext"{{ end }}>{{ .Text }}</a>
+<a href="{{ .Destination }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $ext }} class="sg-ext"{{ end }}>{{ .Text }}</a>{{- /* 钩子输出不得带尾换行:内联语境里多出的空格会破坏
+     依赖 </a></li> 紧邻形态的解析(series-order) */ -}}
