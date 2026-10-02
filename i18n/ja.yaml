@@ -116,3 +116,9 @@
   translation: "全文フィード"
 - id: llmsFullNote
   translation: "全記事の全文を一つのファイルに"
+
+# 导航地标标签(a11y:页面多个 nav 需唯一 aria-label)
+- id: navSiteAria
+  translation: "サイトナビゲーション"
+- id: postNavAria
+  translation: "記事ナビゲーション"

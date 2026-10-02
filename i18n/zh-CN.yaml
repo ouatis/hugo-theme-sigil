@@ -113,3 +113,9 @@
   translation: "全文输出"
 - id: llmsFullNote
   translation: "全站文章全文,单文件"
+
+# 导航地标标签(a11y:页面多个 nav 需唯一 aria-label)
+- id: navSiteAria
+  translation: "站内导航"
+- id: postNavAria
+  translation: "文章导航"

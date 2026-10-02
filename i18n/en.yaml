@@ -123,3 +123,9 @@
   translation: "full-text feed"
 - id: llmsFullNote
   translation: "full text of every post in one file"
+
+# 导航地标标签(a11y:页面多个 nav 需唯一 aria-label)
+- id: navSiteAria
+  translation: "Site navigation"
+- id: postNavAria
+  translation: "Post navigation"

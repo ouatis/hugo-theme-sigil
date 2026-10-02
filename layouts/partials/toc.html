@@ -27,7 +27,8 @@
     {{- end }}
     <div class="sg-toc__panel" id="sg-toc-panel">
         <div class="sg-toc__scroll">
-            {{- .TableOfContents -}}
+            {{- /* Hugo 生成的 <nav id="TableOfContents"> 补上本地化标签 */ -}}
+            {{- replace .TableOfContents "<nav id=\"TableOfContents\">" (printf `<nav id="TableOfContents" aria-label=%q>` $tocTitle) | safeHTML -}}
         </div>
     </div>
     {{- if $inSeries }}
@@ -54,7 +55,9 @@
             <span class="details">{{ $tocTitle }}</span>
         </summary>
         <div class="inner">
-            {{- .TableOfContents -}}
+            {{- /* 窄屏内联版降为 div:悬浮面板里的 nav 已是唯一的目录地标,
+                   两份 <nav id> 同名会撞 landmark-unique 与重复 ID */ -}}
+            {{- replace (replace .TableOfContents "<nav id=\"TableOfContents\">" "<div id=\"TableOfContents\">") "</nav>" "</div>" | safeHTML -}}
         </div>
     </details>
 </div>

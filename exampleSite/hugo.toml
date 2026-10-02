@@ -46,6 +46,7 @@ defaultContentLanguage = "en"
   ShowToc = true
   TocOpen = true
   ShowCodeCopyButtons = true
+  ShowPostNavLinks = true
   ogAutoCard = true
   # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
   robotsNoIndex = true
