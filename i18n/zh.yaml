@@ -111,3 +111,5 @@
   translation: "全部文章"
 - id: llmsRssNote
   translation: "全文输出"
+- id: llmsFullNote
+  translation: "全站文章全文,单文件"

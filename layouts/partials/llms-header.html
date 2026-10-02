@@ -29,3 +29,6 @@
 {{- with site.Home.OutputFormats.Get "rss" }}
 - [RSS]({{ .Permalink }}){{ with i18n "llmsRssNote" | default "full-text feed" }} — {{ . }}{{ end }}
 {{- end }}
+{{- with site.Home.OutputFormats.Get "LLMSFULL" }}
+- [llms-full.txt]({{ .Permalink }}){{ with i18n "llmsFullNote" | default "full text of every post in one file" }} — {{ . }}{{ end }}
+{{- end }}

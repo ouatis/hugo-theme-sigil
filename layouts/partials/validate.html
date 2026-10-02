@@ -61,3 +61,56 @@
         {{- warnf (printf "[sigil] sgSeriesFrom 指向的页面不存在: %s —— 系列导航不启用" .) -}}
     {{- end -}}
 {{- end -}}
+
+{{- /* ogCardFont:卡片字体文件存在性;CJK 站点缺配时标题会成豆腐块,
+       这是最容易踩的静默陷阱(内附字体只覆盖拉丁字母) */ -}}
+{{- with site.Params.ogCardFont -}}
+    {{- $ok := false -}}
+    {{- with resources.Get . -}}{{- $ok = true -}}{{- end -}}
+    {{- if not $ok -}}{{- with index $staticFiles (path.Base .) -}}{{- $ok = true -}}{{- end -}}{{- end -}}
+    {{- if not $ok -}}
+        {{- warnf (printf "[sigil] ogCardFont 指向的文件不存在: %s —— 卡片标题将回落内附拉丁字体" .) -}}
+    {{- end -}}
+{{- end -}}
+{{- if and site.Params.ogAutoCard (not site.Params.ogCardFont) (or (strings.HasPrefix site.Language.Lang "zh") (eq site.Language.Lang "ja")) -}}
+    {{- warnf "[sigil] ogAutoCard 已启用但未配 ogCardFont —— 内附卡片字体仅覆盖拉丁字母,中日文标题会渲染成豆腐块" -}}
+{{- end -}}
+
+{{- /* 布尔参数:字符串 "false" 也是真值,写错类型会被静默当成开启 */ -}}
+{{- range slice "math" "mermaid" "lightbox" "ogAutoCard" -}}
+    {{- $key := . -}}
+    {{- with index site.Params $key -}}
+        {{- if ne (printf "%T" .) "bool" -}}
+            {{- warnf (printf "[sigil] params.%s 应为 true/false,当前为 %T(%v)——非布尔一律按真值处理,将被当成开启" $key . .) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* analytics:结构校验,拼错的引擎名或缺字段在这里报人话 */ -}}
+{{- with site.Params.analytics -}}
+    {{- if not (reflect.IsMap .) -}}
+        {{- warnf (printf "[sigil] analytics 应为表格([params.analytics]),当前为 %T" .) -}}
+    {{- else -}}
+        {{- $engines := 0 -}}
+        {{- with .plausible -}}
+            {{- if and (reflect.IsMap .) (isset . "domain") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.plausible 需要 domain 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .umami -}}
+            {{- if and (reflect.IsMap .) (isset . "src") (isset . "id") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.umami 需要 src 与 id 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .goatcounter -}}
+            {{- if and (reflect.IsMap .) (isset . "code") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.goatcounter 需要 code 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .fathom -}}
+            {{- if and (reflect.IsMap .) (isset . "site") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.fathom 需要 site 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .google -}}{{- $engines = add $engines 1 -}}{{- end -}}
+        {{- if eq $engines 0 -}}
+            {{- warnf "[sigil] analytics 已配置但未含任何可识别的引擎(plausible/umami/goatcounter/fathom/google)" -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}

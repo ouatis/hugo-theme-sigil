@@ -114,3 +114,5 @@
   translation: "全ての記事"
 - id: llmsRssNote
   translation: "全文フィード"
+- id: llmsFullNote
+  translation: "全記事の全文を一つのファイルに"

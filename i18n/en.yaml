@@ -121,3 +121,5 @@
   translation: "All posts"
 - id: llmsRssNote
   translation: "full-text feed"
+- id: llmsFullNote
+  translation: "full text of every post in one file"
