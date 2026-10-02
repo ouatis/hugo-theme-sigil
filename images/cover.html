@@ -1,0 +1,62 @@
+<!-- 封面源文件:改后在 1500×1000 与 900×600 视口各截一张,替换 screenshot.png / tn.png。
+     字体:从 .cache/ibm-plex 的 plex-sans(-sc) tgz 抽 complete woff2(IBMPlexSans-Regular/SemiBold、IBMPlexSansSC-Regular)放到本文件旁 fonts/ 目录,本地起 http.server 渲染。 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sigil — cover</title>
+<style>
+  @font-face { font-family:"PlexC"; src:url(fonts/IBMPlexSans-Regular.woff2) format("woff2"); font-weight:400; font-style:normal; }
+  @font-face { font-family:"PlexC"; src:url(fonts/IBMPlexSans-SemiBold.woff2) format("woff2"); font-weight:600; font-style:normal; }
+  @font-face { font-family:"PlexCSC"; src:url(fonts/IBMPlexSansSC-Regular.woff2) format("woff2"); font-weight:400; font-style:normal; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body {
+    background:#fbfcfa;
+    color:#1f1f1f;
+    font-family:"PlexC","PlexCSC",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    text-align:center;
+    padding:7vh 6vw 5.5vh;
+  }
+  .main { margin:auto 0; display:flex; flex-direction:column; align-items:center; }
+  .kicker {
+    color:#2f6754; font-size:1.02vw; letter-spacing:.42em; text-indent:.42em;
+    text-transform:uppercase; font-weight:400;
+  }
+  .seal { margin:6vh 0 4.2vh; position:relative; width:5.2vw; height:4.4vw; }
+  .seal i { position:absolute; width:1.1vw; height:1.1vw; border-radius:50%; background:#ad3e32; }
+  .seal i:nth-child(1){ left:50%; top:0; transform:translateX(-50%); }
+  .seal i:nth-child(2){ left:0; bottom:0; }
+  .seal i:nth-child(3){ right:0; bottom:0; }
+  h1 { font-size:11.6vw; font-weight:600; letter-spacing:-0.015em; line-height:1; }
+  .tagline { margin-top:3.4vh; font-size:1.7vw; color:#6c6c6c; }
+  .tagline-zh { margin-top:1.6vh; font-size:1.38vw; color:#2f6754; letter-spacing:.16em; }
+  .colophon { width:100%; }
+  .rule { height:1px; background:#d6d6d6; margin-bottom:3.2vh; }
+  .palette { display:flex; justify-content:center; gap:3.4vw; margin-bottom:2.4vh; }
+  .chip { display:flex; align-items:center; gap:.7vw; font-size:.92vw;
+          letter-spacing:.3em; text-indent:.3em; text-transform:uppercase; color:#6c6c6c; }
+  .chip i { width:.9vw; height:.9vw; border-radius:50%; }
+  .meta { font-size:.9vw; color:#bdbab1; letter-spacing:.2em; text-transform:uppercase; }
+</style>
+</head>
+<body>
+  <div class="main">
+    <p class="kicker">A restrained literary theme for Hugo</p>
+    <div class="seal" aria-hidden="true"><i></i><i></i><i></i></div>
+    <h1>Sigil</h1>
+    <p class="tagline">Vermilion, ink&#8209;green and amber on old paper.</p>
+    <p class="tagline-zh">纸上朱砂，墨绿与琥珀。</p>
+  </div>
+  <div class="colophon">
+    <div class="rule"></div>
+    <div class="palette">
+      <span class="chip"><i style="background:#ad3e32"></i>Vermilion</span>
+      <span class="chip"><i style="background:#2f6754"></i>Ink&#8209;green</span>
+      <span class="chip"><i style="background:#d0a85c"></i>Amber</span>
+    </div>
+    <p class="meta">Based on PaperMod &middot; IBM Plex &middot; MIT</p>
+  </div>
+</body>
+</html>
