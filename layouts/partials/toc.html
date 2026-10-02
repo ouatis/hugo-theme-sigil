@@ -112,6 +112,9 @@
                 toc.classList.remove('is-series-open');
                 sbtn.setAttribute('aria-expanded', 'false');
             }
+            /* 焦点若在面板内,收起后送回页签——面板 visibility:hidden,
+               不送回焦点就蒸发在隐藏子树里(键盘走查实测) */
+            if (toc.contains(document.activeElement)) btn.focus();
             return true;
         }
 
