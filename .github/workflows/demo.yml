@@ -59,13 +59,14 @@ jobs:
         uses: actions/deploy-pages@v4
 
       # 清扫历史运行,只留当前——Actions 页面单条滚动
+      # 只扫本工作流:仓库还有 install-modes 等,全局清扫会竞态删除它们的运行
       - name: Prune old workflow runs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           KEEP=${{ github.run_id }}
           gh api "repos/${{ github.repository }}/actions/runs?per_page=100" --paginate \
-            --jq '.workflow_runs[] | select(.id != '"$KEEP"') | select(.status == "completed") | .id' \
+            --jq '.workflow_runs[] | select(.name == "Demo") | select(.id != '"$KEEP"') | select(.status == "completed") | .id' \
           | while read -r id; do
               gh api -X DELETE "repos/${{ github.repository }}/actions/runs/$id" > /dev/null 2>&1 || true
             done
