@@ -35,3 +35,116 @@
 
 - id: words
   translation: "{{ .Count }} शब्द"
+
+- id: backHome
+  translation: "होम पर वापस"
+
+- id: browseArchives
+  translation: "संग्रह देखें"
+
+- id: categories
+  translation: "श्रेणियाँ"
+
+- id: footerSparkTitle
+  translation: "दैनिक दृश्य, पिछले 120 दिन"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} दृश्य"
+
+- id: footerViewsTitle
+  translation: "कुल दृश्य · {{ . }} से"
+
+- id: llmsFullNote
+  translation: "सभी लेखों का पूरा पाठ एक फ़ाइल में"
+
+- id: llmsPages
+  translation: "पृष्ठ"
+
+- id: llmsPosts
+  translation: "सभी लेख"
+
+- id: llmsRssNote
+  translation: "पूर्ण-पाठ फ़ीड"
+
+- id: minutesShort
+  translation: " मिनट"
+
+- id: navAria
+  translation: "सामग्री नेविगेशन"
+
+- id: navCategories
+  translation: "श्रेणियाँ"
+
+- id: navSearch
+  translation: "खोज"
+
+- id: navSiteAria
+  translation: "साइट नेविगेशन"
+
+- id: navTags
+  translation: "टैग"
+
+- id: notFoundLead
+  translation: "आप एक ऐसी गली में आ गए हैं जो मौजूद नहीं है।"
+
+- id: paginationAria
+  translation: "पृष्ठांकन"
+
+- id: pagination_next
+  translation: "अगला"
+
+- id: pagination_prev
+  translation: "पिछला"
+
+- id: postNavAria
+  translation: "लेख नेविगेशन"
+
+- id: postsSuffix
+  translation: " लेख"
+
+- id: posts_language_note
+  translation: "लेख अभी केवल चीनी में उपलब्ध हैं।"
+
+- id: readPrefix
+  translation: "पढ़ें: "
+
+- id: recentWriting
+  translation: "हाल के लेख"
+
+- id: relatedPosts
+  translation: "संबंधित लेख"
+
+- id: searchEmptyLabel
+  translation: "कोई परिणाम नहीं मिला।"
+
+- id: searchInputLabel
+  translation: "खोज"
+
+- id: searchPlaceholder
+  translation: "साइट में खोजें…"
+
+- id: searchResultsLabel
+  translation: "खोज परिणाम"
+
+- id: searchTryLabel
+  translation: "आज़माएँ: "
+
+- id: seriesUnwritten
+  translation: "अलिखित"
+
+- id: sgNowPlaying
+  translation: "खेल रहे हैं:"
+
+- id: sgNowReading
+  translation: "पढ़ रहे हैं:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} शब्द"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K शब्द"
+
+- id: socialLinks
+  translation: "सामाजिक लिंक"

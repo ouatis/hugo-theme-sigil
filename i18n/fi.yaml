@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Murupolku"
+
+- id: backHome
+  translation: "Takaisin etusivulle"
+
+- id: browseArchives
+  translation: "Selaa arkistoa"
+
+- id: categories
+  translation: "Kategoriat"
+
+- id: footerSparkTitle
+  translation: "Päivittäiset katselut, viimeiset 120 päivää"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} katselukertaa"
+
+- id: footerViewsTitle
+  translation: "Katselukerrat yhteensä · alkaen {{ . }}"
+
+- id: llmsFullNote
+  translation: "kaikkien kirjoitusten kokoteksti yhdessä tiedostossa"
+
+- id: llmsPages
+  translation: "Sivut"
+
+- id: llmsPosts
+  translation: "Kaikki kirjoitukset"
+
+- id: llmsRssNote
+  translation: "kokotekstisyöte"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Sisällön navigaatio"
+
+- id: navCategories
+  translation: "Kategoriat"
+
+- id: navSearch
+  translation: "Haku"
+
+- id: navSiteAria
+  translation: "Sivuston navigaatio"
+
+- id: navTags
+  translation: "Tunnisteet"
+
+- id: notFoundLead
+  translation: "Astuit olemattomaan kujaan."
+
+- id: paginationAria
+  translation: "Sivutus"
+
+- id: pagination_next
+  translation: "Seuraava"
+
+- id: pagination_prev
+  translation: "Edellinen"
+
+- id: postNavAria
+  translation: "Kirjoitusten navigaatio"
+
+- id: postsSuffix
+  translation: " kirjoitusta"
+
+- id: posts_language_note
+  translation: "Kirjoitukset ovat tällä hetkellä vain kiinaksi."
+
+- id: readPrefix
+  translation: "Lue: "
+
+- id: recentWriting
+  translation: "Tuoreimpia tekstejä"
+
+- id: relatedPosts
+  translation: "Aiheeseen liittyviä tekstejä"
+
+- id: searchEmptyLabel
+  translation: "Tuloksia ei löytynyt."
+
+- id: searchInputLabel
+  translation: "Haku"
+
+- id: searchPlaceholder
+  translation: "Hae sivustolta…"
+
+- id: searchResultsLabel
+  translation: "Hakutulokset"
+
+- id: searchTryLabel
+  translation: "Kokeile: "
+
+- id: seriesUnwritten
+  translation: "kirjoittamatta"
+
+- id: sgNowPlaying
+  translation: "Pelaa:"
+
+- id: sgNowReading
+  translation: "Lukee:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} sanaa"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K sanaa"
+
+- id: socialLinks
+  translation: "Sosiaaliset linkit"

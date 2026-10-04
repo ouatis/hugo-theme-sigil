@@ -122,3 +122,9 @@
   translation: "サイトナビゲーション"
 - id: postNavAria
   translation: "記事ナビゲーション"
+
+- id: sgNowPlaying
+  translation: "プレイ中:"
+
+- id: sgNowReading
+  translation: "読書中:"

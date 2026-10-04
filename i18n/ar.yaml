@@ -38,3 +38,116 @@
 
 - id: words
   translation: "{{ .Count }} كلمات"
+
+- id: backHome
+  translation: "العودة إلى الرئيسية"
+
+- id: browseArchives
+  translation: "تصفح الأرشيف"
+
+- id: categories
+  translation: "التصنيفات"
+
+- id: footerSparkTitle
+  translation: "المشاهدات اليومية، آخر 120 يومًا"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} مشاهدات"
+
+- id: footerViewsTitle
+  translation: "إجمالي المشاهدات · منذ {{ . }}"
+
+- id: llmsFullNote
+  translation: "النص الكامل لكل المقالات في ملف واحد"
+
+- id: llmsPages
+  translation: "الصفحات"
+
+- id: llmsPosts
+  translation: "جميع المقالات"
+
+- id: llmsRssNote
+  translation: "تغذية كاملة النص"
+
+- id: minutesShort
+  translation: " د"
+
+- id: navAria
+  translation: "تنقل المحتوى"
+
+- id: navCategories
+  translation: "التصنيفات"
+
+- id: navSearch
+  translation: "بحث"
+
+- id: navSiteAria
+  translation: "تنقل الموقع"
+
+- id: navTags
+  translation: "الوسوم"
+
+- id: notFoundLead
+  translation: "لقد دخلتَ زقاقًا غير موجود."
+
+- id: paginationAria
+  translation: "ترقيم الصفحات"
+
+- id: pagination_next
+  translation: "التالي"
+
+- id: pagination_prev
+  translation: "السابق"
+
+- id: postNavAria
+  translation: "تنقل المقالات"
+
+- id: postsSuffix
+  translation: " مقالات"
+
+- id: posts_language_note
+  translation: "المقالات متاحة حاليًا بالصينية فقط."
+
+- id: readPrefix
+  translation: "اقرأ: "
+
+- id: recentWriting
+  translation: "كتابات حديثة"
+
+- id: relatedPosts
+  translation: "كتابات ذات صلة"
+
+- id: searchEmptyLabel
+  translation: "لا توجد نتائج."
+
+- id: searchInputLabel
+  translation: "بحث"
+
+- id: searchPlaceholder
+  translation: "ابحث في الموقع…"
+
+- id: searchResultsLabel
+  translation: "نتائج البحث"
+
+- id: searchTryLabel
+  translation: "جرّب: "
+
+- id: seriesUnwritten
+  translation: "غير مكتوب"
+
+- id: sgNowPlaying
+  translation: "يلعب:"
+
+- id: sgNowReading
+  translation: "يقرأ:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} كلمة"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K كلمة"
+
+- id: socialLinks
+  translation: "روابط اجتماعية"

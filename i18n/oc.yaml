@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Home"
+
+- id: backHome
+  translation: "Tornar a l'acuèlh"
+
+- id: browseArchives
+  translation: "Percórrer las archivas"
+
+- id: categories
+  translation: "Categorias"
+
+- id: footerSparkTitle
+  translation: "Vistas jornalièras, 120 darrièrs jorns"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} vistas"
+
+- id: footerViewsTitle
+  translation: "Vistas totalas · dempuèi {{ . }}"
+
+- id: llmsFullNote
+  translation: "tèxt complet de totes los articles dins un fichièr"
+
+- id: llmsPages
+  translation: "Paginas"
+
+- id: llmsPosts
+  translation: "Totes los articles"
+
+- id: llmsRssNote
+  translation: "flux tèxt complet"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Navigacion del contengut"
+
+- id: navCategories
+  translation: "Categorias"
+
+- id: navSearch
+  translation: "Recèrca"
+
+- id: navSiteAria
+  translation: "Navigacion del site"
+
+- id: navTags
+  translation: "Etiquetas"
+
+- id: notFoundLead
+  translation: "Sètz entrat dins una carrièra qu'existís pas."
+
+- id: paginationAria
+  translation: "Paginacion"
+
+- id: pagination_next
+  translation: "Seguent"
+
+- id: pagination_prev
+  translation: "Precedent"
+
+- id: postNavAria
+  translation: "Navigacion dels articles"
+
+- id: postsSuffix
+  translation: " articles"
+
+- id: posts_language_note
+  translation: "Los articles son disponiblas sonque en chinés pel moment."
+
+- id: readPrefix
+  translation: "Legir: "
+
+- id: recentWriting
+  translation: "Escriches recents"
+
+- id: relatedPosts
+  translation: "Escriches connèxes"
+
+- id: searchEmptyLabel
+  translation: "Cap de resultat pas trobat."
+
+- id: searchInputLabel
+  translation: "Recèrca"
+
+- id: searchPlaceholder
+  translation: "Cercar dins lo site…"
+
+- id: searchResultsLabel
+  translation: "Resultats de recèrca"
+
+- id: searchTryLabel
+  translation: "Assajar: "
+
+- id: seriesUnwritten
+  translation: "non escrich"
+
+- id: sgNowPlaying
+  translation: "Jòc:"
+
+- id: sgNowReading
+  translation: "Lectura:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} mots"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K mots"
+
+- id: socialLinks
+  translation: "Ligams socials"

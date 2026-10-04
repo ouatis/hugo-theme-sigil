@@ -35,3 +35,116 @@
 
 - id: words
   translation: "{{ .Count }} szó"
+
+- id: backHome
+  translation: "Vissza a kezdőlapra"
+
+- id: browseArchives
+  translation: "Archívum böngészése"
+
+- id: categories
+  translation: "Kategóriák"
+
+- id: footerSparkTitle
+  translation: "Napi megtekintések, utolsó 120 nap"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} megtekintés"
+
+- id: footerViewsTitle
+  translation: "Összes megtekintés · {{ . }} óta"
+
+- id: llmsFullNote
+  translation: "minden bejegyzés teljes szövege egy fájlban"
+
+- id: llmsPages
+  translation: "Oldalak"
+
+- id: llmsPosts
+  translation: "Összes bejegyzés"
+
+- id: llmsRssNote
+  translation: "teljes szöveges feed"
+
+- id: minutesShort
+  translation: " perc"
+
+- id: navAria
+  translation: "Tartalom navigáció"
+
+- id: navCategories
+  translation: "Kategóriák"
+
+- id: navSearch
+  translation: "Keresés"
+
+- id: navSiteAria
+  translation: "Oldal navigáció"
+
+- id: navTags
+  translation: "Címkék"
+
+- id: notFoundLead
+  translation: "Egy nem létező közbe tévedtél."
+
+- id: paginationAria
+  translation: "Lapozás"
+
+- id: pagination_next
+  translation: "Következő"
+
+- id: pagination_prev
+  translation: "Előző"
+
+- id: postNavAria
+  translation: "Bejegyzés navigáció"
+
+- id: postsSuffix
+  translation: " bejegyzés"
+
+- id: posts_language_note
+  translation: "A bejegyzések jelenleg csak kínaiul érhetők el."
+
+- id: readPrefix
+  translation: "Olvasás: "
+
+- id: recentWriting
+  translation: "Legutóbbi írások"
+
+- id: relatedPosts
+  translation: "Kapcsolódó írások"
+
+- id: searchEmptyLabel
+  translation: "Nincs találat."
+
+- id: searchInputLabel
+  translation: "Keresés"
+
+- id: searchPlaceholder
+  translation: "Keresés az oldalon…"
+
+- id: searchResultsLabel
+  translation: "Keresési eredmények"
+
+- id: searchTryLabel
+  translation: "Próbáld: "
+
+- id: seriesUnwritten
+  translation: "íratlan"
+
+- id: sgNowPlaying
+  translation: "Játék:"
+
+- id: sgNowReading
+  translation: "Olvas:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} szó"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K szó"
+
+- id: socialLinks
+  translation: "Közösségi linkek"

@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Molla de pa"
+
+- id: backHome
+  translation: "Torna a l'inici"
+
+- id: browseArchives
+  translation: "Explora l'arxiu"
+
+- id: categories
+  translation: "Categories"
+
+- id: footerSparkTitle
+  translation: "Visualitzacions diàries, últims 120 dies"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} visualitzacions"
+
+- id: footerViewsTitle
+  translation: "Visualitzacions totals · des de {{ . }}"
+
+- id: llmsFullNote
+  translation: "text complet de tots els articles en un fitxer"
+
+- id: llmsPages
+  translation: "Pàgines"
+
+- id: llmsPosts
+  translation: "Tots els articles"
+
+- id: llmsRssNote
+  translation: "canal de text complet"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Navegació del contingut"
+
+- id: navCategories
+  translation: "Categories"
+
+- id: navSearch
+  translation: "Cerca"
+
+- id: navSiteAria
+  translation: "Navegació del lloc"
+
+- id: navTags
+  translation: "Etiquetes"
+
+- id: notFoundLead
+  translation: "Has entrat en un carreró que no existeix."
+
+- id: paginationAria
+  translation: "Paginació"
+
+- id: pagination_next
+  translation: "Següent"
+
+- id: pagination_prev
+  translation: "Anterior"
+
+- id: postNavAria
+  translation: "Navegació d'articles"
+
+- id: postsSuffix
+  translation: " articles"
+
+- id: posts_language_note
+  translation: "Els articles estan disponibles només en xinès."
+
+- id: readPrefix
+  translation: "Llegeix: "
+
+- id: recentWriting
+  translation: "Escrits recents"
+
+- id: relatedPosts
+  translation: "Escrits relacionats"
+
+- id: searchEmptyLabel
+  translation: "No s'han trobat resultats."
+
+- id: searchInputLabel
+  translation: "Cerca"
+
+- id: searchPlaceholder
+  translation: "Cerca al lloc…"
+
+- id: searchResultsLabel
+  translation: "Resultats de la cerca"
+
+- id: searchTryLabel
+  translation: "Prova: "
+
+- id: seriesUnwritten
+  translation: "sense escriure"
+
+- id: sgNowPlaying
+  translation: "Juga:"
+
+- id: sgNowReading
+  translation: "Llegeix:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} paraules"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K paraules"
+
+- id: socialLinks
+  translation: "Enllaços socials"

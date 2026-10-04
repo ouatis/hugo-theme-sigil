@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Brødsmuler"
+
+- id: backHome
+  translation: "Tilbake hjem"
+
+- id: browseArchives
+  translation: "Bla i arkivet"
+
+- id: categories
+  translation: "Kategorier"
+
+- id: footerSparkTitle
+  translation: "Daglige visninger, siste 120 dager"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} visninger"
+
+- id: footerViewsTitle
+  translation: "Samlede visninger · siden {{ . }}"
+
+- id: llmsFullNote
+  translation: "fulltekst av alle innlegg i én fil"
+
+- id: llmsPages
+  translation: "Sider"
+
+- id: llmsPosts
+  translation: "Alle innlegg"
+
+- id: llmsRssNote
+  translation: "fulltekstfeed"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Innholdsnavigasjon"
+
+- id: navCategories
+  translation: "Kategorier"
+
+- id: navSearch
+  translation: "Søk"
+
+- id: navSiteAria
+  translation: "Nettstedsnavigasjon"
+
+- id: navTags
+  translation: "Tagger"
+
+- id: notFoundLead
+  translation: "Du har gått inn i en gate som ikke finnes."
+
+- id: paginationAria
+  translation: "Sideinndeling"
+
+- id: pagination_next
+  translation: "Neste"
+
+- id: pagination_prev
+  translation: "Forrige"
+
+- id: postNavAria
+  translation: "Innleggsnavigasjon"
+
+- id: postsSuffix
+  translation: " innlegg"
+
+- id: posts_language_note
+  translation: "Innleggene er foreløpig bare tilgjengelige på kinesisk."
+
+- id: readPrefix
+  translation: "Les: "
+
+- id: recentWriting
+  translation: "Nyeste tekster"
+
+- id: relatedPosts
+  translation: "Relaterte tekster"
+
+- id: searchEmptyLabel
+  translation: "Ingen resultater funnet."
+
+- id: searchInputLabel
+  translation: "Søk"
+
+- id: searchPlaceholder
+  translation: "Søk på nettstedet…"
+
+- id: searchResultsLabel
+  translation: "Søkeresultater"
+
+- id: searchTryLabel
+  translation: "Prøv: "
+
+- id: seriesUnwritten
+  translation: "uskrevet"
+
+- id: sgNowPlaying
+  translation: "Spiller:"
+
+- id: sgNowReading
+  translation: "Leser:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} ord"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K ord"
+
+- id: socialLinks
+  translation: "Sosiale lenker"

@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Home"
+
+- id: backHome
+  translation: "ਹੋਮ ਵਾਪਸ"
+
+- id: browseArchives
+  translation: "ਪੁਰਾਲੇਖ ਵੇਖੋ"
+
+- id: categories
+  translation: "ਸ਼੍ਰੇਣੀਆਂ"
+
+- id: footerSparkTitle
+  translation: "ਰੋਜ਼ਾਨਾ ਵੇਖਣ, ਪਿਛਲੇ 120 ਦਿਨ"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} ਵੇਖਣ"
+
+- id: footerViewsTitle
+  translation: "ਕੁੱਲ ਵੇਖਣ · {{ . }} ਤੋਂ"
+
+- id: llmsFullNote
+  translation: "ਸਾਰੇ ਲੇਖਾਂ ਦਾ ਪੂਰਾ ਟੈਕਸਟ ਇੱਕ ਫ਼ਾਈਲ ਵਿੱਚ"
+
+- id: llmsPages
+  translation: "ਪੰਨੇ"
+
+- id: llmsPosts
+  translation: "ਸਾਰੇ ਲੇਖ"
+
+- id: llmsRssNote
+  translation: "ਪੂਰਾ-ਟੈਕਸਟ ਫ਼ੀਡ"
+
+- id: minutesShort
+  translation: " ਮਿੰਟ"
+
+- id: navAria
+  translation: "ਸਮੱਗਰੀ ਨੈਵੀਗੇਸ਼ਨ"
+
+- id: navCategories
+  translation: "ਸ਼੍ਰੇਣੀਆਂ"
+
+- id: navSearch
+  translation: "ਖੋਜ"
+
+- id: navSiteAria
+  translation: "ਸਾਈਟ ਨੈਵੀਗੇਸ਼ਨ"
+
+- id: navTags
+  translation: "ਟੈਗ"
+
+- id: notFoundLead
+  translation: "ਤੁਸੀਂ ਇੱਕ ਅਜਿਹੀ ਗਲੀ ਵਿੱਚ ਆ ਗਏ ਹੋ ਜੋ ਮੌਜੂਦ ਨਹੀਂ ਹੈ।"
+
+- id: paginationAria
+  translation: "ਪੰਨਾਬੰਦੀ"
+
+- id: pagination_next
+  translation: "ਅਗਲਾ"
+
+- id: pagination_prev
+  translation: "ਪਿਛਲਾ"
+
+- id: postNavAria
+  translation: "ਲੇਖ ਨੈਵੀਗੇਸ਼ਨ"
+
+- id: postsSuffix
+  translation: " ਲੇਖ"
+
+- id: posts_language_note
+  translation: "ਲੇਖ ਇਸ ਸਮੇਂ ਸਿਰਫ਼ ਚੀਨੀ ਵਿੱਚ ਹਨ।"
+
+- id: readPrefix
+  translation: "ਪੜ੍ਹੋ: "
+
+- id: recentWriting
+  translation: "ਹਾਲੀਆ ਲੇਖ"
+
+- id: relatedPosts
+  translation: "ਸੰਬੰਧਿਤ ਲੇਖ"
+
+- id: searchEmptyLabel
+  translation: "ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਮਿਲੇ।"
+
+- id: searchInputLabel
+  translation: "ਖੋਜ"
+
+- id: searchPlaceholder
+  translation: "ਸਾਈਟ ਵਿੱਚ ਖੋਜੋ…"
+
+- id: searchResultsLabel
+  translation: "ਖੋਜ ਨਤੀਜੇ"
+
+- id: searchTryLabel
+  translation: "ਕੋਸ਼ਿਸ਼ ਕਰੋ: "
+
+- id: seriesUnwritten
+  translation: "ਅਣਲਿਖਤ"
+
+- id: sgNowPlaying
+  translation: "ਖੇਡ ਰਹੇ ਹਨ:"
+
+- id: sgNowReading
+  translation: "ਪੜ੍ਹ ਰਹੇ ਹਨ:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} ਸ਼ਬਦ"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K ਸ਼ਬਦ"
+
+- id: socialLinks
+  translation: "ਸਮਾਜਿਕ ਲਿੰਕ"

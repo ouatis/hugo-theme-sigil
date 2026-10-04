@@ -35,3 +35,116 @@
 
 - id: words
   translation: "{{ .Count }} ord"
+
+- id: backHome
+  translation: "Tillbaka hem"
+
+- id: browseArchives
+  translation: "Bläddra i arkivet"
+
+- id: categories
+  translation: "Kategorier"
+
+- id: footerSparkTitle
+  translation: "Dagliga visningar, senaste 120 dagarna"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} visningar"
+
+- id: footerViewsTitle
+  translation: "Totalt antal visningar · sedan {{ . }}"
+
+- id: llmsFullNote
+  translation: "fulltext för alla inlägg i en fil"
+
+- id: llmsPages
+  translation: "Sidor"
+
+- id: llmsPosts
+  translation: "Alla inlägg"
+
+- id: llmsRssNote
+  translation: "fulltextflöde"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Innehållsnavigering"
+
+- id: navCategories
+  translation: "Kategorier"
+
+- id: navSearch
+  translation: "Sök"
+
+- id: navSiteAria
+  translation: "Webbplatsnavigering"
+
+- id: navTags
+  translation: "Taggar"
+
+- id: notFoundLead
+  translation: "Du har gått in i en gränd som inte finns."
+
+- id: paginationAria
+  translation: "Sidnumrering"
+
+- id: pagination_next
+  translation: "Nästa"
+
+- id: pagination_prev
+  translation: "Föregående"
+
+- id: postNavAria
+  translation: "Inläggsnavigering"
+
+- id: postsSuffix
+  translation: " inlägg"
+
+- id: posts_language_note
+  translation: "Inläggen finns för närvarande endast på kinesiska."
+
+- id: readPrefix
+  translation: "Läs: "
+
+- id: recentWriting
+  translation: "Senaste texter"
+
+- id: relatedPosts
+  translation: "Relaterade texter"
+
+- id: searchEmptyLabel
+  translation: "Inga resultat hittades."
+
+- id: searchInputLabel
+  translation: "Sök"
+
+- id: searchPlaceholder
+  translation: "Sök på webbplatsen…"
+
+- id: searchResultsLabel
+  translation: "Sökresultat"
+
+- id: searchTryLabel
+  translation: "Försök: "
+
+- id: seriesUnwritten
+  translation: "oskriven"
+
+- id: sgNowPlaying
+  translation: "Spelar:"
+
+- id: sgNowReading
+  translation: "Läser:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} ord"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K ord"
+
+- id: socialLinks
+  translation: "Sociala länkar"

@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Πλοήγηση"
+
+- id: backHome
+  translation: "Επιστροφή στην αρχική"
+
+- id: browseArchives
+  translation: "Περιήγηση στο αρχείο"
+
+- id: categories
+  translation: "Κατηγορίες"
+
+- id: footerSparkTitle
+  translation: "Ημερήσιες προβολές, τελευταίες 120 ημέρες"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} προβολές"
+
+- id: footerViewsTitle
+  translation: "Συνολικές προβολές · από {{ . }}"
+
+- id: llmsFullNote
+  translation: "πλήρες κείμενο όλων των άρθρων σε ένα αρχείο"
+
+- id: llmsPages
+  translation: "Σελίδες"
+
+- id: llmsPosts
+  translation: "Όλα τα άρθρα"
+
+- id: llmsRssNote
+  translation: "ροή πλήρους κειμένου"
+
+- id: minutesShort
+  translation: " λεπ"
+
+- id: navAria
+  translation: "Πλοήγηση περιεχομένου"
+
+- id: navCategories
+  translation: "Κατηγορίες"
+
+- id: navSearch
+  translation: "Αναζήτηση"
+
+- id: navSiteAria
+  translation: "Πλοήγηση ιστοσελίδας"
+
+- id: navTags
+  translation: "Ετικέτες"
+
+- id: notFoundLead
+  translation: "Μπήκατε σε ένα σοκάκι που δεν υπάρχει."
+
+- id: paginationAria
+  translation: "Σελιδοποίηση"
+
+- id: pagination_next
+  translation: "Επόμενο"
+
+- id: pagination_prev
+  translation: "Προηγούμενο"
+
+- id: postNavAria
+  translation: "Πλοήγηση άρθρων"
+
+- id: postsSuffix
+  translation: " άρθρα"
+
+- id: posts_language_note
+  translation: "Τα άρθρα είναι διαθέσιμα προς το παρόν μόνο στα κινεζικά."
+
+- id: readPrefix
+  translation: "Ανάγνωση: "
+
+- id: recentWriting
+  translation: "Πρόσφατα κείμενα"
+
+- id: relatedPosts
+  translation: "Σχετικά κείμενα"
+
+- id: searchEmptyLabel
+  translation: "Δεν βρέθηκαν αποτελέσματα."
+
+- id: searchInputLabel
+  translation: "Αναζήτηση"
+
+- id: searchPlaceholder
+  translation: "Αναζήτηση στον ιστότοπο…"
+
+- id: searchResultsLabel
+  translation: "Αποτελέσματα αναζήτησης"
+
+- id: searchTryLabel
+  translation: "Δοκιμή: "
+
+- id: seriesUnwritten
+  translation: "άγραφο"
+
+- id: sgNowPlaying
+  translation: "Παίζει:"
+
+- id: sgNowReading
+  translation: "Διαβάζει:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} λέξεις"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K λέξεις"
+
+- id: socialLinks
+  translation: "Κοινωνικοί σύνδεσμοι"

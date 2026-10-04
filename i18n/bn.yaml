@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "ব্রেডক্রাম্ব"
+
+- id: backHome
+  translation: "হোমে ফিরুন"
+
+- id: browseArchives
+  translation: "আর্কাইভ দেখুন"
+
+- id: categories
+  translation: "বিভাগ"
+
+- id: footerSparkTitle
+  translation: "দৈনিক দেখা, শেষ ১২০ দিন"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} বার দেখা"
+
+- id: footerViewsTitle
+  translation: "মোট দেখা · {{ . }} থেকে"
+
+- id: llmsFullNote
+  translation: "সব লেখার পূর্ণ পাঠ এক ফাইলে"
+
+- id: llmsPages
+  translation: "পাতা"
+
+- id: llmsPosts
+  translation: "সব লেখা"
+
+- id: llmsRssNote
+  translation: "পূর্ণ-পাঠ ফিড"
+
+- id: minutesShort
+  translation: " মিনিট"
+
+- id: navAria
+  translation: "কনটেন্ট নেভিগেশন"
+
+- id: navCategories
+  translation: "বিভাগ"
+
+- id: navSearch
+  translation: "অনুসন্ধান"
+
+- id: navSiteAria
+  translation: "সাইট নেভিগেশন"
+
+- id: navTags
+  translation: "ট্যাগ"
+
+- id: notFoundLead
+  translation: "আপনি এমন এক গলিতে ঢুকেছেন যা নেই।"
+
+- id: paginationAria
+  translation: "পেজিনেশন"
+
+- id: pagination_next
+  translation: "পরের"
+
+- id: pagination_prev
+  translation: "আগের"
+
+- id: postNavAria
+  translation: "লেখা নেভিগেশন"
+
+- id: postsSuffix
+  translation: " লেখা"
+
+- id: posts_language_note
+  translation: "লেখাগুলো এখন শুধু চীনা ভাষায়।"
+
+- id: readPrefix
+  translation: "পড়ুন: "
+
+- id: recentWriting
+  translation: "সাম্প্রতিক লেখা"
+
+- id: relatedPosts
+  translation: "সম্পর্কিত লেখা"
+
+- id: searchEmptyLabel
+  translation: "কোনো ফলাফল নেই।"
+
+- id: searchInputLabel
+  translation: "অনুসন্ধান"
+
+- id: searchPlaceholder
+  translation: "সাইটে খুঁজুন…"
+
+- id: searchResultsLabel
+  translation: "অনুসন্ধান ফলাফল"
+
+- id: searchTryLabel
+  translation: "চেষ্টা করুন: "
+
+- id: seriesUnwritten
+  translation: "লেখা হয়নি"
+
+- id: sgNowPlaying
+  translation: "খেলছে:"
+
+- id: sgNowReading
+  translation: "পড়ছে:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} শব্দ"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K শব্দ"
+
+- id: socialLinks
+  translation: "সোশ্যাল লিংক"

@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Điều hướng phân cấp"
+
+- id: backHome
+  translation: "Về trang chủ"
+
+- id: browseArchives
+  translation: "Xem lưu trữ"
+
+- id: categories
+  translation: "Chuyên mục"
+
+- id: footerSparkTitle
+  translation: "Lượt xem hằng ngày, 120 ngày gần nhất"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} lượt xem"
+
+- id: footerViewsTitle
+  translation: "Tổng lượt xem · từ {{ . }}"
+
+- id: llmsFullNote
+  translation: "toàn văn mọi bài viết trong một tệp"
+
+- id: llmsPages
+  translation: "Trang"
+
+- id: llmsPosts
+  translation: "Tất cả bài viết"
+
+- id: llmsRssNote
+  translation: "feed toàn văn"
+
+- id: minutesShort
+  translation: " phút"
+
+- id: navAria
+  translation: "Điều hướng nội dung"
+
+- id: navCategories
+  translation: "Chuyên mục"
+
+- id: navSearch
+  translation: "Tìm kiếm"
+
+- id: navSiteAria
+  translation: "Điều hướng trang"
+
+- id: navTags
+  translation: "Thẻ"
+
+- id: notFoundLead
+  translation: "Bạn đã đi vào một con hẻm không tồn tại."
+
+- id: paginationAria
+  translation: "Phân trang"
+
+- id: pagination_next
+  translation: "Sau"
+
+- id: pagination_prev
+  translation: "Trước"
+
+- id: postNavAria
+  translation: "Điều hướng bài viết"
+
+- id: postsSuffix
+  translation: " bài"
+
+- id: posts_language_note
+  translation: "Các bài viết hiện chỉ có bằng tiếng Trung."
+
+- id: readPrefix
+  translation: "Đọc: "
+
+- id: recentWriting
+  translation: "Viết gần đây"
+
+- id: relatedPosts
+  translation: "Bài liên quan"
+
+- id: searchEmptyLabel
+  translation: "Không tìm thấy kết quả."
+
+- id: searchInputLabel
+  translation: "Tìm kiếm"
+
+- id: searchPlaceholder
+  translation: "Tìm kiếm trong trang…"
+
+- id: searchResultsLabel
+  translation: "Kết quả tìm kiếm"
+
+- id: searchTryLabel
+  translation: "Thử: "
+
+- id: seriesUnwritten
+  translation: "chưa viết"
+
+- id: sgNowPlaying
+  translation: "Đang chơi:"
+
+- id: sgNowReading
+  translation: "Đang đọc:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} từ"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K từ"
+
+- id: socialLinks
+  translation: "Liên kết mạng xã hội"

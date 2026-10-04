@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "แถบนำทาง"
+
+- id: backHome
+  translation: "กลับหน้าแรก"
+
+- id: browseArchives
+  translation: "เรียกดูคลัง"
+
+- id: categories
+  translation: "หมวดหมู่"
+
+- id: footerSparkTitle
+  translation: "ยอดดูรายวัน 120 วันล่าสุด"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} ครั้ง"
+
+- id: footerViewsTitle
+  translation: "ยอดดูทั้งหมด · ตั้งแต่ {{ . }}"
+
+- id: llmsFullNote
+  translation: "เนื้อหาเต็มของทุกบทความในไฟล์เดียว"
+
+- id: llmsPages
+  translation: "หน้า"
+
+- id: llmsPosts
+  translation: "บทความทั้งหมด"
+
+- id: llmsRssNote
+  translation: "ฟีดเนื้อหาเต็ม"
+
+- id: minutesShort
+  translation: " นาที"
+
+- id: navAria
+  translation: "การนำทางเนื้อหา"
+
+- id: navCategories
+  translation: "หมวดหมู่"
+
+- id: navSearch
+  translation: "ค้นหา"
+
+- id: navSiteAria
+  translation: "การนำทางเว็บไซต์"
+
+- id: navTags
+  translation: "ป้ายกำกับ"
+
+- id: notFoundLead
+  translation: "คุณเดินเข้ามาในตรอกที่ไม่มีอยู่"
+
+- id: paginationAria
+  translation: "การแบ่งหน้า"
+
+- id: pagination_next
+  translation: "ถัดไป"
+
+- id: pagination_prev
+  translation: "ก่อนหน้า"
+
+- id: postNavAria
+  translation: "การนำทางบทความ"
+
+- id: postsSuffix
+  translation: " บทความ"
+
+- id: posts_language_note
+  translation: "บทความขณะนี้มีเฉพาะภาษาจีน"
+
+- id: readPrefix
+  translation: "อ่าน: "
+
+- id: recentWriting
+  translation: "เขียนล่าสุด"
+
+- id: relatedPosts
+  translation: "บทความที่เกี่ยวข้อง"
+
+- id: searchEmptyLabel
+  translation: "ไม่พบผลลัพธ์"
+
+- id: searchInputLabel
+  translation: "ค้นหา"
+
+- id: searchPlaceholder
+  translation: "ค้นหาทั้งเว็บ…"
+
+- id: searchResultsLabel
+  translation: "ผลการค้นหา"
+
+- id: searchTryLabel
+  translation: "ลอง: "
+
+- id: seriesUnwritten
+  translation: "ยังไม่เขียน"
+
+- id: sgNowPlaying
+  translation: "กำลังเล่น:"
+
+- id: sgNowReading
+  translation: "กำลังอ่าน:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} คำ"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K คำ"
+
+- id: socialLinks
+  translation: "ลิงก์โซเชียล"

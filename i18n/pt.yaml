@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Trilha de navegação"
+
+- id: backHome
+  translation: "Voltar ao início"
+
+- id: browseArchives
+  translation: "Explorar o arquivo"
+
+- id: categories
+  translation: "Categorias"
+
+- id: footerSparkTitle
+  translation: "Visualizações diárias, últimos 120 dias"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} visualizações"
+
+- id: footerViewsTitle
+  translation: "Visualizações acumuladas · desde {{ . }}"
+
+- id: llmsFullNote
+  translation: "texto integral de todos os artigos num ficheiro"
+
+- id: llmsPages
+  translation: "Páginas"
+
+- id: llmsPosts
+  translation: "Todos os artigos"
+
+- id: llmsRssNote
+  translation: "feed de texto integral"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Navegação do conteúdo"
+
+- id: navCategories
+  translation: "Categorias"
+
+- id: navSearch
+  translation: "Pesquisar"
+
+- id: navSiteAria
+  translation: "Navegação do site"
+
+- id: navTags
+  translation: "Etiquetas"
+
+- id: notFoundLead
+  translation: "Entrou num beco que não existe."
+
+- id: paginationAria
+  translation: "Paginação"
+
+- id: pagination_next
+  translation: "Seguinte"
+
+- id: pagination_prev
+  translation: "Anterior"
+
+- id: postNavAria
+  translation: "Navegação de artigos"
+
+- id: postsSuffix
+  translation: " artigos"
+
+- id: posts_language_note
+  translation: "Os artigos estão disponíveis apenas em chinês."
+
+- id: readPrefix
+  translation: "Ler: "
+
+- id: recentWriting
+  translation: "Escritos recentes"
+
+- id: relatedPosts
+  translation: "Escritos relacionados"
+
+- id: searchEmptyLabel
+  translation: "Nenhum resultado encontrado."
+
+- id: searchInputLabel
+  translation: "Pesquisar"
+
+- id: searchPlaceholder
+  translation: "Pesquisar no site…"
+
+- id: searchResultsLabel
+  translation: "Resultados da pesquisa"
+
+- id: searchTryLabel
+  translation: "Tentar: "
+
+- id: seriesUnwritten
+  translation: "não escrito"
+
+- id: sgNowPlaying
+  translation: "A jogar:"
+
+- id: sgNowReading
+  translation: "A ler:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} palavras"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K palavras"
+
+- id: socialLinks
+  translation: "Ligações sociais"

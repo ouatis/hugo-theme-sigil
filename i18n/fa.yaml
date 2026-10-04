@@ -35,3 +35,116 @@
 
 - id: words
   translation: "{{ .Count }} کلمه"
+
+- id: backHome
+  translation: "بازگشت به خانه"
+
+- id: browseArchives
+  translation: "مرور آرشیو"
+
+- id: categories
+  translation: "دسته‌ها"
+
+- id: footerSparkTitle
+  translation: "بازدید روزانه، ۱۲۰ روز گذشته"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} بازدید"
+
+- id: footerViewsTitle
+  translation: "کل بازدیدها · از {{ . }}"
+
+- id: llmsFullNote
+  translation: "متن کامل همهٔ نوشته‌ها در یک پرونده"
+
+- id: llmsPages
+  translation: "صفحه‌ها"
+
+- id: llmsPosts
+  translation: "همهٔ نوشته‌ها"
+
+- id: llmsRssNote
+  translation: "خوراک کامل متن"
+
+- id: minutesShort
+  translation: " دقیقه"
+
+- id: navAria
+  translation: "ناوبری محتوا"
+
+- id: navCategories
+  translation: "دسته‌ها"
+
+- id: navSearch
+  translation: "جست‌وجو"
+
+- id: navSiteAria
+  translation: "ناوبری سایت"
+
+- id: navTags
+  translation: "برچسب‌ها"
+
+- id: notFoundLead
+  translation: "به کوچه‌ای وارد شده‌اید که وجود ندارد."
+
+- id: paginationAria
+  translation: "صفحه‌بندی"
+
+- id: pagination_next
+  translation: "بعدی"
+
+- id: pagination_prev
+  translation: "قبلی"
+
+- id: postNavAria
+  translation: "ناوبری نوشته‌ها"
+
+- id: postsSuffix
+  translation: " نوشته"
+
+- id: posts_language_note
+  translation: "نوشته‌ها در حال حاضر فقط به چینی موجود است."
+
+- id: readPrefix
+  translation: "خواندن: "
+
+- id: recentWriting
+  translation: "نوشته‌های اخیر"
+
+- id: relatedPosts
+  translation: "نوشته‌های مرتبط"
+
+- id: searchEmptyLabel
+  translation: "نتیجه‌ای یافت نشد."
+
+- id: searchInputLabel
+  translation: "جست‌وجو"
+
+- id: searchPlaceholder
+  translation: "جست‌وجو در سایت…"
+
+- id: searchResultsLabel
+  translation: "نتایج جست‌وجو"
+
+- id: searchTryLabel
+  translation: "امتحان کنید: "
+
+- id: seriesUnwritten
+  translation: "نوشته‌نشده"
+
+- id: sgNowPlaying
+  translation: "در حال بازی:"
+
+- id: sgNowReading
+  translation: "در حال خواندن:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} واژه"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K واژه"
+
+- id: socialLinks
+  translation: "پیوندهای اجتماعی"

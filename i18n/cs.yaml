@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Drobečková navigace"
+
+- id: backHome
+  translation: "Zpět domů"
+
+- id: browseArchives
+  translation: "Procházet archiv"
+
+- id: categories
+  translation: "Kategorie"
+
+- id: footerSparkTitle
+  translation: "Denní zobrazení, posledních 120 dní"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} zobrazení"
+
+- id: footerViewsTitle
+  translation: "Celkem zobrazení · od {{ . }}"
+
+- id: llmsFullNote
+  translation: "plné texty všech příspěvků v jednom souboru"
+
+- id: llmsPages
+  translation: "Stránky"
+
+- id: llmsPosts
+  translation: "Všechny příspěvky"
+
+- id: llmsRssNote
+  translation: "plnotextový kanál"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Navigace obsahu"
+
+- id: navCategories
+  translation: "Kategorie"
+
+- id: navSearch
+  translation: "Hledat"
+
+- id: navSiteAria
+  translation: "Navigace webu"
+
+- id: navTags
+  translation: "Štítky"
+
+- id: notFoundLead
+  translation: "Vešel jste do uličky, která neexistuje."
+
+- id: paginationAria
+  translation: "Stránkování"
+
+- id: pagination_next
+  translation: "Další"
+
+- id: pagination_prev
+  translation: "Předchozí"
+
+- id: postNavAria
+  translation: "Navigace příspěvků"
+
+- id: postsSuffix
+  translation: " příspěvků"
+
+- id: posts_language_note
+  translation: "Příspěvky jsou aktuálně k dispozici pouze v čínštině."
+
+- id: readPrefix
+  translation: "Číst: "
+
+- id: recentWriting
+  translation: "Poslední texty"
+
+- id: relatedPosts
+  translation: "Související texty"
+
+- id: searchEmptyLabel
+  translation: "Nebyly nalezeny žádné výsledky."
+
+- id: searchInputLabel
+  translation: "Hledat"
+
+- id: searchPlaceholder
+  translation: "Hledat na webu…"
+
+- id: searchResultsLabel
+  translation: "Výsledky hledání"
+
+- id: searchTryLabel
+  translation: "Zkusit: "
+
+- id: seriesUnwritten
+  translation: "nepsaný"
+
+- id: sgNowPlaying
+  translation: "Hraje:"
+
+- id: sgNowReading
+  translation: "Čte:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} slov"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K slov"
+
+- id: socialLinks
+  translation: "Sociální odkazy"

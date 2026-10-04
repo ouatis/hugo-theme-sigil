@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Home"
+
+- id: backHome
+  translation: "Kembali ke beranda"
+
+- id: browseArchives
+  translation: "Jelajahi arsip"
+
+- id: categories
+  translation: "Kategori"
+
+- id: footerSparkTitle
+  translation: "Kunjungan harian, 120 hari terakhir"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} kunjungan"
+
+- id: footerViewsTitle
+  translation: "Total kunjungan · sejak {{ . }}"
+
+- id: llmsFullNote
+  translation: "teks lengkap semua tulisan dalam satu berkas"
+
+- id: llmsPages
+  translation: "Halaman"
+
+- id: llmsPosts
+  translation: "Semua tulisan"
+
+- id: llmsRssNote
+  translation: "feed teks lengkap"
+
+- id: minutesShort
+  translation: " mnt"
+
+- id: navAria
+  translation: "Navigasi konten"
+
+- id: navCategories
+  translation: "Kategori"
+
+- id: navSearch
+  translation: "Cari"
+
+- id: navSiteAria
+  translation: "Navigasi situs"
+
+- id: navTags
+  translation: "Tag"
+
+- id: notFoundLead
+  translation: "Anda masuk ke gang yang tidak ada."
+
+- id: paginationAria
+  translation: "Paginasi"
+
+- id: pagination_next
+  translation: "Berikutnya"
+
+- id: pagination_prev
+  translation: "Sebelumnya"
+
+- id: postNavAria
+  translation: "Navigasi tulisan"
+
+- id: postsSuffix
+  translation: " tulisan"
+
+- id: posts_language_note
+  translation: "Tulisan saat ini hanya tersedia dalam bahasa Mandarin."
+
+- id: readPrefix
+  translation: "Baca: "
+
+- id: recentWriting
+  translation: "Tulisan terbaru"
+
+- id: relatedPosts
+  translation: "Tulisan terkait"
+
+- id: searchEmptyLabel
+  translation: "Tidak ada hasil."
+
+- id: searchInputLabel
+  translation: "Cari"
+
+- id: searchPlaceholder
+  translation: "Cari di situs…"
+
+- id: searchResultsLabel
+  translation: "Hasil pencarian"
+
+- id: searchTryLabel
+  translation: "Coba: "
+
+- id: seriesUnwritten
+  translation: "belum ditulis"
+
+- id: sgNowPlaying
+  translation: "Sedang bermain:"
+
+- id: sgNowReading
+  translation: "Sedang membaca:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} kata"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K kata"
+
+- id: socialLinks
+  translation: "Tautan sosial"

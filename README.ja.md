@@ -102,6 +102,22 @@ bash scripts/build-fonts.sh
 python scripts/build-fonts.py
 ```
 
+## パフォーマンス
+
+サンプルサイトの minify ビルドで実測：
+
+- トップページ合計 約 **78 KB**：HTML 16 KB + CSS 57 KB + インライン JS 5 KB、**外部 JavaScript ゼロ**
+- オプションは必要時のみ：検索スクリプト 18 KB（検索ページ）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
+- フレームワークなし、jQuery なし、実行時 CDN 依存なし
+
+## 安定性
+
+公開契約——パラメータ名、`sg-*` クラス名、出力フォーマット、データ構造、
+拡張 partial——は **v0.9.0 で凍結**：改名には非推奨期間を設け、削除はメジャー
+リリースまで待ちます。契約の全文と非推奨ポリシーは
+[docs/api.md](docs/api.md) を参照。両インストール方式（submodule と Hugo
+module）は CI で検証されています。
+
 ## ライセンス
 
 MIT。詳細は [LICENSE](LICENSE) を参照してください。

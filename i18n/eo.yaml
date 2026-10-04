@@ -35,3 +35,116 @@
 
 - id: words
   translation: "{{ .Count }} vortoj"
+
+- id: backHome
+  translation: "Reveni hejmen"
+
+- id: browseArchives
+  translation: "Foliumi la arkivon"
+
+- id: categories
+  translation: "Kategorioj"
+
+- id: footerSparkTitle
+  translation: "Tagaj vidoj, lastaj 120 tagoj"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} vidoj"
+
+- id: footerViewsTitle
+  translation: "Totalaj vidoj · ekde {{ . }}"
+
+- id: llmsFullNote
+  translation: "plena teksto de ĉiuj afiŝoj en unu dosiero"
+
+- id: llmsPages
+  translation: "Paĝoj"
+
+- id: llmsPosts
+  translation: "Ĉiuj afiŝoj"
+
+- id: llmsRssNote
+  translation: "plenteksta fluo"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Enhavnavigado"
+
+- id: navCategories
+  translation: "Kategorioj"
+
+- id: navSearch
+  translation: "Serĉi"
+
+- id: navSiteAria
+  translation: "Reteja navigado"
+
+- id: navTags
+  translation: "Etikedoj"
+
+- id: notFoundLead
+  translation: "Vi eniris aleon, kiu ne ekzistas."
+
+- id: paginationAria
+  translation: "Paĝigo"
+
+- id: pagination_next
+  translation: "Sekva"
+
+- id: pagination_prev
+  translation: "Antaŭa"
+
+- id: postNavAria
+  translation: "Navigado de afiŝoj"
+
+- id: postsSuffix
+  translation: " afiŝoj"
+
+- id: posts_language_note
+  translation: "La afiŝoj nuntempe disponeblas nur en la ĉina."
+
+- id: readPrefix
+  translation: "Legi: "
+
+- id: recentWriting
+  translation: "Lastaj verkaĵoj"
+
+- id: relatedPosts
+  translation: "Rilataj verkaĵoj"
+
+- id: searchEmptyLabel
+  translation: "Neniuj rezultoj trovitaj."
+
+- id: searchInputLabel
+  translation: "Serĉi"
+
+- id: searchPlaceholder
+  translation: "Serĉi la retejon…"
+
+- id: searchResultsLabel
+  translation: "Serĉrezultoj"
+
+- id: searchTryLabel
+  translation: "Provu: "
+
+- id: seriesUnwritten
+  translation: "neskribita"
+
+- id: sgNowPlaying
+  translation: "Ludas:"
+
+- id: sgNowReading
+  translation: "Legas:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} vortoj"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K vortoj"
+
+- id: socialLinks
+  translation: "Sociaj ligiloj"

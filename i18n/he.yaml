@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "נתיב ניווט"
+
+- id: backHome
+  translation: "חזרה לדף הבית"
+
+- id: browseArchives
+  translation: "עיון בארכיון"
+
+- id: categories
+  translation: "קטגוריות"
+
+- id: footerSparkTitle
+  translation: "צפיות יומיות, 120 הימים האחרונים"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} צפיות"
+
+- id: footerViewsTitle
+  translation: "סך הצפיות · מאז {{ . }}"
+
+- id: llmsFullNote
+  translation: "הטקסט המלא של כל הרשומות בקובץ אחד"
+
+- id: llmsPages
+  translation: "עמודים"
+
+- id: llmsPosts
+  translation: "כל הרשומות"
+
+- id: llmsRssNote
+  translation: "פיד בטקסט מלא"
+
+- id: minutesShort
+  translation: " דק'"
+
+- id: navAria
+  translation: "ניווט בתוכן"
+
+- id: navCategories
+  translation: "קטגוריות"
+
+- id: navSearch
+  translation: "חיפוש"
+
+- id: navSiteAria
+  translation: "ניווט באתר"
+
+- id: navTags
+  translation: "תגיות"
+
+- id: notFoundLead
+  translation: "נכנסת לסמטה שאינה קיימת."
+
+- id: paginationAria
+  translation: "עימוד"
+
+- id: pagination_next
+  translation: "הבא"
+
+- id: pagination_prev
+  translation: "הקודם"
+
+- id: postNavAria
+  translation: "ניווט רשומות"
+
+- id: postsSuffix
+  translation: " רשומות"
+
+- id: posts_language_note
+  translation: "הרשומות זמינות כרגע בסינית בלבד."
+
+- id: readPrefix
+  translation: "קריאה: "
+
+- id: recentWriting
+  translation: "כתיבה אחרונה"
+
+- id: relatedPosts
+  translation: "כתיבה קשורה"
+
+- id: searchEmptyLabel
+  translation: "לא נמצאו תוצאות."
+
+- id: searchInputLabel
+  translation: "חיפוש"
+
+- id: searchPlaceholder
+  translation: "חיפוש באתר…"
+
+- id: searchResultsLabel
+  translation: "תוצאות חיפוש"
+
+- id: searchTryLabel
+  translation: "נסה: "
+
+- id: seriesUnwritten
+  translation: "לא נכתב"
+
+- id: sgNowPlaying
+  translation: "משחק:"
+
+- id: sgNowReading
+  translation: "קורא:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} מילים"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K מילים"
+
+- id: socialLinks
+  translation: "קישורים חברתיים"

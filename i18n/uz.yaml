@@ -36,3 +36,116 @@
 
 - id: words
   translation: "Home"
+
+- id: backHome
+  translation: "Bosh sahifaga qaytish"
+
+- id: browseArchives
+  translation: "Arxivni ko'rish"
+
+- id: categories
+  translation: "Kategoriyalar"
+
+- id: footerSparkTitle
+  translation: "Kunlik ko'rishlar, so'nggi 120 kun"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} marta ko'rilgan"
+
+- id: footerViewsTitle
+  translation: "Umumiy ko'rishlar · {{ . }} dan"
+
+- id: llmsFullNote
+  translation: "barcha yozuvlarning to'liq matni bitta faylda"
+
+- id: llmsPages
+  translation: "Sahifalar"
+
+- id: llmsPosts
+  translation: "Barcha yozuvlar"
+
+- id: llmsRssNote
+  translation: "to'liq matnli kanal"
+
+- id: minutesShort
+  translation: " daq"
+
+- id: navAria
+  translation: "Kontent navigatsiyasi"
+
+- id: navCategories
+  translation: "Kategoriyalar"
+
+- id: navSearch
+  translation: "Qidirish"
+
+- id: navSiteAria
+  translation: "Sayt navigatsiyasi"
+
+- id: navTags
+  translation: "Teglar"
+
+- id: notFoundLead
+  translation: "Siz mavjud bo'lmagan ko'chaga kirdingiz."
+
+- id: paginationAria
+  translation: "Sahifalash"
+
+- id: pagination_next
+  translation: "Keyingi"
+
+- id: pagination_prev
+  translation: "Oldingi"
+
+- id: postNavAria
+  translation: "Yozuvlar navigatsiyasi"
+
+- id: postsSuffix
+  translation: " yozuv"
+
+- id: posts_language_note
+  translation: "Yozuvlar hozircha faqat xitoy tilida."
+
+- id: readPrefix
+  translation: "O'qish: "
+
+- id: recentWriting
+  translation: "So'nggi yozuvlar"
+
+- id: relatedPosts
+  translation: "O'xshash yozuvlar"
+
+- id: searchEmptyLabel
+  translation: "Natijalar topilmadi."
+
+- id: searchInputLabel
+  translation: "Qidirish"
+
+- id: searchPlaceholder
+  translation: "Saytdan qidirish…"
+
+- id: searchResultsLabel
+  translation: "Qidiruv natijalari"
+
+- id: searchTryLabel
+  translation: "Sinab ko'ring: "
+
+- id: seriesUnwritten
+  translation: "yozilmagan"
+
+- id: sgNowPlaying
+  translation: "O'ynamoqda:"
+
+- id: sgNowReading
+  translation: "O'qimoqda:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} so'z"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K so'z"
+
+- id: socialLinks
+  translation: "Ijtimoiy havolalar"

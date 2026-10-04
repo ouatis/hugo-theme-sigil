@@ -35,3 +35,116 @@
 
 - id: words
   translation: "{{ .Count }} pata"
+
+- id: backHome
+  translation: "Kembali ke utama"
+
+- id: browseArchives
+  translation: "Layari arkib"
+
+- id: categories
+  translation: "Kategori"
+
+- id: footerSparkTitle
+  translation: "Paparan harian, 120 hari terakhir"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} paparan"
+
+- id: footerViewsTitle
+  translation: "Jumlah paparan · sejak {{ . }}"
+
+- id: llmsFullNote
+  translation: "teks penuh semua tulisan dalam satu fail"
+
+- id: llmsPages
+  translation: "Halaman"
+
+- id: llmsPosts
+  translation: "Semua tulisan"
+
+- id: llmsRssNote
+  translation: "suapan teks penuh"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Navigasi kandungan"
+
+- id: navCategories
+  translation: "Kategori"
+
+- id: navSearch
+  translation: "Cari"
+
+- id: navSiteAria
+  translation: "Navigasi laman"
+
+- id: navTags
+  translation: "Tag"
+
+- id: notFoundLead
+  translation: "Anda telah memasuki lorong yang tidak wujud."
+
+- id: paginationAria
+  translation: "Penghalaman"
+
+- id: pagination_next
+  translation: "Seterusnya"
+
+- id: pagination_prev
+  translation: "Sebelumnya"
+
+- id: postNavAria
+  translation: "Navigasi tulisan"
+
+- id: postsSuffix
+  translation: " tulisan"
+
+- id: posts_language_note
+  translation: "Tulisan buat masa ini hanya dalam bahasa Cina."
+
+- id: readPrefix
+  translation: "Baca: "
+
+- id: recentWriting
+  translation: "Tulisan terkini"
+
+- id: relatedPosts
+  translation: "Tulisan berkaitan"
+
+- id: searchEmptyLabel
+  translation: "Tiada hasil ditemui."
+
+- id: searchInputLabel
+  translation: "Cari"
+
+- id: searchPlaceholder
+  translation: "Cari di laman…"
+
+- id: searchResultsLabel
+  translation: "Hasil carian"
+
+- id: searchTryLabel
+  translation: "Cuba: "
+
+- id: seriesUnwritten
+  translation: "belum ditulis"
+
+- id: sgNowPlaying
+  translation: "Sedang bermain:"
+
+- id: sgNowReading
+  translation: "Sedang membaca:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} perkataan"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K perkataan"
+
+- id: socialLinks
+  translation: "Pautan sosial"

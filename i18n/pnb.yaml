@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Home"
+
+- id: backHome
+  translation: "گھر واپس"
+
+- id: browseArchives
+  translation: "آرکائیو ویکھو"
+
+- id: categories
+  translation: "کیٹیگریاں"
+
+- id: footerSparkTitle
+  translation: "روزانہ ویکھن، پچھلے 120 دن"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} وار ویکھیا"
+
+- id: footerViewsTitle
+  translation: "کل ویکھن · {{ . }} توں"
+
+- id: llmsFullNote
+  translation: "سارے لیکھاں دا پورا ٹیکسٹ اک فائل وچ"
+
+- id: llmsPages
+  translation: "صفے"
+
+- id: llmsPosts
+  translation: "سارے لیکھ"
+
+- id: llmsRssNote
+  translation: "پورا-ٹیکسٹ فیڈ"
+
+- id: minutesShort
+  translation: " منٹ"
+
+- id: navAria
+  translation: "مواد نیویگیشن"
+
+- id: navCategories
+  translation: "کیٹیگریاں"
+
+- id: navSearch
+  translation: "کھوج"
+
+- id: navSiteAria
+  translation: "سائٹ نیویگیشن"
+
+- id: navTags
+  translation: "ٹیگ"
+
+- id: notFoundLead
+  translation: "تسیں اک اجیہی گلی وچ آ گئے ہو جو موجود نہیں۔"
+
+- id: paginationAria
+  translation: "صفہ بندی"
+
+- id: pagination_next
+  translation: "اگلا"
+
+- id: pagination_prev
+  translation: "پچھلا"
+
+- id: postNavAria
+  translation: "لیکھ نیویگیشن"
+
+- id: postsSuffix
+  translation: " لیکھ"
+
+- id: posts_language_note
+  translation: "لیکھ اس ویلے صرف چینی وچ نیں۔"
+
+- id: readPrefix
+  translation: "پڑھو: "
+
+- id: recentWriting
+  translation: "حالیہ لیکھ"
+
+- id: relatedPosts
+  translation: "متعلق لیکھ"
+
+- id: searchEmptyLabel
+  translation: "کوئی نتیجہ نہیں ملیا۔"
+
+- id: searchInputLabel
+  translation: "کھوج"
+
+- id: searchPlaceholder
+  translation: "سائٹ وچ کھوجو…"
+
+- id: searchResultsLabel
+  translation: "کھوج نتیجے"
+
+- id: searchTryLabel
+  translation: "کوشش کرو: "
+
+- id: seriesUnwritten
+  translation: "اَنلکھت"
+
+- id: sgNowPlaying
+  translation: "کھیڈدے ہوئے:"
+
+- id: sgNowReading
+  translation: "پڑھدے ہوئے:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} شبد"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K شبد"
+
+- id: socialLinks
+  translation: "سماجی لنک"

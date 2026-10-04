@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "브레드크럼"
+
+- id: backHome
+  translation: "홈으로 돌아가기"
+
+- id: browseArchives
+  translation: "아카이브 둘러보기"
+
+- id: categories
+  translation: "분류"
+
+- id: footerSparkTitle
+  translation: "최근 120일 일별 조회수"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }}회 조회"
+
+- id: footerViewsTitle
+  translation: "누적 조회수 · {{ . }}부터"
+
+- id: llmsFullNote
+  translation: "모든 글의 전문을 한 파일에"
+
+- id: llmsPages
+  translation: "페이지"
+
+- id: llmsPosts
+  translation: "전체 글"
+
+- id: llmsRssNote
+  translation: "전문 피드"
+
+- id: minutesShort
+  translation: "분"
+
+- id: navAria
+  translation: "콘텐츠 탐색"
+
+- id: navCategories
+  translation: "분류"
+
+- id: navSearch
+  translation: "검색"
+
+- id: navSiteAria
+  translation: "사이트 탐색"
+
+- id: navTags
+  translation: "태그"
+
+- id: notFoundLead
+  translation: "존재하지 않는 골목에 들어서셨습니다."
+
+- id: paginationAria
+  translation: "페이지 넘김"
+
+- id: pagination_next
+  translation: "다음"
+
+- id: pagination_prev
+  translation: "이전"
+
+- id: postNavAria
+  translation: "글 탐색"
+
+- id: postsSuffix
+  translation: "편"
+
+- id: posts_language_note
+  translation: "글은 현재 중국어로만 제공됩니다."
+
+- id: readPrefix
+  translation: "읽기: "
+
+- id: recentWriting
+  translation: "최근 글"
+
+- id: relatedPosts
+  translation: "관련 글"
+
+- id: searchEmptyLabel
+  translation: "결과가 없습니다."
+
+- id: searchInputLabel
+  translation: "검색"
+
+- id: searchPlaceholder
+  translation: "사이트 검색…"
+
+- id: searchResultsLabel
+  translation: "검색 결과"
+
+- id: searchTryLabel
+  translation: "추천: "
+
+- id: seriesUnwritten
+  translation: "미작성"
+
+- id: sgNowPlaying
+  translation: "플레이 중:"
+
+- id: sgNowReading
+  translation: "읽는 중:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }}자"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K자"
+
+- id: socialLinks
+  translation: "소셜 링크"

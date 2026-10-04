@@ -102,6 +102,20 @@ bash scripts/build-fonts.sh
 python scripts/build-fonts.py
 ```
 
+## 性能
+
+以示例站 minify 构建实测：
+
+- 首页合计约 **78 KB**：HTML 16 KB + CSS 57 KB + 内联 JS 5 KB，**零外链 JavaScript**
+- 可选项按需加载：搜索脚本 18 KB（仅搜索页）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
+- 无框架、无 jQuery、无运行时 CDN 依赖
+
+## 稳定性
+
+公开契约——参数名、`sg-*` 类名、输出格式、数据结构、扩展 partial——自
+**v0.9.0 起冻结**：改名须留弃用窗口，移除等到大版本。完整契约与弃用政策见
+[docs/api.md](docs/api.md)。两种安装方式（submodule 与 Hugo module）均有 CI 覆盖。
+
 ## 许可证
 
 MIT，详见 [LICENSE](LICENSE)。

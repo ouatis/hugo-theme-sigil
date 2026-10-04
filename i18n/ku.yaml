@@ -35,3 +35,116 @@
 
 - id: words
   translation: "Home"
+
+- id: backHome
+  translation: "Vegerê mal"
+
+- id: browseArchives
+  translation: "Arşîvê bibîne"
+
+- id: categories
+  translation: "Kategorî"
+
+- id: footerSparkTitle
+  translation: "Dîtina rojane, 120 rojên dawî"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} dîtin"
+
+- id: footerViewsTitle
+  translation: "Bi giştî dîtin · ji {{ . }}"
+
+- id: llmsFullNote
+  translation: "tevahiya nivîsên hemû di pelakek de"
+
+- id: llmsPages
+  translation: "Rûpel"
+
+- id: llmsPosts
+  translation: "Hemû nivîs"
+
+- id: llmsRssNote
+  translation: "fîda tev-text"
+
+- id: minutesShort
+  translation: " xulek"
+
+- id: navAria
+  translation: "Navigasyona naverokê"
+
+- id: navCategories
+  translation: "Kategorî"
+
+- id: navSearch
+  translation: "Lêgerîn"
+
+- id: navSiteAria
+  translation: "Navigasyona malê"
+
+- id: navTags
+  translation: "Etîket"
+
+- id: notFoundLead
+  translation: "Tu ketî kuceyekê ku tune ye."
+
+- id: paginationAria
+  translation: "Rûpèlekirin"
+
+- id: pagination_next
+  translation: "Ya paş"
+
+- id: pagination_prev
+  translation: "Ya berê"
+
+- id: postNavAria
+  translation: "Navigasyona nivîsan"
+
+- id: postsSuffix
+  translation: " nivîs"
+
+- id: posts_language_note
+  translation: "Nivîs niha tenê bi çînî ne."
+
+- id: readPrefix
+  translation: "Bixwîne: "
+
+- id: recentWriting
+  translation: "Nivîsên dawî"
+
+- id: relatedPosts
+  translation: "Nivîsên têkildar"
+
+- id: searchEmptyLabel
+  translation: "Tu encam nehatin dîtin."
+
+- id: searchInputLabel
+  translation: "Lêgerîn"
+
+- id: searchPlaceholder
+  translation: "Li malê bigere…"
+
+- id: searchResultsLabel
+  translation: "Encamên lêgerînê"
+
+- id: searchTryLabel
+  translation: "Biceribîne: "
+
+- id: seriesUnwritten
+  translation: "nenivîsî"
+
+- id: sgNowPlaying
+  translation: "Dilîze:"
+
+- id: sgNowReading
+  translation: "Dixwîne:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} peyv"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K peyv"
+
+- id: socialLinks
+  translation: "Girêdanên civakî"

@@ -55,3 +55,95 @@
   translation: "上一頁"
 - id: pagination_next
   translation: "下一頁"
+
+- id: backHome
+  translation: "返回首頁"
+
+- id: browseArchives
+  translation: "瀏覽歸檔"
+
+- id: categories
+  translation: "分類"
+
+- id: footerSparkTitle
+  translation: "近 120 天每日瀏覽"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} 次瀏覽"
+
+- id: footerViewsTitle
+  translation: "累計瀏覽量 · 自 {{ . }} 起"
+
+- id: llmsFullNote
+  translation: "全部文章全文單檔"
+
+- id: llmsPages
+  translation: "頁面"
+
+- id: llmsPosts
+  translation: "全部文章"
+
+- id: llmsRssNote
+  translation: "全文訂閱"
+
+- id: minutesShort
+  translation: " 分"
+
+- id: navAria
+  translation: "內容導覽"
+
+- id: navCategories
+  translation: "分類"
+
+- id: navSearch
+  translation: "搜尋"
+
+- id: navSiteAria
+  translation: "網站導覽"
+
+- id: navTags
+  translation: "標籤"
+
+- id: notFoundLead
+  translation: "你走進了一條不存在的巷子。"
+
+- id: postNavAria
+  translation: "文章導覽"
+
+- id: posts_language_note
+  translation: "文章目前僅以中文刊載。"
+
+- id: relatedPosts
+  translation: "相關文章"
+
+- id: searchEmptyLabel
+  translation: "沒有找到結果。"
+
+- id: searchInputLabel
+  translation: "搜尋"
+
+- id: searchPlaceholder
+  translation: "搜尋全站……"
+
+- id: searchResultsLabel
+  translation: "搜尋結果"
+
+- id: searchTryLabel
+  translation: "試試："
+
+- id: seriesUnwritten
+  translation: "未撰寫"
+
+- id: sgNowPlaying
+  translation: "遊戲中："
+
+- id: sgNowReading
+  translation: "閱讀中："
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} 字"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K 字"

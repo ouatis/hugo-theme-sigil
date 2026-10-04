@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Sayfa yolu"
+
+- id: backHome
+  translation: "Ana sayfaya dön"
+
+- id: browseArchives
+  translation: "Arşive göz at"
+
+- id: categories
+  translation: "Kategoriler"
+
+- id: footerSparkTitle
+  translation: "Günlük görüntülemeler, son 120 gün"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} görüntüleme"
+
+- id: footerViewsTitle
+  translation: "Toplam görüntüleme · {{ . }} tarihinden beri"
+
+- id: llmsFullNote
+  translation: "tüm yazıların tam metni tek dosyada"
+
+- id: llmsPages
+  translation: "Sayfalar"
+
+- id: llmsPosts
+  translation: "Tüm yazılar"
+
+- id: llmsRssNote
+  translation: "tam metin akışı"
+
+- id: minutesShort
+  translation: " dk"
+
+- id: navAria
+  translation: "İçerik gezinmesi"
+
+- id: navCategories
+  translation: "Kategoriler"
+
+- id: navSearch
+  translation: "Ara"
+
+- id: navSiteAria
+  translation: "Site gezinmesi"
+
+- id: navTags
+  translation: "Etiketler"
+
+- id: notFoundLead
+  translation: "Var olmayan bir sokağa girdiniz."
+
+- id: paginationAria
+  translation: "Sayfalama"
+
+- id: pagination_next
+  translation: "Sonraki"
+
+- id: pagination_prev
+  translation: "Önceki"
+
+- id: postNavAria
+  translation: "Yazı gezinmesi"
+
+- id: postsSuffix
+  translation: " yazı"
+
+- id: posts_language_note
+  translation: "Yazılar şu anda yalnızca Çince mevcut."
+
+- id: readPrefix
+  translation: "Oku: "
+
+- id: recentWriting
+  translation: "Son yazılar"
+
+- id: relatedPosts
+  translation: "İlgili yazılar"
+
+- id: searchEmptyLabel
+  translation: "Sonuç bulunamadı."
+
+- id: searchInputLabel
+  translation: "Ara"
+
+- id: searchPlaceholder
+  translation: "Sitede ara…"
+
+- id: searchResultsLabel
+  translation: "Arama sonuçları"
+
+- id: searchTryLabel
+  translation: "Deneyin: "
+
+- id: seriesUnwritten
+  translation: "yazılmamış"
+
+- id: sgNowPlaying
+  translation: "Oynuyor:"
+
+- id: sgNowReading
+  translation: "Okuyor:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} sözcük"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K sözcük"
+
+- id: socialLinks
+  translation: "Sosyal bağlantılar"

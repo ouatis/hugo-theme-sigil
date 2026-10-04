@@ -106,6 +106,22 @@ bash scripts/build-fonts.sh
 python scripts/build-fonts.py
 ```
 
+## Performance
+
+Measured on the example site, minified build:
+
+- Homepage: ~78 KB total — 16 KB HTML + 57 KB CSS + 5 KB inline JS, **zero external JavaScript**
+- Optional, opt-in only: search script 18 KB (search page), KaTeX 332 KB (`math = true`), GLightbox 56 KB (`lightbox = true`)
+- No frameworks, no jQuery, no runtime CDN dependencies
+
+## Stability
+
+The public contract — parameter names, `sg-*` classes, output formats, data
+shapes, extension partials — is **frozen as of v0.9.0**: renames require a
+deprecation window and removals wait for a major release. The full contract
+and deprecation policy live in [docs/api.md](docs/api.md). Both install modes
+(submodule and Hugo module) are exercised in CI.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

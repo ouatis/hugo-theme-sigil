@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Brotkrumen"
+
+- id: backHome
+  translation: "Zurück zur Startseite"
+
+- id: browseArchives
+  translation: "Archiv durchstöbern"
+
+- id: categories
+  translation: "Kategorien"
+
+- id: footerSparkTitle
+  translation: "Tägliche Aufrufe, letzte 120 Tage"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} Aufrufe"
+
+- id: footerViewsTitle
+  translation: "Aufrufe insgesamt · seit {{ . }}"
+
+- id: llmsFullNote
+  translation: "alle Beiträge als Volltext in einer Datei"
+
+- id: llmsPages
+  translation: "Seiten"
+
+- id: llmsPosts
+  translation: "Alle Beiträge"
+
+- id: llmsRssNote
+  translation: "Volltext-Feed"
+
+- id: minutesShort
+  translation: " Min."
+
+- id: navAria
+  translation: "Inhaltsnavigation"
+
+- id: navCategories
+  translation: "Kategorien"
+
+- id: navSearch
+  translation: "Suche"
+
+- id: navSiteAria
+  translation: "Website-Navigation"
+
+- id: navTags
+  translation: "Tags"
+
+- id: notFoundLead
+  translation: "Du bist in eine Gasse gebogen, die es nicht gibt."
+
+- id: paginationAria
+  translation: "Seitennavigation"
+
+- id: pagination_next
+  translation: "Weiter"
+
+- id: pagination_prev
+  translation: "Zurück"
+
+- id: postNavAria
+  translation: "Beitragsnavigation"
+
+- id: postsSuffix
+  translation: " Beiträge"
+
+- id: posts_language_note
+  translation: "Die Beiträge sind derzeit nur auf Chinesisch verfügbar."
+
+- id: readPrefix
+  translation: "Lesen: "
+
+- id: recentWriting
+  translation: "Neueste Beiträge"
+
+- id: relatedPosts
+  translation: "Verwandte Beiträge"
+
+- id: searchEmptyLabel
+  translation: "Keine Ergebnisse gefunden."
+
+- id: searchInputLabel
+  translation: "Suche"
+
+- id: searchPlaceholder
+  translation: "Die Website durchsuchen…"
+
+- id: searchResultsLabel
+  translation: "Suchergebnisse"
+
+- id: searchTryLabel
+  translation: "Vorschlag: "
+
+- id: seriesUnwritten
+  translation: "ungeschrieben"
+
+- id: sgNowPlaying
+  translation: "Spielt:"
+
+- id: sgNowReading
+  translation: "Liest:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} Wörter"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K Wörter"
+
+- id: socialLinks
+  translation: "Social-Links"

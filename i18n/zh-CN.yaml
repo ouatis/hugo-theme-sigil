@@ -119,3 +119,12 @@
   translation: "站内导航"
 - id: postNavAria
   translation: "文章导航"
+
+- id: posts_language_note
+  translation: "文章仅以中文刊载。"
+
+- id: sgNowPlaying
+  translation: "游戏中："
+
+- id: sgNowReading
+  translation: "在读："

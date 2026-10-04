@@ -35,3 +35,116 @@
 
 - id: words
   translation: "{{ .Count }} думи"
+
+- id: backHome
+  translation: "Обратно към началото"
+
+- id: browseArchives
+  translation: "Разглеждане на архива"
+
+- id: categories
+  translation: "Категории"
+
+- id: footerSparkTitle
+  translation: "Дневни показвания, последните 120 дни"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} показвания"
+
+- id: footerViewsTitle
+  translation: "Общо показвания · от {{ . }}"
+
+- id: llmsFullNote
+  translation: "пълният текст на всички статии в един файл"
+
+- id: llmsPages
+  translation: "Страници"
+
+- id: llmsPosts
+  translation: "Всички статии"
+
+- id: llmsRssNote
+  translation: "пълнотекстова емисия"
+
+- id: minutesShort
+  translation: " мин"
+
+- id: navAria
+  translation: "Навигация на съдържанието"
+
+- id: navCategories
+  translation: "Категории"
+
+- id: navSearch
+  translation: "Търсене"
+
+- id: navSiteAria
+  translation: "Навигация на сайта"
+
+- id: navTags
+  translation: "Етикети"
+
+- id: notFoundLead
+  translation: "Влязохте в уличка, която не съществува."
+
+- id: paginationAria
+  translation: "Пагинация"
+
+- id: pagination_next
+  translation: "Следваща"
+
+- id: pagination_prev
+  translation: "Предишна"
+
+- id: postNavAria
+  translation: "Навигация на статиите"
+
+- id: postsSuffix
+  translation: " статии"
+
+- id: posts_language_note
+  translation: "Статиите в момента са достъпни само на китайски."
+
+- id: readPrefix
+  translation: "Четене: "
+
+- id: recentWriting
+  translation: "Скорошни текстове"
+
+- id: relatedPosts
+  translation: "Свързани текстове"
+
+- id: searchEmptyLabel
+  translation: "Няма намерени резултати."
+
+- id: searchInputLabel
+  translation: "Търсене"
+
+- id: searchPlaceholder
+  translation: "Търсене в сайта…"
+
+- id: searchResultsLabel
+  translation: "Резултати от търсенето"
+
+- id: searchTryLabel
+  translation: "Опитай: "
+
+- id: seriesUnwritten
+  translation: "неписан"
+
+- id: sgNowPlaying
+  translation: "Играе:"
+
+- id: sgNowReading
+  translation: "Чете:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} думи"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K думи"
+
+- id: socialLinks
+  translation: "Социални връзки"

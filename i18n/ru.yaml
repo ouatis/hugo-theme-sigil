@@ -43,3 +43,116 @@
 
 - id: breadcrumbs
   translation: "Навигационная цепочка"
+
+- id: backHome
+  translation: "На главную"
+
+- id: browseArchives
+  translation: "Просмотреть архив"
+
+- id: categories
+  translation: "Категории"
+
+- id: footerSparkTitle
+  translation: "Ежедневные просмотры, последние 120 дней"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} просмотров"
+
+- id: footerViewsTitle
+  translation: "Всего просмотров · с {{ . }}"
+
+- id: llmsFullNote
+  translation: "полные тексты всех записей в одном файле"
+
+- id: llmsPages
+  translation: "Страницы"
+
+- id: llmsPosts
+  translation: "Все записи"
+
+- id: llmsRssNote
+  translation: "полнотекстовая лента"
+
+- id: minutesShort
+  translation: " мин"
+
+- id: navAria
+  translation: "Навигация по содержимому"
+
+- id: navCategories
+  translation: "Категории"
+
+- id: navSearch
+  translation: "Поиск"
+
+- id: navSiteAria
+  translation: "Навигация по сайту"
+
+- id: navTags
+  translation: "Теги"
+
+- id: notFoundLead
+  translation: "Вы забрели в переулок, которого нет."
+
+- id: paginationAria
+  translation: "Постраничная навигация"
+
+- id: pagination_next
+  translation: "Следующая"
+
+- id: pagination_prev
+  translation: "Предыдущая"
+
+- id: postNavAria
+  translation: "Навигация по записям"
+
+- id: postsSuffix
+  translation: " записей"
+
+- id: posts_language_note
+  translation: "Записи сейчас доступны только на китайском."
+
+- id: readPrefix
+  translation: "Читать: "
+
+- id: recentWriting
+  translation: "Свежие записи"
+
+- id: relatedPosts
+  translation: "Похожие записи"
+
+- id: searchEmptyLabel
+  translation: "Ничего не найдено."
+
+- id: searchInputLabel
+  translation: "Поиск"
+
+- id: searchPlaceholder
+  translation: "Поиск по сайту…"
+
+- id: searchResultsLabel
+  translation: "Результаты поиска"
+
+- id: searchTryLabel
+  translation: "Попробуйте: "
+
+- id: seriesUnwritten
+  translation: "не написано"
+
+- id: sgNowPlaying
+  translation: "Играет:"
+
+- id: sgNowReading
+  translation: "Читает:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} слов"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K слов"
+
+- id: socialLinks
+  translation: "Социальные ссылки"

@@ -43,3 +43,116 @@
 
 - id: breadcrumbs
   translation: "Навафігацыйная сцежка"
+
+- id: backHome
+  translation: "На галоўную"
+
+- id: browseArchives
+  translation: "Прагледзець архіў"
+
+- id: categories
+  translation: "Катэгорыі"
+
+- id: footerSparkTitle
+  translation: "Штодзённыя прагляды, апошнія 120 дзён"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} праглядаў"
+
+- id: footerViewsTitle
+  translation: "Усяго праглядаў · з {{ . }}"
+
+- id: llmsFullNote
+  translation: "поўныя тэксты ўсіх запісаў у адным файле"
+
+- id: llmsPages
+  translation: "Старонкі"
+
+- id: llmsPosts
+  translation: "Усе запісы"
+
+- id: llmsRssNote
+  translation: "паўнатэкставая стужка"
+
+- id: minutesShort
+  translation: " хв"
+
+- id: navAria
+  translation: "Навігацыя змесціва"
+
+- id: navCategories
+  translation: "Катэгорыі"
+
+- id: navSearch
+  translation: "Пошук"
+
+- id: navSiteAria
+  translation: "Навігацыя сайта"
+
+- id: navTags
+  translation: "Тэгі"
+
+- id: notFoundLead
+  translation: "Вы трапілі ў завулак, якога не існуе."
+
+- id: paginationAria
+  translation: "Пагінацыя"
+
+- id: pagination_next
+  translation: "Наступная"
+
+- id: pagination_prev
+  translation: "Папярэдняя"
+
+- id: postNavAria
+  translation: "Навігацыя запісаў"
+
+- id: postsSuffix
+  translation: " запісаў"
+
+- id: posts_language_note
+  translation: "Запісы зараз даступныя толькі па-кітайску."
+
+- id: readPrefix
+  translation: "Чытаць: "
+
+- id: recentWriting
+  translation: "Апошнія тэксты"
+
+- id: relatedPosts
+  translation: "Падобныя тэксты"
+
+- id: searchEmptyLabel
+  translation: "Нічога не знойдзена."
+
+- id: searchInputLabel
+  translation: "Пошук"
+
+- id: searchPlaceholder
+  translation: "Пошук па сайце…"
+
+- id: searchResultsLabel
+  translation: "Вынікі пошуку"
+
+- id: searchTryLabel
+  translation: "Паспрабуйце: "
+
+- id: seriesUnwritten
+  translation: "ненапісаны"
+
+- id: sgNowPlaying
+  translation: "Гуляе:"
+
+- id: sgNowReading
+  translation: "Чытае:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} слоў"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K слоў"
+
+- id: socialLinks
+  translation: "Сацыяльныя спасылкі"

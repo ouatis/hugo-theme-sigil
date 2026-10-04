@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Home"
+
+- id: backHome
+  translation: "Rudi nyumbani"
+
+- id: browseArchives
+  translation: "Vinjari kumbukumbu"
+
+- id: categories
+  translation: "Makundi"
+
+- id: footerSparkTitle
+  translation: "Mitazamo ya kila siku, siku 120 zilizopita"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} mitazamo"
+
+- id: footerViewsTitle
+  translation: "Mitazamo yote · kuanzia {{ . }}"
+
+- id: llmsFullNote
+  translation: "maandishi kamili ya machapisho yote katika faili moja"
+
+- id: llmsPages
+  translation: "Kurasa"
+
+- id: llmsPosts
+  translation: "Machapisho yote"
+
+- id: llmsRssNote
+  translation: "feed ya maandishi kamili"
+
+- id: minutesShort
+  translation: " dakika"
+
+- id: navAria
+  translation: "Urambulaji wa maudhui"
+
+- id: navCategories
+  translation: "Makundi"
+
+- id: navSearch
+  translation: "Tafuta"
+
+- id: navSiteAria
+  translation: "Urambulaji wa tovuti"
+
+- id: navTags
+  translation: "Lebo"
+
+- id: notFoundLead
+  translation: "Umeingia njia isipokuwepo."
+
+- id: paginationAria
+  translation: "Ugawaji wa kurasa"
+
+- id: pagination_next
+  translation: "Ifuatayo"
+
+- id: pagination_prev
+  translation: "Iliyotangulia"
+
+- id: postNavAria
+  translation: "Urambulaji wa machapisho"
+
+- id: postsSuffix
+  translation: " machapisho"
+
+- id: posts_language_note
+  translation: "Machapisho kwa sasa yanapatikana kwa Kichina tu."
+
+- id: readPrefix
+  translation: "Soma: "
+
+- id: recentWriting
+  translation: "Maandishi ya hivi karibuni"
+
+- id: relatedPosts
+  translation: "Maandishi yanayohusiana"
+
+- id: searchEmptyLabel
+  translation: "Hakuna matokeo yaliyopatikana."
+
+- id: searchInputLabel
+  translation: "Tafuta"
+
+- id: searchPlaceholder
+  translation: "Tafuta kwenye tovuti…"
+
+- id: searchResultsLabel
+  translation: "Matokeo ya utafutaji"
+
+- id: searchTryLabel
+  translation: "Jaribu: "
+
+- id: seriesUnwritten
+  translation: "haijaandikwa"
+
+- id: sgNowPlaying
+  translation: "Anacheza:"
+
+- id: sgNowReading
+  translation: "Anasoma:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} maneno"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K maneno"
+
+- id: socialLinks
+  translation: "Viungo vya kijamii"

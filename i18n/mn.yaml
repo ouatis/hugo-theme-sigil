@@ -35,3 +35,116 @@
 
 - id: words
   translation: "Home"
+
+- id: backHome
+  translation: "Нүүр хуудас руу буцах"
+
+- id: browseArchives
+  translation: "Архив үзэх"
+
+- id: categories
+  translation: "Ангилал"
+
+- id: footerSparkTitle
+  translation: "Өдөр бүрийн үзэлт, сүүлийн 120 хоног"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} удаа үзсэн"
+
+- id: footerViewsTitle
+  translation: "Нийт үзэлт · {{ . }}-оос"
+
+- id: llmsFullNote
+  translation: "бүх бичлэгийн тэкст нэг файлд"
+
+- id: llmsPages
+  translation: "Хуудас"
+
+- id: llmsPosts
+  translation: "Бүх бичлэг"
+
+- id: llmsRssNote
+  translation: "бүтэн текстийн фийд"
+
+- id: minutesShort
+  translation: " мин"
+
+- id: navAria
+  translation: "Агуулгын чиглүүлэгч"
+
+- id: navCategories
+  translation: "Ангилал"
+
+- id: navSearch
+  translation: "Хайлт"
+
+- id: navSiteAria
+  translation: "Сайтын чиглүүлэгч"
+
+- id: navTags
+  translation: "Таг"
+
+- id: notFoundLead
+  translation: "Та байхгүй гудамж руу орсон байна."
+
+- id: paginationAria
+  translation: "Хуудаслалт"
+
+- id: pagination_next
+  translation: "Дараах"
+
+- id: pagination_prev
+  translation: "Өмнөх"
+
+- id: postNavAria
+  translation: "Бичлэгийн чиглүүлэгч"
+
+- id: postsSuffix
+  translation: " бичлэг"
+
+- id: posts_language_note
+  translation: "Бичлэгүүд одоогоор зөвхөн хятадаар."
+
+- id: readPrefix
+  translation: "Унших: "
+
+- id: recentWriting
+  translation: "Сүүлийн бичлэг"
+
+- id: relatedPosts
+  translation: "Төстэй бичлэг"
+
+- id: searchEmptyLabel
+  translation: "Илэрц олдсонгүй."
+
+- id: searchInputLabel
+  translation: "Хайлт"
+
+- id: searchPlaceholder
+  translation: "Сайтаас хайх…"
+
+- id: searchResultsLabel
+  translation: "Хайлтын үр дүн"
+
+- id: searchTryLabel
+  translation: "Турж үзэх: "
+
+- id: seriesUnwritten
+  translation: "бичигдээгүй"
+
+- id: sgNowPlaying
+  translation: "Тоглож байна:"
+
+- id: sgNowReading
+  translation: "Уншиж байна:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} үг"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K үг"
+
+- id: socialLinks
+  translation: "Нийгмийн холбоосууд"

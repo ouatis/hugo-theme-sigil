@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Ścieżka nawigacji"
+
+- id: backHome
+  translation: "Powrót na stronę główną"
+
+- id: browseArchives
+  translation: "Przeglądaj archiwum"
+
+- id: categories
+  translation: "Kategorie"
+
+- id: footerSparkTitle
+  translation: "Dzienne wyświetlenia, ostatnie 120 dni"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} wyświetleń"
+
+- id: footerViewsTitle
+  translation: "Łączne wyświetlenia · od {{ . }}"
+
+- id: llmsFullNote
+  translation: "pełna treść wszystkich wpisów w jednym pliku"
+
+- id: llmsPages
+  translation: "Strony"
+
+- id: llmsPosts
+  translation: "Wszystkie wpisy"
+
+- id: llmsRssNote
+  translation: "pełnotekstowy kanał"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Nawigacja treści"
+
+- id: navCategories
+  translation: "Kategorie"
+
+- id: navSearch
+  translation: "Szukaj"
+
+- id: navSiteAria
+  translation: "Nawigacja witryny"
+
+- id: navTags
+  translation: "Tagi"
+
+- id: notFoundLead
+  translation: "Wszedłeś do uliczki, która nie istnieje."
+
+- id: paginationAria
+  translation: "Paginacja"
+
+- id: pagination_next
+  translation: "Następny"
+
+- id: pagination_prev
+  translation: "Poprzedni"
+
+- id: postNavAria
+  translation: "Nawigacja wpisów"
+
+- id: postsSuffix
+  translation: " wpisów"
+
+- id: posts_language_note
+  translation: "Wpisy są obecnie dostępne tylko po chińsku."
+
+- id: readPrefix
+  translation: "Czytaj: "
+
+- id: recentWriting
+  translation: "Ostatnie teksty"
+
+- id: relatedPosts
+  translation: "Powiązane teksty"
+
+- id: searchEmptyLabel
+  translation: "Nie znaleziono wyników."
+
+- id: searchInputLabel
+  translation: "Szukaj"
+
+- id: searchPlaceholder
+  translation: "Przeszukaj witrynę…"
+
+- id: searchResultsLabel
+  translation: "Wyniki wyszukiwania"
+
+- id: searchTryLabel
+  translation: "Spróbuj: "
+
+- id: seriesUnwritten
+  translation: "nieopisany"
+
+- id: sgNowPlaying
+  translation: "Gra:"
+
+- id: sgNowReading
+  translation: "Czyta:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} słów"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K słów"
+
+- id: socialLinks
+  translation: "Linki społecznościowe"

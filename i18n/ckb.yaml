@@ -35,3 +35,116 @@
 
 - id: words
   translation: "Home"
+
+- id: backHome
+  translation: "گەڕانەوە بۆ سەرەکی"
+
+- id: browseArchives
+  translation: "گەڕان بەناو ئەرشیڤ"
+
+- id: categories
+  translation: "پۆلەکان"
+
+- id: footerSparkTitle
+  translation: "بینینی ڕۆژانە، ١٢٠ ڕۆژی دواتر"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} بینین"
+
+- id: footerViewsTitle
+  translation: "کۆی بینینەکان · لە {{ . }}"
+
+- id: llmsFullNote
+  translation: "دەقی تەواوی هەموو بابەتەکان لە یەک فایل"
+
+- id: llmsPages
+  translation: "پەڕەکان"
+
+- id: llmsPosts
+  translation: "هەموو بابەتەکان"
+
+- id: llmsRssNote
+  translation: "فیدی دەقی تەواو"
+
+- id: minutesShort
+  translation: " خولەک"
+
+- id: navAria
+  translation: "ڕێنیشاندانی ناوەڕۆک"
+
+- id: navCategories
+  translation: "پۆلەکان"
+
+- id: navSearch
+  translation: "گەڕان"
+
+- id: navSiteAria
+  translation: "ڕێنیشاندانی ماڵپەر"
+
+- id: navTags
+  translation: "تاگەکان"
+
+- id: notFoundLead
+  translation: "تۆ کەوتویتە کۆڵانێک کە بوونی نییە."
+
+- id: paginationAria
+  translation: "پەڕەکردن"
+
+- id: pagination_next
+  translation: "دواتر"
+
+- id: pagination_prev
+  translation: "پێشوو"
+
+- id: postNavAria
+  translation: "ڕێنیشاندانی بابەتەکان"
+
+- id: postsSuffix
+  translation: " بابەت"
+
+- id: posts_language_note
+  translation: "بابەتەکان ئێستا تەنها بە چینییە."
+
+- id: readPrefix
+  translation: "خوێندنەوە: "
+
+- id: recentWriting
+  translation: "دوایین نووسین"
+
+- id: relatedPosts
+  translation: "نووسینی پەیوەندیدار"
+
+- id: searchEmptyLabel
+  translation: "هیچ ئەنجامێک نەدۆزرایەوە."
+
+- id: searchInputLabel
+  translation: "گەڕان"
+
+- id: searchPlaceholder
+  translation: "گەڕان لە ماڵپەر…"
+
+- id: searchResultsLabel
+  translation: "ئەنجامی گەڕان"
+
+- id: searchTryLabel
+  translation: "هەوڵ بدە: "
+
+- id: seriesUnwritten
+  translation: "نەنووسراو"
+
+- id: sgNowPlaying
+  translation: "یاریکردن:"
+
+- id: sgNowReading
+  translation: "خوێندنەوە:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} وشە"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K وشە"
+
+- id: socialLinks
+  translation: "بەستەرە کۆمەڵایەتییەکان"

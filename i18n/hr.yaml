@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Navigacijski put"
+
+- id: backHome
+  translation: "Natrag na početnu"
+
+- id: browseArchives
+  translation: "Pregledaj arhivu"
+
+- id: categories
+  translation: "Kategorije"
+
+- id: footerSparkTitle
+  translation: "Dnevni pregledi, zadnjih 120 dana"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} pregleda"
+
+- id: footerViewsTitle
+  translation: "Ukupno pregleda · od {{ . }}"
+
+- id: llmsFullNote
+  translation: "cijeli tekst svih članaka u jednoj datoteci"
+
+- id: llmsPages
+  translation: "Stranice"
+
+- id: llmsPosts
+  translation: "Svi članci"
+
+- id: llmsRssNote
+  translation: "feed s punim tekstom"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Navigacija sadržaja"
+
+- id: navCategories
+  translation: "Kategorije"
+
+- id: navSearch
+  translation: "Pretraga"
+
+- id: navSiteAria
+  translation: "Navigacija stranice"
+
+- id: navTags
+  translation: "Oznake"
+
+- id: notFoundLead
+  translation: "Ušli ste u uličicu koja ne postoji."
+
+- id: paginationAria
+  translation: "Paginacija"
+
+- id: pagination_next
+  translation: "Sljedeći"
+
+- id: pagination_prev
+  translation: "Prethodni"
+
+- id: postNavAria
+  translation: "Navigacija članaka"
+
+- id: postsSuffix
+  translation: " članaka"
+
+- id: posts_language_note
+  translation: "Članci su trenutno dostupni samo na kineskom."
+
+- id: readPrefix
+  translation: "Čitaj: "
+
+- id: recentWriting
+  translation: "Nedavni tekstovi"
+
+- id: relatedPosts
+  translation: "Povezani tekstovi"
+
+- id: searchEmptyLabel
+  translation: "Nema pronađenih rezultata."
+
+- id: searchInputLabel
+  translation: "Pretraga"
+
+- id: searchPlaceholder
+  translation: "Pretraži web…"
+
+- id: searchResultsLabel
+  translation: "Rezultati pretrage"
+
+- id: searchTryLabel
+  translation: "Pokušaj: "
+
+- id: seriesUnwritten
+  translation: "nenapisan"
+
+- id: sgNowPlaying
+  translation: "Igra:"
+
+- id: sgNowReading
+  translation: "Čita:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} riječi"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K riječi"
+
+- id: socialLinks
+  translation: "Društvene poveznice"

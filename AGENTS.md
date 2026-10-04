@@ -92,3 +92,9 @@ keep their names.
   `posts/typography/` (which enables math + mermaid + lightbox); do not add
   pages.
 - New features are opt-in per page or site, and load nothing when disabled.
+
+## Public contract
+
+`docs/api.md` is the frozen public API (params, `sg-*` classes, output
+formats, data shapes) as of v0.9.0. Renames need a deprecation window;
+removals wait for a major. Check it before touching any param or class name.

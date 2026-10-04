@@ -37,3 +37,116 @@
 
 - id: breadcrumbs
   translation: "Kruimelpad"
+
+- id: backHome
+  translation: "Terug naar start"
+
+- id: browseArchives
+  translation: "Archief bekijken"
+
+- id: categories
+  translation: "Categorieën"
+
+- id: footerSparkTitle
+  translation: "Dagelijkse weergaven, laatste 120 dagen"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} weergaven"
+
+- id: footerViewsTitle
+  translation: "Totaal aantal weergaven · sinds {{ . }}"
+
+- id: llmsFullNote
+  translation: "volledige tekst van alle berichten in één bestand"
+
+- id: llmsPages
+  translation: "Pagina's"
+
+- id: llmsPosts
+  translation: "Alle berichten"
+
+- id: llmsRssNote
+  translation: "volledige tekstfeed"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Contentnavigatie"
+
+- id: navCategories
+  translation: "Categorieën"
+
+- id: navSearch
+  translation: "Zoeken"
+
+- id: navSiteAria
+  translation: "Sitenavigatie"
+
+- id: navTags
+  translation: "Tags"
+
+- id: notFoundLead
+  translation: "Je bent een steeg ingestapt die niet bestaat."
+
+- id: paginationAria
+  translation: "Paginering"
+
+- id: pagination_next
+  translation: "Volgende"
+
+- id: pagination_prev
+  translation: "Vorige"
+
+- id: postNavAria
+  translation: "Berichtnavigatie"
+
+- id: postsSuffix
+  translation: " berichten"
+
+- id: posts_language_note
+  translation: "Berichten zijn momenteel alleen in het Chinees beschikbaar."
+
+- id: readPrefix
+  translation: "Lees: "
+
+- id: recentWriting
+  translation: "Recente teksten"
+
+- id: relatedPosts
+  translation: "Gerelateerde teksten"
+
+- id: searchEmptyLabel
+  translation: "Geen resultaten gevonden."
+
+- id: searchInputLabel
+  translation: "Zoeken"
+
+- id: searchPlaceholder
+  translation: "Doorzoek de site…"
+
+- id: searchResultsLabel
+  translation: "Zoekresultaten"
+
+- id: searchTryLabel
+  translation: "Probeer: "
+
+- id: seriesUnwritten
+  translation: "ongeschreven"
+
+- id: sgNowPlaying
+  translation: "Aan het spelen:"
+
+- id: sgNowReading
+  translation: "Aan het lezen:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} woorden"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K woorden"
+
+- id: socialLinks
+  translation: "Sociale links"
