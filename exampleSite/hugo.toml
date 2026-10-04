@@ -18,6 +18,14 @@ defaultContentLanguage = "en"
         name = "About"
         url = "/about/"
     [[languages.en.menus.main]]
+        identifier = "config"
+        name = "Config"
+        url = "/config-example/"
+    [[languages.en.menus.main]]
+        identifier = "api"
+        name = "API"
+        url = "/api/"
+    [[languages.en.menus.main]]
         identifier = "archives"
         name = "Archives"
         url = "/archives/"
