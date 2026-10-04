@@ -27,6 +27,7 @@ jobs:
         run: |
           hugo new site modtest
           cd modtest
+          git init -q
           git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
           cp -r themes/hugo-theme-sigil/exampleSite/content/* content/
           printf 'theme = "hugo-theme-sigil"\n' >> hugo.toml
@@ -49,7 +50,8 @@ jobs:
           cd modtest
           hugo mod init example.com/modtest
           hugo mod get github.com/ouatis/hugo-theme-sigil
-          cp -r themes/hugo-theme-sigil/exampleSite/content/* content/
+          hugo mod vendor
+          cp -r _vendor/github.com/ouatis/hugo-theme-sigil/exampleSite/content/* content/
           printf 'theme = ["github.com/ouatis/hugo-theme-sigil"]\n' >> hugo.toml
           hugo --destination public
           test -f public/index.html
