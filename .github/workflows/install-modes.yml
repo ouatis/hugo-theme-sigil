@@ -49,9 +49,10 @@ jobs:
           hugo new site modtest
           cd modtest
           hugo mod init example.com/modtest
-          hugo mod get github.com/ouatis/hugo-theme-sigil
-          hugo mod vendor
-          cp -r _vendor/github.com/ouatis/hugo-theme-sigil/exampleSite/content/* content/
           printf 'theme = ["github.com/ouatis/hugo-theme-sigil"]\n' >> hugo.toml
+          hugo mod get github.com/ouatis/hugo-theme-sigil
+          # exampleSite/ 被 Hugo 模块机制排除,这里用一篇样例文验证渲染
+          mkdir -p content/posts
+          printf -- '---\ntitle: "Hello from the install test"\n---\n\nIt renders.\n' > content/posts/hello.md
           hugo --destination public
-          test -f public/index.html
+          test -f public/posts/hello/index.html
