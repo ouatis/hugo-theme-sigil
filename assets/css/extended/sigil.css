@@ -2694,17 +2694,13 @@ details[open]::details-content {
     color: var(--secondary);
 }
 .sg-series__volume summary::-webkit-details-marker { display: none; }
-.sg-series__volume summary::before {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 4px solid var(--tertiary);
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
-    font-size: 9px;
+.sg-series__vol-caret {
+    display: inline-flex;
     color: var(--tertiary);
     transition: transform 0.15s ease;
 }
+.sg-series__volume[open] .sg-series__vol-caret { transform: rotate(90deg); }
+.sg-series__volume.is-current-vol .sg-series__vol-caret { color: var(--sg-red); }
 .sg-series__volume[open] summary::before { transform: rotate(90deg); }
 .sg-series__volume.is-current-vol > summary {
     color: var(--content);

@@ -17,10 +17,10 @@
     {{- $firstNum := (index $vol.entries 0).num -}}
     {{- $lastNum := (index (index $vol.entries (sub (len $vol.entries) 1))).num -}}
     <details class="sg-series__volume{{ if $isCurVol }} is-current-vol{{ end }}"{{ if $isCurVol }} open{{ end }}>
-        {{- if $vol.title -}}
-        <summary>{{ $vol.title }}</summary>
+    {{- if $vol.title -}}
+        <summary><span class="sg-series__vol-caret" aria-hidden="true">{{ partial "sg-icon.html" (dict "name" "caret-right" "size" 10) }}</span>{{ $vol.title }}</summary>
         {{- else -}}
-        <summary>第 {{ $firstNum }}–{{ $lastNum }} 篇</summary>
+        <summary><span class="sg-series__vol-caret" aria-hidden="true">{{ partial "sg-icon.html" (dict "name" "caret-right" "size" 10) }}</span>第 {{ $firstNum }}–{{ $lastNum }} 篇</summary>
         {{- end -}}
         <ol class="sg-series__list">
         {{- range $j, $e := $vol.entries -}}
