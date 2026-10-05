@@ -2695,7 +2695,12 @@ details[open]::details-content {
 }
 .sg-series__volume summary::-webkit-details-marker { display: none; }
 .sg-series__volume summary::before {
-    content: "B8";
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 4px solid var(--tertiary);
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
     font-size: 9px;
     color: var(--tertiary);
     transition: transform 0.15s ease;
