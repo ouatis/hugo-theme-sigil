@@ -906,6 +906,11 @@ html[data-theme="dark"] .sg-seal img {
     text-underline-offset: 3px;
 }
 
+.sg-breadcrumbs a svg {
+    display: inline-block;
+    vertical-align: -2px;
+}
+
 .sg-breadcrumbs [aria-current="page"] {
     color: var(--secondary);
 }

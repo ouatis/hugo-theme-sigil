@@ -5,7 +5,7 @@
 {{- $cat := index $cats 0 -}}
 {{- if $cat -}}
 <nav class="sg-breadcrumbs" aria-label="{{ i18n "breadcrumbs" | default "Breadcrumb" }}">
-    <a href="{{ site.Home.Permalink }}">{{ i18n "home" | default "Home" }}</a>
+    <a href="{{ site.Home.Permalink }}" aria-label="{{ i18n "home" | default "Home" }}">{{ partial "sg-icon.html" (dict "name" "house" "size" 13) }}</a>
     <span class="tri-sep" aria-hidden="true">∴</span>
     <a href="{{ $cat.Permalink }}">{{ $cat.LinkTitle }}</a>
     {{- /* 悬尾∴:语义上引出下方标题 */ -}}
