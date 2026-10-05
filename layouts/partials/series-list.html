@@ -1,7 +1,43 @@
-{{- /* 系列章节列表:入参 dict { entries, cur }(cur = 当前篇下标,-1 表示非系列页)。
+{{- /* 系列章节列表:入参 dict { entries, volumes, cur, curVol }。
+     cur = 当前篇扁平下标(-1 表示非系列页);volumes = 卷分组
+     (series-order 产出,{ title, start, entries }),curVol = 当前篇所在卷。
+     有卷结构时按 <details> 折叠:当前篇所在卷默认展开,其余收起;
+     无卷结构回落扁平列表。
      已发布章节为链接,当前篇朱红无链接,未写篇灰显带标 */ -}}
 {{- $entries := .entries -}}
 {{- $cur := .cur -}}
+{{- $volumes := .volumes -}}
+{{- $curVol := .curVol -}}
+
+{{- if $volumes -}}
+<div class="sg-series__volumes">
+{{- range $vi, $vol := $volumes -}}
+    {{- $base := $vol.start -}}
+    {{- $isCurVol := eq $vi $curVol -}}
+    {{- $firstNum := (index $vol.entries 0).num -}}
+    {{- $lastNum := (index (index $vol.entries (sub (len $vol.entries) 1))).num -}}
+    <details class="sg-series__volume{{ if $isCurVol }} is-current-vol{{ end }}"{{ if $isCurVol }} open{{ end }}>
+        {{- if $vol.title -}}
+        <summary>{{ $vol.title }}</summary>
+        {{- else -}}
+        <summary>第 {{ $firstNum }}–{{ $lastNum }} 篇</summary>
+        {{- end -}}
+        <ol class="sg-series__list">
+        {{- range $j, $e := $vol.entries -}}
+            {{- $gi := add $base $j -}}
+            {{- if $e.tbd -}}
+                <li class="sg-series__item is-tbd">{{ $e.title }}<span class="sg-series__tbd-mark">{{ i18n "seriesUnwritten" | default "unwritten" }}</span></li>
+            {{- else if eq $gi $cur -}}
+                <li class="sg-series__item is-current">{{ $e.title }}</li>
+            {{- else -}}
+                <li class="sg-series__item"><a href="{{ $e.href }}">{{ $e.title }}</a></li>
+            {{- end -}}
+        {{- end -}}
+        </ol>
+    </details>
+{{- end -}}
+</div>
+{{- else -}}
 <ol class="sg-series__list">
     {{- range $i, $e := $entries -}}
         {{- if $e.tbd -}}
@@ -13,3 +49,4 @@
         {{- end -}}
     {{- end -}}
 </ol>
+{{- end -}}

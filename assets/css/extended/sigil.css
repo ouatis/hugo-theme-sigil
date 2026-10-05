@@ -2681,6 +2681,33 @@ details[open]::details-content {
     padding: 4px 12px 10px;
 }
 
+/* 卷分组:当前卷默认展开,其余收起;摘要行小字次色,当前卷墨色加重 */
+.sg-series__volume summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 0;
+    font-size: 11px;
+    letter-spacing: .06em;
+    color: var(--secondary);
+}
+.sg-series__volume summary::-webkit-details-marker { display: none; }
+.sg-series__volume summary::before {
+    content: "B8";
+    font-size: 9px;
+    color: var(--tertiary);
+    transition: transform 0.15s ease;
+}
+.sg-series__volume[open] summary::before { transform: rotate(90deg); }
+.sg-series__volume.is-current-vol > summary {
+    color: var(--content);
+    font-weight: 600;
+}
+.sg-series__volume.is-current-vol > summary::before { color: var(--sg-red); }
+.sg-series__volume .sg-series__list { padding: 0 0 6px 10px; }
+
 @media (min-width: 1440px) {
     .sg-series-details {
         display: none;

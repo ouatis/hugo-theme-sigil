@@ -9,6 +9,16 @@
     {{- end -}}
 {{- end -}}
 {{- $inSeries := ge $seriesCur 0 -}}
+{{- /* 当前篇所在卷下标(按扁平下标落入哪卷的区间) */ -}}
+{{- $seriesCurVol := -1 -}}
+{{- if and $series (ge $seriesCur 0) -}}
+{{- $acc := 0 -}}
+{{- range $vi, $vol := $series.volumes -}}
+    {{- $cnt := len $vol.entries -}}
+    {{- if and (ge $seriesCur $acc) (lt $seriesCur (add $acc $cnt)) -}}{{- $seriesCurVol = $vi -}}{{- end -}}
+    {{- $acc = add $acc $cnt -}}
+{{- end -}}
+{{- end -}}
 
 {{- $headers := findRE "<h[1-6].*?>(.|\n])+?</h[1-6]>" .Content -}}
 {{- $hasHeaders := ge (len $headers) 1 -}}
@@ -41,7 +51,7 @@
     {{- if $inSeries }}
     <div class="sg-toc__panel sg-series-panel" id="sg-series-panel">
         <div class="sg-toc__scroll">
-            {{- partial "series-list.html" (dict "entries" $series.entries "cur" $seriesCur) -}}
+            {{- partial "series-list.html" (dict "entries" $series.entries "volumes" $series.volumes "cur" $seriesCur "curVol" $seriesCurVol) -}}
         </div>
     </div>
     {{- end }}
@@ -51,7 +61,7 @@
 <details class="sg-series-details">
     <summary><span class="sg-series__summary">∴ {{ $series.title }} · 第 {{ (index $series.entries $seriesCur).num }} 篇 / 共 {{ $series.total }} 篇</span></summary>
     <div class="sg-series__scroll">
-        {{- partial "series-list.html" (dict "entries" $series.entries "cur" $seriesCur) -}}
+        {{- partial "series-list.html" (dict "entries" $series.entries "volumes" $series.volumes "cur" $seriesCur "curVol" $seriesCurVol) -}}
     </div>
 </details>
 {{- end }}
