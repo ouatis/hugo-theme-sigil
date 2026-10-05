@@ -108,6 +108,7 @@ python scripts/build-fonts.py
 
 - 首页合计约 **78 KB**：HTML 16 KB + CSS 57 KB + 内联 JS 5 KB，**零外链 JavaScript**
 - 可选项按需加载：搜索脚本 18 KB（仅搜索页）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
+- 字体：文字密集页首访约 **56 KB**（4 片拉丁子集；示例站的中文回退系统字体）。CJK 站点走语料子集管线时，整站字符集一次性下载（约 1.3 MB）——有意不做分片：一个文件全站缓存一次到位，`font-display: swap` 兜底等待
 - 无框架、无 jQuery、无运行时 CDN 依赖
 
 ## 稳定性
@@ -115,6 +116,10 @@ python scripts/build-fonts.py
 公开契约——参数名、`sg-*` 类名、输出格式、数据结构、扩展 partial——自
 **v0.9.0 起冻结**：改名须留弃用窗口，移除等到大版本。完整契约与弃用政策见
 [docs/api.md](docs/api.md)。两种安装方式（submodule 与 Hugo module）均有 CI 覆盖。
+
+## 翻译
+
+内置的 47 门语言大部分由机器补全。母语者的修订非常欢迎——开 issue 或提交只动 `i18n/*.yaml` 的 PR 即可；新键先入 `en`,其余语言自动回落。
 
 ## 许可证
 

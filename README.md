@@ -112,6 +112,7 @@ Measured on the example site, minified build:
 
 - Homepage: ~78 KB total — 16 KB HTML + 57 KB CSS + 5 KB inline JS, **zero external JavaScript**
 - Optional, opt-in only: search script 18 KB (search page), KaTeX 332 KB (`math = true`), GLightbox 56 KB (`lightbox = true`)
+- Fonts: ~56 KB first visit on a text-heavy page (4 Latin subsets; the demo's CJK text falls back to system fonts). CJK sites running the corpus-subsetting pipeline download their full character set once (~1.3 MB) — deliberately unsharded: one file cached site-wide, `font-display: swap` covers the wait
 - No frameworks, no jQuery, no runtime CDN dependencies
 
 ## Stability
@@ -121,6 +122,12 @@ shapes, extension partials — is **frozen as of v0.9.0**: renames require a
 deprecation window and removals wait for a major release. The full contract
 and deprecation policy live in [docs/api.md](docs/api.md). Both install modes
 (submodule and Hugo module) are exercised in CI.
+
+## Translations
+
+The 47 bundled languages are largely machine-completed. Fixes from native
+speakers are very welcome — open an issue or a PR touching `i18n/*.yaml`
+only; new keys land in `en` first and fall back everywhere else.
 
 ## License
 

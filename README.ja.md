@@ -108,6 +108,7 @@ python scripts/build-fonts.py
 
 - トップページ合計 約 **78 KB**：HTML 16 KB + CSS 57 KB + インライン JS 5 KB、**外部 JavaScript ゼロ**
 - オプションは必要時のみ：検索スクリプト 18 KB（検索ページ）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
+- フォント：テキストの多いページで初回約 **56 KB**（ラテン 4 分割；デモの CJK はシステムフォールバック）。CJK サイトでコーパス パイプラインを使う場合、サイト全文字セットを一度だけ取得（約 1.3 MB）——意図的に分割しない:1 ファイルがサイト全体でキャッシュされ、`font-display: swap` が待ち時間をカバー
 - フレームワークなし、jQuery なし、実行時 CDN 依存なし
 
 ## 安定性
@@ -117,6 +118,10 @@ python scripts/build-fonts.py
 リリースまで待ちます。契約の全文と非推奨ポリシーは
 [docs/api.md](docs/api.md) を参照。両インストール方式（submodule と Hugo
 module）は CI で検証されています。
+
+## 翻訳
+
+同梱の 47 言語は大部分が機械補完です。母語話者による修正を歓迎します——`i18n/*.yaml` のみを変更した issue / PR をどうぞ;新しいキーはまず `en` に入り、他言語はフォールバックします。
 
 ## ライセンス
 
