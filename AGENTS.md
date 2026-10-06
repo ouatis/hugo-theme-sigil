@@ -81,10 +81,9 @@ keep their names.
    `templates/` prefix.
 5. **IBM Plex has no U+2234 (∴) glyph** — the OG card's mark is baked into
    `assets/og/base.png`; don't try to draw it with `images.Text`.
-6. **`check.sh` asserts `static/fonts/` artifacts that are not committed.**
-   On a fresh clone run `bash scripts/build-fonts.sh corpus` first (needs
-   fontTools + brotli). A failed font download wipes `static/fonts/` —
-   restore with `git checkout -- static/` and retry.
+6. **`check.sh` asserts uncommitted `static/fonts/` artifacts** — fresh
+   clone: `bash scripts/build-fonts.sh corpus` first; a failed download
+   wipes `static/fonts/` (`git checkout -- static/` restores).
 
 ## Conventions
 
