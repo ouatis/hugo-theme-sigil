@@ -205,12 +205,6 @@ button:focus-visible {
     font-weight: 700;
 }
 
-.logo__home-mark {
-    font-family: var(--sg-serif);
-    font-size: 26px;
-    line-height: 36px;
-    color: rgba(var(--sg-amber-rgb), 0.9);
-}
 
 .logo a img,
 .logo a svg {
