@@ -27,6 +27,15 @@
   {{- end }}
 </header>
 
+{{- /* Optional page body (archives.md content), rendered between the
+       header and the year groups. Empty body = no-op, so existing sites
+       are unaffected; lets a site add taxonomy entries or an intro. */ -}}
+{{- with .Content }}
+<div class="archive-intro">
+    {{- . -}}
+</div>
+{{- end }}
+
 {{- $contentSite := site }}
 {{- /* ShowDefaultLanguageContent: 非默认语言的列表回退到默认语言内容(界面仍是当前语言) */ -}}
 {{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Language.Lang) -}}

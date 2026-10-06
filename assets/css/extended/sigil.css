@@ -852,6 +852,33 @@ html[data-theme="dark"] .sg-seal img {
     line-height: 1.7;
 }
 
+/* 归档页可选正文(archives.md):页头之下、年表之上的入口行 */
+.archive-intro {
+    margin: -4px 0 24px;
+    color: var(--secondary);
+    font-family: var(--sg-sans);
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.archive-intro p {
+    margin: 0;
+}
+
+.archive-intro a {
+    color: var(--secondary);
+    text-decoration: none;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 180ms ease;
+}
+
+.archive-intro a:hover,
+.archive-intro a:focus-visible {
+    color: var(--sg-red);
+    text-decoration: underline;
+}
+
 .post-meta,
 .breadcrumbs {
     font-family: var(--sg-sans);
