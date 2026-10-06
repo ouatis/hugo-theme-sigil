@@ -52,23 +52,7 @@
 <div class="archive-year">
   {{- $year := replace .Key "0001" "" }}
   <h2 class="archive-year-header" id="{{ $year }}">{{ $year }}</h2>
-  {{- $month_names := slice "January" "February" "March" "April" "May" "June" "July" "August" "September" "October" "November" "December" }}
-  {{- range .Pages.GroupByDate "1" }}
-  <div class="archive-month">
-    <h3 class="archive-month-header" id="{{ $year }}-{{ .Key }}">
-      <a class="archive-header-link" href="#{{ $year }}-{{ .Key }}">
-        {{- /* 英文月名沿用词表;中文「N 月」;其余语言用本地化月名(法语/日语等)。
-               用组内年月合成日期,不借文章日期(内外分组键可能错位) */ -}}
-        {{- if eq site.Language.Lang "en" }}
-        {{- index $month_names (sub (int .Key) 1) }}
-        {{- else if strings.HasPrefix site.Language.Lang "zh" }}
-        {{- .Key }} 月
-        {{- else }}
-        {{- (time.AsTime (printf "%04d-%02d-01" (int $year) (int .Key))) | time.Format "January" }}
-        {{- end }}
-      </a>
-    </h3>
-    <div class="archive-posts">
+  <div class="archive-posts">
       {{- range .Pages }}
       {{- if eq .Kind "page" }}
       <div class="archive-entry">
@@ -84,15 +68,15 @@
           {{- end }}
         </h3>
         <div class="archive-meta">
-          {{- /* 紧凑索引行:年月已由分组标题说出,行内只留日与时长。
+          {{- /* 紧凑索引行:年已由幽灵数字说出,行内留月日与时长。
                作者属于文章而不属于索引,archives.showAuthor 供多作者站开回。 */ -}}
           {{- $bits := slice -}}
           {{- if strings.HasPrefix site.Language.Lang "zh" -}}
-            {{- $bits = $bits | append (printf "%d 日" .Date.Day) -}}
+            {{- $bits = $bits | append (printf "%d 月 %d 日" .Date.Month .Date.Day) -}}
           {{- else if strings.HasPrefix site.Language.Lang "ja" -}}
-            {{- $bits = $bits | append (printf "%d日" .Date.Day) -}}
+            {{- $bits = $bits | append (printf "%d月%d日" .Date.Month .Date.Day) -}}
           {{- else -}}
-            {{- $bits = $bits | append (printf "%d" .Date.Day) -}}
+            {{- $bits = $bits | append (time.Format "Jan 2" .Date) -}}
           {{- end -}}
           {{- if (.Param "ShowReadingTime") -}}
             {{- $bits = $bits | append (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)) -}}
@@ -109,9 +93,7 @@
       </div>
       {{- end }}
       {{- end }}
-    </div>
   </div>
-  {{- end }}
 </div>
 {{- end }}
 {{- end }}

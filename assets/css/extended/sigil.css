@@ -1452,6 +1452,9 @@ h6:hover .anchor {
 
 /* Archive page */
 .archive-posts {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(var(--year-size) * 0.42);
     font-family: var(--sg-serif);
     border-top: 1px solid var(--border);
 }
@@ -1462,7 +1465,7 @@ h6:hover .anchor {
     margin-top: 64px;
 }
 
-/* 巨大年份幽灵数字:垫底装饰,首月列表从其下半部叠过 */
+/* 巨大年份幽灵数字:垫底装饰,年份条目列表从其下半部叠过 */
 .archive-year-header {
     position: absolute;
     top: 0;
@@ -1490,28 +1493,6 @@ h6:hover .anchor {
     border-bottom: 0;
 }
 
-.archive-year .archive-month:first-of-type {
-    padding-top: calc(var(--year-size) * 0.42);
-}
-
-.archive-month {
-    position: relative;
-    z-index: 1;
-}
-
-.archive-month-header {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin: 0;
-    padding: 20px 4px 9px;
-    color: var(--sg-green);
-    font-family: var(--sg-sans);
-    font-size: 14px;
-    letter-spacing: 0.04em;
-    font-weight: 400;
-}
-
 .archive-entry {
     position: relative;
     display: grid;
@@ -1522,7 +1503,7 @@ h6:hover .anchor {
     padding: 13px 4px;
 }
 
-/* 只在同月条目之间画线;组间分隔交给下个月的 archive-posts 顶线,避免双线 */
+/* 只在同一年条目之间画线;年组分隔交给下个年份的 archive-posts 顶线与幽灵数字 */
 .archive-entry:not(:last-child) {
     border-bottom: 1px solid var(--border);
 }
@@ -2154,10 +2135,6 @@ h6:hover .anchor {
 
     .archive-year-header {
         opacity: 0.045;
-    }
-
-    .archive-month-header {
-        padding-top: 16px;
     }
 
     .archive-entry {
