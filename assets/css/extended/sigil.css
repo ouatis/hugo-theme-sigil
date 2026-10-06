@@ -225,10 +225,16 @@ button#theme-toggle {
     display: inline-grid;
     width: 36px;
     height: 36px;
-    margin: auto 0 auto 10px;
+    margin: auto 0;
     place-items: center;
     border: 1px solid var(--border);
     border-radius: 50%;
+}
+
+/* 导航末位的主题切换:工具与去路同簇 */
+#menu .menu-theme {
+    display: inline-flex;
+    align-items: center;
 }
 
 #menu li + li {
@@ -249,16 +255,6 @@ button#theme-toggle {
 
 #menu .active {
     border-bottom-color: var(--sg-red);
-}
-
-.logo-switches {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.logo-switches button#theme-toggle {
-    margin-inline-start: 0;
 }
 
 .lang-switch {
