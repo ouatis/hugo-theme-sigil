@@ -31,6 +31,14 @@ mkdir -p "$CACHE_DIR" "$FONT_DIR"
 command -v curl >/dev/null || { echo "curl is required" >&2; exit 1; }
 command -v tar >/dev/null || { echo "tar is required" >&2; exit 1; }
 
+# --wildcards is a GNU extension; macOS bsdtar matches patterns natively
+# and rejects the flag. Detect once, use everywhere.
+if tar --version 2>/dev/null | grep -q GNU; then
+    TAR_WILDCARDS=(${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"})
+else
+    TAR_WILDCARDS=()
+fi
+
 fetch_package() {
     local pkg="$1"
     local archive="${CACHE_DIR}/${pkg}-${IBM_PLEX_VERSION}.tgz"
@@ -69,23 +77,23 @@ if [ "$MODE" = "corpus" ]; then
     mkdir -p "${CACHE_DIR}/work"
     for weight in Regular Bold; do
         tar -xzf "${CACHE_DIR}/plex-sans-sc-${IBM_PLEX_VERSION}.tgz" \
-            -C "${CACHE_DIR}/work" --strip-components=5 --wildcards \
+            -C "${CACHE_DIR}/work" --strip-components=5 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
             "package/fonts/complete/woff2/hinted/IBMPlexSansSC-${weight}.woff2"
     done
 fi
 
 for weight in Regular SemiBold Bold; do
     tar -xzf "${CACHE_DIR}/plex-sans-${IBM_PLEX_VERSION}.tgz" \
-        -C "${FONT_DIR}/latin" --strip-components=4 --wildcards \
+        -C "${FONT_DIR}/latin" --strip-components=4 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
         "package/fonts/split/woff2/IBMPlexSans-${weight}*.css" \
         "package/fonts/split/woff2/IBMPlexSans-${weight}*.woff2"
     if [ "$MODE" = "full" ]; then
         tar -xzf "${CACHE_DIR}/plex-sans-sc-${IBM_PLEX_VERSION}.tgz" \
-            -C "${FONT_DIR}/sc" --strip-components=5 --wildcards \
+            -C "${FONT_DIR}/sc" --strip-components=5 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
             "package/fonts/split/woff2/hinted/IBMPlexSansSC-${weight}*.css" \
             "package/fonts/split/woff2/hinted/IBMPlexSansSC-${weight}*.woff2"
         tar -xzf "${CACHE_DIR}/plex-sans-jp-${IBM_PLEX_VERSION}.tgz" \
-            -C "${FONT_DIR}/jp" --strip-components=5 --wildcards \
+            -C "${FONT_DIR}/jp" --strip-components=5 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
             "package/fonts/split/woff2/hinted/IBMPlexSansJP-${weight}*.css" \
             "package/fonts/split/woff2/hinted/IBMPlexSansJP-${weight}*.woff2"
     fi
