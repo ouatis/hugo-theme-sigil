@@ -278,10 +278,9 @@ button#theme-toggle {
     line-height: 1;
 }
 
-/* "日本語"三字全角字形偏重,压小半号保持三项等宽感 */
+/* "日本語"三字全角字形偏重,压小半号保持等宽感 */
 .lang-switch a[lang="ja"],
 .lang-switch a[href*="/ja/"],
-.lang-switch .is-current:has(+ li a[href*="/ja/"]) ~ * ,
 a[hreflang="ja"] {
     font-size: 11px !important;
 }
@@ -298,33 +297,16 @@ a[hreflang="ja"] {
 .lang-switch li + li::before {
     margin-inline-end: 10px;
     color: var(--tertiary);
-    content: "/";
+    content: "·";
 }
 
-.lang-switch a,
-.lang-switch .is-current {
+.lang-switch a {
     color: var(--secondary);
     text-decoration: none;
     /* 覆盖主题 header.css 的 16px,与 .lang-switch 的 12px 统一 */
     font-size: inherit;
     font-weight: inherit;
     transition: color 180ms ease;
-}
-
-.lang-switch .is-current {
-    position: relative;
-    color: var(--primary);
-    font-weight: 700;
-}
-
-.lang-switch .is-current::after {
-    position: absolute;
-    right: 0;
-    bottom: -6px;
-    left: 0;
-    height: 2px;
-    background: var(--sg-red);
-    content: "";
 }
 
 .lang-switch a:hover,

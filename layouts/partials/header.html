@@ -45,15 +45,9 @@
                 
                 {{- if (not site.Params.disableLangToggle) }}
                     {{- with site.Home.Translations }}
+                    {{- /* 只列出口,不列所在:当前语言的名字是死信息,
+                           退场后这里每个词都是一扇门 */ -}}
                     <ul class="lang-switch" aria-label="Language switcher">
-                        <li>
-                            <span class="is-current" aria-current="true">
-                                {{- if eq site.Language.Lang "en" -}}EN
-                                {{- else if eq site.Language.Lang "ja" -}}日本語
-                                {{- else -}}中文
-                                {{- end -}}
-                            </span>
-                        </li>
                         {{- range . -}}
                         <li>
                             <a href="{{- .Permalink -}}" title="{{ .Language.Label | default (.Lang | title) }}"
