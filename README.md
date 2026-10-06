@@ -104,12 +104,18 @@ See [exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example.
 
 ## Fonts
 
-Latin IBM Plex files are included. Rebuild CJK subsets with:
+Three build modes for `scripts/build-fonts.sh` (python equivalent:
+`scripts/build-fonts.py`):
+
+- `latin` — Latin only; the bootstrap subset committed to the repo (what the
+  demo ships; CJK text falls back to system fonts)
+- `corpus` — additionally scans the example site's own characters and subsets
+  a small SC corpus so the demo's CJK renders in real Plex (~30 KB)
+- `full` — official SC + JP split shards (for CJK/JP sites that want full
+  coverage; ~3 MB on a text-heavy page)
 
 ```bash
-bash scripts/build-fonts.sh
-# or
-python scripts/build-fonts.py
+bash scripts/build-fonts.sh corpus   # or latin / full
 ```
 
 ## Performance

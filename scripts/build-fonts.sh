@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 # Prepare the IBM Plex Sans family for the theme demo.
 #
-# The official split woff2 files are extracted from pinned IBM Plex npm
-# packages. SC and JP keep their own unicode-range CSS so Japanese kanji do
-# not accidentally use simplified-Chinese glyphs.
-#
-# Usage: build-fonts.sh [full|latin]
-#   full  (default) latin + SC + JP
+# Three modes:
+#   full    (default) latin + SC + JP official split shards
 #   latin           latin only — the bootstrap subset committed to the repo
+#   corpus          latin + a small SC corpus subset scanned from the example
+#                   site's own characters (the demo's CJK in real Plex,
+#                   ~1/20th of the full-font weight)
 #
-# A pure-python equivalent lives in build-fonts.py (no bash required).
+# SC and JP keep their own unicode-range CSS so Japanese kanji do not
+# accidentally use simplified-Chinese glyphs.
+#
+# A pure-python equivalent lives in build-fonts.py (no bash required); the
+# corpus subsetting lives in build-fonts-corpus.py.
 set -euo pipefail
-
 cd "$(dirname "$0")/.."
 
 IBM_PLEX_VERSION="1.1.0"
@@ -20,8 +22,8 @@ CACHE_DIR="${IBM_PLEX_CACHE_DIR:-.cache/ibm-plex}"
 MODE="${1:-full}"
 
 case "$MODE" in
-    full|latin) ;;
-    *) echo "usage: $0 [full|latin]" >&2; exit 1 ;;
+    full|latin|corpus) ;;
+    *) echo "usage: $0 [full|latin|corpus]" >&2; exit 1 ;;
 esac
 
 mkdir -p "$CACHE_DIR" "$FONT_DIR"
@@ -48,6 +50,9 @@ fetch_package() {
 
 if [ "$MODE" = "latin" ]; then
     fetch_package "plex-sans"
+elif [ "$MODE" = "corpus" ]; then
+    fetch_package "plex-sans"
+    fetch_package "plex-sans-sc"
 else
     for pkg in plex-sans plex-sans-sc plex-sans-jp; do
         fetch_package "$pkg"
@@ -58,6 +63,15 @@ rm -rf "static/fonts/split" "static/fonts/charset.txt" "${FONT_DIR}"
 mkdir -p "${FONT_DIR}/latin"
 if [ "$MODE" = "full" ]; then
     mkdir -p "${FONT_DIR}/sc" "${FONT_DIR}/jp"
+fi
+if [ "$MODE" = "corpus" ]; then
+    # pyftsubset 的源:SC complete hinted woff2(Regular/Bold)
+    mkdir -p "${CACHE_DIR}/work"
+    for weight in Regular Bold; do
+        tar -xzf "${CACHE_DIR}/plex-sans-sc-${IBM_PLEX_VERSION}.tgz" \
+            -C "${CACHE_DIR}/work" --strip-components=5 --wildcards \
+            "package/fonts/complete/woff2/hinted/IBMPlexSansSC-${weight}.woff2"
+    done
 fi
 
 for weight in Regular SemiBold Bold; do
@@ -90,6 +104,10 @@ for path in glob.glob("static/fonts/ibm-plex/*/*.css"):
     print(f"font-display: swap -> {path} ({n} faces)")
 PY
 
+if [ "$MODE" = "corpus" ]; then
+    python3 scripts/build-fonts-corpus.py
+fi
+
 {
     printf '%s\n' "/* IBM Plex Sans family, generated from @ibm/plex-sans ${IBM_PLEX_VERSION} packages. */"
     printf '%s\n' '@import url("./latin/IBMPlexSans-Regular.css");'
@@ -102,6 +120,8 @@ PY
         printf '%s\n' '@import url("./jp/IBMPlexSansJP-Regular.css");'
         printf '%s\n' '@import url("./jp/IBMPlexSansJP-SemiBold.css");'
         printf '%s\n' '@import url("./jp/IBMPlexSansJP-Bold.css");'
+    elif [ "$MODE" = "corpus" ]; then
+        printf '%s\n' '@import url("./sc/corpus.css");'
     fi
 } > "${FONT_DIR}/result.css"
 

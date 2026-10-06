@@ -35,7 +35,7 @@ jobs:
 
       - name: Build font subsets for the demo
         run: |
-          scripts/build-fonts.sh latin
+          scripts/build-fonts.sh corpus
           mkdir -p exampleSite/static
           cp -r static/fonts exampleSite/static/fonts
 

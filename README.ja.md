@@ -100,12 +100,18 @@ home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
 
 ## フォント
 
-ラテン文字用 IBM Plex は同梱されています。CJK サブセットを再生成するには：
+`scripts/build-fonts.sh` には 3 モードあります（python 等価:
+`scripts/build-fonts.py`）:
+
+- `latin` —— ラテン文字のみ。リポジトリ同梱のブートストラップ サブセット
+  （デモはこの形態; CJK テキストはシステムフォールバック）
+- `corpus` —— 例示サイト自身の文字を走査し、小さな SC コーパス サブセットを
+  作成。デモの CJK が本物の Plex で表示される（約 30 KB）
+- `full` —— 公式 SC + JP 全分割シャード（全量カバーが必要な CJK/JP サイト向け;
+  テキストの多いページで約 3 MB）
 
 ```bash
-bash scripts/build-fonts.sh
-# または
-python scripts/build-fonts.py
+bash scripts/build-fonts.sh corpus   # または latin / full
 ```
 
 ## パフォーマンス

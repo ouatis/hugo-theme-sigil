@@ -100,12 +100,15 @@ PaperMod 的常用配置可以继续使用。Sigil 专属配置：
 
 ## 字体
 
-仓库已包含拉丁字母 IBM Plex 字体。重新生成 CJK 子集：
+`scripts/build-fonts.sh` 有三种模式(python 等价:`scripts/build-fonts.py`):
+
+- `latin` —— 仅拉丁字母;仓库内置的引导子集(demo 即此形态,中文回退系统字体)
+- `corpus` —— 额外扫描示例站自身字符,切出小 SC 语料子集,使 demo 的中文
+  以真正的 Plex 渲染(约 30 KB)
+- `full` —— 官方 SC + JP 全量分片(适合需要全量覆盖的中/日文站点;文字密集页约 3 MB)
 
 ```bash
-bash scripts/build-fonts.sh
-# 或
-python scripts/build-fonts.py
+bash scripts/build-fonts.sh corpus   # 或 latin / full
 ```
 
 ## 性能
