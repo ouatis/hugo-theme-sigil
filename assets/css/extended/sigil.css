@@ -1420,6 +1420,12 @@ h6:hover .anchor {
     content: "";
 }
 
+/* flat 变体(归档页):保留墨色细线,撤掉朱红短线——
+   页头下直接跟一句正文入口,不再需要第二层强调 */
+.page-header-flat::after {
+    content: none;
+}
+
 .page-header h1 {
     display: flex;
     align-items: baseline;
