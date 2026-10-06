@@ -59,6 +59,7 @@ Front matter or site params the theme reads:
 | `searchHidden`, `placeholder` | search index exclusion / search input placeholder |
 | `hiddenInHomeList` | keep a post out of the homepage feed |
 | `sgSeriesFrom`, `sgSeriesTab` | series navigation (site-level) |
+| `archives.showAuthor` | author on archive rows (default off) |
 
 Sigil-specific site params use the `sg*` prefix (`sgKicker`, `sgHomeTitle`,
 `sgReading`, `sgPlaying`, `sgMotto`, `sgSealImage`, `sgDaysInCage`,
@@ -80,6 +81,10 @@ keep their names.
    `templates/` prefix.
 5. **IBM Plex has no U+2234 (∴) glyph** — the OG card's mark is baked into
    `assets/og/base.png`; don't try to draw it with `images.Text`.
+6. **`check.sh` asserts `static/fonts/` artifacts that are not committed.**
+   On a fresh clone run `bash scripts/build-fonts.sh corpus` first (needs
+   fontTools + brotli). A failed font download wipes `static/fonts/` —
+   restore with `git checkout -- static/` and retry.
 
 ## Conventions
 

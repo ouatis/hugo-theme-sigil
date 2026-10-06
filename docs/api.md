@@ -26,6 +26,7 @@ Anything **not** listed here is internal and may change without notice.
 | `sgReading` / `sgPlaying` / `sgMotto` | Rotating status under the hero seal |
 | `sgDaysInCage` | Status line day counter, "Day N in the Cage" |
 | `sgSeriesFrom` | Points to a curation page whose body list defines a series reading order |
+| `archives.showAuthor` | Author name on archive index rows (default off — the ledger row carries day + reading time) |
 | `sgSeriesTab` | Tab label of the floating series panel |
 | `sgSearchEmpty` | Custom empty-state text for search |
 | `ShowTotalWords` | Total word count next to the homepage post count |
@@ -65,8 +66,12 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 
 ## CSS contract
 
-- All theme-owned classes carry the **`sg-` prefix** (e.g. `sg-hero`,
-  `sg-entry`, `sg-toc`, `sg-now`). These names are frozen.
+- All frozen classes carry the **`sg-` prefix** (e.g. `sg-hero`,
+  `sg-entry`, `sg-toc`, `sg-now`). Theme-owned non-prefixed classes exist in
+  two kinds: PaperMod heritage names (`post-content`, `paginav`, …) and
+  internal layout hooks added after v0.9.9 (`.archive-intro`,
+  `.page-header-flat`, `.menu-theme`) — the latter may change without
+  notice.
 - Site-level `assets/css/extended/*.css` is concatenated **after** the theme's
   stylesheet (since v0.7.1): site rules of equal specificity always win. Do not
   add specificity hacks.
