@@ -72,11 +72,17 @@
             {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
             <li>
                 <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
-                {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}>
+                {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}
+                {{- if $is_search }} aria-label="{{ .Name }}"{{ end }}>
                     <span {{- if eq $menu_item_url $page_url }} class="active" {{- end }}>
+                        {{- if $is_search -}}
+                        {{- /* 搜索以符代词:一枚放大镜,节拍与 header 其余图标同 */ -}}
+                        {{ partial "sg-icon.html" (dict "name" "magnifying-glass" "size" 15) }}
+                        {{- else -}}
                         {{- .Pre }}
                         {{- .Name -}}
                         {{ .Post -}}
+                        {{- end -}}
                     </span>
                     {{- if (findRE "://" .URL) }}&nbsp;
                     <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
