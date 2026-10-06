@@ -17,24 +17,6 @@
         <a href="https://github.com/ouatis/hugo-theme-sigil/" rel="noopener noreferrer" target="_blank">Sigil</a>
     </span>
 
-    {{- if (not site.Params.disableLangToggle) }}{{- with site.Home.Translations }}
-    {{- /* 语言出口的常驻居所:header 只放身份与去路,低频工具住页脚 */ -}}
-    <span class="tri-sep" aria-hidden="true">∴</span>
-    <ul class="lang-switch" aria-label="Language switcher">
-        {{- range . -}}
-        <li>
-            <a href="{{- .Permalink -}}" title="{{ .Language.Label | default (.Lang | title) }}"
-                aria-label="{{ .Language.Label | default (.Lang | title) }}">
-                {{- if eq .Lang "en" -}}EN
-                {{- else if eq .Lang "ja" -}}日本語
-                {{- else -}}中文
-                {{- end -}}
-            </a>
-        </li>
-        {{- end}}
-    </ul>
-    {{- end }}{{- end }}
-
     {{- /* 可选:站点提供 data/analytics.json({total, since}) 时,页脚展示累计浏览量 */ -}}
     {{- with hugo.Data.analytics }}
     {{- if .total }}

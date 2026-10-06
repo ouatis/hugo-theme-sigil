@@ -35,6 +35,34 @@
                 {{- $label_text -}}
             </a>
             {{- end }}
+            <div class="logo-switches">
+                {{- if (not site.Params.disableThemeToggle) }}
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    {{ partial "sg-icon.html" (dict "name" "moon-stars" "size" 22 "id" "moon") }}
+                    {{ partial "sg-icon.html" (dict "name" "sun" "size" 22 "id" "sun") }}
+                </button>
+                {{- end }}
+                
+                {{- if (not site.Params.disableLangToggle) }}
+                    {{- with site.Home.Translations }}
+                    {{- /* 只列出口,不列所在:当前语言的名字是死信息,
+                           退场后这里每个词都是一扇门 */ -}}
+                    <ul class="lang-switch" aria-label="Language switcher">
+                        {{- range . -}}
+                        <li>
+                            <a href="{{- .Permalink -}}" title="{{ .Language.Label | default (.Lang | title) }}"
+                                aria-label="{{ .Language.Label | default (.Lang | title) }}">
+                                {{- if eq .Lang "en" -}}EN
+                                {{- else if eq .Lang "ja" -}}日本語
+                                {{- else -}}中文
+                                {{- end -}}
+                            </a>
+                        </li>
+                        {{- end}}
+                    </ul>
+                    {{- end }}
+                {{- end }}
+            </div>
         </div>
         {{- $currentPage := . }}
         <ul id="menu">
@@ -65,14 +93,6 @@
                     </svg>
                     {{- end }}
                 </a>
-            </li>
-            {{- end }}
-            {{- if (not site.Params.disableThemeToggle) }}
-            <li class="menu-theme">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    {{ partial "sg-icon.html" (dict "name" "moon-stars" "size" 22 "id" "moon") }}
-                    {{ partial "sg-icon.html" (dict "name" "sun" "size" 22 "id" "sun") }}
-                </button>
             </li>
             {{- end }}
         </ul>
