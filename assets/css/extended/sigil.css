@@ -1567,6 +1567,8 @@ h6:hover .anchor {
     font-family: var(--sg-sans);
     font-size: 12px;
     color: var(--secondary);
+    /* 索引右列的账簿节奏:数字等宽对齐 */
+    font-variant-numeric: tabular-nums;
 }
 
 .archive-meta {

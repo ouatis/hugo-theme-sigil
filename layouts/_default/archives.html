@@ -84,7 +84,26 @@
           {{- end }}
         </h3>
         <div class="archive-meta">
-          {{- partial "post_meta.html" . -}}
+          {{- /* 紧凑索引行:年月已由分组标题说出,行内只留日与时长。
+               作者属于文章而不属于索引,archives.showAuthor 供多作者站开回。 */ -}}
+          {{- $bits := slice -}}
+          {{- if strings.HasPrefix site.Language.Lang "zh" -}}
+            {{- $bits = $bits | append (printf "%d 日" .Date.Day) -}}
+          {{- else if strings.HasPrefix site.Language.Lang "ja" -}}
+            {{- $bits = $bits | append (printf "%d日" .Date.Day) -}}
+          {{- else -}}
+            {{- $bits = $bits | append (printf "%d" .Date.Day) -}}
+          {{- end -}}
+          {{- if (.Param "ShowReadingTime") -}}
+            {{- $bits = $bits | append (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)) -}}
+          {{- end -}}
+          {{- if (.Param "ShowWordCount") -}}
+            {{- $bits = $bits | append (i18n "words" .WordCount | default (printf "%d words" .WordCount)) -}}
+          {{- end -}}
+          {{- if (.Param "archives.showAuthor") -}}
+            {{- with (partial "author.html" .) -}}{{- $bits = $bits | append . -}}{{- end -}}
+          {{- end -}}
+          {{- delimit $bits " · " -}}
         </div>
         <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
       </div>

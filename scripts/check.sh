@@ -8,7 +8,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../exampleSite"
 rm -rf public resources
 
-hugo --themesDir ../.. --minify --quiet
+hugo --themesDir ../.. --minify --quiet || fail "example site build failed (run without --quiet to see the error)"
 
 fail() { echo "check: FAIL — $1" >&2; exit 1; }
 
