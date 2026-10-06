@@ -205,6 +205,13 @@ button:focus-visible {
     font-weight: 700;
 }
 
+.logo__home-mark {
+    font-family: var(--sg-serif);
+    font-size: 26px;
+    line-height: 36px;
+    color: rgba(var(--sg-amber-rgb), 0.9);
+}
+
 .logo a img,
 .logo a svg {
     width: 36px;
@@ -354,8 +361,7 @@ a[hreflang="ja"] {
     grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
     align-items: center;
     gap: 64px;
-    padding: 52px 0 44px;
-    border-bottom: 1px solid var(--border);
+    padding: 52px 0 68px;
 }
 
 /* Keep the homepage treatment restrained for long-term reading. */
@@ -387,9 +393,11 @@ a[hreflang="ja"] {
     margin: 24px 0 20px;
     color: var(--primary);
     font-family: var(--sg-serif);
-    font-size: 88px;
-    font-weight: 700;
-    line-height: 1.06;
+    /* 扉页逻辑:字让一点位,印长一点个,空多一分——贵在空 */
+    font-size: 72px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
 }
 
 .sg-hero__intro {
@@ -426,7 +434,7 @@ a[hreflang="ja"] {
 
 .sg-seal__frame {
     position: relative;
-    width: 248px;
+    width: 280px;
     aspect-ratio: 1;
     margin-inline: auto;
     padding: 12px;
@@ -442,9 +450,11 @@ a[hreflang="ja"] {
     content: "";
 }
 
-/* 徽记悬停涟漪:仅悬停瞬间外环扩散增亮,像石子入水;图片本身不动 */
+/* 徽记悬停涟漪:外环静置时完全隐去(单环印章,不带组件相),
+   悬停瞬间才扩散增亮,像石子入水;图片本身不动 */
 .sg-seal__frame::after {
     transition: transform 600ms ease, opacity 600ms ease;
+    opacity: 0;
 }
 
 .sg-seal:hover .sg-seal__frame::after {
@@ -463,7 +473,8 @@ a[hreflang="ja"] {
 
 /* 深色纸面上反转纸白与墨线,避免肖像成为突兀的亮色圆牌。 */
 html[data-theme="dark"] .sg-seal img {
-    filter: invert(0.92) grayscale(1);
+    /* invert 后再压对比、回一点暖:X 光片 → 炭笔画 */
+    filter: invert(0.92) grayscale(1) sepia(0.2) contrast(0.88) brightness(0.95);
 }
 
 /* 未配置印章图片时的默认字形印章 */
@@ -606,15 +617,11 @@ html[data-theme="dark"] .sg-seal img {
     position: relative;
     display: grid;
     min-height: 112px;
-    grid-template-columns: 48px 112px minmax(0, 1fr) 32px;
+    grid-template-columns: 112px minmax(0, 1fr) 32px;
     align-items: center;
     gap: 24px;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.sg-entry.is-latest {
-    padding-inline-start: 0;
+    padding: 20px 0 20px 76px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 62%, transparent);
 }
 
 .sg-entry.is-latest::before {
@@ -624,10 +631,6 @@ html[data-theme="dark"] .sg-seal img {
     width: 2px;
     background: var(--sg-red);
     content: "";
-}
-
-.sg-entry.is-latest .sg-entry__number {
-    color: var(--sg-red);
 }
 
 .sg-entry__link {
@@ -647,12 +650,21 @@ html[data-theme="dark"] .sg-seal img {
 }
 
 .sg-entry__number {
-    color: var(--secondary);
+    /* 期号幽灵化:与归档页幽灵年份同一语法——压在行左的底层数字,
+       让「第几期」成为视觉资产而不是 metadata */
+    position: absolute;
+    inset-inline-start: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    color: var(--primary);
     font-family: var(--sg-serif);
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    font-variant-numeric: tabular-nums;
-    transition: color 180ms ease;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
 }
 
 .sg-entry__date {
@@ -733,9 +745,7 @@ html[data-theme="dark"] .sg-seal img {
     text-decoration-thickness: 1.5px;
 }
 
-.sg-entry:has(.sg-entry__link:hover) .sg-entry__number,
 .sg-entry:has(.sg-entry__link:hover) .sg-entry__date,
-.sg-entry:has(.sg-entry__link:focus-visible) .sg-entry__number,
 .sg-entry:has(.sg-entry__link:focus-visible) .sg-entry__date {
     color: var(--primary);
 }
@@ -1904,16 +1914,22 @@ h6:hover .anchor {
     }
 
     .sg-hero h1 {
-        font-size: 58px;
+        font-size: 52px;
     }
 
     .sg-seal__frame {
-        width: 174px;
+        width: 184px;
     }
 
     .sg-entry {
-        grid-template-columns: 40px 96px minmax(0, 1fr) 24px;
+        grid-template-columns: 96px minmax(0, 1fr) 24px;
         gap: 16px;
+        padding-inline-start: 60px;
+    }
+
+    .sg-entry__number {
+        font-size: 30px;
+        inset-inline-start: 0;
     }
 }
 
@@ -2058,11 +2074,16 @@ h6:hover .anchor {
     }
 
     .sg-entry__number {
+        position: static;
+        transform: none;
         grid-column: 1;
         grid-row: 1;
         align-self: center;
         justify-self: start;
         font-size: 12px;
+        letter-spacing: 0.5px;
+        color: var(--secondary);
+        opacity: 1;
     }
 
     .sg-entry__date {

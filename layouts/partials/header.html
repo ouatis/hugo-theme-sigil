@@ -3,7 +3,11 @@
         <div class="logo">
             {{- $label_text := (site.Params.label.text | default site.Title) }}
             {{- if site.Title }}
-            <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
+            <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)"{{ if .IsHome }} aria-label="{{ $label_text }}"{{ end }}>
+                {{- /* 封面/书页之别:首页 header 只留 ∴ 印记(巨型标题就在下方,
+                       重复的站名让首屏像牌匾);内页恢复 ○ + 站名。 */ -}}
+                {{- if .IsHome }}<span class="logo__home-mark" aria-hidden="true">∴</span>
+                {{- else }}
                 {{- if site.Params.label.icon }}
                 {{- $img := resources.Get site.Params.label.icon }}
                 {{- if $img }}
@@ -33,6 +37,7 @@
                     {{ site.Params.label.iconSVG | safeHTML }}
                 {{- end -}}
                 {{- $label_text -}}
+                {{- end }}
             </a>
             {{- end }}
             <div class="logo-switches">
