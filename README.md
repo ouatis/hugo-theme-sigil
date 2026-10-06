@@ -2,6 +2,12 @@
 
 **English** | [中文](README.zh.md) | [日本語](README.ja.md)
 
+<p>
+  <img src="https://img.shields.io/github/v/release/ouatis/hugo-theme-sigil?style=flat-square&label=version&color=ad3e32" alt="Latest release">
+  <img src="https://img.shields.io/github/downloads/ouatis/hugo-theme-sigil/total?style=flat-square&label=downloads&color=d0a85c" alt="Downloads">
+  <img src="https://img.shields.io/github/license/ouatis/hugo-theme-sigil?style=flat-square&label=license&color=2f6754" alt="MIT License">
+</p>
+
 A restrained literary theme for [Hugo](https://gohugo.io/), based on
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod).
 

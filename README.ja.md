@@ -2,6 +2,12 @@
 
 **[English](README.md)** | [中文](README.zh.md) | 日本語
 
+<p>
+  <img src="https://img.shields.io/github/v/release/ouatis/hugo-theme-sigil?style=flat-square&label=version&color=ad3e32" alt="Latest release">
+  <img src="https://img.shields.io/github/downloads/ouatis/hugo-theme-sigil/total?style=flat-square&label=downloads&color=d0a85c" alt="Downloads">
+  <img src="https://img.shields.io/github/license/ouatis/hugo-theme-sigil?style=flat-square&label=license&color=2f6754" alt="MIT License">
+</p>
+
 [Hugo](https://gohugo.io/) 向けの控えめな文学系テーマです。
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) をベースにしています。
 

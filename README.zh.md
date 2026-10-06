@@ -2,6 +2,12 @@
 
 **[English](README.md)** | 中文 | [日本語](README.ja.md)
 
+<p>
+  <img src="https://img.shields.io/github/v/release/ouatis/hugo-theme-sigil?style=flat-square&label=version&color=ad3e32" alt="Latest release">
+  <img src="https://img.shields.io/github/downloads/ouatis/hugo-theme-sigil/total?style=flat-square&label=downloads&color=d0a85c" alt="Downloads">
+  <img src="https://img.shields.io/github/license/ouatis/hugo-theme-sigil?style=flat-square&label=license&color=2f6754" alt="MIT License">
+</p>
+
 一个面向 [Hugo](https://gohugo.io/) 的克制型文学主题，基于
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod)。
 
