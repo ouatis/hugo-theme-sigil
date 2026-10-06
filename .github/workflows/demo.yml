@@ -33,6 +33,9 @@ jobs:
           path: .cache/ibm-plex
           key: ibm-plex-1.1.0
 
+      - name: Install font tooling
+        run: python3 -m pip install --quiet fonttools brotli
+
       - name: Build font subsets for the demo
         run: |
           scripts/build-fonts.sh corpus
