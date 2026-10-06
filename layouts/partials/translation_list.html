@@ -1,6 +1,10 @@
 {{- if .IsTranslated -}}
 {{- if (ne .Layout "search") }}
-{{- if or .Params.author site.Params.author (.Param "ShowReadingTime") (not .Date.IsZero) }}&nbsp;|&nbsp;{{- end -}}
+{{- /* classic meta renders only when hideArticleMeta is off; the
+       separator must follow what is actually on screen, not what
+       the page happens to have */ -}}
+{{- $classicMeta := and (not (.Param "hideArticleMeta")) (or .Params.author site.Params.author (.Param "ShowReadingTime") (not .Date.IsZero)) -}}
+{{- if $classicMeta }}&nbsp;|&nbsp;{{- end -}}
 {{- end -}}
 <ul class="i18n_list">
     {{- range .Translations }}

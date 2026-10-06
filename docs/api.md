@@ -86,7 +86,7 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 - Partials a site may override by shadowing: `extend_head.html`,
   `extend_footer.html`, `post_meta.html`, `author.html`.
 - `layouts/shortcodes/` shipped with the theme are part of the contract:
-  `zerthimon`-style custom shortcodes belong to the site, not the theme.
+  site-specific custom shortcodes belong to the site, not the theme.
 - i18n keys: adding keys is additive; renaming a key is a breaking change.
 
 ## Machine surfaces
