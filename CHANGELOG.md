@@ -3,6 +3,10 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
+## v0.9.22
+
+- Article typography: h2 loses its rule and dead padding (chapters by size and whitespace); blockquote color lifts to `color-mix(primary 85%, theme)` (~9.2:1) for long-quote comfort; archives year spacing 64→48 after an A/B; end-of-article de-chromed — tag pill borders at 60%, paginav loses its divider and top rule, related-posts drops its top border; whitespace now separates the stack.
+
 ## v0.9.21
 
 - Header hierarchy: theme toggle loses its idle border ring (returns on hover/focus), language exits unify at 11px — weaker than the nav by size, since light-mode contrast math forbids opacity dimming. Section head becomes a 56px chapter mark instead of a full-width rule. Ghost issue numbers 0.07 → 0.09.

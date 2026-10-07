@@ -975,9 +975,8 @@ html[data-theme="dark"] .sg-seal img {
 }
 
 .post-content h2 {
+    /* 章节无线:题下钤记只属于文章题,层级靠字号与留白——书籍,不是技术文档 */
     margin: 2.4em 0 1em;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
     font-size: 28px;
 }
 
@@ -1059,7 +1058,9 @@ html[data-theme="dark"] .sg-seal img {
     margin: 2em 0;
     padding: 0 18px;
     border-inline-start: 1px solid var(--sg-green);
-    color: var(--secondary);
+    /* 长引文舒适度:比 secondary 提亮一档(primary 85% 混底,实测 9.2:1),
+       墨绿竖线/衬线/0.94em 仍是引文的辨识度 */
+    color: color-mix(in srgb, var(--primary) 85%, var(--theme));
     font-family: var(--sg-serif);
     font-size: 0.94em;
     line-height: 1.9;
@@ -1351,8 +1352,9 @@ h6:hover .anchor {
 
 .post-tags a {
     display: inline-block;
-    padding: 4px 12px;
-    border: 1px solid var(--border);
+    padding: 2px 8px;
+    /* 边框淡到 60%:留一毫轮廓,胶囊感让位给文字感 */
+    border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
     color: var(--sg-green);
     line-height: 1.6;
     background: transparent;
@@ -1469,7 +1471,8 @@ h6:hover .anchor {
 .archive-year {
     position: relative;
     --year-size: clamp(88px, 15vw, 132px);
-    margin-top: 64px;
+    /* 64→48:年表更连贯;若对比后想回宽,改这一个数 */
+    margin-top: 48px;
 }
 
 /* 巨大年份幽灵数字:垫底装饰,年份条目列表从其下半部叠过 */
@@ -1679,7 +1682,7 @@ h6:hover .anchor {
     margin-top: 0;
     background: transparent;
     border: 0;
-    border-top: 1px solid var(--border);
+    /* 标签与上下篇之间也靠留白分隔,横线全部退场 */
     border-radius: 0;
     line-height: 24px;
     font-family: var(--sg-serif);
@@ -1716,7 +1719,7 @@ h6:hover .anchor {
 }
 
 .paginav .prev {
-    border-inline-end: 1px solid var(--border);
+    /* 竖线退场:左右两块靠 20px 内距自然分开 */
     padding-inline-end: 20px;
 }
 
@@ -1725,9 +1728,8 @@ h6:hover .anchor {
 }
 
 .related-posts {
+    /* 结尾栈靠留白呼吸:上边距 44px 即分隔,无需线 */
     margin-top: 44px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
     font-family: var(--sg-serif);
 }
 
