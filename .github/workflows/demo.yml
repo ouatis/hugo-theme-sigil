@@ -10,6 +10,7 @@ permissions:
   pages: write
   id-token: write
   actions: write
+  issues: write
 
 concurrency:
   group: pages
@@ -73,3 +74,31 @@ jobs:
           | while read -r id; do
               gh api -X DELETE "repos/${{ github.repository }}/actions/runs/$id" > /dev/null 2>&1 || true
             done
+
+      # 部署失败时开/续写工单,成功后自动关闭——红色运行不等于有人看见
+      - name: Close failure ticket on success
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo 部署失败 in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --repo "${{ github.repository }}" --comment "最近一次 Demo 部署成功，本工单自动关闭。"
+          fi
+
+      - name: Report failure as issue
+        # 放在最后并 gate 在 failure() 上:任何一步失败都会落到工单里
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo 部署失败 in:title" --json number --jq '.[0].number // empty')
+          BODY="Demo 部署在 $(date -u '+%Y-%m-%d %H:%M UTC') 失败。
+          运行日志: ${RUN_URL}
+          下次推送 main 或手动运行成功后本工单自动关闭。"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "${{ github.repository }}" --body "$BODY"
+          else
+            gh issue create --repo "${{ github.repository }}" --title "🔴 Demo 部署失败（自动工单）" --body "$BODY"
+          fi
