@@ -227,8 +227,15 @@ button#theme-toggle {
     height: 36px;
     margin: auto 0 auto 10px;
     place-items: center;
-    border: 1px solid var(--border);
+    /* 工具弱化:idle 去框,层级让给词标与导航;hover/focus 完整恢复 */
+    border: 1px solid transparent;
     border-radius: 50%;
+    transition: border-color 180ms ease;
+}
+
+button#theme-toggle:hover,
+button#theme-toggle:focus-visible {
+    border-color: var(--border);
 }
 
 #menu li + li {
@@ -269,7 +276,9 @@ button#theme-toggle {
     padding: 0;
     list-style: none;
     font-family: var(--sg-sans);
-    font-size: 12px;
+    /* 工具弱化:11px 统一(原日文项已 11px)。不再降透明度——亮色
+       --secondary 对比 5.37:1,0.85 透明度即跌破 4.5:1 红线 */
+    font-size: 11px;
     line-height: 1;
 }
 
@@ -544,7 +553,19 @@ html[data-theme="dark"] .sg-seal img {
     justify-content: space-between;
     gap: 24px;
     padding-bottom: 24px;
-    border-bottom: 2px solid var(--primary);
+    position: relative;
+}
+
+/* 章题短线:56px 的钤记,取代全宽 2px 分隔线——刊物章题,不是网页 divider。
+   基础规则即无 JS 兜底;动画层(.sg-js)只叠加变换 */
+.sg-section-head::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 56px;
+    height: 2px;
+    background: var(--primary);
 }
 
 .sg-section-head h2 {
@@ -638,7 +659,7 @@ html[data-theme="dark"] .sg-seal img {
     font-size: 40px;
     line-height: 1;
     letter-spacing: 0.02em;
-    opacity: 0.07;
+    opacity: 0.09;
     pointer-events: none;
     user-select: none;
 }
@@ -2422,16 +2443,7 @@ body {
     position: relative;
 }
 
-.sg-js .sg-section-head {
-    border-bottom: 0;
-}
-
 .sg-js .sg-section-head::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 2px;
-    background: var(--primary);
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 500ms ease-out;
@@ -2498,12 +2510,9 @@ body {
         animation: none;
     }
 
-    .sg-js .sg-section-head {
-        border-bottom: 2px solid var(--primary);
-    }
-
     .sg-js .sg-section-head::after {
-        display: none;
+        transform: none;
+        transition: none;
     }
 
     .sg-js .post-header::after {

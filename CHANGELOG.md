@@ -3,6 +3,10 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
+## v0.9.21
+
+- Header hierarchy: theme toggle loses its idle border ring (returns on hover/focus), language exits unify at 11px — weaker than the nav by size, since light-mode contrast math forbids opacity dimming. Section head becomes a 56px chapter mark instead of a full-width rule. Ghost issue numbers 0.07 → 0.09.
+
 ## v0.9.20
 
 - ci: build-fonts.sh actually sets `TAR_WILDCARDS=(--wildcards)` on GNU tar — the detection block assigned an empty array, so Ubuntu demo builds failed on pattern extraction while macOS looked fine.
