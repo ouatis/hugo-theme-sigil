@@ -3,6 +3,10 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
+## v0.9.20
+
+- ci: build-fonts.sh actually sets `TAR_WILDCARDS=(--wildcards)` on GNU tar — the detection block assigned an empty array, so Ubuntu demo builds failed on pattern extraction while macOS looked fine.
+
 ## v0.9.19
 
 - Revert v0.9.18; header back to wordmark + toggle + language exits.

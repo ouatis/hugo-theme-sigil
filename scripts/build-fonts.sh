@@ -34,7 +34,7 @@ command -v tar >/dev/null || { echo "tar is required" >&2; exit 1; }
 # --wildcards is a GNU extension; macOS bsdtar matches patterns natively
 # and rejects the flag. Detect once, use everywhere.
 if tar --version 2>/dev/null | grep -q GNU; then
-    TAR_WILDCARDS=(${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"})
+    TAR_WILDCARDS=(--wildcards)
 else
     TAR_WILDCARDS=()
 fi
