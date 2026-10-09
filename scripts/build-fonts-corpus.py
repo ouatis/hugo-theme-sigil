@@ -55,7 +55,7 @@ for weight, wnum in (("Regular", 400), ("Bold", 700)):
         "  font-style: normal;\n"
         f"  font-weight: {wnum};\n"
         "  font-display: swap;\n"
-        f'  src: url("./sc/IBMPlexSansSC-{weight}-corpus.woff2") format("woff2");\n'
+        f'  src: url("./IBMPlexSansSC-{weight}-corpus.woff2") format("woff2");\n'
         f"  unicode-range: {','.join(runs)};\n"
         "}\n")
     print(f"corpus: IBMPlexSansSC-{weight}-corpus.woff2 "

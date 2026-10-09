@@ -43,6 +43,9 @@ jobs:
           mkdir -p exampleSite/static
           cp -r static/fonts exampleSite/static/fonts
 
+      - name: Verify build (check.sh — blocks deploy on failure)
+        run: bash scripts/check.sh
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
