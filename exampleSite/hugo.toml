@@ -16,35 +16,35 @@ defaultContentLanguage = "en"
     [[languages.en.menus.main]]
         identifier = "typography"
         name = "Typography"
-        url = "/posts/typography/"
+        pageRef = "posts/typography"
     [[languages.en.menus.main]]
         identifier = "archives"
         name = "Archives"
-        url = "/archives/"
+        pageRef = "archives"
     [[languages.en.menus.main]]
         identifier = "about"
         name = "About"
-        url = "/about/"
+        pageRef = "about"
     [[languages.en.menus.main]]
         identifier = "search"
         name = "Search"
-        url = "/search/"
+        pageRef = "search"
     [[languages.en.menus.main]]
         identifier = "config"
         name = "Config"
-        url = "/config-example/"
+        pageRef = "config-example"
     [[languages.en.menus.main]]
         identifier = "api"
         name = "API"
-        url = "/api/"
+        pageRef = "api"
     [[languages.en.menus.main]]
         identifier = "categories"
         name = "Categories"
-        url = "/categories/"
+        pageRef = "categories"
     [[languages.en.menus.main]]
         identifier = "tags"
         name = "Tags"
-        url = "/tags/"
+        pageRef = "tags"
 
   [languages.zh-cn]
     locale = "zh-CN"
@@ -57,19 +57,19 @@ defaultContentLanguage = "en"
     [[languages.zh-cn.menus.main]]
         identifier = "typography"
         name = "排版"
-        url = "/zh-cn/posts/typography/"
+        pageRef = "posts/typography"
     [[languages.zh-cn.menus.main]]
         identifier = "archives"
         name = "归档"
-        url = "/zh-cn/archives/"
+        pageRef = "archives"
     [[languages.zh-cn.menus.main]]
         identifier = "about"
         name = "关于"
-        url = "/zh-cn/about/"
+        pageRef = "about"
     [[languages.zh-cn.menus.main]]
         identifier = "search"
         name = "搜索"
-        url = "/zh-cn/search/"
+        pageRef = "search"
 
   [languages.ja]
     locale = "ja"
@@ -82,19 +82,19 @@ defaultContentLanguage = "en"
     [[languages.ja.menus.main]]
         identifier = "typography"
         name = "組版"
-        url = "/ja/posts/typography/"
+        pageRef = "posts/typography"
     [[languages.ja.menus.main]]
         identifier = "archives"
         name = "アーカイブ"
-        url = "/ja/archives/"
+        pageRef = "archives"
     [[languages.ja.menus.main]]
         identifier = "about"
         name = "About"
-        url = "/ja/about/"
+        pageRef = "about"
     [[languages.ja.menus.main]]
         identifier = "search"
         name = "検索"
-        url = "/ja/search/"
+        pageRef = "search"
 
 [params]
   mainSections = ["posts"]
