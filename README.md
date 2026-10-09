@@ -13,6 +13,14 @@ A restrained literary theme for [Hugo](https://gohugo.io/), based on
 
 Demo: <https://ouatis.com/hugo-theme-sigil/>
 
+![Sigil in light and dark mode](images/sigil-preview.jpg)
+
+**Requires [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
+(the theme uses `images.Text` for OG cards, which needs the extended build).
+
+> The version badge above reflects the latest **tagged release**; the
+> [CHANGELOG](CHANGELOG.md) tracks every change up to the current `main`.
+
 ## Features
 
 - Tufte-style sidenotes on wide screens, endnotes on narrow screens
@@ -104,19 +112,20 @@ See [exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example.
 
 ## Fonts
 
-Three build modes for `scripts/build-fonts.sh` (python equivalent:
-`scripts/build-fonts.py`):
-
-- `latin` — Latin only; the bootstrap subset committed to the repo (CJK text
-  falls back to system fonts). This is the clean-checkout default.
-- `corpus` — additionally scans the example site's own characters and subsets
-  a small SC corpus so the demo's CJK renders in real Plex (~30 KB)
-- `full` — official SC + JP split shards (for CJK/JP sites that want full
-  coverage; ~3 MB on a text-heavy page)
+Font subsets (optional — the theme ships Latin and works out of the box):
 
 ```bash
 bash scripts/build-fonts.sh corpus   # or latin / full
 ```
+
+- `latin` — Latin only; the bootstrap subset already committed to the repo
+  (CJK text falls back to system fonts). This is the clean-checkout default.
+- `corpus` — additionally scans the example site's own characters and subsets
+  a small SC corpus so the demo's CJK renders in real Plex (~30 KB). **Shell
+  script only** — `scripts/build-fonts.py` covers `latin`/`full` but not
+  `corpus`.
+- `full` — official SC + JP split shards (for CJK/JP sites that want full
+  coverage; ~3 MB on a text-heavy page)
 
 ## Performance
 

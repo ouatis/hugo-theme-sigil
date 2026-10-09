@@ -13,6 +13,13 @@
 
 デモ：<https://ouatis.com/hugo-theme-sigil/>
 
+![Sigil ライト／ダークモード](images/sigil-preview.jpg)
+
+**[Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0 が必要です**
+（OG カード生成に `images.Text` を使うため、extended ビルドが必須）。
+
+> 上部のバージョンバッジは最新の**タグ付きリリース**を反映します。[CHANGELOG](CHANGELOG.md) は現在の `main` までの全変更を記録しています。
+
 ## 特徴
 
 - ワイド画面の Tufte 風サイドノートと狭い画面の脚注
@@ -100,13 +107,13 @@ home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
 
 ## フォント
 
-`scripts/build-fonts.sh` には 3 モードあります（python 等価:
-`scripts/build-fonts.py`）:
+フォントサブセット（任意——テーマはラテン文字を同梱し、すぐに使えます）：
 
 - `latin` —— ラテン文字のみ。リポジトリ同梱のブートストラップ サブセット
   （CJK テキストはシステムフォールバック）。クリーンなチェックアウトのデフォルト形態
 - `corpus` —— 例示サイト自身の文字を走査し、小さな SC コーパス サブセットを
-  作成。デモの CJK が本物の Plex で表示される（約 30 KB）
+  作成。デモの CJK が本物の Plex で表示される（約 30 KB）。**シェルスクリプトのみ**——
+  `scripts/build-fonts.py` は `latin`/`full` のみ対応し `corpus` は非対応。
 - `full` —— 公式 SC + JP 全分割シャード（全量カバーが必要な CJK/JP サイト向け;
   テキストの多いページで約 3 MB）
 
