@@ -111,18 +111,17 @@ for page in pages:
 print("check: nav hrefs keep the deploy subpath before any language code")
 PY
 
-# Font budget: the demo is multilingual (en/zh/ja), and the corpus SC subset
-# is scanned from the whole example site, so a real Plex-rendered CJK demo
-# costs more than a single-page measurement suggests. Budget 200KB covers
-# the multilingual corpus with headroom. Any referenced CSS or font that is
-# missing fails the check — a dangling import (e.g. a wrong relative path)
-# must never pass silently.
+# Font budget: measure what ONE language's page actually loads, and hold the
+# budget to the worst language. The demo is multilingual (en/zh/ja); the SC
+# and JP corpus subsets are scanned from their own language's pages, so a
+# Chinese reader pays Latin+SC and never touches JP, a Japanese reader pays
+# Latin+JP. Summing every subset across all languages (the old behaviour)
+# reported a union nobody downloads. Any referenced CSS or font that is
+# missing fails the check — a dangling import must never pass silently.
 command -v python3 >/dev/null 2>&1 || fail "python3 not found — required for font checks"
 python3 - <<'PY'
 import html, os, re
-raw = open("public/posts/typography/index.html", encoding="utf-8").read()
-text = html.unescape(re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>", "", raw))
-cps = {ord(c) for c in text if not c.isspace()} | {0x2234}
+
 faces = []
 missing = []
 def load(path):
@@ -135,6 +134,7 @@ def load(path):
     for block in re.findall(r"@font-face\s*\{[^}]+\}", css):
         src = re.search(r'url\(["\']?([^"\')]+\.woff2)', block)
         ur = re.search(r'unicode-range:\s*([^;}]+)', block)
+        fam = re.search(r'font-family:\s*["\']?([^"\';]+)', block)
         if not src: continue
         ranges = []
         if ur:
@@ -145,24 +145,65 @@ def load(path):
                     elif len(bits) == 1 and bits[0]: v=int(bits[0],16); ranges.append((v,v))
                 except ValueError: pass
         fpath = os.path.normpath(os.path.join(os.path.dirname(path), src.group(1)))
-        faces.append((ranges, fpath))
+        family = fam.group(1).strip() if fam else ""
+        faces.append((family, ranges, fpath))
 load("public/fonts/ibm-plex/result.css")
 if missing:
     print(f"check: FAIL — referenced CSS not found: {missing}")
     raise SystemExit(1)
-total = 0
-for ranges, fpath in faces:
+for family, ranges, fpath in faces:
     if not os.path.exists(fpath):
         print(f"check: FAIL — referenced font not found: {fpath}")
         raise SystemExit(1)
-    if not ranges or any(any(a <= c <= b for a, b in ranges) for c in cps):
-        total += os.path.getsize(fpath)
-kb = total // 1024
+
+def page_cost(page, stack):
+    raw = open(f"public/{page}", encoding="utf-8").read()
+    text = html.unescape(re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>", "", raw))
+    cps = {ord(c) for c in text if not c.isspace()} | {0x2234}
+    # For each glyph, walk the stack in order; the first family whose
+    # unicode-range covers it is the one downloaded. A face counts once if
+    # it is the first-match for any glyph (or has no range, like a Latin
+    # fallback that covers everything).
+    needed = set()
+    for c in cps:
+        for fam in stack:
+            for face_fam, ranges, fpath in faces:
+                if face_fam != fam:
+                    continue
+                if not ranges or any(a <= c <= b for a, b in ranges):
+                    needed.add(fpath)
+                    break
+            else:
+                continue
+            break
+    total = sum(os.path.getsize(fp) for fp in needed)
+    return total // 1024
+
+# Mirror sigil.css stacks in stack order (first-match wins):
+#   html:lang(zh) -> SC first; html:lang(ja) -> JP first; default -> SC then JP.
+# A glyph shared by SC and JP resolves to the earlier family, so JP is only
+# downloaded for kana that SC does not cover.
+STACKS = {
+    "en":     ["IBM Plex Sans", "IBM Plex Sans SC", "IBM Plex Sans JP"],
+    "zh-cn":  ["IBM Plex Sans", "IBM Plex Sans SC"],
+    "ja":     ["IBM Plex Sans", "IBM Plex Sans JP"],
+}
+pages = {"en": "posts/typography/index.html",
+         "zh-cn": "zh-cn/posts/typography/index.html",
+         "ja": "ja/posts/typography/index.html"}
+costs = {}
+for lang, page in pages.items():
+    if not os.path.exists(os.path.join("public", page)):
+        print(f"check: FAIL — missing page for font budget: {page}")
+        raise SystemExit(1)
+    costs[lang] = page_cost(page, STACKS[lang])
+worst = max(costs.values())
+detail = " ".join(f"{lang}={kb}KB" for lang, kb in costs.items())
 budget = int(os.environ.get("FONT_BUDGET_KB", "200"))
-if kb > budget:
-    print(f"check: FAIL — fonts {kb}KB > budget {budget}KB")
+if worst > budget:
+    print(f"check: FAIL — worst language loads fonts {worst}KB > budget {budget}KB ({detail})")
     raise SystemExit(1)
-print(f"check: fonts {kb}KB <= {budget}KB")
+print(f"check: fonts worst={worst}KB <= {budget}KB ({detail})")
 PY
 
 echo "check: all green"

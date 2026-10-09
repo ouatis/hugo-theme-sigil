@@ -61,6 +61,7 @@ if [ "$MODE" = "latin" ]; then
 elif [ "$MODE" = "corpus" ]; then
     fetch_package "plex-sans"
     fetch_package "plex-sans-sc"
+    fetch_package "plex-sans-jp"
 else
     for pkg in plex-sans plex-sans-sc plex-sans-jp; do
         fetch_package "$pkg"
@@ -79,6 +80,11 @@ if [ "$MODE" = "corpus" ]; then
         tar -xzf "${CACHE_DIR}/plex-sans-sc-${IBM_PLEX_VERSION}.tgz" \
             -C "${CACHE_DIR}/work" --strip-components=5 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
             "package/fonts/complete/woff2/hinted/IBMPlexSansSC-${weight}.woff2"
+    done
+    for weight in Regular Bold; do
+        tar -xzf "${CACHE_DIR}/plex-sans-jp-${IBM_PLEX_VERSION}.tgz" \
+            -C "${CACHE_DIR}/work" --strip-components=5 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
+            "package/fonts/complete/woff2/hinted/IBMPlexSansJP-${weight}.woff2"
     done
 fi
 
@@ -130,6 +136,7 @@ fi
         printf '%s\n' '@import url("./jp/IBMPlexSansJP-Bold.css");'
     elif [ "$MODE" = "corpus" ]; then
         printf '%s\n' '@import url("./sc/corpus.css");'
+        printf '%s\n' '@import url("./jp/corpus.css");'
     fi
 } > "${FONT_DIR}/result.css"
 
