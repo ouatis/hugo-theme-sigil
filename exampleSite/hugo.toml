@@ -63,9 +63,6 @@ defaultContentLanguage = "en"
     name = "github"
     url = "https://github.com"
 
-  [params.assets]
-    theme_color = "#f4f6f3"
-
 [outputs]
   home = ["HTML", "RSS", "LLMSTXT", "JSONFeed"]
 
