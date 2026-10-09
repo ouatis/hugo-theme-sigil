@@ -49,10 +49,12 @@ if grep -qE 'KaTeX_[A-Za-z-]+[.]woff2|/katex/fonts/' public/posts/typography/ind
     fail "katex font paths leaked into visible HTML — a partial is printing .RelPermalink"
 fi
 
-# Font budget: the demo ships Latin webfonts; corpus mode (CI) adds a small
-# SC subset. Budget 128KB covers latin+corpus with headroom. Any referenced
-# CSS or font that is missing fails the check — a dangling import (e.g. a
-# wrong relative path) must never pass silently.
+# Font budget: the demo is multilingual (en/zh/ja), and the corpus SC subset
+# is scanned from the whole example site, so a real Plex-rendered CJK demo
+# costs more than a single-page measurement suggests. Budget 200KB covers
+# the multilingual corpus with headroom. Any referenced CSS or font that is
+# missing fails the check — a dangling import (e.g. a wrong relative path)
+# must never pass silently.
 command -v python3 >/dev/null 2>&1 || fail "python3 not found — required for font checks"
 python3 - <<'PY'
 import html, os, re
@@ -94,7 +96,7 @@ for ranges, fpath in faces:
     if not ranges or any(any(a <= c <= b for a, b in ranges) for c in cps):
         total += os.path.getsize(fpath)
 kb = total // 1024
-budget = int(os.environ.get("FONT_BUDGET_KB", "128"))
+budget = int(os.environ.get("FONT_BUDGET_KB", "200"))
 if kb > budget:
     print(f"check: FAIL — fonts {kb}KB > budget {budget}KB")
     raise SystemExit(1)
