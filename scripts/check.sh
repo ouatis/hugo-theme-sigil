@@ -43,6 +43,12 @@ for what in katex glightbox mermaid; do
     fi
 done
 
+# no resource path leaks into visible text: a bare {{ .RelPermalink }} in a
+# partial prints e.g. katex font paths as body text. Assert none appear.
+if grep -qE 'KaTeX_[A-Za-z-]+[.]woff2|/katex/fonts/' public/posts/typography/index.html; then
+    fail "katex font paths leaked into visible HTML — a partial is printing .RelPermalink"
+fi
+
 # Font budget: the demo ships Latin webfonts; corpus mode (CI) adds a small
 # SC subset. Budget 128KB covers latin+corpus with headroom. Any referenced
 # CSS or font that is missing fails the check — a dangling import (e.g. a
