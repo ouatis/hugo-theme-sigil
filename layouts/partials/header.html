@@ -35,6 +35,7 @@
                 {{- $label_text -}}
             </a>
             {{- end }}
+            {{- $currentPage := . }}
             <div class="logo-switches">
                 {{- if (not site.Params.disableThemeToggle) }}
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
@@ -44,7 +45,13 @@
                 {{- end }}
                 
                 {{- if (not site.Params.disableLangToggle) }}
-                    {{- with site.Home.Translations }}
+                    {{- /* 优先跳当前页的翻译;该页无翻译时才回退语言首页。
+                         用 site.Home.Translations 会让任何页面的语言切换
+                         都跳回首页,读了半篇文章点「中文」被送回起点。 */ -}}
+                    {{- $switches := slice }}
+                    {{- with $currentPage.Translations }}{{- $switches = . }}{{- end }}
+                    {{- if not $switches }}{{- with site.Home.Translations }}{{- $switches = . }}{{- end }}{{- end }}
+                    {{- with $switches }}
                     {{- /* 只列出口,不列所在:当前语言的名字是死信息,
                            退场后这里每个词都是一扇门 */ -}}
                     <ul class="lang-switch" aria-label="Language switcher">
@@ -64,7 +71,6 @@
                 {{- end }}
             </div>
         </div>
-        {{- $currentPage := . }}
         <ul id="menu">
             {{- range site.Menus.main }}
             {{- /* 站内项走 .Page.Permalink。menu.URL 由 Hugo 在构建期拼装,

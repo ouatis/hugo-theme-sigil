@@ -38,7 +38,7 @@ def matte(r: int) -> str:
 
 ## 公式
 
-行内 $e^{i\pi} + 1 = 0$，以及：
+行内 \(e^{i\pi} + 1 = 0\)，以及：
 
 $$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}$$
 

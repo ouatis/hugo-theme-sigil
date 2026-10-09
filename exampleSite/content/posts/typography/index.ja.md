@@ -13,7 +13,7 @@ mermaid: true
 lightbox: true
 ---
 
-Sigil はすべて三つ組：朱は応答、墨绿は情報、琥珀は輝き、
+Sigil はすべて三つ組：朱は応答、深緑は情報、琥珀は輝き、
 段落の終わりに ∴ を置く。中文・日本語・English は IBM Plex Sans を共用し、
 脚本ごとにサブセットして必要なときだけ読み込む。[^fonts]
 
@@ -38,7 +38,7 @@ def matte(r: int) -> str:
 
 ## 数式
 
-インライン $e^{i\pi} + 1 = 0$、そして：
+インライン \(e^{i\pi} + 1 = 0\)、そして：
 
 $$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}$$
 
