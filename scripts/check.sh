@@ -10,7 +10,14 @@ rm -rf public resources
 
 fail() { echo "check: FAIL — $1" >&2; exit 1; }
 
-hugo --themesDir ../.. --minify --quiet || fail "example site build failed (run without --quiet to see the error)"
+# --baseURL mirrors the deployed demo (https://ouatis.com/hugo-theme-sigil/).
+# Without a subpath every URL assertion degenerates: the language-prefix /
+# subpath bug this script catches only exists when the site is NOT at the
+# domain root. Override with CHECK_BASE_URL for local runs.
+CHECK_BASE_URL="${CHECK_BASE_URL:-https://ouatis.com/hugo-theme-sigil/}"
+
+hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
+    || fail "example site build failed (run without --quiet to see the error)"
 
 # llms.txt: machine-readable site index generated for agents
 [ -s public/llms.txt ] || fail "llms.txt missing or empty"
@@ -48,6 +55,61 @@ done
 if grep -qE 'KaTeX_[A-Za-z-]+[.]woff2|/katex/fonts/' public/posts/typography/index.html; then
     fail "katex font paths leaked into visible HTML — a partial is printing .RelPermalink"
 fi
+
+# Navigation hrefs must keep the deploy subpath directly after the host and
+# the language code directly after the subpath. absLangURL interleaves the
+# two: on a non-default language page it emits
+# https://host/<lang>/<subpath>/page/ instead of
+# https://host/<subpath>/<lang>/page/. Hugo's own canonical link gives the
+# correct order for the audited page, so derive the site root from it and
+# require every same-host absolute href to start with that root — never
+# with a bare language code.
+python3 - <<'PY'
+import os, re
+LANG_CODES = {"en", "zh-cn", "ja"}
+
+def hrefs(page):
+    raw = open(os.path.join("public", page), encoding="utf-8").read()
+    body = re.sub(r"<script[\s\S]*?</script>", "", raw)
+    return re.findall(r'href=["\']?([^"\'\s>]+)', body)
+
+pages = ["index.html", "zh-cn/index.html", "ja/index.html"]
+root = None
+for page in pages:
+    if not os.path.exists(os.path.join("public", page)):
+        print(f"check: FAIL — missing page for nav audit: {page}")
+        raise SystemExit(1)
+    raw = open(os.path.join("public", page), encoding="utf-8").read()
+    m = re.search(r'<link rel=canonical href=([^ >]+)', raw)
+    if not m:
+        print(f"check: FAIL — no canonical on {page}, cannot derive the site root")
+        raise SystemExit(1)
+    scheme, _, after = m.group(1).partition("://")
+    host, _, rest = after.partition("/")
+    subpath = "/" + rest.split("/")[0].strip("/")      # hugo-theme-sigil
+    root = f"{scheme}://{host}{subpath}/"
+    bad = []
+    for href in hrefs(page):
+        if not href.startswith("http"):
+            continue
+        h_scheme, _, h_after = href.partition("://")
+        if f"{h_scheme}://{h_after.split('/')[0]}" != f"{scheme}://{host}":
+            continue                                   # external link, not ours
+        tail = h_after[len(host):].lstrip("/")
+        first = tail.split("/")[0] if tail else ""
+        if first in LANG_CODES:
+            # a language code is legal only after the subpath
+            if not tail.startswith(subpath.strip("/") + "/"):
+                bad.append(href)
+        elif not ("/" + tail).startswith(subpath + "/") and "/" + tail != subpath + "/":
+            bad.append(href)
+    if bad:
+        for href in bad[:8]:
+            print(f"check: FAIL — nav href breaks the subpath/language order: {page} -> {href}")
+        print(f"check: expected every same-host href to start with {root}")
+        raise SystemExit(1)
+print("check: nav hrefs keep the deploy subpath before any language code")
+PY
 
 # Font budget: the demo is multilingual (en/zh/ja), and the corpus SC subset
 # is scanned from the whole example site, so a real Plex-rendered CJK demo
