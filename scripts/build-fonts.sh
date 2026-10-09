@@ -113,7 +113,18 @@ for path in glob.glob("static/fonts/ibm-plex/*/*.css"):
     css = open(path, encoding="utf-8").read()
     if "font-display" in css:
         continue
-    css, n = re.subn(r'(@font-face\s*\{[^}]*?)\}', r'\1  font-display: swap;\n}', css)
+    # The official split css ends each @font-face on a property with no
+    # trailing semicolon (usually unicode-range). Appending font-display
+    # without one would merge the two: the CSS parser reads
+    # "unicode-range: U+... font-display: swap" as one declaration, so the
+    # range is ignored and font-display never applies. Ensure the captured
+    # body ends with a semicolon before appending.
+    def _semi(m):
+        body = m.group(1).rstrip()
+        if not body.endswith(";"):
+            body += ";"
+        return f"{body}\n  font-display: swap;\n}}"
+    css, n = re.subn(r'(@font-face\s*\{[^}]*?)\}', _semi, css)
     open(path, "w", encoding="utf-8").write(css)
     print(f"font-display: swap -> {path} ({n} faces)")
 PY

@@ -45,29 +45,36 @@
                 {{- end }}
                 
                 {{- if (not site.Params.disableLangToggle) }}
-                    {{- /* 优先跳当前页的翻译;该页无翻译时才回退语言首页。
-                         用 site.Home.Translations 会让任何页面的语言切换
-                         都跳回首页,读了半篇文章点「中文」被送回起点。 */ -}}
-                    {{- $switches := slice }}
-                    {{- with $currentPage.Translations }}{{- $switches = . }}{{- end }}
-                    {{- if not $switches }}{{- with site.Home.Translations }}{{- $switches = . }}{{- end }}{{- end }}
-                    {{- with $switches }}
-                    {{- /* 只列出口,不列所在:当前语言的名字是死信息,
-                           退场后这里每个词都是一扇门 */ -}}
+                    {{- /* 逐个目标语言判断:该文有此语言翻译就链到翻译文章,
+                         没有就回退该语言首页。不能整页二选一——一篇只有
+                         中英的文章,日文入口若被抹掉,日文读者无路可去;
+                         反过来全回退首页,又会把读到一半的读者送回起点。 */ -}}
+                    {{- $homes := site.Home.AllTranslations }}
                     <ul class="lang-switch" aria-label="Language switcher">
-                        {{- range . -}}
+                        {{- range site.Languages }}
+                        {{- $lang := .Lang }}
+                        {{- if ne $lang $currentPage.Lang }}
+                        {{- $target := "" }}
+                        {{- range $currentPage.Translations }}
+                            {{- if eq .Lang $lang }}{{- $target = .Permalink }}{{- end }}
+                        {{- end }}
+                        {{- if not $target }}
+                            {{- range $homes }}
+                                {{- if eq .Lang $lang }}{{- $target = .Permalink }}{{- end }}
+                            {{- end }}
+                        {{- end }}
                         <li>
-                            <a href="{{- .Permalink -}}" title="{{ .Language.Label | default (.Lang | title) }}"
-                                aria-label="{{ .Language.Label | default (.Lang | title) }}">
-                                {{- if eq .Lang "en" -}}EN
-                                {{- else if eq .Lang "ja" -}}日本語
+                            <a href="{{- $target -}}" title="{{ .Label | default (.Lang | title) }}"
+                                aria-label="{{ .Label | default (.Lang | title) }}">
+                                {{- if eq $lang "en" -}}EN
+                                {{- else if eq $lang "ja" -}}日本語
                                 {{- else -}}中文
                                 {{- end -}}
                             </a>
                         </li>
-                        {{- end}}
+                        {{- end }}
+                        {{- end }}
                     </ul>
-                    {{- end }}
                 {{- end }}
             </div>
         </div>

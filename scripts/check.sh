@@ -135,6 +135,7 @@ def load(path):
         src = re.search(r'url\(["\']?([^"\')]+\.woff2)', block)
         ur = re.search(r'unicode-range:\s*([^;}]+)', block)
         fam = re.search(r'font-family:\s*["\']?([^"\';]+)', block)
+        wt = re.search(r'font-weight:\s*([^;}]+)', block)
         if not src: continue
         ranges = []
         if ur:
@@ -146,48 +147,53 @@ def load(path):
                 except ValueError: pass
         fpath = os.path.normpath(os.path.join(os.path.dirname(path), src.group(1)))
         family = fam.group(1).strip() if fam else ""
-        faces.append((family, ranges, fpath))
+        weight = wt.group(1).strip() if wt else ""
+        faces.append((family, weight, ranges, fpath))
 load("public/fonts/ibm-plex/result.css")
 if missing:
     print(f"check: FAIL — referenced CSS not found: {missing}")
     raise SystemExit(1)
-for family, ranges, fpath in faces:
+for family, weight, ranges, fpath in faces:
     if not os.path.exists(fpath):
         print(f"check: FAIL — referenced font not found: {fpath}")
         raise SystemExit(1)
 
-def page_cost(page, stack):
+def page_cost(page, stack, weights):
     raw = open(f"public/{page}", encoding="utf-8").read()
     text = html.unescape(re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>", "", raw))
     cps = {ord(c) for c in text if not c.isspace()} | {0x2234}
-    # For each glyph, walk the stack in order; the first family whose
-    # unicode-range covers it is the one downloaded. A face counts once if
-    # it is the first-match for any glyph (or has no range, like a Latin
-    # fallback that covers everything).
+    # For each (glyph, weight) pair the browser walks the family stack in
+    # order and downloads the first @font-face whose family AND weight match
+    # and whose unicode-range covers the glyph. Weight matters: a glyph set
+    # in both 400 and 700 pulls both files, and stopping at the first family
+    # (ignoring weight) undercounts by missing the bold face.
     needed = set()
     for c in cps:
-        for fam in stack:
-            for face_fam, ranges, fpath in faces:
-                if face_fam != fam:
+        for w in weights:
+            for fam in stack:
+                for ffam, fw, franges, fpath in faces:
+                    if ffam != fam or fw != w:
+                        continue
+                    if not franges or any(a <= c <= b for a, b in franges):
+                        needed.add(fpath)
+                        break
+                else:
                     continue
-                if not ranges or any(a <= c <= b for a, b in ranges):
-                    needed.add(fpath)
-                    break
-            else:
-                continue
-            break
+                break
     total = sum(os.path.getsize(fp) for fp in needed)
     return total // 1024
 
 # Mirror sigil.css stacks in stack order (first-match wins):
-#   html:lang(zh) -> SC first; html:lang(ja) -> JP first; default -> SC then JP.
-# A glyph shared by SC and JP resolves to the earlier family, so JP is only
-# downloaded for kana that SC does not cover.
+#   html:lang(zh) -> SC before Latin; html:lang(ja) -> JP before Latin;
+#   default (en) -> SC, then JP, then Latin. A glyph both SC and JP cover
+#   resolves to the earlier family. Weights present on the page are summed:
+# a glyph used in body (400) and bold (700) downloads both faces.
 STACKS = {
-    "en":     ["IBM Plex Sans", "IBM Plex Sans SC", "IBM Plex Sans JP"],
-    "zh-cn":  ["IBM Plex Sans", "IBM Plex Sans SC"],
-    "ja":     ["IBM Plex Sans", "IBM Plex Sans JP"],
+    "en":     ["IBM Plex Sans SC", "IBM Plex Sans JP", "IBM Plex Sans"],
+    "zh-cn":  ["IBM Plex Sans SC", "IBM Plex Sans"],
+    "ja":     ["IBM Plex Sans JP", "IBM Plex Sans"],
 }
+WEIGHTS = ["400", "600", "700"]
 pages = {"en": "posts/typography/index.html",
          "zh-cn": "zh-cn/posts/typography/index.html",
          "ja": "ja/posts/typography/index.html"}
@@ -196,7 +202,7 @@ for lang, page in pages.items():
     if not os.path.exists(os.path.join("public", page)):
         print(f"check: FAIL — missing page for font budget: {page}")
         raise SystemExit(1)
-    costs[lang] = page_cost(page, STACKS[lang])
+    costs[lang] = page_cost(page, STACKS[lang], WEIGHTS)
 worst = max(costs.values())
 detail = " ".join(f"{lang}={kb}KB" for lang, kb in costs.items())
 budget = int(os.environ.get("FONT_BUDGET_KB", "200"))
