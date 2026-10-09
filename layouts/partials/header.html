@@ -69,7 +69,15 @@
             {{- range site.Menus.main }}
             {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL }}
             {{- $page_url:= $currentPage.Permalink | absLangURL }}
-            {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
+            {{- /* 搜索项判定:按 KeyName 取页面 Layout。多语言站点下同一 identifier
+                 可能对应多个语言版本,site.GetPage 会报歧义而中断整页渲染——
+                 用 try 兜底,拿不到就退回按 URL 判断,保证单/多语言都不炸。 */ -}}
+            {{- $is_search := false -}}
+            {{- with try (site.GetPage .KeyName) -}}
+            {{- with .Value -}}{{- if eq .Layout "search" -}}{{- $is_search = true -}}{{- end -}}{{- end -}}
+            {{- else -}}
+            {{- if strings.HasSuffix .URL "/search/" -}}{{- $is_search = true -}}{{- end -}}
+            {{- end -}}
             <li>
                 <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
                 {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}

@@ -91,7 +91,7 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 - `data/analytics.json`: optional. Recognized fields: `total` (int),
   `since` (YYYY-MM-DD), `days` (map, renders the footer sparkline).
 - Output formats shipped by the theme: `LLMSTXT` (`/llms.txt`),
-  `LLMSTXTFULL` (`/llms-full.txt`), `JSONFeed` (`/feed.json`),
+  `LLMSFULL` (`/llms-full.txt`), `JSONFeed` (`/feed.json`),
   search index (`index.json`). All opt-in via `outputs.home`.
 
 ## Extension points

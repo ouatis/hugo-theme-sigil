@@ -37,7 +37,7 @@
         font-size: 0.85em;
     }
 
-    .post-content:has(.sidenote) .footnotes {
+    .post-content.sg-sidenotes-complete .footnotes {
         display: none;
     }
 

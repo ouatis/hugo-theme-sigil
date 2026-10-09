@@ -75,7 +75,7 @@ The theme can advertise itself to machines as well as humans:
 
 ```toml
 [outputs]
-  home = ["HTML", "RSS", "JSON", "LLMSTXT", "LLMSTXTFULL", "JSONFeed"]
+  home = ["HTML", "RSS", "JSON", "LLMSTXT", "LLMSFULL", "JSONFeed"]
 
 [params]
   llmsTxtIntro = "A slow blog about X and Y."
@@ -89,7 +89,10 @@ paper background). The font must cover your titles' script:
 ```toml
 [params]
   ogAutoCard = true
-  ogCardFont = "fonts/og/og-card.ttf"   # build it with scripts/build-fonts.sh
+  # Optional: point at a TTF that covers your titles' script. The theme
+  # ships a Latin IBM Plex Serif by default (assets/og/plex-serif-regular.ttf);
+  # CJK sites should subset their own and reference it here.
+  # ogCardFont = "fonts/og/my-serif.ttf"
 ```
 
 ## Series

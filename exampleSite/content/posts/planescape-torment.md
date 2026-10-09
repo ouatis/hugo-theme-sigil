@@ -1,4 +1,5 @@
 ---
+translationKey: "post-meet-part"
 title: "It is difficult to meet as it is difficult to part"
 categories:
   - quotes

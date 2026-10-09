@@ -7,6 +7,7 @@
     --entry: #fbfcfa;
     --primary: #1d2420;
     --secondary: #68716b;
+    --sg-note: #5a635d; /* sidenote text: a touch stronger than secondary for margin legibility */
     --tertiary: #d8ddd9;
     --content: #252c28;
     --code-block-bg: #1b201d;
@@ -44,6 +45,7 @@ body {
     --entry: #1b201d;
     --primary: #eef1ed;
     --secondary: #a4ada7;
+    --sg-note: #b3bcb6;
     --tertiary: #3a433e;
     --content: #d9ded9;
     --code-block-bg: #101311;
@@ -2552,10 +2554,10 @@ html .header {
         clear: right;
         width: var(--note-w);
         margin: 4px calc(-1 * var(--note-w) - 36px) 18px 20px;
-        color: var(--secondary);
+        color: var(--sg-note);
         font-family: var(--sg-sans);
-        font-size: 13px;
-        line-height: 1.75;
+        font-size: 14px;
+        line-height: 1.7;
     }
 
     .sidenote .sidenote-number {
@@ -2578,7 +2580,7 @@ html .header {
         text-underline-offset: 3px;
     }
 
-    .post-content:has(.sidenote) .footnotes {
+    .post-content.sg-sidenotes-complete .footnotes {
         display: none;
     }
 }

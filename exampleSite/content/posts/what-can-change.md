@@ -1,4 +1,5 @@
 ---
+translationKey: "post-nature-of-man"
 title: "What can change the nature of a man?"
 categories:
   - quotes

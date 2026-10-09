@@ -14,7 +14,7 @@ hugo --themesDir ../.. --minify --quiet || fail "example site build failed (run 
 
 # llms.txt: machine-readable site index generated for agents
 [ -s public/llms.txt ] || fail "llms.txt missing or empty"
-grep -q "^# sigil-demo" public/llms.txt || fail "llms.txt lacks the site title"
+grep -q "^# Sigil" public/llms.txt || fail "llms.txt lacks the site title"
 grep -q "^## All posts" public/llms.txt || fail "llms.txt lacks the posts section"
 
 # feed.json: JSON Feed 1.1 alongside RSS

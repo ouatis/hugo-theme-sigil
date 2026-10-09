@@ -1,4 +1,5 @@
 ---
+translationKey: "about"
 title: About
 ---
 
