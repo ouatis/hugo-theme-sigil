@@ -1,0 +1,9 @@
+# Normalize line endings: shell scripts and CI config stay LF on every
+# platform. Without this, Windows git with core.autocrlf=true checks .sh
+# files out with CRLF, which makes bash scripts fail at runtime.
+*.sh text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.css text eol=lf
+*.toml text eol=lf

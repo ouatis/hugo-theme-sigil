@@ -58,20 +58,23 @@
 {{- with index (where .AllTranslations "Language.Lang" "zh-cn") 0 -}}{{- $xd = . -}}{{- end -}}
 <link rel="alternate" hreflang="x-default" href="{{ $xd.Permalink }}">
 
-{{- /* og:image 尺寸与替代文本:与 static/og-image.png 实际规格一致,加快平台卡片渲染 */}}
+{{- /* og:image 尺寸与替代文本:与 OG 卡片底图 assets/og/base.png 实际规格一致,加快平台卡片渲染 */}}
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="{{ site.Title }} — {{ site.Params.description }}">
 
-{{- /* theme-color 跟随站点明暗主题(移动端浏览器栏色调) */}}
+{{- /* theme-color 跟随站点明暗主题(移动端浏览器栏色调)。
+     站点显式配置 assets.theme_color 时以用户值为准(明暗都用它);
+     未配置则自动跟随明暗主题。 */}}
 <script>
 (function () {
     var light = "#f4f6f3", dark = "#151917";
+    var userColor = {{ with site.Params.assets.theme_color }}"{{ . }}"{{ else }}null{{ end }};
     function apply() {
         var mode = document.documentElement.getAttribute("data-theme") || "auto";
         var isDark = mode === "dark" || (mode !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
         document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
-            m.setAttribute("content", isDark ? dark : light);
+            m.setAttribute("content", userColor || (isDark ? dark : light));
         });
     }
     document.addEventListener("click", function (e) {

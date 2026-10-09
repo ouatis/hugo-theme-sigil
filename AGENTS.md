@@ -24,7 +24,7 @@ A clean exit from `scripts/check.sh` is the definition of "works". Run it
 before proposing any change. CI (`.github/workflows/demo.yml`) builds
 exampleSite for the demo site; fonts are regenerated there on every deploy.
 
-Environment: Hugo 0.167 (match CI). Font tooling needs python3 with
+Environment: Hugo 0.166 (match CI). Font tooling needs python3 with
 fonttools + brotli. On Windows, `python3` may be the Store stub — the local
 setup uses a shim earlier in PATH; in Git Bash, PATH entries must use POSIX
 form (`/c/...`), a `C:/...` entry silently does not take effect. Never pipe a

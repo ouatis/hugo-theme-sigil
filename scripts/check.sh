@@ -8,9 +8,9 @@ set -euo pipefail
 cd "$(dirname "$0")/../exampleSite"
 rm -rf public resources
 
-hugo --themesDir ../.. --minify --quiet || fail "example site build failed (run without --quiet to see the error)"
-
 fail() { echo "check: FAIL — $1" >&2; exit 1; }
+
+hugo --themesDir ../.. --minify --quiet || fail "example site build failed (run without --quiet to see the error)"
 
 # llms.txt: machine-readable site index generated for agents
 [ -s public/llms.txt ] || fail "llms.txt missing or empty"

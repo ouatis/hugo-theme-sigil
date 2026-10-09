@@ -107,8 +107,8 @@ See [exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example.
 Three build modes for `scripts/build-fonts.sh` (python equivalent:
 `scripts/build-fonts.py`):
 
-- `latin` — Latin only; the bootstrap subset committed to the repo (what the
-  demo ships; CJK text falls back to system fonts)
+- `latin` — Latin only; the bootstrap subset committed to the repo (CJK text
+  falls back to system fonts). This is the clean-checkout default.
 - `corpus` — additionally scans the example site's own characters and subsets
   a small SC corpus so the demo's CJK renders in real Plex (~30 KB)
 - `full` — official SC + JP split shards (for CJK/JP sites that want full
@@ -124,7 +124,7 @@ Measured on the example site, minified build:
 
 - Homepage: ~78 KB total — 16 KB HTML + 57 KB CSS + 5 KB inline JS, **zero external JavaScript**
 - Optional, opt-in only: search script 18 KB (search page), KaTeX 332 KB (`math = true`), GLightbox 56 KB (`lightbox = true`)
-- Fonts: ~56 KB first visit on a text-heavy page (4 Latin subsets; the demo's CJK text falls back to system fonts). CJK sites running the corpus-subsetting pipeline download their full character set once (~1.3 MB) — deliberately unsharded: one file cached site-wide, `font-display: swap` covers the wait
+- Fonts: the demo runs the `corpus` pipeline, so its CJK renders in real Plex — ~104 KB first visit on a text-heavy page (Latin subsets + a small SC corpus). A `latin`-only site is ~85 KB (CJK falls back to system fonts). Sites needing full CJK/JP coverage run `full` (~3 MB, one file cached site-wide, `font-display: swap` covers the wait)
 - No frameworks, no jQuery, no runtime CDN dependencies
 
 ## Stability
