@@ -3,6 +3,11 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
+## v0.9.23
+
+- Homepage status line gains four fields — `sgListening` / `sgWatching` / `sgWriting` / `sgExploring` — alongside `sgReading`/`sgPlaying`/`sgMotto`; each renders an icon + i18n label and any subset may be set. Two Phosphor icons added (`headphones`, `monitor-play`); the new fields reuse the existing vermilion/ink-green/amber palette (no fourth hue). i18n keys `sgNowListening`/`sgNowWatching`/`sgNowWriting`/`sgNowExploring` added to en/zh-CN/ja; other languages fall back to the template's English default.
+- Demo repositions from a personal site to a public theme showcase: homepage title becomes "Notes from the Margins", the status strip carries fictional example content across all six fields, the personal "Day N in the Cage" counter and the `author` name are dropped, and the three hero intros lose the "this is its demo" framing. Demo behavior verified in a headless browser (all six items render and rotate, no console errors).
+
 ## v0.9.22
 
 - Article typography: h2 loses its rule and dead padding (chapters by size and whitespace); blockquote color lifts to `color-mix(primary 85%, theme)` (~9.2:1) for long-quote comfort; archives year spacing 64→48 after an A/B; end-of-article de-chromed — tag pill borders at 60%, paginav loses its divider and top rule, related-posts drops its top border; whitespace now separates the stack.

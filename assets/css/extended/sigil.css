@@ -505,7 +505,23 @@ html[data-theme="dark"] .sg-seal img {
     color: var(--sg-green);
 }
 
+.sg-now__item--listening svg {
+    color: rgb(var(--sg-amber-rgb));
+}
+
+.sg-now__item--watching svg {
+    color: var(--sg-green);
+}
+
 .sg-now__item--playing svg {
+    color: var(--sg-red);
+}
+
+.sg-now__item--writing svg {
+    color: var(--sg-green);
+}
+
+.sg-now__item--exploring svg {
     color: var(--sg-red);
 }
 

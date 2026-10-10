@@ -54,8 +54,16 @@
   translation: Pagination
 - id: sgNowReading
   translation: "Reading:"
+- id: sgNowListening
+  translation: "Listening:"
+- id: sgNowWatching
+  translation: "Watching:"
 - id: sgNowPlaying
   translation: "Playing:"
+- id: sgNowWriting
+  translation: "Writing:"
+- id: sgNowExploring
+  translation: "Exploring:"
 
 # 分页(列表页)用「页」,区别于文章导航的 prev_page/next_page
 - id: pagination_prev

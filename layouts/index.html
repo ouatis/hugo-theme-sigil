@@ -44,33 +44,45 @@
     </div>
 
     {{- $sgMotto := site.Params.sgMotto -}}
-    <figure class="sg-seal">
-      <div class="sg-seal__frame">
-        {{- with site.Params.sgSealImage }}
-        <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320" fetchpriority="high">
-        {{- else }}
-        <span class="sg-seal__glyph" aria-hidden="true">∴</span>
+      <figure class="sg-seal">
+        <div class="sg-seal__frame">
+          {{- with site.Params.sgSealImage }}
+          <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320" fetchpriority="high">
+          {{- else }}
+          <span class="sg-seal__glyph" aria-hidden="true">∴</span>
+          {{- end }}
+        </div>
+        {{- if or site.Params.sgReading site.Params.sgPlaying site.Params.sgListening site.Params.sgWatching site.Params.sgWriting site.Params.sgExploring $sgMotto site.Params.sgDaysInCage }}
+        <figcaption class="sg-now" data-rotate="true" aria-label="Current status" aria-live="polite">
+          {{- with site.Params.sgReading }}
+          <span class="sg-now__item sg-now__item--reading">{{ partial "sg-icon.html" (dict "name" "book-open" "size" 14) }}<span>{{ i18n "sgNowReading" | default "Reading:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgListening }}
+          <span class="sg-now__item sg-now__item--listening">{{ partial "sg-icon.html" (dict "name" "headphones" "size" 14) }}<span>{{ i18n "sgNowListening" | default "Listening:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgWatching }}
+          <span class="sg-now__item sg-now__item--watching">{{ partial "sg-icon.html" (dict "name" "monitor-play" "size" 14) }}<span>{{ i18n "sgNowWatching" | default "Watching:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgPlaying }}
+          <span class="sg-now__item sg-now__item--playing">{{ partial "sg-icon.html" (dict "name" "game-controller" "size" 14) }}<span>{{ i18n "sgNowPlaying" | default "Playing:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgWriting }}
+          <span class="sg-now__item sg-now__item--writing">{{ partial "sg-icon.html" (dict "name" "pen-nib" "size" 14) }}<span>{{ i18n "sgNowWriting" | default "Writing:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgExploring }}
+          <span class="sg-now__item sg-now__item--exploring">{{ partial "sg-icon.html" (dict "name" "eye" "size" 14) }}<span>{{ i18n "sgNowExploring" | default "Exploring:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with $sgMotto }}
+          <span class="sg-now__item sg-now__item--motto"><span class="sg-now__glyph" aria-hidden="true">∴</span><span>{{ . }}</span></span>
+          {{- end }}
+          {{- if site.Params.sgDaysInCage }}
+          <span class="sg-now__item sg-now__item--days">{{ partial "sg-icon.html" (dict "name" "hourglass" "size" 14) }}<span>Day {{ $cageDays }} in the Cage</span></span>
+          {{- end }}
+        </figcaption>
         {{- end }}
-      </div>
-      {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto site.Params.sgDaysInCage }}
-      <figcaption class="sg-now" data-rotate="true" aria-label="Current status" aria-live="polite">
-        {{- with site.Params.sgReading }}
-        <span class="sg-now__item sg-now__item--reading">{{ partial "sg-icon.html" (dict "name" "book-open" "size" 14) }}<span>{{ i18n "sgNowReading" | default "Reading:" }} {{ . }}</span></span>
-        {{- end }}
-        {{- with site.Params.sgPlaying }}
-        <span class="sg-now__item sg-now__item--playing">{{ partial "sg-icon.html" (dict "name" "game-controller" "size" 14) }}<span>{{ i18n "sgNowPlaying" | default "Playing:" }} {{ . }}</span></span>
-        {{- end }}
-        {{- with $sgMotto }}
-        <span class="sg-now__item sg-now__item--motto"><span class="sg-now__glyph" aria-hidden="true">∴</span><span>{{ . }}</span></span>
-        {{- end }}
-        {{- if site.Params.sgDaysInCage }}
-        <span class="sg-now__item sg-now__item--days">{{ partial "sg-icon.html" (dict "name" "hourglass" "size" 14) }}<span>Day {{ $cageDays }} in the Cage</span></span>
-        {{- end }}
-      </figcaption>
-      {{- end }}
-    </figure>
-  </section>
-  {{- if or site.Params.sgReading site.Params.sgPlaying $sgMotto site.Params.sgDaysInCage }}
+      </figure>
+    </section>
+    {{- if or site.Params.sgReading site.Params.sgPlaying site.Params.sgListening site.Params.sgWatching site.Params.sgWriting site.Params.sgExploring $sgMotto site.Params.sgDaysInCage }}
   <script>
   (function () {
       var strip = document.querySelector(".sg-now");

@@ -11,7 +11,7 @@ defaultContentLanguage = "en"
     title = "Sigil"
     [languages.en.params]
       [languages.en.params.homeInfoParams]
-        content = "A restrained literary theme for Hugo — paper, ink, and everything in threes. This is its demo."
+        content = "A restrained literary theme for Hugo — paper, ink, and everything in threes. Long-form essays, research notes, and reading logs, set for the page rather than the feed."
 
     [[languages.en.menus.main]]
         identifier = "typography"
@@ -41,7 +41,7 @@ defaultContentLanguage = "en"
     title = "Sigil"
     [languages.zh-cn.params]
       [languages.zh-cn.params.homeInfoParams]
-        content = "一个克制的 Hugo 文学主题——纸、墨，万物成三。这里是它的演示站。"
+        content = "一个克制的 Hugo 文学主题——纸、墨，万物成三。长文、研究笔记与阅读札记，为纸面而排，不为信息流。"
     [[languages.zh-cn.menus.main]]
         identifier = "typography"
         name = "排版"
@@ -70,7 +70,7 @@ defaultContentLanguage = "en"
     title = "Sigil"
     [languages.ja.params]
       [languages.ja.params.homeInfoParams]
-        content = "Hugo の控えめな文学テーマ——紙とインク、三つ組。こちらはデモサイトです。"
+        content = "Hugo の控えめな文学テーマ——紙とインク、三つ組。長文、研究ノート、読書録。フィードではなく、紙面のために組む。"
     [[languages.ja.menus.main]]
         identifier = "typography"
         name = "組版"
@@ -94,12 +94,10 @@ defaultContentLanguage = "en"
 
 [params]
   mainSections = ["posts"]
-  author = "SigiL"
   ShowBreadCrumbs = true
   ShowReadingTime = true
   ShowWordCount = true
   ShowTotalWords = true
-  sgDaysInCage = true
   hideSummary = true
   ShowToc = true
   TocOpen = true
@@ -108,6 +106,17 @@ defaultContentLanguage = "en"
   ogAutoCard = true
   # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
   robotsNoIndex = true
+
+  # 首页状态条:示例内容,展示 Sigil 适合的场景(数字花园/阅读笔记/文化评论)。
+  # 均为虚构示例,非真实站点数据;sgDaysInCage("Day N in the Cage")属个人站点
+  # 计数,不适合公开 demo,故不设。
+  sgHomeTitle = "Notes from the Margins"
+  sgReading = "The Book of Disquiet"
+  sgListening = "An Anthology of Ambient Works"
+  sgWatching = "Stalker, again"
+  sgPlaying = "Disco Elysium"
+  sgWriting = "a long essay on marginalia"
+  sgExploring = "typography and the digital garden"
 
   [[params.socialIcons]]
     name = "github"

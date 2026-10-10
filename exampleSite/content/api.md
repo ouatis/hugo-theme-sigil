@@ -34,8 +34,8 @@ Anything **not** listed here is internal and may change without notice.
 | `sgKicker` | Small line above the homepage title |
 | `sgHomeTitle` | Hero title override (browser-tab `<title>` stays the site title) |
 | `sgSealImage` | Seal image on the homepage |
-| `sgReading` / `sgPlaying` / `sgMotto` | Rotating status under the hero seal |
-| `sgDaysInCage` | Status line day counter, "Day N in the Cage" |
+| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | Rotating status under the hero seal. Each renders an icon + i18n label item; set any subset |
+| `sgDaysInCage` | Status line day counter, "Day N in the Cage" (from earliest post). Opt-in |
 | `sgSeriesFrom` | Points to a curation page whose body list defines a series reading order |
 | `sgSeriesTab` | Tab label of the floating series panel |
 | `sgSearchEmpty` | Custom empty-state text for search |

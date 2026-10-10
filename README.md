@@ -78,7 +78,7 @@ Common PaperMod options work as usual. Sigil-specific options:
 | --- | --- | --- |
 | `sgKicker` | hidden | Text above the homepage title |
 | `sgHomeTitle` | site title | Homepage title |
-| `sgReading` / `sgPlaying` / `sgMotto` | hidden | Homepage status line |
+| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | hidden | Homepage status line |
 | `sgSealImage` | `∴` | Homepage seal image |
 | `sgDaysInCage` | `false` | Status line day counter — "Day N in the Cage", counted from the earliest post |
 | `ShowFullTextinRSS` | `false` | Include full articles in RSS |

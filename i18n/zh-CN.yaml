@@ -125,6 +125,14 @@
 
 - id: sgNowPlaying
   translation: "游戏中："
+- id: sgNowListening
+  translation: "在听："
+- id: sgNowWatching
+  translation: "在看："
+- id: sgNowWriting
+  translation: "在写："
+- id: sgNowExploring
+  translation: "在探："
 
 - id: sgNowReading
   translation: "在读："
