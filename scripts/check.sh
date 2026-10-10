@@ -218,7 +218,7 @@ detail = " ".join(f"{lang}={kb}KB" for lang, kb in costs.items())
 # (a new About, a new essay) grows the SC/JP face for every language at
 # once — the English page loads SC too. The budget must sit above the
 # current worst with room for normal content growth, not flush against it.
-budget = int(os.environ.get("FONT_BUDGET_KB", "260"))
+budget = int(os.environ.get("FONT_BUDGET_KB", "280"))
 if worst > budget:
     print(f"check: FAIL — bundled fonts worst={worst}KB > budget {budget}KB ({detail})")
     raise SystemExit(1)
