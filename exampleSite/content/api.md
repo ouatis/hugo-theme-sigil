@@ -1,8 +1,6 @@
 ---
 title: "API contract"
 slug: api
-categories:
-  - demo
 date: 2026-03-01
 ---
 

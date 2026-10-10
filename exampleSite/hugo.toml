@@ -22,6 +22,10 @@ defaultContentLanguage = "en"
         name = "Archives"
         pageRef = "archives"
     [[languages.en.menus.main]]
+        identifier = "docs"
+        name = "Docs"
+        pageRef = "docs"
+    [[languages.en.menus.main]]
         identifier = "about"
         name = "About"
         pageRef = "about"
@@ -29,22 +33,6 @@ defaultContentLanguage = "en"
         identifier = "search"
         name = "Search"
         pageRef = "search"
-    [[languages.en.menus.main]]
-        identifier = "config"
-        name = "Config"
-        pageRef = "config-example"
-    [[languages.en.menus.main]]
-        identifier = "api"
-        name = "API"
-        pageRef = "api"
-    [[languages.en.menus.main]]
-        identifier = "categories"
-        name = "Categories"
-        pageRef = "categories"
-    [[languages.en.menus.main]]
-        identifier = "tags"
-        name = "Tags"
-        pageRef = "tags"
 
   [languages.zh-cn]
     locale = "zh-CN"
@@ -62,6 +50,10 @@ defaultContentLanguage = "en"
         identifier = "archives"
         name = "归档"
         pageRef = "archives"
+    [[languages.zh-cn.menus.main]]
+        identifier = "docs"
+        name = "文档"
+        pageRef = "docs"
     [[languages.zh-cn.menus.main]]
         identifier = "about"
         name = "关于"
@@ -87,6 +79,10 @@ defaultContentLanguage = "en"
         identifier = "archives"
         name = "アーカイブ"
         pageRef = "archives"
+    [[languages.ja.menus.main]]
+        identifier = "docs"
+        name = "ドキュメント"
+        pageRef = "docs"
     [[languages.ja.menus.main]]
         identifier = "about"
         name = "About"

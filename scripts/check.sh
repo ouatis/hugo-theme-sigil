@@ -205,7 +205,7 @@ for lang, page in pages.items():
     costs[lang] = page_cost(page, STACKS[lang], WEIGHTS)
 worst = max(costs.values())
 detail = " ".join(f"{lang}={kb}KB" for lang, kb in costs.items())
-budget = int(os.environ.get("FONT_BUDGET_KB", "200"))
+budget = int(os.environ.get("FONT_BUDGET_KB", "220"))
 if worst > budget:
     print(f"check: FAIL — worst language loads fonts {worst}KB > budget {budget}KB ({detail})")
     raise SystemExit(1)

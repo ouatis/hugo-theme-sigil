@@ -1,8 +1,6 @@
 ---
 title: "Configuration examples"
 slug: config-example
-categories:
-  - demo
 date: 2026-02-10
 ---
 
