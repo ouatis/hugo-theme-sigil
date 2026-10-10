@@ -105,3 +105,53 @@ jobs:
           else
             gh issue create --repo "${{ github.repository }}" --title "🔴 Demo 部署失败（自动工单）" --body "$BODY"
           fi
+
+  # 部署完成后在真实浏览器里验证。check.sh 只查构建产物；这里查 JS 真的跑了——
+  # KaTeX 渲染、旁注切换、无控制台报错——这些静态检查看不见。跑在部署之后，测的是
+  # 线上站点；不阻塞部署，失败只开工单。
+  smoke:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+
+      - name: Smoke test the deployed demo
+        env:
+          SMOKE_BASE: https://ouatis.com/hugo-theme-sigil
+        run: bash scripts/smoke.sh
+
+      - name: Report smoke failure as issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo smoke 测试失败 in:title" --json number --jq '.[0].number // empty')
+          BODY="Demo 部署成功但浏览器 smoke 测试失败（可能是 JS 渲染回归，如 KaTeX/旁注/控制台报错）。
+          运行日志: ${RUN_URL}
+          下次推送 main 或手动运行成功后本工单自动关闭。"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "${{ github.repository }}" --body "$BODY"
+          else
+            gh issue create --repo "${{ github.repository }}" --title "🔴 Demo smoke 测试失败（自动工单）" --body "$BODY"
+          fi
+
+      - name: Close smoke ticket on success
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo smoke 测试失败 in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --repo "${{ github.repository }}" --comment "最近一次 smoke 测试通过，本工单自动关闭。"
+          fi
