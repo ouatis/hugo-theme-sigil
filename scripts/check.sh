@@ -213,7 +213,12 @@ detail = " ".join(f"{lang}={kb}KB" for lang, kb in costs.items())
 # opts in (math: true), come from a fixed vendor, and are not the theme's
 # typography. Mixing them in would let a feature switch trip a "font" check
 # and hide which of the two actually grew.
-budget = int(os.environ.get("FONT_BUDGET_KB", "240"))
+#
+# Note the corpus is scanned SITE-WIDE, so any page that adds CJK content
+# (a new About, a new essay) grows the SC/JP face for every language at
+# once — the English page loads SC too. The budget must sit above the
+# current worst with room for normal content growth, not flush against it.
+budget = int(os.environ.get("FONT_BUDGET_KB", "260"))
 if worst > budget:
     print(f"check: FAIL — bundled fonts worst={worst}KB > budget {budget}KB ({detail})")
     raise SystemExit(1)
