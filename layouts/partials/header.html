@@ -79,6 +79,11 @@
             </div>
         </div>
         <ul id="menu">
+            {{- /* 工具不当路:搜索是工具,不是去路。它从菜单项里取出,
+                 待导航词排完再归到末位,免得一枚非文字项夹在字母序中间,
+                 打断读者的分组。仍留在 #menu 内,继承同一套间距与横向滚动。 */ -}}
+            {{- $searchItems := slice -}}
+            {{- $page_url := $currentPage.Permalink }}
             {{- range site.Menus.main }}
             {{- /* 站内项走 .Page.Permalink。menu.URL 由 Hugo 在构建期拼装,
                  非默认语言 + baseURL 子目录并存时语言码会排到子目录之前
@@ -92,7 +97,6 @@
             {{- if and $menu_item_url (not (strings.HasSuffix $menu_item_url "/")) -}}
             {{- $menu_item_url = printf "%s/" $menu_item_url -}}
             {{- end -}}
-            {{- $page_url:= $currentPage.Permalink }}
             {{- /* 搜索项判定:按 KeyName 取页面 Layout。多语言站点下同一 identifier
                  可能对应多个语言版本,site.GetPage 会报歧义而中断整页渲染——
                  用 try 兜底,拿不到就退回按 URL 判断,保证单/多语言都不炸。 */ -}}
@@ -102,19 +106,15 @@
             {{- else -}}
             {{- if strings.HasSuffix .URL "/search/" -}}{{- $is_search = true -}}{{- end -}}
             {{- end -}}
+            {{- if $is_search }}
+            {{- $searchItems = $searchItems | append (dict "url" $menu_item_url "name" .Name "title" (.Title | default .Name)) }}
+            {{- else }}
             <li>
-                <a href="{{ $menu_item_url }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
-                {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}
-                {{- if $is_search }} aria-label="{{ .Name }}"{{ end }}>
+                <a href="{{ $menu_item_url }}" title="{{ .Title | default .Name }}">
                     <span {{- if eq $menu_item_url $page_url }} class="active" {{- end }}>
-                        {{- if $is_search -}}
-                        {{- /* 搜索以符代词:一枚放大镜,节拍与 header 其余图标同 */ -}}
-                        {{ partial "sg-icon.html" (dict "name" "magnifying-glass" "size" 15) }}
-                        {{- else -}}
                         {{- .Pre }}
                         {{- .Name -}}
-                        {{ .Post -}}
-                        {{- end -}}
+                        {{- .Post -}}
                     </span>
                     {{- if (findRE "://" .URL) }}&nbsp;
                     <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
@@ -124,6 +124,18 @@
                         <path d="M10 14L21 3"></path>
                     </svg>
                     {{- end }}
+                </a>
+            </li>
+            {{- end }}
+            {{- end }}
+            {{- range $searchItems }}
+            {{- /* 搜索以符代词:一枚放大镜,节拍与 header 其余图标同 */ -}}
+            <li>
+                <a href="{{ .url }}" title="{{ .title }} (Alt + /)"
+                    accesskey=/ aria-label="{{ .name }}">
+                    <span {{- if eq .url $page_url }} class="active" {{- end }}>
+                        {{ partial "sg-icon.html" (dict "name" "magnifying-glass" "size" 15) }}
+                    </span>
                 </a>
             </li>
             {{- end }}

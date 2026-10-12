@@ -49,7 +49,17 @@
           {{- with site.Params.sgSealImage }}
           <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320" fetchpriority="high">
           {{- else }}
-          <span class="sg-seal__glyph" aria-hidden="true">∴</span>
+          {{- /* 三点成印:上两眼随指针看向该去的地方,下一点安然不动。
+               眼位移由 --eye-x/--eye-y 承载,无 JS 或 reduced-motion 时为 0,仍是端正的 ∴。 */ -}}
+          <span class="sg-seal__glyph" aria-hidden="true">
+            <svg viewBox="0 0 72 72" role="presentation" focusable="false">
+              <g class="sg-seal__eyes">
+                <circle cx="22" cy="26" r="4.5" />
+                <circle cx="50" cy="26" r="4.5" />
+              </g>
+              <circle cx="36" cy="48" r="4.5" />
+            </svg>
+          </span>
           {{- end }}
         </div>
         {{- if or site.Params.sgReading site.Params.sgPlaying site.Params.sgListening site.Params.sgWatching site.Params.sgWriting site.Params.sgExploring $sgMotto site.Params.sgDaysInCage }}
@@ -101,6 +111,115 @@
   </script>
   {{- end }}
   {{- end }}
+
+  {{- /* 印章之眼:上两点随指针看向该看的地方。这是「跟随」类运动——
+       指针每帧都在变,所以不能用定时动画(每次重启都会卡在缓入的那一头),
+       要用弹簧。静帧仍是端正的 ∴,指针离开或滚出 hero 即回正。
+       无 JS、触屏、reduced-motion 一律静止。 */}}
+  <script>
+  (function () {
+      var seal = document.querySelector(".sg-seal__glyph");
+      if (!seal) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+      var frame = seal.closest(".sg-seal__frame") || seal;
+      var host = document.querySelector(".sg-hero") || seal.closest("section");
+      if (!host) return;
+
+      /* 静止几何只量一次:hairline 提醒过,判定要用「静止位」而非「绘制位」,
+         否则印章一动,指针就以为你走了,眼睛会来回抖。 */
+      var rect = frame.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var R = rect.width / 2;
+      /* 克制:眼游走不超过半径的 14%,远看仍是端正的一枚印 */
+      var MAX = R * 0.14;
+
+      /* 欠阻尼弹簧:微微越线再落回,落得软而非戛然而止。
+         每帧拆成若干「定步长」小步积分,而非一帧走一大跳——
+         hairline 的理由:屏幕有 120/60/30Hz 之别,一帧一大跳会让同一段位移
+         在不同屏幕上走出不同曲线,长时间挂起后还会冲过头。定步长则处处同路,
+         快屏只是多显示几步。 */
+      var x = 0, y = 0, vx = 0, vy = 0, tx = 0, ty = 0;
+      var STIFF = 190, DAMP = 22;
+      var STEP = 1 / 240;          /* 定步长(秒) */
+      var last = 0, raf = 0, acc = 0;
+
+      function integrate(dt) {
+          acc += dt;
+          /* 单帧最多补 0.25s,避免长时间挂起后疯狂追帧 */
+          if (acc > 0.25) acc = 0.25;
+          while (acc >= STEP) {
+              var ax = (tx - x) * STIFF - vx * DAMP;
+              var ay = (ty - y) * STIFF - vy * DAMP;
+              vx += ax * STEP; vy += ay * STEP;
+              x += vx * STEP; y += vy * STEP;
+              acc -= STEP;
+          }
+      }
+
+      function settled() {
+          return Math.abs(x - tx) < 0.05 && Math.abs(y - ty) < 0.05
+              && Math.abs(vx) < 0.05 && Math.abs(vy) < 0.05;
+      }
+
+      function paint() {
+          /* CSS 只做 translate(var(--eye-x), var(--eye-y)),不再乘 px:
+             SVG 组上任何结果为无单位值的 calc() 都会被静默丢弃,
+             transform 退成 none。故在此把屏幕像素换算成 viewBox
+             用户单位(÷72),单位自洽,JS 写什么 CSS 就搬什么。 */
+          seal.style.setProperty("--eye-x", (x / 72).toFixed(4));
+          seal.style.setProperty("--eye-y", (y / 72).toFixed(4));
+      }
+
+      function draw(now) {
+          if (!last) last = now;
+          var dt = (now - last) / 1000;
+          last = now;
+          integrate(dt);
+          paint();
+          if (settled()) {
+              /* 弹簧知道自己结束了:停表,不再白要重绘,页面安静下来 */
+              x = tx; y = ty; vx = 0; vy = 0; acc = 0;
+              paint();
+              raf = 0; last = 0;
+              return;
+          }
+          raf = requestAnimationFrame(draw);
+      }
+
+      function wake() { if (!raf) raf = requestAnimationFrame(draw); }
+
+      function aim(clientX, clientY) {
+          var nx = (clientX - cx) / R, ny = (clientY - cy) / R;
+          /* 指针不在页面内时给不出有意义的方位,回到原处 */
+          if (!isFinite(nx) || !isFinite(ny)) { tx = 0; ty = 0; return; }
+          tx = Math.max(-1, Math.min(1, nx)) * MAX;
+          ty = Math.max(-1, Math.min(1, ny)) * MAX;
+      }
+
+      function idle() { tx = 0; ty = 0; wake(); }
+
+      document.addEventListener("pointermove", function (e) {
+          var r = host.getBoundingClientRect();
+          if (e.clientY < r.top || e.clientY > r.bottom) { idle(); return; }
+          aim(e.clientX, e.clientY);
+          wake();
+      }, { passive: true });
+
+      document.addEventListener("pointerleave", idle, { passive: true });
+      window.addEventListener("scroll", function () {
+          var r = host.getBoundingClientRect();
+          if (r.bottom <= 0 || r.top >= window.innerHeight) idle();
+      }, { passive: true });
+
+      window.addEventListener("blur", idle);
+      document.addEventListener("visibilitychange", function () {
+          if (document.hidden) idle();
+      });
+  })();
+  </script>
 
   {{- if gt (len $pages) 0 }}
   <section class="sg-writing" aria-labelledby="recent-writing">
