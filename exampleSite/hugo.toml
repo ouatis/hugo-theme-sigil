@@ -104,6 +104,10 @@ defaultContentLanguage = "en"
   ShowCodeCopyButtons = true
   ShowPostNavLinks = true
   ogAutoCard = true
+  # 内附字体只覆盖拉丁字母;不配的话中日文标题在 OG 卡片上是豆腐块
+  # ——分享到社交平台时读者第一眼就是那行空框。子集只含 demo 实际出现
+  # 的 42 个非拉丁字加拉丁基本集,57KB;来源 Noto Serif SC,OFL 1.1。
+  ogCardFont = "og/plex-serif-cjk-subset.ttf"
   # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
   robotsNoIndex = true
 
