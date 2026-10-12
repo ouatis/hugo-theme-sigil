@@ -42,7 +42,9 @@ grep -qE 'og:image[^>]*og/base_hu_' \
     public/posts/what-can-change/index.html \
     || fail "og:image auto card missing on what-can-change"
 
-# door marker: the render hook tags external links only
+# door marker: the render hook tags external links only.
+# what-can-change carries the quote post and links out to Wikiquote; it is also
+# the page that hosts the footnote/margin-note demo.
 grep -q 'sg-ext' public/posts/what-can-change/index.html \
     || fail "external link missing the sg-ext door marker"
 if grep -qE 'href="?/[^ >]*"? class="?sg-ext' public/posts/what-can-change/index.html; then
