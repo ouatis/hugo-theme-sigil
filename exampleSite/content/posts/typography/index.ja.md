@@ -13,7 +13,7 @@ mermaid: true
 lightbox: true
 ---
 
-Sigil はすべて三つ組：朱は応答、深緑は情報、琥珀は輝き、
+SIGIL はすべて三つ組：朱は応答、深緑は情報、琥珀は輝き、
 段落の終わりに ∴ を置く。中文・日本語・English は IBM Plex Sans を共用し、
 脚本ごとにサブセットして必要なときだけ読み込む。[^fonts]
 

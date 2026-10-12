@@ -13,7 +13,7 @@
 
 デモ：<https://ouatis.com/hugo-theme-sigil/>
 
-![Sigil ライト／ダークモード](images/sigil-preview.jpg)
+![SIGIL ライト／ダークモード](images/sigil-preview.jpg)
 
 **[Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0 が必要です**
 （OG カード生成に `images.Text` を使うため、extended ビルドが必須）。
@@ -71,7 +71,7 @@ hugo server --themesDir ../..
 
 ## 設定
 
-PaperMod の一般的な設定を利用できます。Sigil 固有の設定：
+PaperMod の一般的な設定を利用できます。SIGIL 固有の設定：
 
 | パラメータ | 初期値 | 用途 |
 | --- | --- | --- |

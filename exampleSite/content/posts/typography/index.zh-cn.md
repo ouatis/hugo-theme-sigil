@@ -13,7 +13,7 @@ mermaid: true
 lightbox: true
 ---
 
-Sigil 的一切都成三：朱红标记会回应你的操作，墨绿承载信息，琥珀点亮高光，
+SIGIL 的一切都成三：朱红标记会回应你的操作，墨绿承载信息，琥珀点亮高光，
 段落结尾落一个 ∴。中文、日本語与 English 共用 IBM Plex Sans，
 按脚本分子集、只在需要时加载。[^fonts]
 

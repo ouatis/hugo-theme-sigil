@@ -1,4 +1,4 @@
-name = "Sigil"
+name = "SIGIL"
 license = "MIT"
 licenselink = "https://github.com/ouatis/hugo-theme-sigil/blob/main/LICENSE"
 description = "A minimal Hugo blog theme. Vermilion, ink-green and amber on old paper; margin sidenotes, full-text RSS and a font-subsetting pipeline. Based on PaperMod."

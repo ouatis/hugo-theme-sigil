@@ -13,7 +13,7 @@
 
 演示站：<https://ouatis.com/hugo-theme-sigil/>
 
-![Sigil 亮色与暗色模式](images/sigil-preview.jpg)
+![SIGIL 亮色与暗色模式](images/sigil-preview.jpg)
 
 **需要 [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
 （主题用 `images.Text` 生成 OG 卡片，需要 extended 构建）。
@@ -71,7 +71,7 @@ hugo server --themesDir ../..
 
 ## 配置
 
-PaperMod 的常用配置可以继续使用。Sigil 专属配置：
+PaperMod 的常用配置可以继续使用。SIGIL 专属配置：
 
 | 参数 | 默认值 | 用途 |
 | --- | --- | --- |

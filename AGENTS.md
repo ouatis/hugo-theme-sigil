@@ -5,7 +5,7 @@ entry point; this file is the maintainer's cheat sheet.
 
 ## What this is
 
-Sigil — a restrained literary blog theme for Hugo (≥ 0.166), deep fork of
+SIGIL — a restrained literary blog theme for Hugo (≥ 0.166), deep fork of
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod). The MIT license
 and the PaperMod attribution chain in `LICENSE` / `NOTICE.md` must survive
 every change.

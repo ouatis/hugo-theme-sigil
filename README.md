@@ -13,7 +13,7 @@ A restrained literary theme for [Hugo](https://gohugo.io/), based on
 
 Demo: <https://ouatis.com/hugo-theme-sigil/>
 
-![Sigil in light and dark mode](images/sigil-preview.jpg)
+![SIGIL in light and dark mode](images/sigil-preview.jpg)
 
 **Requires [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
 (the theme uses `images.Text` for OG cards, which needs the extended build).

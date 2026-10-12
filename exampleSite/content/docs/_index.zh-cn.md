@@ -6,14 +6,14 @@ slug: docs
 
 # 文档
 
-让 Sigil 成为你自己的主题所需的一切。这一页是地图；
+让 SIGIL 成为你自己的主题所需的一切。这一页是地图；
 [配置示例](/config-example/) 是可复制的起点，
 [API 契约](/api/) 是冻结的权威参考。环境要求与安装见
 [README](https://github.com/ouatis/hugo-theme-sigil#installation)。
 
 ## 开始使用
 
-Sigil 基于 Hugo ≥ 0.166 extended，无需构建步骤。设好 `baseURL`，从示例里挑一段
+SIGIL 基于 Hugo ≥ 0.166 extended，无需构建步骤。设好 `baseURL`，从示例里挑一段
 `[params]`，用 Markdown 写文章即可。开箱即有拉丁排版、旁注、搜索和深色模式；
 中文需要可选的字体子集（`bash scripts/build-fonts.sh corpus`）才会用真正的 Plex
 渲染，否则回退到系统字体。

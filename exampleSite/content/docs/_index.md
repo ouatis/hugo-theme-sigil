@@ -7,7 +7,7 @@ categories: []
 
 # Documentation
 
-Everything you need to make Sigil your own. This page is the map; the
+Everything you need to make SIGIL your own. This page is the map; the
 [configuration examples](/config-example/) are the copy-paste starting points,
 and the [API contract](/api/) is the frozen reference. Requirements and
 installation are in the
@@ -15,7 +15,7 @@ installation are in the
 
 ## Getting Started
 
-Sigil runs on Hugo ≥ 0.166 extended with no build step. Set your
+SIGIL runs on Hugo ≥ 0.166 extended with no build step. Set your
 `baseURL`, pick a `[params]` block from the examples, and write posts in
 Markdown. Out of the box you get Latin typography, sidenotes, search, and
 dark mode; CJK needs the optional font subset

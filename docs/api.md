@@ -1,4 +1,4 @@
-# Sigil Public API — frozen as of v0.9.0
+# SIGIL Public API — frozen as of v0.9.0
 
 This document defines the **public contract** of the theme. Items listed here
 will not be renamed or removed in any minor release; breaking changes require a

@@ -10,7 +10,7 @@ frozen as of v0.9.0.
 
 ## Minimal
 
-Sigil works with no configuration beyond the Hugo basics:
+SIGIL works with no configuration beyond the Hugo basics:
 
 ```toml
 baseURL = "https://example.org/"

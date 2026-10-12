@@ -3,15 +3,15 @@ translationKey: "about"
 title: About
 ---
 
-# About Sigil
+# About SIGIL
 
-Sigil is a theme for people who write more than they publish. It is built for
+SIGIL is a theme for people who write more than they publish. It is built for
 long-form essays, research notes, reading logs, and digital gardens — the kind
 of site that grows into an archive rather than a feed.
 
 ## Why this exists
 
-Most themes are optimized for scanning. Sigil is optimized for reading. The
+Most themes are optimized for scanning. SIGIL is optimized for reading. The
 body sits at 18px on a 720px measure, line-height 2.05, justified like a
 printed page. Footnotes become Tufte-style sidenotes on wide screens and
 collapse to endnotes on narrow ones, so a citation never pulls your eye off

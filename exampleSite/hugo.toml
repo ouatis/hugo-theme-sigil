@@ -1,5 +1,5 @@
 baseURL = "https://example.com/"
-title = "Sigil"
+title = "SIGIL"
 theme = "hugo-theme-sigil"
 
 defaultContentLanguage = "en"
@@ -8,7 +8,7 @@ defaultContentLanguage = "en"
   [languages.en]
     label = "English"
     weight = 1
-    title = "Sigil"
+    title = "SIGIL"
     [languages.en.params]
       [languages.en.params.homeInfoParams]
         content = "A restrained literary theme for Hugo — paper, ink, and everything in threes. Long-form essays, research notes, and reading logs, set for the page rather than the feed."
@@ -38,7 +38,7 @@ defaultContentLanguage = "en"
     locale = "zh-CN"
     label = "简体中文"
     weight = 2
-    title = "Sigil"
+    title = "SIGIL"
     [languages.zh-cn.params]
       [languages.zh-cn.params.homeInfoParams]
         content = "一个克制的 Hugo 文学主题——纸、墨，万物成三。长文、研究笔记与阅读札记，为纸面而排，不为信息流。"
@@ -67,7 +67,7 @@ defaultContentLanguage = "en"
     locale = "ja"
     label = "日本語"
     weight = 3
-    title = "Sigil"
+    title = "SIGIL"
     [languages.ja.params]
       [languages.ja.params.homeInfoParams]
         content = "Hugo の控えめな文学テーマ——紙とインク、三つ組。長文、研究ノート、読書録。フィードではなく、紙面のために組む。"
@@ -107,7 +107,7 @@ defaultContentLanguage = "en"
   # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
   robotsNoIndex = true
 
-  # 首页状态条:示例内容,展示 Sigil 适合的场景(数字花园/阅读笔记/文化评论)。
+  # 首页状态条:示例内容,展示 SIGIL 适合的场景(数字花园/阅读笔记/文化评论)。
   # 均为虚构示例,非真实站点数据;sgDaysInCage("Day N in the Cage")属个人站点
   # 计数,不适合公开 demo,故不设。
   sgHomeTitle = "Notes from the Margins"

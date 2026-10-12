@@ -25,7 +25,12 @@ hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
 
 # llms.txt: machine-readable site index generated for agents
 [ -s public/llms.txt ] || fail "llms.txt missing or empty"
-grep -q "^# Sigil" public/llms.txt || fail "llms.txt lacks the site title"
+# Read the title from the config rather than hardcoding it, so renaming the
+# demo site does not require editing this assertion.
+SITE_TITLE="$(sed -n 's/^title *= *"\(.*\)"/\1/p' hugo.toml | head -1)"
+[ -n "$SITE_TITLE" ] || fail "could not read title from hugo.toml"
+grep -q "^# $SITE_TITLE" public/llms.txt \
+    || fail "llms.txt lacks the site title (expected '# $SITE_TITLE')"
 grep -q "^## All posts" public/llms.txt || fail "llms.txt lacks the posts section"
 
 # feed.json: JSON Feed 1.1 alongside RSS
@@ -303,7 +308,7 @@ for lang, page in pages.items():
 worst = max(costs.values())
 detail = " ".join(f"{lang}={kb}KB" for lang, kb in costs.items())
 
-# Budget for Sigil's bundled typography fonts ONLY. It gates the theme's own
+# Budget for the theme's bundled typography fonts ONLY. It gates the theme's own
 # asset growth — a CJK corpus that keeps widening, an added weight, a new
 # charset, a CSS error that double-downloads. It deliberately EXCLUDES
 # optional third-party libraries such as KaTeX: those load only when a page

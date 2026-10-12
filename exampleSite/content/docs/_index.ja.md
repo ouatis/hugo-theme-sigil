@@ -6,14 +6,14 @@ slug: docs
 
 # ドキュメント
 
-Sigil を自分のものにするために必要なすべて。このページは地図です。
+SIGIL を自分のものにするために必要なすべて。このページは地図です。
 [設定例](/config-example/) はそのまま使える出発点、
 [API 契約](/api/) は凍結された正式リファレンス。要件とインストールは
 [README](https://github.com/ouatis/hugo-theme-sigil#installation) に。
 
 ## はじめに
 
-Sigil は Hugo ≥ 0.166 extended で動作し、ビルド手順は不要です。`baseURL` を設定し、
+SIGIL は Hugo ≥ 0.166 extended で動作し、ビルド手順は不要です。`baseURL` を設定し、
 設定例から `[params]` を選び、Markdown で記事を書きます。標準でラテン組版、傍注、
 検索、ダークモードが使えます。日本語を実際の Plex で出したい場合は、任意のフォント
 サブセット（`bash scripts/build-fonts.sh corpus`）が必要です。入れなければシステム
