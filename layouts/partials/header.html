@@ -49,10 +49,13 @@
                          没有就回退该语言首页。不能整页二选一——一篇只有
                          中英的文章,日文入口若被抹掉,日文读者无路可去;
                          反过来全回退首页,又会把读到一半的读者送回起点。 */ -}}
+                    {{- /* hugo.Sites:site.Languages 自 Hugo 0.156 起弃用,Hugo 明说将来会移除。
+                       hugo.Sites 是它的新家,输出与旧写法一致(含 label),
+                       且同样按 weight 排序。site.Home.AllTranslations 未弃用,保留。 */ -}}
                     {{- $homes := site.Home.AllTranslations }}
                     <ul class="lang-switch" aria-label="Language switcher">
-                        {{- range site.Languages }}
-                        {{- $lang := .Lang }}
+                        {{- range hugo.Sites }}
+                        {{- $lang := .Language.Lang }}
                         {{- if ne $lang $currentPage.Lang }}
                         {{- $target := "" }}
                         {{- range $currentPage.Translations }}
@@ -64,8 +67,8 @@
                             {{- end }}
                         {{- end }}
                         <li>
-                            <a href="{{- $target -}}" title="{{ .Label | default (.Lang | title) }}"
-                                aria-label="{{ .Label | default (.Lang | title) }}">
+                            <a href="{{- $target -}}" title="{{ .Language.Label | default ($lang | title) }}"
+                                aria-label="{{ .Language.Label | default ($lang | title) }}">
                                 {{- if eq $lang "en" -}}EN
                                 {{- else if eq $lang "ja" -}}日本語
                                 {{- else -}}中文
@@ -97,14 +100,19 @@
             {{- if and $menu_item_url (not (strings.HasSuffix $menu_item_url "/")) -}}
             {{- $menu_item_url = printf "%s/" $menu_item_url -}}
             {{- end -}}
-            {{- /* 搜索项判定:按 KeyName 取页面 Layout。多语言站点下同一 identifier
-                 可能对应多个语言版本,site.GetPage 会报歧义而中断整页渲染——
-                 用 try 兜底,拿不到就退回按 URL 判断,保证单/多语言都不炸。 */ -}}
+            {{- /* 搜索项判定:先认 identifier——它在各语言配置里都写着,且不依赖页面
+                 是否绑上。页面 Layout 是次选:多语言站点下同一 identifier
+                 可能对应多个语言版本,site.GetPage 会报歧义而中断整页渲染,
+                 用 try 兜底。
+                 不要退回「URL 是否以 /search/ 结尾」:非默认语言上
+                 pageRef 若没绑到页面,.URL 会是空串,HasSuffix 对空串为 false,
+                 搜索项于是混回导航词里——正是这个兜底本想避免的情况。 */ -}}
             {{- $is_search := false -}}
-            {{- with try (site.GetPage .KeyName) -}}
-            {{- with .Value -}}{{- if eq .Layout "search" -}}{{- $is_search = true -}}{{- end -}}{{- end -}}
+            {{- if eq .KeyName "search" -}}{{- $is_search = true -}}
             {{- else -}}
-            {{- if strings.HasSuffix .URL "/search/" -}}{{- $is_search = true -}}{{- end -}}
+                {{- with try (site.GetPage .KeyName) -}}
+                {{- with .Value -}}{{- if eq .Layout "search" -}}{{- $is_search = true -}}{{- end -}}{{- end -}}
+                {{- end -}}
             {{- end -}}
             {{- if $is_search }}
             {{- $searchItems = $searchItems | append (dict "url" $menu_item_url "name" .Name "title" (.Title | default .Name)) }}

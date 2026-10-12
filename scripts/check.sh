@@ -5,7 +5,10 @@
 # images.Text font bytes, so a stale cache produces lying green builds.
 set -euo pipefail
 
-cd "$(dirname "$0")/../exampleSite"
+# Remember the theme root before cd'ing away: assertions below read theme
+# templates, not just the built site.
+SG_THEME_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$SG_THEME_ROOT/exampleSite"
 rm -rf public resources
 
 fail() { echo "check: FAIL — $1" >&2; exit 1; }
@@ -15,6 +18,7 @@ fail() { echo "check: FAIL — $1" >&2; exit 1; }
 # subpath bug this script catches only exists when the site is NOT at the
 # domain root. Override with CHECK_BASE_URL for local runs.
 CHECK_BASE_URL="${CHECK_BASE_URL:-https://ouatis.com/hugo-theme-sigil/}"
+export SG_THEME_ROOT
 
 hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
     || fail "example site build failed (run without --quiet to see the error)"
@@ -109,6 +113,99 @@ for page in pages:
         print(f"check: expected every same-host href to start with {root}")
         raise SystemExit(1)
 print("check: nav hrefs keep the deploy subpath before any language code")
+PY
+
+# Menu shape: tools belong after the words, not among them. The search icon is
+# lifted out of the menu run and re-emitted last, so a reader scanning the words
+# meets About/Archives/Docs/Typography and then one tool. Assert the words, the
+# count, the position and that nothing is a dead link — a dropped {{ end }} or a
+# pageRef with no translation renders a plausible-looking header and would pass
+# every other check in this file.
+python3 - <<'PY'
+import os, re
+
+# Menu labels are localized, so each language is checked against its own
+# wording. What must hold everywhere is the shape: the words in configured
+# order, then exactly one tool.
+EXPECTED = {
+    "index.html":       ["About", "Archives", "Docs", "Typography"],
+    "zh-cn/index.html": ["关于", "归档", "排版", "文档"],
+    "ja/index.html":    ["About", "アーカイブ", "ドキュメント", "組版"],
+}
+
+for page, expected in EXPECTED.items():
+    path = os.path.join("public", page)
+    if not os.path.exists(path):
+        print(f"check: FAIL — missing page for menu audit: {page}")
+        raise SystemExit(1)
+    raw = open(path, encoding="utf-8").read()
+    m = re.search(r"<ul[^>]*\bid=menu[^>]*>([\s\S]*?)</ul>", raw)
+    if not m:
+        print(f"check: FAIL — no #menu on {page}")
+        raise SystemExit(1)
+    items = re.findall(r"<li>([\s\S]*?)</li>", m.group(1))
+    texts = [re.sub(r"<[^>]+>", "", it).strip() for it in items]
+    if texts[:-1] != expected:
+        print(f"check: FAIL — menu words out of order: {page} -> {texts}")
+        print(f"check: expected {expected} then one tool")
+        raise SystemExit(1)
+    if len(items) != len(expected) + 1:
+        print(f"check: FAIL — menu should hold {len(expected)} words + 1 tool, "
+              f"found {len(items)}: {page}")
+        raise SystemExit(1)
+    if "<svg" not in items[-1]:
+        print(f"check: FAIL — the trailing item is not the magnifier: {page}")
+        raise SystemExit(1)
+    if "accesskey=/" not in items[-1]:
+        print(f"check: FAIL — trailing search item lost its Alt+/ shortcut: {page}")
+        raise SystemExit(1)
+    # A dead menu entry is the quiet failure: the build succeeds, the header
+    # still looks right, and only a reader finds it goes nowhere. An empty href
+    # is what a pageRef leaves behind when its target has no translation yet.
+    for it in items:
+        if re.search(r'href=(?:""|\s|>)', it):
+            label = re.sub(r"<[^>]+>", "", it).strip()
+            print(f"check: FAIL — menu entry has an empty href on {page}: {label!r}")
+            print("check: its pageRef has no page in this language — add a "
+                  "translated content file, or drop the entry for that language")
+            raise SystemExit(1)
+print("check: menu keeps four words in order, the search icon last, no dead links")
+PY
+
+# The external-link arrow is hand-written SVG in header.html. One dropped
+# character there does not fail the build — Hugo still emits HTML and the browser
+# paints no glyph — so nothing else here would notice. The demo has no external
+# menu entry, so the arrow never reaches the output; assert on the template.
+# Resolve the path from this script's own location so the check works whatever
+# the caller's directory is.
+#
+# The arc needs its separators. "a2 2 0 01-2 2" and "a2 2 0 012-2" draw
+# different curves; the second is what a careless retyping produces.
+python3 - <<'PY'
+import os, re
+
+ROOT = os.environ["SG_THEME_ROOT"].rstrip("/")
+path = os.path.join(ROOT, "layouts", "partials", "header.html")
+if not os.path.exists(path):
+    print(f"check: FAIL — cannot find header.html at {path}")
+    raise SystemExit(1)
+raw = open(path, encoding="utf-8").read()
+
+ARC = "M18 13v6a2 2 0 01-2 2H5"
+if ARC not in raw:
+    print("check: FAIL — external-link arrow path is not the expected drawing")
+    print(f"check: expected the arc to start with {ARC!r}")
+    raise SystemExit(1)
+# The whole path as it stands:
+#   M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6
+# The trailing arc is at risk because "a2 2 0 01-2-2" and "a2 2 0 012-2" differ
+# by a single character, and only one of them draws the box the author meant.
+RISK = "V8a2 2 0 012-2h6"
+if RISK not in raw:
+    print(f"check: FAIL — the arrow's closing arc is malformed in header.html")
+    print(f"check: expected to find {RISK!r}")
+    raise SystemExit(1)
+print("check: external-link arrow path is intact")
 PY
 
 # Font budget: measure what ONE language's page actually loads, and hold the
