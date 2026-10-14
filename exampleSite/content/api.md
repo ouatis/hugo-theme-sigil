@@ -100,6 +100,30 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
   `zerthimon`-style custom shortcodes belong to the site, not the theme.
 - i18n keys: adding keys is additive; renaming a key is a breaking change.
 
+### Optional project figures
+
+`assets/css/components/project-figures.css` styles an illustrated index using
+`sg-index--illustrated`, `sg-index__figure`, and `sg-project-figure`. A site owns
+its project data, shortcode, and inline SVGs; explicitly load this stylesheet
+only on the pages using them. It uses the host palette, needs no JavaScript,
+and respects keyboard focus and reduced motion. The plain index is unchanged.
+
+### Explanatory shortcodes
+
+- `{{</* volume-shelf */>}}` renders native links from the current page's actual
+  level-two heading fragments. It preserves order and explicit IDs and does
+  not imply publication or completion. Use standard (`<`, not `%`) notation.
+- `{{</* page-anatomy */>}}` is a five-part article-page schematic. Buttons select
+  a part, the checkbox separates the parts, and Escape closes it. Without JS,
+  the drawing and all descriptions remain visible. Reduced motion removes
+  transitions without disabling the controls.
+
+Assets are loaded only on pages using these shortcodes. A site overriding
+`extend_head.html` must call `partials/figures/assets.html`. The shelf needs
+no JS; only the page diagram loads the small `page-anatomy.js` module.
+The figures use the host palette and English, Chinese, and Japanese labels,
+with an English fallback elsewhere. They are diagrams, not screenshots.
+
 ## Machine surfaces
 
 `AGENTS.md` (repo-level maintainer notes) and `scripts/check.sh` (one-shot

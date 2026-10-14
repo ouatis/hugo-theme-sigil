@@ -1,3 +1,4 @@
+{{- partial "figures/assets.html" . -}}
 {{- /* 阅读进度条：仅在文章页显示，细线样式，颜色跟随主题变量 */}}
 {{- if (and .IsPage (not .Params.disableReadingProgress)) }}
 <style>

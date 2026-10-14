@@ -1,0 +1,116 @@
+/* Original explanatory figures. Loaded only by opt-in shortcodes. */
+.sg-anatomy {
+    --sg-anatomy-line: color-mix(in srgb, var(--primary) 55%, var(--theme));
+    --sg-anatomy-top: color-mix(in srgb, var(--sg-surface) 94%, var(--primary));
+    --sg-anatomy-side: color-mix(in srgb, var(--sg-surface) 80%, var(--primary));
+    --sg-anatomy-end: color-mix(in srgb, var(--sg-surface) 71%, var(--primary));
+    --sg-anatomy-paper: var(--sg-surface);
+    margin: 2rem 0;
+    font-family: var(--sg-sans);
+}
+:root[data-theme="dark"] .sg-anatomy {
+    --sg-anatomy-top: color-mix(in srgb, var(--sg-surface) 76%, var(--primary));
+    --sg-anatomy-side: color-mix(in srgb, var(--sg-surface) 88%, var(--primary));
+    --sg-anatomy-end: color-mix(in srgb, var(--sg-surface) 94%, var(--primary));
+    --sg-anatomy-paper: color-mix(in srgb, var(--sg-surface) 66%, var(--primary));
+}
+.sg-anatomy svg {
+    stroke: var(--sg-anatomy-line);
+    stroke-width: .8;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+.sg-anatomy__top { fill: var(--sg-anatomy-top); }
+.sg-anatomy__side { fill: var(--sg-anatomy-side); }
+.sg-anatomy__end { fill: var(--sg-anatomy-end); }
+.sg-anatomy__paper { fill: var(--sg-anatomy-paper); }
+.sg-anatomy__ink { fill: var(--sg-green); stroke: none; }
+.sg-anatomy__rule, .sg-anatomy__print { fill: none; }
+.sg-anatomy__print { opacity: .45; stroke-width: .6; }
+.sg-anatomy__headline { fill: none; stroke: var(--sg-green); stroke-width: 2.4; }
+.sg-anatomy__shadow { fill: var(--primary); opacity: .055; stroke: none; }
+.post-content .sg-anatomy__caption {
+    margin: .7rem 0 0;
+    font-size: .73rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--secondary);
+    text-align: start;
+}
+
+/* Volume shelf: native HTML links keep navigation usable without JS. */
+.sg-bookshelf__books {
+    display: grid;
+    /* Pack the set itself, rather than spreading seven cells across the page. */
+    width: min(100%, calc(var(--sg-shelf-count, 7) * 56px));
+    grid-template-columns: repeat(var(--sg-shelf-count, 7), minmax(0, 1fr));
+}
+.post-content .sg-bookshelf__book {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    padding: 0 0 10px;
+    color: var(--primary);
+    text-decoration: none;
+    box-shadow: none;
+    border-bottom: 5px solid var(--border);
+}
+.sg-bookshelf__book svg { display: block; width: 100%; height: auto; }
+.sg-bookshelf__volume { transition: transform 260ms ease; }
+.sg-bookshelf__cover { fill: color-mix(in srgb, var(--sg-green) 13%, var(--sg-anatomy-paper)); }
+.sg-bookshelf__number { font-size: 18px; font-weight: 600; fill: var(--primary); stroke: none; }
+.sg-bookshelf__label { font-size: .66rem; line-height: 1.4; text-align: center; }
+.post-content .sg-bookshelf__book:focus-visible { outline: 1px solid var(--sg-red); outline-offset: 3px; }
+.sg-bookshelf__book:is(:hover, :focus-visible) .sg-bookshelf__volume { transform: translateY(-5px); }
+.sg-bookshelf__book:is(:hover, :focus-visible) .sg-bookshelf__number { fill: var(--sg-red); }
+
+/* Page anatomy: a diagram of component roles, not a live layout inspector. */
+.sg-page-anatomy { border-block: 1px solid var(--border); padding-block: 1rem; }
+.sg-anatomy__toolbar { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.sg-anatomy__title { font-size: .8rem; font-weight: 600; color: var(--primary); }
+.sg-anatomy__toggle { display: inline-flex; align-items: center; gap: .45rem; font-size: .73rem; color: var(--secondary); cursor: pointer; }
+.sg-anatomy__toggle input { accent-color: var(--sg-red); }
+.sg-anatomy__grid { display: grid; grid-template-columns: minmax(0, 1fr) 148px; gap: .8rem; align-items: center; }
+.sg-page-anatomy__drawing { display: block; width: 100%; height: auto; }
+.sg-anatomy__controls { display: grid; gap: .2rem; }
+.sg-anatomy__controls button {
+    padding: .55rem .65rem;
+    border: 0;
+    border-left: 2px solid transparent;
+    border-radius: 0;
+    font: inherit;
+    font-size: .76rem;
+    text-align: start;
+    color: var(--secondary);
+    background: transparent;
+    cursor: pointer;
+}
+.sg-anatomy__controls button[aria-pressed="true"] { color: var(--sg-red); border-left-color: var(--sg-red); }
+.sg-anatomy__controls button:focus-visible, .sg-anatomy__toggle input:focus-visible { outline: 1px solid var(--sg-red); outline-offset: 3px; }
+.sg-anatomy__controls button:disabled { cursor: default; }
+.sg-anatomy__explanation p { margin: 0; font-size: .85rem; line-height: 1.75; text-align: start; color: var(--secondary); }
+.sg-anatomy__explanation p[hidden] { display: none; }
+.sg-anatomy__part { transition: transform 360ms ease; }
+.sg-anatomy__part .sg-anatomy__marker { fill: var(--sg-green); stroke: none; }
+.sg-anatomy__part.is-selected .sg-anatomy__marker { fill: var(--sg-red); }
+.sg-anatomy__part.is-selected > .sg-anatomy__solid > path { stroke: var(--sg-red); }
+.sg-anatomy__part-header { --sg-anatomy-move: translate(-12px, -48px); }
+.sg-anatomy__part-body { --sg-anatomy-move: translate(-20px, 0); }
+.sg-anatomy__part-notes { --sg-anatomy-move: translate(52px, 12px); }
+.sg-anatomy__part-toc { --sg-anatomy-move: translate(60px, -44px); }
+.sg-anatomy__part-footer { --sg-anatomy-move: translate(12px, 42px); }
+.sg-page-anatomy.is-exploded .sg-anatomy__part { transform: var(--sg-anatomy-move); }
+.sg-anatomy__marker-number { font-family: var(--sg-sans); font-size: 9px; font-weight: 600; fill: var(--theme); stroke: none; }
+
+@media (max-width: 620px) {
+    .sg-bookshelf__label { font-size: .6rem; }
+    .sg-anatomy__grid { grid-template-columns: minmax(0, 1fr); }
+    .sg-anatomy__controls { display: flex; flex-wrap: wrap; gap: .15rem .3rem; }
+    .sg-anatomy__controls button { padding: .3rem .5rem; border-left: 0; border-bottom: 1px solid transparent; }
+    .sg-anatomy__controls button[aria-pressed="true"] { border-bottom-color: var(--sg-red); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .sg-bookshelf__volume, .sg-anatomy__part { transition: none; }
+    .sg-bookshelf__book:is(:hover, :focus-visible) .sg-bookshelf__volume { transform: none; }
+}

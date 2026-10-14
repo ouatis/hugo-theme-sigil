@@ -1,0 +1,28 @@
+{{- $uid := printf "sg-page-anatomy-%d" .Ordinal -}}
+{{- $parts := slice
+    (dict "key" "header" "label" "sgAnatomyHeader" "fallback" "Header" "description" "sgAnatomyHeaderDescription" "text" "Site identity, language switching, and navigation live above the reading page.")
+    (dict "key" "body" "label" "sgAnatomyBody" "fallback" "Body" "description" "sgAnatomyBodyDescription" "text" "The reading column holds the title, paragraphs, quotations, and code. Its line length keeps long-form reading comfortable.")
+    (dict "key" "notes" "label" "sgAnatomyNotes" "fallback" "Sidenotes" "description" "sgAnatomyNotesDescription" "text" "Ordinary Markdown footnotes move into the margin on wide screens and remain endnotes on narrow screens. The diagram separates their role, not their actual mobile position.")
+    (dict "key" "toc" "label" "sgAnatomyToc" "fallback" "Contents" "description" "sgAnatomyTocDescription" "text" "The table of contents comes from the article's headings and is shown when enabled. It helps readers find their place without changing the text.")
+    (dict "key" "footer" "label" "sgAnatomyFooter" "fallback" "Footer" "description" "sgAnatomyFooterDescription" "text" "Credits and site metadata sit after the words. They close the page without becoming part of the article.")
+-}}
+<figure class="sg-anatomy sg-page-anatomy" aria-labelledby="{{ $uid }}-title" data-page-anatomy>
+    <div class="sg-anatomy__toolbar">
+        <span class="sg-anatomy__title" id="{{ $uid }}-title">{{ i18n "sgAnatomyTitle" | default "Anatomy of a reading page" }}</span>
+        <label class="sg-anatomy__toggle"><input type="checkbox" data-explode disabled><span>{{ i18n "sgAnatomyExplode" | default "Separate the parts" }}</span></label>
+    </div>
+    <div class="sg-anatomy__grid">
+        <div class="sg-anatomy__stage">{{- with resources.Get "figures/page-anatomy.svg" }}{{ .Content | safeHTML }}{{ else }}{{ errorf "Missing the page-anatomy SVG" }}{{ end -}}</div>
+        <div class="sg-anatomy__controls" role="group" aria-label="{{ i18n "sgAnatomyParts" | default "Page components" }}">
+            {{- range $index, $part := $parts }}
+            <button type="button" data-select-part="{{ $part.key }}" aria-pressed="{{ if eq $part.key "body" }}true{{ else }}false{{ end }}" aria-controls="{{ $uid }}-description" disabled>{{ printf "%02d" (add $index 1) }} · {{ i18n $part.label | default $part.fallback }}</button>
+            {{- end }}
+        </div>
+    </div>
+    <div class="sg-anatomy__explanation" id="{{ $uid }}-description" aria-live="polite">
+        {{- range $parts }}
+        <p data-part-description="{{ .key }}"><strong>{{ i18n .label | default .fallback }}</strong> — {{ i18n .description | default .text }}</p>
+        {{- end }}
+    </div>
+    <figcaption class="sg-anatomy__caption">{{ i18n "sgAnatomyHint" | default "A component diagram, not a screenshot. Select a part to read its role; separate the parts to see their relationship." }}</figcaption>
+</figure>

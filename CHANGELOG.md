@@ -3,6 +3,10 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
+## v0.10.0
+
+- Add opt-in explanatory figures: a compact native-link `volume-shelf` generated from actual level-two headings, an accessible five-part `page-anatomy` schematic with progressive enhancement, and reusable styles for site-owned project SVGs; assets load only where used, with English/Chinese/Japanese labels, no runtime dependencies, and reduced-motion support.
+
 ## v0.9.23
 
 - Homepage status line gains four fields — `sgListening` / `sgWatching` / `sgWriting` / `sgExploring` — alongside `sgReading`/`sgPlaying`/`sgMotto`; each renders an icon + i18n label and any subset may be set. Two Phosphor icons added (`headphones`, `monitor-play`); the new fields reuse the existing vermilion/ink-green/amber palette (no fourth hue). i18n keys `sgNowListening`/`sgNowWatching`/`sgNowWriting`/`sgNowExploring` added to en/zh-CN/ja; other languages fall back to the template's English default.

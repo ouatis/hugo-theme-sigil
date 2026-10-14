@@ -1,0 +1,31 @@
+{{- /* The page's real level-two headings are the only navigation source.
+     No duplicate reading order, no inferred completion or publication state. */ -}}
+{{- $volumes := partial "figures/level-two-headings.html" .Page.Fragments.Headings -}}
+{{- $numbers := slice "0" "I" "II" "III" "IV" "V" "VI" -}}
+{{- if $volumes -}}
+<figure class="sg-anatomy sg-bookshelf">
+    <nav class="sg-bookshelf__books" aria-label="{{ i18n "sgShelfTitle" | default "Volumes at a glance" }}" style="--sg-shelf-count: {{ len $volumes }};">
+        {{- range $index, $volume := $volumes -}}
+        {{- $number := printf "%d" $index -}}
+        {{- if lt $index (len $numbers) -}}{{- $number = index $numbers $index -}}{{- end -}}
+        {{- $label := index (split $volume.title "·") 0 | strings.TrimSpace -}}
+        <a class="sg-bookshelf__book" href="#{{ $volume.id }}" aria-label="{{ $volume.title }}" title="{{ $volume.title }}">
+            <svg viewBox="15 8 56 178" width="56" height="178" aria-hidden="true" focusable="false">
+                <ellipse class="sg-anatomy__shadow" cx="43" cy="176" rx="26" ry="7"/>
+                <g class="sg-bookshelf__volume">
+                    <path class="sg-anatomy__side" d="M54 27L69 15V162L54 174Z"/>
+                    <path class="sg-anatomy__paper" d="M17 27L32 15H69L54 27Z"/>
+                    <path class="sg-anatomy__print" d="M22 25L36 17H63M26 23H59"/>
+                    <path class="sg-bookshelf__cover" d="M17 27H54V174H17Z"/>
+                    <path class="sg-anatomy__rule" d="M21 32V169M25 43H47M25 151H47M25 156H47"/>
+                    <text class="sg-bookshelf__number" x="37" y="93" text-anchor="middle">{{ $number }}</text>
+                    <path class="sg-anatomy__ink" d="M35 117a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0M31 124a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0M39 124a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0"/>
+                </g>
+            </svg>
+            <span class="sg-bookshelf__label">{{ $label }}</span>
+        </a>
+        {{- end -}}
+    </nav>
+    <figcaption class="sg-anatomy__caption">{{ i18n "sgShelfHint" | default "Select a spine to jump to its volume. The books are a reading map, not published editions." }}</figcaption>
+</figure>
+{{- end -}}

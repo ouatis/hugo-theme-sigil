@@ -1,0 +1,137 @@
+/* Optional illustrated project index. Load only on a page that uses it.
+   Original SVG geometry is site content; these rules own the shared language.
+   Host tokens keep the miniatures on the same paper in both color schemes. */
+.sg-index--illustrated {
+    margin-block: 1.2rem 1.8rem;
+    --sg-figure-line: color-mix(in srgb, var(--primary) 56%, var(--theme));
+    --sg-figure-top: color-mix(in srgb, var(--sg-surface) 94%, var(--primary));
+    --sg-figure-side: color-mix(in srgb, var(--sg-surface) 80%, var(--primary));
+    --sg-figure-end: color-mix(in srgb, var(--sg-surface) 72%, var(--primary));
+    --sg-figure-metal: color-mix(in srgb, var(--sg-surface) 66%, var(--primary));
+    --sg-figure-paper: var(--sg-surface);
+    --sg-figure-ink: color-mix(in srgb, var(--sg-green) 76%, var(--theme));
+}
+
+:root[data-theme="dark"] .sg-index--illustrated {
+    --sg-figure-top: color-mix(in srgb, var(--sg-surface) 76%, var(--primary));
+    --sg-figure-side: color-mix(in srgb, var(--sg-surface) 88%, var(--primary));
+    --sg-figure-end: color-mix(in srgb, var(--sg-surface) 94%, var(--primary));
+    --sg-figure-metal: color-mix(in srgb, var(--sg-surface) 80%, var(--primary));
+    --sg-figure-paper: color-mix(in srgb, var(--sg-surface) 68%, var(--primary));
+}
+
+.sg-index--illustrated .sg-index__item {
+    grid-template-columns: 208px minmax(0, 1fr);
+    column-gap: 2rem;
+    align-items: center;
+    padding-block: 1.25rem;
+    min-height: 192px;
+}
+
+.sg-index--illustrated .sg-index__body {
+    min-width: 0;
+}
+
+.sg-index--illustrated .sg-index__kind {
+    display: block;
+    margin: 0 0 .55rem;
+    color: var(--sg-green);
+    font-size: .72rem;
+    letter-spacing: .07em;
+}
+
+.sg-index--illustrated .sg-index__desc {
+    max-width: 29em;
+    text-align: start;
+}
+
+.sg-index--illustrated .sg-index__name::after {
+    color: var(--sg-red);
+}
+
+.sg-index--illustrated .sg-index__item:focus-within .sg-index__name::after {
+    opacity: 1;
+    transform: none;
+}
+
+.sg-index--illustrated .sg-index__name a:focus-visible {
+    outline: none;
+    text-decoration: underline;
+}
+
+.sg-index--illustrated .sg-index__name a:focus-visible::after {
+    outline: 1px solid var(--sg-red);
+    outline-offset: 6px;
+    border-radius: 2px;
+}
+
+.sg-index__figure {
+    pointer-events: none;
+    width: 100%;
+}
+
+.sg-project-figure {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    stroke: var(--sg-figure-line);
+    stroke-width: .65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.sg-figure__top { fill: var(--sg-figure-top); }
+.sg-figure__side { fill: var(--sg-figure-side); }
+.sg-figure__end { fill: var(--sg-figure-end); }
+.sg-figure__metal { fill: var(--sg-figure-metal); }
+.sg-figure__paper { fill: var(--sg-figure-paper); }
+.sg-figure__ink { fill: var(--sg-figure-ink); }
+.sg-figure__accent { fill: var(--sg-red); }
+.sg-figure__rule, .sg-figure__metal-line, .sg-figure__cable,
+.sg-figure__print, .sg-figure__wheel { fill: none; }
+.sg-figure__rule { stroke-width: .55; }
+.sg-figure__print { stroke: var(--sg-figure-line); stroke-width: .5; opacity: .48; }
+.sg-figure__metal-line { stroke-width: 1.8; }
+.sg-figure__cable { stroke-width: 1.4; }
+.sg-figure__wheel { stroke: var(--sg-figure-metal); stroke-width: 3.8; }
+.sg-figure__shadow { fill: var(--primary); opacity: .045; stroke: none; }
+.sg-figure__glow { fill: var(--sg-green); opacity: .1; stroke: none; }
+
+.sg-figure__press-head { transition: transform 320ms ease; }
+.sg-figure__light { transition: opacity 320ms ease; opacity: .55; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .sg-index--illustrated .sg-index__item:hover .sg-figure__press-head {
+        transform: translateY(-3px);
+    }
+    .sg-index--illustrated .sg-index__item:hover .sg-figure__light { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .sg-index--illustrated .sg-index__item:focus-within .sg-figure__press-head {
+        transform: translateY(-3px);
+    }
+    .sg-index--illustrated .sg-index__item:focus-within .sg-figure__light { opacity: 1; }
+}
+
+@media (max-width: 620px) {
+    .sg-index--illustrated .sg-index__item {
+        grid-template-columns: 156px minmax(0, 1fr);
+        column-gap: 1.25rem;
+    }
+}
+
+@media (max-width: 440px) {
+    .sg-index--illustrated .sg-index__item {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: .4rem;
+        padding-block: 1.3rem;
+    }
+    .sg-index--illustrated .sg-index__figure { width: 184px; margin-inline-start: -8px; }
+    .sg-index--illustrated .sg-index__kind { margin-bottom: .4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sg-figure__press-head, .sg-figure__light { transition: none; }
+}

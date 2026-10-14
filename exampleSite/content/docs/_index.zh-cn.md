@@ -11,6 +11,8 @@ slug: docs
 [API 契约](/api/) 是冻结的权威参考。环境要求与安装见
 [README](https://github.com/ouatis/hugo-theme-sigil#installation)。
 
+{{< page-anatomy >}}
+
 ## 开始使用
 
 SIGIL 基于 Hugo ≥ 0.166 extended，无需构建步骤。设好 `baseURL`，从示例里挑一段

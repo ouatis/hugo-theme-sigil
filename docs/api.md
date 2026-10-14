@@ -94,6 +94,31 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
   site-specific custom shortcodes belong to the site, not the theme.
 - i18n keys: adding keys is additive; renaming a key is a breaking change.
 
+### Optional project figures
+
+`assets/css/components/project-figures.css` styles an illustrated index using
+`sg-index--illustrated`, `sg-index__figure`, and `sg-project-figure`. A site owns
+its project data, shortcode, and inline SVGs; explicitly load this stylesheet
+only on the pages using them. It uses the host palette, needs no JavaScript,
+and respects keyboard focus and reduced motion. The plain index is unchanged.
+
+### Explanatory shortcodes
+
+- `{{< volume-shelf >}}` renders a native-link shelf from the current page's
+  actual level-two heading fragments, preserving order and explicit IDs. Use
+  standard shortcode notation (`<`, not `%`) to avoid a fragment-rendering
+  cycle. It does not infer publication or completion status and needs no JS.
+- `{{< page-anatomy >}}` renders an original five-part article-page schematic.
+  Native buttons select a component; a checkbox separates the parts; Escape
+  closes the diagram. With JS disabled, the drawing and all descriptions remain
+  available. Reduced motion removes the transitions, not the controls.
+
+Both load `css/components/anatomy.css` only on their host pages via
+`partials/figures/assets.html`; only `page-anatomy` loads `js/page-anatomy.js`.
+A site overriding `extend_head.html` should call that asset partial itself.
+Labels are localized for English, simplified Chinese, and Japanese; other
+locales use the English fallback. SVGs are conceptual diagrams, not screenshots.
+
 ## Machine surfaces
 
 `AGENTS.md` (repo-level maintainer notes) and `scripts/check.sh` (one-shot

@@ -1,0 +1,14 @@
+{{- /* Fragments preserves source order and explicit IDs. Standard {{< >}}
+     notation makes this safe inside a shortcode; never read .Content here. */ -}}
+{{- $items := slice -}}
+{{- range . -}}
+    {{- if eq .Level 2 -}}
+        {{- $items = $items | append (dict "id" .ID "title" (.Title | plainify)) -}}
+    {{- end -}}
+    {{- with .Headings -}}
+        {{- range partial "figures/level-two-headings.html" . -}}
+            {{- $items = $items | append . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return $items -}}

@@ -13,6 +13,8 @@ and the [API contract](/api/) is the frozen reference. Requirements and
 installation are in the
 [README](https://github.com/ouatis/hugo-theme-sigil#installation).
 
+{{< page-anatomy >}}
+
 ## Getting Started
 
 SIGIL runs on Hugo ≥ 0.166 extended with no build step. Set your

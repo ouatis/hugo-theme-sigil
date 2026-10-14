@@ -11,6 +11,8 @@ SIGIL を自分のものにするために必要なすべて。このページ�
 [API 契約](/api/) は凍結された正式リファレンス。要件とインストールは
 [README](https://github.com/ouatis/hugo-theme-sigil#installation) に。
 
+{{< page-anatomy >}}
+
 ## はじめに
 
 SIGIL は Hugo ≥ 0.166 extended で動作し、ビルド手順は不要です。`baseURL` を設定し、
