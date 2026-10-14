@@ -108,6 +108,15 @@ and respects keyboard focus and reduced motion. The plain index is unchanged.
   actual level-two heading fragments, preserving order and explicit IDs. Use
   standard shortcode notation (`<`, not `%`) to avoid a fragment-rendering
   cycle. It does not infer publication or completion status and needs no JS.
+  For a Markdown catalogue, spine widths reflect the summed Hugo `WordCount`
+  of published local pages linked by numbered entries under each h2. Root-relative
+  and same-host absolute permalinks resolve across languages; duplicate chapters
+  within a volume count once. Placeholders, drafts, future/expired pages, external
+  links, and other shelf pages do not count. Fenced examples are ignored. If no
+  chapters resolve, or raw h2 sections do not match the fragment count, all spines
+  retain their neutral equal width. The bounded square-root scale is a relative
+  content illustration, not a page estimate or completion score; title text
+  exposes the approximate count. Counts are recalculated at build time.
 - `{{< page-anatomy >}}` renders an original five-part article-page schematic.
   Native buttons select a component; a checkbox separates the parts; Escape
   closes the diagram. With JS disabled, the drawing and all descriptions remain

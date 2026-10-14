@@ -141,6 +141,10 @@
   translation: "巻の本棚"
 - id: sgShelfHint
   translation: "背表紙を選ぶと、その巻の目次へ移動します。書冊は読書案内の図であり、刊行済みの版ではありません。"
+- id: sgShelfContentHint
+  translation: "背表紙を選ぶと、その巻へ移動します。厚さは公開済み本文の量を示し、完成度や刊行済みの版を表すものではありません。"
+- id: sgShelfAmount
+  translation: "公開済み {{ .Chapters }} 篇、本文は約 {{ .Words }} 字。"
 - id: sgAnatomyTitle
   translation: "読書ページの構造"
 - id: sgAnatomyExplode

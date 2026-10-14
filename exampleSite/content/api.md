@@ -113,6 +113,13 @@ and respects keyboard focus and reduced motion. The plain index is unchanged.
 - `{{</* volume-shelf */>}}` renders native links from the current page's actual
   level-two heading fragments. It preserves order and explicit IDs and does
   not imply publication or completion. Use standard (`<`, not `%`) notation.
+  Spine widths reflect the summed Hugo `WordCount` of published local pages
+  linked by numbered Markdown entries under each h2. Root-relative and same-host
+  absolute permalinks resolve across languages; duplicates within a volume count
+  once. Placeholders, drafts, future/expired pages, external links, and other
+  shelf pages do not count. Fenced examples are ignored. Unresolvable catalogues
+  keep equal-width spines. The bounded scale shows relative content, not page
+  count or completion; title text exposes approximate counts, refreshed at build.
 - `{{</* page-anatomy */>}}` is a five-part article-page schematic. Buttons select
   a part, the checkbox separates the parts, and Escape closes it. Without JS,
   the drawing and all descriptions remain visible. Reduced motion removes

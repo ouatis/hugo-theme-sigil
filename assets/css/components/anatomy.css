@@ -42,7 +42,7 @@
 .sg-bookshelf__books {
     display: grid;
     /* Pack the set itself, rather than spreading seven cells across the page. */
-    width: min(100%, calc(var(--sg-shelf-count, 7) * 56px));
+    width: min(100%, var(--sg-shelf-width, calc(var(--sg-shelf-count, 7) * 56px)));
     grid-template-columns: repeat(var(--sg-shelf-count, 7), minmax(0, 1fr));
 }
 .post-content .sg-bookshelf__book {

@@ -1,31 +1,58 @@
 {{- /* The page's real level-two headings are the only navigation source.
      No duplicate reading order, no inferred completion or publication state. */ -}}
 {{- $volumes := partial "figures/level-two-headings.html" .Page.Fragments.Headings -}}
+{{- $volumes = partial "figures/volume-content.html" (dict "page" .Page "volumes" $volumes) -}}
 {{- $numbers := slice "0" "I" "II" "III" "IV" "V" "VI" -}}
+{{- $maxWords := 0 -}}
+{{- range $volumes -}}{{- $maxWords = math.Max $maxWords .words -}}{{- end -}}
+{{- $books := slice -}}
+{{- $columns := slice -}}
+{{- $shelfWidth := 0 -}}
+{{- range $volumes -}}
+    {{- $spine := 37 -}}
+    {{- if gt $maxWords 0 -}}
+        {{- /* Bounded square-root scale: legible thin volumes, restrained thick
+             ones. This is a relative content map, not a paper/page estimate. */ -}}
+        {{- $spine = int (math.Round (add 20 (mul 32 (math.Sqrt (div (float .words) $maxWords))))) -}}
+    {{- end -}}
+    {{- $width := add $spine 19 -}}
+    {{- $shelfWidth = add $shelfWidth $width -}}
+    {{- $columns = $columns | append (printf "minmax(0, %dfr)" $width) -}}
+    {{- $books = $books | append (merge . (dict "spine" $spine "width" $width)) -}}
+{{- end -}}
 {{- if $volumes -}}
 <figure class="sg-anatomy sg-bookshelf">
-    <nav class="sg-bookshelf__books" aria-label="{{ i18n "sgShelfTitle" | default "Volumes at a glance" }}" style="--sg-shelf-count: {{ len $volumes }};">
-        {{- range $index, $volume := $volumes -}}
+    <nav class="sg-bookshelf__books" aria-label="{{ i18n "sgShelfTitle" | default "Volumes at a glance" }}" style="--sg-shelf-count: {{ len $volumes }}; --sg-shelf-width: {{ $shelfWidth }}px; grid-template-columns: {{ delimit $columns " " | safeCSS }};">
+        {{- range $index, $volume := $books -}}
         {{- $number := printf "%d" $index -}}
         {{- if lt $index (len $numbers) -}}{{- $number = index $numbers $index -}}{{- end -}}
         {{- $label := index (split $volume.title "·") 0 | strings.TrimSpace -}}
-        <a class="sg-bookshelf__book" href="#{{ $volume.id }}" aria-label="{{ $volume.title }}" title="{{ $volume.title }}">
-            <svg viewBox="15 8 56 178" width="56" height="178" aria-hidden="true" focusable="false">
-                <ellipse class="sg-anatomy__shadow" cx="43" cy="176" rx="26" ry="7"/>
+        {{- $description := $volume.title -}}
+        {{- if gt $maxWords 0 -}}
+            {{- $amount := i18n "sgShelfAmount" (dict "Words" (lang.FormatNumber 0 $volume.words) "Chapters" $volume.chapters) | default (printf "Published content: approx. %d words across %d chapters." $volume.words $volume.chapters) -}}
+            {{- $description = printf "%s · %s" $volume.title $amount -}}
+        {{- end -}}
+        {{- $right := add 17 $volume.spine -}}
+        {{- $back := add $right 15 -}}
+        {{- $center := add 17 (div (float $volume.spine) 2) -}}
+        {{- $shadowRadius := div (float (add $volume.spine 15)) 2 -}}
+        <a class="sg-bookshelf__book" href="#{{ $volume.id }}" aria-label="{{ $description }}" title="{{ $description }}" data-words="{{ $volume.words }}" data-chapters="{{ $volume.chapters }}">
+            <svg viewBox="15 8 {{ $volume.width }} 178" width="{{ $volume.width }}" height="178" aria-hidden="true" focusable="false">
+                <ellipse class="sg-anatomy__shadow" cx="{{ add 17 $shadowRadius }}" cy="176" rx="{{ $shadowRadius }}" ry="7"/>
                 <g class="sg-bookshelf__volume">
-                    <path class="sg-anatomy__side" d="M54 27L69 15V162L54 174Z"/>
-                    <path class="sg-anatomy__paper" d="M17 27L32 15H69L54 27Z"/>
-                    <path class="sg-anatomy__print" d="M22 25L36 17H63M26 23H59"/>
-                    <path class="sg-bookshelf__cover" d="M17 27H54V174H17Z"/>
-                    <path class="sg-anatomy__rule" d="M21 32V169M25 43H47M25 151H47M25 156H47"/>
-                    <text class="sg-bookshelf__number" x="37" y="93" text-anchor="middle">{{ $number }}</text>
-                    <path class="sg-anatomy__ink" d="M35 117a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0M31 124a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0M39 124a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0"/>
+                    <path class="sg-anatomy__side" d="M{{ $right }} 27L{{ $back }} 15V162L{{ $right }} 174Z"/>
+                    <path class="sg-anatomy__paper" d="M17 27L32 15H{{ $back }}L{{ $right }} 27Z"/>
+                    <path class="sg-anatomy__print" d="M22 25L36 17H{{ sub $back 6 }}M26 23H{{ add $right 5 }}"/>
+                    <path class="sg-bookshelf__cover" d="M17 27H{{ $right }}V174H17Z"/>
+                    <path class="sg-anatomy__rule" d="M21 32V169M25 43H{{ sub $right 7 }}M25 151H{{ sub $right 7 }}M25 156H{{ sub $right 7 }}"/>
+                    <text class="sg-bookshelf__number" x="{{ $center }}" y="93" text-anchor="middle">{{ $number }}</text>
+                    <path class="sg-anatomy__ink" d="M{{ sub $center 2 }} 117a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0M{{ sub $center 6 }} 124a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0M{{ add $center 2 }} 124a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0"/>
                 </g>
             </svg>
             <span class="sg-bookshelf__label">{{ $label }}</span>
         </a>
         {{- end -}}
     </nav>
-    <figcaption class="sg-anatomy__caption">{{ i18n "sgShelfHint" | default "Select a spine to jump to its volume. The books are a reading map, not published editions." }}</figcaption>
+    <figcaption class="sg-anatomy__caption">{{ if gt $maxWords 0 }}{{ i18n "sgShelfContentHint" | default "Select a spine to jump to its volume. Thickness reflects the amount of published text, not completion or printed editions." }}{{ else }}{{ i18n "sgShelfHint" | default "Select a spine to jump to its volume. The books are a reading map, not published editions." }}{{ end }}</figcaption>
 </figure>
 {{- end -}}

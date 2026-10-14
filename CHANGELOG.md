@@ -3,6 +3,10 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
+## v0.10.1
+
+- Scale `volume-shelf` spines by the published linked chapters' Hugo word counts, using a bounded relative scale with localized content summaries, cross-language permalink resolution, duplicate/unpublished-page exclusions, and equal-width fallback; counts refresh at build time without JavaScript or a separate volume manifest.
+
 ## v0.10.0
 
 - Add opt-in explanatory figures: a compact native-link `volume-shelf` generated from actual level-two headings, an accessible five-part `page-anatomy` schematic with progressive enhancement, and reusable styles for site-owned project SVGs; assets load only where used, with English/Chinese/Japanese labels, no runtime dependencies, and reduced-motion support.

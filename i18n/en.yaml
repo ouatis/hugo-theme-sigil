@@ -142,6 +142,10 @@
   translation: "Volumes at a glance"
 - id: sgShelfHint
   translation: "Select a spine to jump to its volume. The books are a reading map, not published editions."
+- id: sgShelfContentHint
+  translation: "Select a spine to jump to its volume. Thickness reflects the amount of published text, not completion or printed editions."
+- id: sgShelfAmount
+  translation: "Published content: approx. {{ .Words }} words across {{ .Chapters }} chapters."
 - id: sgAnatomyTitle
   translation: "Anatomy of a reading page"
 - id: sgAnatomyExplode

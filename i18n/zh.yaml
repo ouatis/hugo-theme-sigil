@@ -133,6 +133,10 @@
   translation: "卷目书架"
 - id: sgShelfHint
   translation: "点书脊进入对应卷目；书册为目录示意，并非已出版版本。"
+- id: sgShelfContentHint
+  translation: "点书脊进入对应卷目；厚薄按已发布正文量示意，不代表完成度或已出版版本。"
+- id: sgShelfAmount
+  translation: "已发布 {{ .Chapters }} 篇，正文约 {{ .Words }} 字。"
 - id: sgAnatomyTitle
   translation: "一张阅读页的结构"
 - id: sgAnatomyExplode
