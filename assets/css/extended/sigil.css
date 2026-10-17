@@ -2734,6 +2734,52 @@ details[open]::details-content {
 .sg-series__volume.is-current-vol > summary::before { color: var(--sg-red); }
 .sg-series__volume .sg-series__list { padding: 0 0 6px 10px; }
 
+/* ===== 任务清单:薄框小盒,完成落一枚墨绿勾——任务日志的气质,不是游戏 UI =====
+   勾用 CSS 边框画,不走字体(字形不在子集语料的教训);日期以小号次色跟随 */
+.task-list {
+    list-style: none;
+    padding-inline-start: 4px;
+}
+.task-list li {
+    margin: 6px 0;
+}
+.task-list input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    margin: 0 9px 0 0;
+    border: 1px solid var(--secondary);
+    border-radius: 2px;
+    background: transparent;
+    vertical-align: -2px;
+    position: relative;
+    cursor: default;
+}
+.task-list input[type="checkbox"]:checked {
+    border-color: var(--sg-green);
+    background: var(--sg-green);
+}
+.task-list input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0px;
+    width: 4px;
+    height: 7px;
+    border-right: 1.5px solid #fbfcfa;
+    border-bottom: 1.5px solid #fbfcfa;
+    transform: rotate(45deg);
+}
+.task-list li:has(input[type="checkbox"]:checked) {
+    color: var(--secondary);
+}
+.sg-task-date {
+    color: var(--secondary);
+    font-size: 0.82em;
+    letter-spacing: 0.03em;
+}
+
 @media (min-width: 1440px) {
     .sg-series-details {
         display: none;

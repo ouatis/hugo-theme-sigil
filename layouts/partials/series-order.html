@@ -49,5 +49,14 @@
 {{- end -}}
 
 {{- if not $entries -}}{{- return nil -}}{{- end -}}
+{{- /* 未写守卫:tbd 条目的标题若与某篇已发布文章同名,说明策展页忘了同步——
+     构建期直接警告(《包法利夫人受审查》曾以「未写」挂了两周) */ -}}
+{{- range $e := $entries -}}
+    {{- if and $e.tbd $e.title -}}
+        {{- range $p := where site.RegularPages "Title" $e.title -}}
+            {{- warnf (printf "[sigil] 系列条目「%s」已发布(%s)但策展页仍标未写——请把 tbd 占位换成链接" $e.title $p.RelPermalink) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
 {{- return dict "entries" $entries "volumes" $volumes "total" (len $entries) "from" $from "title" $page.Title -}}
 {{- else -}}{{- return nil -}}{{- end -}}
