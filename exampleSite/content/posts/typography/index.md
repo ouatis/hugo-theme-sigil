@@ -1,4 +1,5 @@
 ---
+translationKey: "post-typography"
 title: "Typography"
 categories:
   - demo

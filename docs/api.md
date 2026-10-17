@@ -1,4 +1,4 @@
-# Sigil Public API — frozen as of v0.9.0
+# SIGIL Public API — frozen as of v0.9.0
 
 This document defines the **public contract** of the theme. Items listed here
 will not be renamed or removed in any minor release; breaking changes require a
@@ -83,7 +83,7 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 - `data/analytics.json`: optional. Recognized fields: `total` (int),
   `since` (YYYY-MM-DD), `days` (map, renders the footer sparkline).
 - Output formats shipped by the theme: `LLMSTXT` (`/llms.txt`),
-  `LLMSTXTFULL` (`/llms-full.txt`), `JSONFeed` (`/feed.json`),
+  `LLMSFULL` (`/llms-full.txt`), `JSONFeed` (`/feed.json`),
   search index (`index.json`). All opt-in via `outputs.home`.
 
 ## Extension points
@@ -93,6 +93,40 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 - `layouts/shortcodes/` shipped with the theme are part of the contract:
   site-specific custom shortcodes belong to the site, not the theme.
 - i18n keys: adding keys is additive; renaming a key is a breaking change.
+
+### Optional project figures
+
+`assets/css/components/project-figures.css` styles an illustrated index using
+`sg-index--illustrated`, `sg-index__figure`, and `sg-project-figure`. A site owns
+its project data, shortcode, and inline SVGs; explicitly load this stylesheet
+only on the pages using them. It uses the host palette, needs no JavaScript,
+and respects keyboard focus and reduced motion. The plain index is unchanged.
+
+### Explanatory shortcodes
+
+- `{{< volume-shelf >}}` renders a native-link shelf from the current page's
+  actual level-two heading fragments, preserving order and explicit IDs. Use
+  standard shortcode notation (`<`, not `%`) to avoid a fragment-rendering
+  cycle. It does not infer publication or completion status and needs no JS.
+  For a Markdown catalogue, spine widths reflect the summed Hugo `WordCount`
+  of published local pages linked by numbered entries under each h2. Root-relative
+  and same-host absolute permalinks resolve across languages; duplicate chapters
+  within a volume count once. Placeholders, drafts, future/expired pages, external
+  links, and other shelf pages do not count. Fenced examples are ignored. If no
+  chapters resolve, or raw h2 sections do not match the fragment count, all spines
+  retain their neutral equal width. The bounded square-root scale is a relative
+  content illustration, not a page estimate or completion score; title text
+  exposes the approximate count. Counts are recalculated at build time.
+- `{{< page-anatomy >}}` renders an original five-part article-page schematic.
+  Native buttons select a component; a checkbox separates the parts; Escape
+  closes the diagram. With JS disabled, the drawing and all descriptions remain
+  available. Reduced motion removes the transitions, not the controls.
+
+Both load `css/components/anatomy.css` only on their host pages via
+`partials/figures/assets.html`; only `page-anatomy` loads `js/page-anatomy.js`.
+A site overriding `extend_head.html` should call that asset partial itself.
+Labels are localized for English, simplified Chinese, and Japanese; other
+locales use the English fallback. SVGs are conceptual diagrams, not screenshots.
 
 ## Machine surfaces
 

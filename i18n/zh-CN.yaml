@@ -125,6 +125,51 @@
 
 - id: sgNowPlaying
   translation: "游戏中："
+- id: sgNowListening
+  translation: "在听："
+- id: sgNowWatching
+  translation: "在看："
+- id: sgNowWriting
+  translation: "在写："
+- id: sgNowExploring
+  translation: "在探："
 
 - id: sgNowReading
   translation: "在读："
+# Optional explanatory figures (English fallback for other locales).
+- id: sgShelfTitle
+  translation: "卷目书架"
+- id: sgShelfHint
+  translation: "点书脊进入对应卷目；书册为目录示意，并非已出版版本。"
+- id: sgShelfContentHint
+  translation: "点书脊进入对应卷目；厚薄按已发布正文量示意，不代表完成度或已出版版本。"
+- id: sgShelfAmount
+  translation: "已发布 {{ .Chapters }} 篇，正文约 {{ .Words }} 字。"
+- id: sgAnatomyTitle
+  translation: "一张阅读页的结构"
+- id: sgAnatomyExplode
+  translation: "展开图层"
+- id: sgAnatomyParts
+  translation: "页面组成"
+- id: sgAnatomyHeader
+  translation: "页眉"
+- id: sgAnatomyBody
+  translation: "正文"
+- id: sgAnatomyNotes
+  translation: "旁注"
+- id: sgAnatomyToc
+  translation: "目录"
+- id: sgAnatomyFooter
+  translation: "页脚"
+- id: sgAnatomyHeaderDescription
+  translation: "站名、语言切换与网站导航位于阅读页上方。"
+- id: sgAnatomyBodyDescription
+  translation: "正文栏容纳标题、段落、引文和代码。行宽为长文阅读保留舒适的节奏。"
+- id: sgAnatomyNotesDescription
+  translation: "普通 Markdown 脚注在宽屏移到页边，在窄屏保留为文末注释。此图拆分功能，不模拟手机上的实际位置。"
+- id: sgAnatomyTocDescription
+  translation: "目录来自文章标题，在启用时显示。它帮助读者定位，不改变正文。"
+- id: sgAnatomyFooterDescription
+  translation: "致谢与站点信息排在文字之后，为页面收尾，不混入文章。"
+- id: sgAnatomyHint
+  translation: "页面组成示意，不是截图。选择部件查看说明，展开图层观察彼此关系。"

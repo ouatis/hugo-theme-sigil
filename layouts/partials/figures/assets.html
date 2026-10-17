@@ -1,0 +1,14 @@
+{{- /* Opt-in assets, shared by the site's header override and the theme.
+     The shelf is native link navigation; only the page anatomy needs JS. */ -}}
+{{- if or (.HasShortcode "volume-shelf") (.HasShortcode "page-anatomy") -}}
+    {{- with resources.Get "css/components/anatomy.css" -}}
+        {{- $css := . | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
+    {{- end -}}
+{{- end -}}
+{{- if .HasShortcode "page-anatomy" -}}
+    {{- with resources.Get "js/page-anatomy.js" -}}
+        {{- $js := . | minify | fingerprint -}}
+<script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end -}}
+{{- end -}}

@@ -1,8 +1,6 @@
 ---
 title: "API contract"
 slug: api
-categories:
-  - demo
 date: 2026-03-01
 ---
 
@@ -11,7 +9,7 @@ The theme's public contract is **frozen as of v0.9.0**. This page mirrors
 (the canonical source in the repository); if the two ever differ, the repo file
 wins — and per the freeze policy, changes require a deprecation window anyway.
 
-# Sigil Public API — frozen as of v0.9.0
+# SIGIL Public API — frozen as of v0.9.0
 
 This document defines the **public contract** of the theme. Items listed here
 will not be renamed or removed in any minor release; breaking changes require a
@@ -36,8 +34,8 @@ Anything **not** listed here is internal and may change without notice.
 | `sgKicker` | Small line above the homepage title |
 | `sgHomeTitle` | Hero title override (browser-tab `<title>` stays the site title) |
 | `sgSealImage` | Seal image on the homepage |
-| `sgReading` / `sgPlaying` / `sgMotto` | Rotating status under the hero seal |
-| `sgDaysInCage` | Status line day counter, "Day N in the Cage" |
+| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | Rotating status under the hero seal. Each renders an icon + i18n label item; set any subset |
+| `sgDaysInCage` | Status line day counter, "Day N in the Cage" (from earliest post). Opt-in |
 | `sgSeriesFrom` | Points to a curation page whose body list defines a series reading order |
 | `sgSeriesTab` | Tab label of the floating series panel |
 | `sgSearchEmpty` | Custom empty-state text for search |
@@ -91,7 +89,7 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 - `data/analytics.json`: optional. Recognized fields: `total` (int),
   `since` (YYYY-MM-DD), `days` (map, renders the footer sparkline).
 - Output formats shipped by the theme: `LLMSTXT` (`/llms.txt`),
-  `LLMSTXTFULL` (`/llms-full.txt`), `JSONFeed` (`/feed.json`),
+  `LLMSFULL` (`/llms-full.txt`), `JSONFeed` (`/feed.json`),
   search index (`index.json`). All opt-in via `outputs.home`.
 
 ## Extension points
@@ -101,6 +99,37 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 - `layouts/shortcodes/` shipped with the theme are part of the contract:
   `zerthimon`-style custom shortcodes belong to the site, not the theme.
 - i18n keys: adding keys is additive; renaming a key is a breaking change.
+
+### Optional project figures
+
+`assets/css/components/project-figures.css` styles an illustrated index using
+`sg-index--illustrated`, `sg-index__figure`, and `sg-project-figure`. A site owns
+its project data, shortcode, and inline SVGs; explicitly load this stylesheet
+only on the pages using them. It uses the host palette, needs no JavaScript,
+and respects keyboard focus and reduced motion. The plain index is unchanged.
+
+### Explanatory shortcodes
+
+- `{{</* volume-shelf */>}}` renders native links from the current page's actual
+  level-two heading fragments. It preserves order and explicit IDs and does
+  not imply publication or completion. Use standard (`<`, not `%`) notation.
+  Spine widths reflect the summed Hugo `WordCount` of published local pages
+  linked by numbered Markdown entries under each h2. Root-relative and same-host
+  absolute permalinks resolve across languages; duplicates within a volume count
+  once. Placeholders, drafts, future/expired pages, external links, and other
+  shelf pages do not count. Fenced examples are ignored. Unresolvable catalogues
+  keep equal-width spines. The bounded scale shows relative content, not page
+  count or completion; title text exposes approximate counts, refreshed at build.
+- `{{</* page-anatomy */>}}` is a five-part article-page schematic. Buttons select
+  a part, the checkbox separates the parts, and Escape closes it. Without JS,
+  the drawing and all descriptions remain visible. Reduced motion removes
+  transitions without disabling the controls.
+
+Assets are loaded only on pages using these shortcodes. A site overriding
+`extend_head.html` must call `partials/figures/assets.html`. The shelf needs
+no JS; only the page diagram loads the small `page-anatomy.js` module.
+The figures use the host palette and English, Chinese, and Japanese labels,
+with an English fallback elsewhere. They are diagrams, not screenshots.
 
 ## Machine surfaces
 

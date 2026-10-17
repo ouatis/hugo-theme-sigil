@@ -125,6 +125,51 @@
 
 - id: sgNowPlaying
   translation: "プレイ中:"
+- id: sgNowListening
+  translation: "試聴中:"
+- id: sgNowWatching
+  translation: "視聴中:"
+- id: sgNowWriting
+  translation: "執筆中:"
+- id: sgNowExploring
+  translation: "探索中:"
 
 - id: sgNowReading
   translation: "読書中:"
+# Optional explanatory figures (English fallback for other locales).
+- id: sgShelfTitle
+  translation: "巻の本棚"
+- id: sgShelfHint
+  translation: "背表紙を選ぶと、その巻の目次へ移動します。書冊は読書案内の図であり、刊行済みの版ではありません。"
+- id: sgShelfContentHint
+  translation: "背表紙を選ぶと、その巻へ移動します。厚さは公開済み本文の量を示し、完成度や刊行済みの版を表すものではありません。"
+- id: sgShelfAmount
+  translation: "公開済み {{ .Chapters }} 篇、本文は約 {{ .Words }} 字。"
+- id: sgAnatomyTitle
+  translation: "読書ページの構造"
+- id: sgAnatomyExplode
+  translation: "部品を展開"
+- id: sgAnatomyParts
+  translation: "ページの構成"
+- id: sgAnatomyHeader
+  translation: "ヘッダー"
+- id: sgAnatomyBody
+  translation: "本文"
+- id: sgAnatomyNotes
+  translation: "傍注"
+- id: sgAnatomyToc
+  translation: "目次"
+- id: sgAnatomyFooter
+  translation: "フッター"
+- id: sgAnatomyHeaderDescription
+  translation: "サイト名、言語切替、ナビゲーションが読書ページの上に置かれます。"
+- id: sgAnatomyBodyDescription
+  translation: "本文欄には見出し、段落、引用、コードが入ります。長文を読みやすくするため、行の長さを抑えています。"
+- id: sgAnatomyNotesDescription
+  translation: "通常の Markdown 脚注は広い画面では余白へ、狭い画面では文末へ移ります。この図は役割の分解図であり、スマートフォンの実際の配置ではありません。"
+- id: sgAnatomyTocDescription
+  translation: "目次は記事の見出しから作られ、有効なときに表示されます。本文を変えずに、読みたい位置を見つけられます。"
+- id: sgAnatomyFooterDescription
+  translation: "謝辞とサイト情報は本文の後に置かれます。記事に混ざらず、ページを閉じます。"
+- id: sgAnatomyHint
+  translation: "ページ構成の模式図であり、スクリーンショットではありません。部品を選んで説明を読み、展開して関係を確かめてください。"

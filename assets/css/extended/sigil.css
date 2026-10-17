@@ -7,6 +7,7 @@
     --entry: #fbfcfa;
     --primary: #1d2420;
     --secondary: #68716b;
+    --sg-note: #5a635d; /* sidenote text: a touch stronger than secondary for margin legibility */
     --tertiary: #d8ddd9;
     --content: #252c28;
     --code-block-bg: #1b201d;
@@ -44,6 +45,7 @@ body {
     --entry: #1b201d;
     --primary: #eef1ed;
     --secondary: #a4ada7;
+    --sg-note: #b3bcb6;
     --tertiary: #3a433e;
     --content: #d9ded9;
     --code-block-bg: #101311;
@@ -462,17 +464,41 @@ html[data-theme="dark"] .sg-seal img {
     filter: invert(0.92) grayscale(1) sepia(0.2) contrast(0.88) brightness(0.95);
 }
 
-/* 未配置印章图片时的默认字形印章 */
+/* 未配置印章图片时的默认字形印章:∴ 三点成印。
+   上两点是「眼」,下一点是「口」——眼随指针移动,口不动,像往哪边看。
+   用 SVG 而非文字,因为文字无法单独挪动其中两点,也无法保证各处回退字体形状一致。 */
 .sg-seal__glyph {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     width: 100%;
     height: 100%;
     color: rgba(var(--sg-amber-rgb), 0.9);
-    font-family: var(--sg-serif);
-    font-size: 72px;
-    line-height: 1;
+}
+
+.sg-seal__glyph svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* SVG 的 circle 不吃 color,须显式以 currentColor 上色,否则三点会退成默认黑 */
+.sg-seal__glyph circle {
+    fill: currentColor;
+}
+
+/* 眼:上两点的整体位移。--eye-x/y 由 JS 每帧写入弹簧当前位置(屏幕像素)。
+   此处刻意不加 transition——弹簧已在 JS 里积分到位,
+   CSS 再补一段过渡会把两次平滑叠起来,眼睛就变成「跟在指针后面」而非「看着指针」。
+   无 JS、触屏、reduced-motion 下变量为 0,静帧仍是端正的 ∴。
+
+   注意单位:SVG 子元素的 transform-box 默认是 view-box,
+   此时 translate() 的长度按 viewBox 用户单位算,而非屏幕像素——
+   直接把屏幕像素塞进去会偏得离谱(印章越大偏得越远)。
+   故 --eye-x/y 由 JS 预先换算成用户单位,这里只补一个 px 让它成为合法长度。
+   必须带单位:SVG 组上无单位的 translate() 参数(含 var() 直出、calc() 的
+   无单位结果)一律不被解析,整条声明静默作废、transform 退成 none。 */
+.sg-seal__eyes {
+    transform: translate(calc(var(--eye-x, 0) * 1px), calc(var(--eye-y, 0) * 1px));
+    will-change: transform;
 }
 
 
@@ -503,7 +529,23 @@ html[data-theme="dark"] .sg-seal img {
     color: var(--sg-green);
 }
 
+.sg-now__item--listening svg {
+    color: rgb(var(--sg-amber-rgb));
+}
+
+.sg-now__item--watching svg {
+    color: var(--sg-green);
+}
+
 .sg-now__item--playing svg {
+    color: var(--sg-red);
+}
+
+.sg-now__item--writing svg {
+    color: var(--sg-green);
+}
+
+.sg-now__item--exploring svg {
     color: var(--sg-red);
 }
 
@@ -517,11 +559,13 @@ html[data-theme="dark"] .sg-seal img {
     line-height: 1;
 }
 
+/* 状态行轮换:淡出与升起同走 --sg-settle,交接处不戛然而止。
+   opacity 上这条曲线单调,挑不出可见的过冲,只取手感统一。 */
 .sg-now--rotating .sg-now__item {
     position: absolute;
     opacity: 0;
     transform: translateY(2px);
-    transition: opacity 240ms ease, transform 240ms ease;
+    transition: opacity 240ms var(--sg-settle), transform 240ms var(--sg-settle);
 }
 
 .sg-now--rotating .sg-now__item.is-active {
@@ -2407,6 +2451,14 @@ body {
    html.sg-js(extend_head.html 注入)是渐显效果总开关:无 JS 时全静态。
    prefers-reduced-motion 下一律静态呈现。 */
 
+/* hairline 式欠阻尼落定:借 Lucas Markes 的 hover 规则——弹簧越过目标线
+   一点点再落回,超调不足 1%,看不见,但落得软而非戛然而止。
+   用 CSS linear() 写死这条曲线:零 JS,浏览器自行按帧细分,不问他 120Hz 还是 30Hz。
+   不认识 linear() 的旧浏览器会整条丢弃 transition,线直接就位——仍然可读。 */
+:root {
+    --sg-settle: linear(0, 0.009, 0.035 2.7%, 0.141, 0.281 8.6%, 0.723 16.9%, 0.938, 1.017, 1.077, 1.121, 1.149 24.3%, 1.163, 1.154 29.9%, 1.129 32.8%, 1.051 39.2%, 0.977 46.6%, 0.975 54.8%, 0.997 63.4%, 1.003 66.6%, 1.004);
+}
+
 @keyframes sg-rise {
     from {
         opacity: 0;
@@ -2448,18 +2500,18 @@ body {
 .sg-js .sg-section-head::after {
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform 500ms ease-out;
+    transition: transform 500ms var(--sg-settle);
 }
 
 .sg-js .sg-section-head.is-inview::after {
     transform: scaleX(1);
 }
 
-/* 文章页标题下的朱砂短线:从左绘出;无 JS 保持静态 */
+/* 文章页标题下的朱砂短线:从左绘出,同一条落定曲线;无 JS 保持静态 */
 .sg-js .post-header::after {
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform 500ms ease-out 120ms;
+    transition: transform 500ms var(--sg-settle) 120ms;
 }
 
 .sg-js .post-header.is-inview::after {
@@ -2525,6 +2577,12 @@ body {
     .sg-seal__frame::after {
         transition: none;
     }
+
+    /* 眼:减弱动态下彻底不转,印章回到端正的 ∴ */
+    .sg-seal__eyes {
+        transform: none;
+        will-change: auto;
+    }
 }
 
 /* ===== 纸纹底:2.8% 的内联 SVG 噪点,给纸面与夜幕一点肌理;零请求,reduced-motion 无涉 ===== */
@@ -2552,10 +2610,10 @@ html .header {
         clear: right;
         width: var(--note-w);
         margin: 4px calc(-1 * var(--note-w) - 36px) 18px 20px;
-        color: var(--secondary);
+        color: var(--sg-note);
         font-family: var(--sg-sans);
-        font-size: 13px;
-        line-height: 1.75;
+        font-size: 14px;
+        line-height: 1.7;
     }
 
     .sidenote .sidenote-number {
@@ -2578,7 +2636,7 @@ html .header {
         text-underline-offset: 3px;
     }
 
-    .post-content:has(.sidenote) .footnotes {
+    .post-content.sg-sidenotes-complete .footnotes {
         display: none;
     }
 }

@@ -13,6 +13,13 @@
 
 デモ：<https://ouatis.com/hugo-theme-sigil/>
 
+![SIGIL ライト／ダークモード](images/sigil-preview.jpg)
+
+**[Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0 が必要です**
+（OG カード生成に `images.Text` を使うため、extended ビルドが必須）。
+
+> 上部のバージョンバッジは最新の**タグ付きリリース**を反映します。[CHANGELOG](CHANGELOG.md) は現在の `main` までの全変更を記録しています。
+
 ## 特徴
 
 - ワイド画面の Tufte 風サイドノートと狭い画面の脚注
@@ -64,7 +71,7 @@ hugo server --themesDir ../..
 
 ## 設定
 
-PaperMod の一般的な設定を利用できます。Sigil 固有の設定：
+PaperMod の一般的な設定を利用できます。SIGIL 固有の設定：
 
 | パラメータ | 初期値 | 用途 |
 | --- | --- | --- |
@@ -100,13 +107,13 @@ home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
 
 ## フォント
 
-`scripts/build-fonts.sh` には 3 モードあります（python 等価:
-`scripts/build-fonts.py`）:
+フォントサブセット（任意——テーマはラテン文字を同梱し、すぐに使えます）：
 
 - `latin` —— ラテン文字のみ。リポジトリ同梱のブートストラップ サブセット
-  （デモはこの形態; CJK テキストはシステムフォールバック）
+  （CJK テキストはシステムフォールバック）。クリーンなチェックアウトのデフォルト形態
 - `corpus` —— 例示サイト自身の文字を走査し、小さな SC コーパス サブセットを
-  作成。デモの CJK が本物の Plex で表示される（約 30 KB）
+  作成。デモの CJK が本物の Plex で表示される（約 30 KB）。**シェルスクリプトのみ**——
+  `scripts/build-fonts.py` は `latin`/`full` のみ対応し `corpus` は非対応。
 - `full` —— 公式 SC + JP 全分割シャード（全量カバーが必要な CJK/JP サイト向け;
   テキストの多いページで約 3 MB）
 
@@ -120,7 +127,7 @@ bash scripts/build-fonts.sh corpus   # または latin / full
 
 - トップページ合計 約 **78 KB**：HTML 16 KB + CSS 57 KB + インライン JS 5 KB、**外部 JavaScript ゼロ**
 - オプションは必要時のみ：検索スクリプト 18 KB（検索ページ）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
-- フォント：テキストの多いページで初回約 **56 KB**（ラテン 4 分割；デモの CJK はシステムフォールバック）。CJK サイトでコーパス パイプラインを使う場合、サイト全文字セットを一度だけ取得（約 1.3 MB）——意図的に分割しない:1 ファイルがサイト全体でキャッシュされ、`font-display: swap` が待ち時間をカバー
+- フォント：デモは `corpus` パイプラインを実行するため、CJK が本物の Plex で表示される——テキストの多いページで初回約 **104 KB**（ラテン サブセット + 小さな SC コーパス）。`latin` のみのサイトは約 85 KB（CJK はシステムフォールバック）。全量の中/日文カバーが必要なサイトは `full`（約 3 MB、1 ファイルがサイト全体でキャッシュされ、`font-display: swap` が待ち時間をカバー）
 - フレームワークなし、jQuery なし、実行時 CDN 依存なし
 
 ## 安定性

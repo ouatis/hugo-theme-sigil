@@ -13,6 +13,13 @@
 
 演示站：<https://ouatis.com/hugo-theme-sigil/>
 
+![SIGIL 亮色与暗色模式](images/sigil-preview.jpg)
+
+**需要 [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
+（主题用 `images.Text` 生成 OG 卡片，需要 extended 构建）。
+
+> 上方版本徽标反映的是最新**已打标签的发布版**；[CHANGELOG](CHANGELOG.md) 记录到当前 `main` 的全部变更。
+
 ## 特性
 
 - 宽屏 Tufte 风格旁注，窄屏自动转为尾注
@@ -64,7 +71,7 @@ hugo server --themesDir ../..
 
 ## 配置
 
-PaperMod 的常用配置可以继续使用。Sigil 专属配置：
+PaperMod 的常用配置可以继续使用。SIGIL 专属配置：
 
 | 参数 | 默认值 | 用途 |
 | --- | --- | --- |
@@ -100,11 +107,12 @@ PaperMod 的常用配置可以继续使用。Sigil 专属配置：
 
 ## 字体
 
-`scripts/build-fonts.sh` 有三种模式(python 等价:`scripts/build-fonts.py`):
+字体子集（可选——主题已内置拉丁字体，开箱即用）：
 
-- `latin` —— 仅拉丁字母;仓库内置的引导子集(demo 即此形态,中文回退系统字体)
+- `latin` —— 仅拉丁字母;仓库内置的引导子集(中文回退系统字体)。这是干净检出的默认形态
 - `corpus` —— 额外扫描示例站自身字符,切出小 SC 语料子集,使 demo 的中文
-  以真正的 Plex 渲染(约 30 KB)
+  以真正的 Plex 渲染(约 30 KB)。**仅 Shell 脚本支持**——`scripts/build-fonts.py`
+  只覆盖 `latin`/`full`，不含 `corpus`。
 - `full` —— 官方 SC + JP 全量分片(适合需要全量覆盖的中/日文站点;文字密集页约 3 MB)
 
 ```bash
@@ -117,7 +125,7 @@ bash scripts/build-fonts.sh corpus   # 或 latin / full
 
 - 首页合计约 **78 KB**：HTML 16 KB + CSS 57 KB + 内联 JS 5 KB，**零外链 JavaScript**
 - 可选项按需加载：搜索脚本 18 KB（仅搜索页）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
-- 字体：文字密集页首访约 **56 KB**（4 片拉丁子集；示例站的中文回退系统字体）。CJK 站点走语料子集管线时，整站字符集一次性下载（约 1.3 MB）——有意不做分片：一个文件全站缓存一次到位，`font-display: swap` 兜底等待
+- 字体：示例站跑 `corpus` 管线，其中文以真正的 Plex 渲染——文字密集页首访约 **104 KB**（拉丁子集 + 小型 SC 语料子集）。仅 `latin` 的站点约 85 KB（中文回退系统字体）。需要全量中/日文覆盖的站点跑 `full`（约 3 MB，一个文件全站缓存一次到位，`font-display: swap` 兜底等待）
 - 无框架、无 jQuery、无运行时 CDN 依赖
 
 ## 稳定性

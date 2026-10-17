@@ -5,7 +5,7 @@
 {{- end }}
 {{- /* 样式表按相对路径引用 fonts/,复制同名资源并取 Permalink 触发发布 */ -}}
 {{- range resources.Match "katex/fonts/*" }}
-{{- with resources.Copy .Name . }}{{ .RelPermalink }}{{ end }}
+{{- with resources.Copy .Name . }}{{ $_ := .RelPermalink }}{{ end }}
 {{- end }}
 {{- $js := resources.Get "katex/katex.min.js" }}
 {{- $ar := resources.Get "katex/auto-render.min.js" }}

@@ -1,5 +1,5 @@
 baseURL = "https://example.com/"
-title = "sigil-demo"
+title = "SIGIL"
 theme = "hugo-theme-sigil"
 
 defaultContentLanguage = "en"
@@ -8,63 +8,123 @@ defaultContentLanguage = "en"
   [languages.en]
     label = "English"
     weight = 1
-    title = "sigil-demo"
+    title = "SIGIL"
     [languages.en.params]
       [languages.en.params.homeInfoParams]
-        content = "The example site for the Sigil Hugo theme."
+        content = "A restrained literary theme for Hugo — paper, ink, and everything in threes. Long-form essays, research notes, and reading logs, set for the page rather than the feed."
 
     [[languages.en.menus.main]]
-        identifier = "about"
-        name = "About"
-        url = "/about/"
-    [[languages.en.menus.main]]
-        identifier = "config"
-        name = "Config"
-        url = "/config-example/"
-    [[languages.en.menus.main]]
-        identifier = "api"
-        name = "API"
-        url = "/api/"
+        identifier = "typography"
+        name = "Typography"
+        pageRef = "posts/typography"
     [[languages.en.menus.main]]
         identifier = "archives"
         name = "Archives"
-        url = "/archives/"
+        pageRef = "archives"
     [[languages.en.menus.main]]
-        identifier = "categories"
-        name = "Categories"
-        url = "/categories/"
+        identifier = "docs"
+        name = "Docs"
+        pageRef = "docs"
     [[languages.en.menus.main]]
-        identifier = "tags"
-        name = "Tags"
-        url = "/tags/"
+        identifier = "about"
+        name = "About"
+        pageRef = "about"
     [[languages.en.menus.main]]
         identifier = "search"
         name = "Search"
-        url = "/search/"
+        pageRef = "search"
+
+  [languages.zh-cn]
+    locale = "zh-CN"
+    label = "简体中文"
+    weight = 2
+    title = "SIGIL"
+    [languages.zh-cn.params]
+      [languages.zh-cn.params.homeInfoParams]
+        content = "一个克制的 Hugo 文学主题——纸、墨，万物成三。长文、研究笔记与阅读札记，为纸面而排，不为信息流。"
+    [[languages.zh-cn.menus.main]]
+        identifier = "typography"
+        name = "排版"
+        pageRef = "posts/typography"
+    [[languages.zh-cn.menus.main]]
+        identifier = "archives"
+        name = "归档"
+        pageRef = "archives"
+    [[languages.zh-cn.menus.main]]
+        identifier = "docs"
+        name = "文档"
+        pageRef = "docs"
+    [[languages.zh-cn.menus.main]]
+        identifier = "about"
+        name = "关于"
+        pageRef = "about"
+    [[languages.zh-cn.menus.main]]
+        identifier = "search"
+        name = "搜索"
+        pageRef = "search"
+
+  [languages.ja]
+    locale = "ja"
+    label = "日本語"
+    weight = 3
+    title = "SIGIL"
+    [languages.ja.params]
+      [languages.ja.params.homeInfoParams]
+        content = "Hugo の控えめな文学テーマ——紙とインク、三つ組。長文、研究ノート、読書録。フィードではなく、紙面のために組む。"
+    [[languages.ja.menus.main]]
+        identifier = "typography"
+        name = "組版"
+        pageRef = "posts/typography"
+    [[languages.ja.menus.main]]
+        identifier = "archives"
+        name = "アーカイブ"
+        pageRef = "archives"
+    [[languages.ja.menus.main]]
+        identifier = "docs"
+        name = "ドキュメント"
+        pageRef = "docs"
+    [[languages.ja.menus.main]]
+        identifier = "about"
+        name = "About"
+        pageRef = "about"
+    [[languages.ja.menus.main]]
+        identifier = "search"
+        name = "検索"
+        pageRef = "search"
 
 [params]
   mainSections = ["posts"]
-  author = "Your Name"
   ShowBreadCrumbs = true
   ShowReadingTime = true
   ShowWordCount = true
   ShowTotalWords = true
-  sgDaysInCage = true
   hideSummary = true
   ShowToc = true
   TocOpen = true
   ShowCodeCopyButtons = true
   ShowPostNavLinks = true
   ogAutoCard = true
+  # 内附字体只覆盖拉丁字母;不配的话中日文标题在 OG 卡片上是豆腐块
+  # ——分享到社交平台时读者第一眼就是那行空框。子集只含 demo 实际出现
+  # 的 42 个非拉丁字加拉丁基本集,57KB;来源 Noto Serif SC,OFL 1.1。
+  ogCardFont = "og/plex-serif-cjk-subset.ttf"
   # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
   robotsNoIndex = true
 
+  # 首页状态条:示例内容,展示 SIGIL 适合的场景(数字花园/阅读笔记/文化评论)。
+  # 均为虚构示例,非真实站点数据;sgDaysInCage("Day N in the Cage")属个人站点
+  # 计数,不适合公开 demo,故不设。
+  sgHomeTitle = "Notes from the Margins"
+  sgReading = "The Book of Disquiet"
+  sgListening = "An Anthology of Ambient Works"
+  sgWatching = "Stalker, again"
+  sgPlaying = "Disco Elysium"
+  sgWriting = "a long essay on marginalia"
+  sgExploring = "typography and the digital garden"
+
   [[params.socialIcons]]
     name = "github"
-    url = "https://github.com"
-
-  [params.assets]
-    theme_color = "#f4f6f3"
+    url = "https://github.com/ouatis/hugo-theme-sigil"
 
 [outputs]
   home = ["HTML", "RSS", "LLMSTXT", "JSONFeed"]

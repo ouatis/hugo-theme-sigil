@@ -54,8 +54,16 @@
   translation: Pagination
 - id: sgNowReading
   translation: "Reading:"
+- id: sgNowListening
+  translation: "Listening:"
+- id: sgNowWatching
+  translation: "Watching:"
 - id: sgNowPlaying
   translation: "Playing:"
+- id: sgNowWriting
+  translation: "Writing:"
+- id: sgNowExploring
+  translation: "Exploring:"
 
 # 分页(列表页)用「页」,区别于文章导航的 prev_page/next_page
 - id: pagination_prev
@@ -129,3 +137,40 @@
   translation: "Site navigation"
 - id: postNavAria
   translation: "Post navigation"
+# Optional explanatory figures (English fallback for other locales).
+- id: sgShelfTitle
+  translation: "Volumes at a glance"
+- id: sgShelfHint
+  translation: "Select a spine to jump to its volume. The books are a reading map, not published editions."
+- id: sgShelfContentHint
+  translation: "Select a spine to jump to its volume. Thickness reflects the amount of published text, not completion or printed editions."
+- id: sgShelfAmount
+  translation: "Published content: approx. {{ .Words }} words across {{ .Chapters }} chapters."
+- id: sgAnatomyTitle
+  translation: "Anatomy of a reading page"
+- id: sgAnatomyExplode
+  translation: "Separate the parts"
+- id: sgAnatomyParts
+  translation: "Page components"
+- id: sgAnatomyHeader
+  translation: "Header"
+- id: sgAnatomyBody
+  translation: "Body"
+- id: sgAnatomyNotes
+  translation: "Sidenotes"
+- id: sgAnatomyToc
+  translation: "Contents"
+- id: sgAnatomyFooter
+  translation: "Footer"
+- id: sgAnatomyHeaderDescription
+  translation: "Site identity, language switching, and navigation live above the reading page."
+- id: sgAnatomyBodyDescription
+  translation: "The reading column holds the title, paragraphs, quotations, and code. Its line length keeps long-form reading comfortable."
+- id: sgAnatomyNotesDescription
+  translation: "Ordinary Markdown footnotes move into the margin on wide screens and remain endnotes on narrow screens. This diagram separates their role, not their actual mobile position."
+- id: sgAnatomyTocDescription
+  translation: "The table of contents comes from the article's headings and is shown when enabled. It helps readers find their place without changing the text."
+- id: sgAnatomyFooterDescription
+  translation: "Credits and site metadata sit after the words. They close the page without becoming part of the article."
+- id: sgAnatomyHint
+  translation: "A component diagram, not a screenshot. Select a part to read its role; separate the parts to see their relationship."

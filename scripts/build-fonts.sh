@@ -61,6 +61,7 @@ if [ "$MODE" = "latin" ]; then
 elif [ "$MODE" = "corpus" ]; then
     fetch_package "plex-sans"
     fetch_package "plex-sans-sc"
+    fetch_package "plex-sans-jp"
 else
     for pkg in plex-sans plex-sans-sc plex-sans-jp; do
         fetch_package "$pkg"
@@ -79,6 +80,11 @@ if [ "$MODE" = "corpus" ]; then
         tar -xzf "${CACHE_DIR}/plex-sans-sc-${IBM_PLEX_VERSION}.tgz" \
             -C "${CACHE_DIR}/work" --strip-components=5 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
             "package/fonts/complete/woff2/hinted/IBMPlexSansSC-${weight}.woff2"
+    done
+    for weight in Regular Bold; do
+        tar -xzf "${CACHE_DIR}/plex-sans-jp-${IBM_PLEX_VERSION}.tgz" \
+            -C "${CACHE_DIR}/work" --strip-components=5 ${TAR_WILDCARDS[@]+"${TAR_WILDCARDS[@]}"} \
+            "package/fonts/complete/woff2/hinted/IBMPlexSansJP-${weight}.woff2"
     done
 fi
 
@@ -107,7 +113,18 @@ for path in glob.glob("static/fonts/ibm-plex/*/*.css"):
     css = open(path, encoding="utf-8").read()
     if "font-display" in css:
         continue
-    css, n = re.subn(r'(@font-face\s*\{[^}]*?)\}', r'\1  font-display: swap;\n}', css)
+    # The official split css ends each @font-face on a property with no
+    # trailing semicolon (usually unicode-range). Appending font-display
+    # without one would merge the two: the CSS parser reads
+    # "unicode-range: U+... font-display: swap" as one declaration, so the
+    # range is ignored and font-display never applies. Ensure the captured
+    # body ends with a semicolon before appending.
+    def _semi(m):
+        body = m.group(1).rstrip()
+        if not body.endswith(";"):
+            body += ";"
+        return f"{body}\n  font-display: swap;\n}}"
+    css, n = re.subn(r'(@font-face\s*\{[^}]*?)\}', _semi, css)
     open(path, "w", encoding="utf-8").write(css)
     print(f"font-display: swap -> {path} ({n} faces)")
 PY
@@ -130,6 +147,7 @@ fi
         printf '%s\n' '@import url("./jp/IBMPlexSansJP-Bold.css");'
     elif [ "$MODE" = "corpus" ]; then
         printf '%s\n' '@import url("./sc/corpus.css");'
+        printf '%s\n' '@import url("./jp/corpus.css");'
     fi
 } > "${FONT_DIR}/result.css"
 

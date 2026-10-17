@@ -14,3 +14,4 @@ static/fonts/ibm-plex/jp/
 
 # Fonts copied into the demo at build time (CI: cp -r static/fonts exampleSite/static/)
 exampleSite/static/
+exampleSite/public-preview/

@@ -1,0 +1,15 @@
+{{- /* Resolve published local chapter links across languages, without assuming
+     that a permalink is a source-file path. Do not count another shelf page:
+     rendering its WordCount from a shelf could create a content cycle. */ -}}
+{{- $pages := dict -}}
+{{- range hugo.Sites -}}
+    {{- range .RegularPages -}}
+        {{- if and (not .Draft) (not (.PublishDate.After now)) (not (.HasShortcode "volume-shelf")) -}}
+            {{- if or .ExpiryDate.IsZero (.ExpiryDate.After now) -}}
+                {{- $path := (urls.Parse .RelPermalink).Path | strings.TrimSuffix "/" -}}
+                {{- $pages = merge $pages (dict $path .) -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return $pages -}}
