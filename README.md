@@ -1,19 +1,21 @@
-# hugo-theme-sigil
+# SIGIL
 
 **English** | [中文](README.zh.md) | [日本語](README.ja.md)
 
+*Ink, paper, and everything in threes.*
+
 <p>
-  <img src="https://img.shields.io/github/v/release/ouatis/hugo-theme-sigil?style=flat-square&label=version&color=ad3e32" alt="Latest release">
-  <img src="https://img.shields.io/github/downloads/ouatis/hugo-theme-sigil/total?style=flat-square&label=downloads&color=d0a85c" alt="Downloads">
-  <img src="https://img.shields.io/github/license/ouatis/hugo-theme-sigil?style=flat-square&label=license&color=2f6754" alt="MIT License">
+  <a href="https://ouatis.com/hugo-theme-sigil/">
+    <img src="https://img.shields.io/badge/Live%20Demo→ouatis.com-1a73e8?style=flat-square" alt="Live Demo">
+  </a>
+  <img src="https://img.shields.io/badge/Hugo→≥0.166.0-AD3E32?style=flat-square&label=hugo&color=ad3e32" alt="Hugo ≥ 0.166.0">
+  <img src="https://img.shields.io/badge/license-MIT-2F6754?style=flat-square&label=license&color=2f6754" alt="MIT License">
 </p>
 
 A restrained literary theme for [Hugo](https://gohugo.io/), based on
 [PaperMod](https://github.com/adityatelange/hugo-PaperMod).
 
-Demo: <https://ouatis.com/hugo-theme-sigil/>
-
-![SIGIL in light and dark mode](images/sigil-preview.jpg)
+![SIGIL screenshot](images/screenshot.png)
 
 **Requires [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
 (the theme uses `images.Text` for OG cards, which needs the extended build).
@@ -21,19 +23,20 @@ Demo: <https://ouatis.com/hugo-theme-sigil/>
 > The version badge above reflects the latest **tagged release**; the
 > [CHANGELOG](CHANGELOG.md) tracks every change up to the current `main`.
 
-## Features
+## Core Features
 
-- Tufte-style sidenotes on wide screens, endnotes on narrow screens
-- Ghost-year archive index
-- Circular-reveal dark-mode toggle
-- Full-text RSS
-- IBM Plex typography with CJK font subsetting
-- JSON Feed 1.1 (`/feed.json`, alongside RSS, generated at build)
-- Search, taxonomies, breadcrumbs, TOC, code-copy buttons, and multilingual strings
-- Opt-in per page: KaTeX math (vendored), Mermaid diagrams (pinned CDN), image lightbox (glightbox, vendored)
-- Auto-generated OG card images from post titles (`images.Text`, build-time only)
-- External links marked with a door glyph via a render hook (host-aware, no hardcoded domains)
-- `llms.txt` (and optional `llms-full.txt`) — a machine-readable site index for AI agents
+- **Three-ink typesetting on old paper** — vermilion, ink-green and amber, each carrying a fixed role rather than decorating
+- **Circular-reveal dark mode** via the View Transitions API — the toggle expands as an ink blot from the button, not a whole-page fade
+- **Zero-config Tufte sidenotes** — at `>=1280px` footnotes are cloned into the right margin automatically; narrow screens fall back to endnotes. No shortcodes, no per-post flags
+- **Cinnabar seal and a three-state status bar** — the homepage `∴` seal sits beside a rotating Reading / Playing / Motto strip (plus Listening / Watching / Writing / Exploring, all optional)
+- **Ghost-year archives** — years as watermarked ghosts in the margin, numbered entries counted oldest-first
+- **IBM Plex built in**, with a CJK subsetting pipeline (`build-fonts`) that ships only the characters your corpus actually uses
+- **Full-text RSS** and JSON Feed 1.1 (`/feed.json`) generated at build
+- **Client-side search** (Fuse.js, vendored) with a JSON index — no external service
+- **Opt-in per page**: KaTeX math (vendored), Mermaid diagrams (pinned CDN), image lightbox (glightbox, vendored) — nothing loads on pages that don't ask
+- **Auto-generated OG card images** from post titles (`images.Text`, build-time only)
+- **External-link door markers** via a render hook — host-aware, no hardcoded domains
+- **`llms.txt` / `llms-full.txt`** — a machine-readable site index for AI agents
 - Maintainers and agents: see [AGENTS.md](AGENTS.md) for build/verify commands and pitfalls; `scripts/check.sh` is the one-shot verification
 
 ## Install
@@ -72,13 +75,45 @@ hugo server --themesDir ../..
 
 ## Configuration
 
-Common PaperMod options work as usual. Sigil-specific options:
+Common PaperMod options work as usual. The essential Sigil block:
+
+```toml
+[params]
+  mainSections = ["posts"]
+
+  # Homepage hero — every line below is optional; omit any and it simply doesn't render
+  sgKicker    = "Notes from the Margins"   # small line above the title
+  sgHomeTitle = "SIGIL"                    # falls back to site.Title
+  sgSealImage = "/images/seal.png"         # falls back to the ∴ glyph
+  homePageSize = 10                        # posts per page; default is all
+
+  # Status bar — any subset, rotates every 6s (honours prefers-reduced-motion)
+  sgReading = "The Book of Disquiet"
+  sgPlaying = "Disco Elysium"
+  sgMotto   = "Ink, paper, and everything in threes."
+
+  # Client-side search: needs the JSON output format and a search page
+[outputs]
+  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+
+[params.fuseOpts]
+  isCaseSensitive = false
+  shouldSort      = true
+  minMatchCharLength = 2
+  keys = ["title", "summary", "content"]
+
+  # Tufte sidenotes require raw HTML in markdown
+[markup.goldmark.renderer]
+  unsafe = true
+```
+
+Sigil-specific options in full:
 
 | Parameter | Default | Purpose |
 | --- | --- | --- |
 | `sgKicker` | hidden | Text above the homepage title |
 | `sgHomeTitle` | site title | Homepage title |
-| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | hidden | Homepage status line |
+| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | hidden | Homepage status line; any subset renders, all are optional |
 | `sgSealImage` | `∴` | Homepage seal image |
 | `sgDaysInCage` | `false` | Status line day counter — "Day N in the Cage", counted from the earliest post |
 | `ShowFullTextinRSS` | `false` | Include full articles in RSS |

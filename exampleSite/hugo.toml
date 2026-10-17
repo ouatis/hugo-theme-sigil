@@ -1,4 +1,4 @@
-baseURL = "https://example.com/"
+baseURL = "https://example.org/"
 title = "SIGIL"
 theme = "hugo-theme-sigil"
 
@@ -111,10 +111,23 @@ defaultContentLanguage = "en"
   # demo 托管在 ouatis.com 子目录下,不进搜索引擎索引
   robotsNoIndex = true
 
-  # 首页状态条:示例内容,展示 SIGIL 适合的场景(数字花园/阅读笔记/文化评论)。
+  # ===== 首页 Hero:整块全部可选,删掉任何一行都不会留下空容器 =====
+  # sgKicker:标题上方的小号字。留空则不渲染该元素(不是渲染一个空 <p>)
+  sgKicker = "A Hugo theme"
+  # sgHomeTitle:首页大标题。留空则回退 site.Title
+  sgHomeTitle = "Notes from the Margins"
+  # sgSealImage:朱砂印章图。留空则回退 ∴ 字符(2026-10 起是一枚会看的 SVG 眼睛)。
+  # 路径相对 static/,写 "/images/seal.png" 即指向 static/images/seal.png
+  # sgSealImage = "/images/seal.png"
+  # homePageSize:首页每页篇数。不设则用全站 paginate;设 0 同样视为不设
+  homePageSize = 10
+
+  # ===== 三态状态条:每 6 秒轮换一条,尊重 prefers-reduced-motion =====
+  # 示例内容,展示 SIGIL 适合的场景(数字花园/阅读笔记/文化评论)。
   # 均为虚构示例,非真实站点数据;sgDaysInCage("Day N in the Cage")属个人站点
   # 计数,不适合公开 demo,故不设。
-  sgHomeTitle = "Notes from the Margins"
+  # 任何一项删掉都不渲染;全删则整条状态条(含轮换脚本)都不出现。
+  sgMotto = "Ink, paper, and everything in threes."
   sgReading = "The Book of Disquiet"
   sgListening = "An Anthology of Ambient Works"
   sgWatching = "Stalker, again"
@@ -126,11 +139,28 @@ defaultContentLanguage = "en"
     name = "github"
     url = "https://github.com/ouatis/hugo-theme-sigil"
 
+# ===== 客户端搜索 =====
+# home 输出必须含 "JSON":/index.json 是 Fuse.js 的索引源,缺了它 search 页
+# 只有壳没有数据。搜索本体(fuse.basic.min.js + fastsearch.js)由主题内置,
+# 页面判定认 layout == "search"(菜单项 pageRef 指向 search 页即可)。
 [outputs]
-  home = ["HTML", "RSS", "LLMSTXT", "JSONFeed"]
+  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT"]
+
+# Fuse.js 检索参数;键名对应 front matter 字段。
+[params.fuseOpts]
+  isCaseSensitive = false
+  shouldSort = true
+  minMatchCharLength = 2
+  findAllMatches = true
+  threshold = 0.2
+  distance = 100
+  ignoreLocation = true
+  keys = ["title", "summary", "content", "tags"]
 
 [markup]
   [markup.goldmark]
+    # Tufte 侧边注依赖 markdown 里的原生 HTML(脚注由脚本克隆到右栏),
+    # 因此 unsafe 必须为 true;关掉它侧边注会退化成行内文字。
     [markup.goldmark.renderer]
       unsafe = true
     [markup.goldmark.extensions.passthrough]

@@ -32,7 +32,10 @@
       {{- with site.Params.sgKicker }}
       <p class="sg-kicker">{{ . }}</p>
       {{- end }}
-      <h1 id="sg-title">{{ with site.Params.sgHomeTitle }}{{ . }}{{ else }}{{ site.Title }}{{ end }}</h1>
+      {{- /* sgHomeTitle 判空:空串/纯空白一律回退 site.Title,不留空 h1 */ -}}
+      {{- $homeTitle := site.Params.sgHomeTitle | default "" -}}
+      {{- if not (strings.TrimSpace (printf "%v" $homeTitle)) -}}{{- $homeTitle = site.Title -}}{{- end -}}
+      <h1 id="sg-title">{{ $homeTitle }}</h1>
       {{- with site.Params.homeInfoParams.content }}
       <p class="sg-hero__intro">{{ . }}</p>
       {{- end }}
@@ -46,6 +49,11 @@
     {{- $sgMotto := site.Params.sgMotto -}}
       <figure class="sg-seal">
         <div class="sg-seal__frame">
+          {{- /* sgSealImage 判空:未配置或空串时 with 直接跳过,渲染 ∴ 兜底,
+                 既不留空 <img> 也不留空容器。文件配了但不存在的场景不在此兜底:
+                 os.FileExists 与 readDir 的基准是站点根,看不到主题 static 目录下
+                 挂载的文件,会把合法配置误判成不存在;这类错误由 validate.html
+                 在构建期发 warnf,作者能看到即可,不在页面上静默掩盖。 */ -}}
           {{- with site.Params.sgSealImage }}
           <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320" fetchpriority="high">
           {{- else }}

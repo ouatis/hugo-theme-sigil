@@ -23,7 +23,13 @@
     {{- .Summary | default (printf "%s - %s" .Title  site.Title) }}{{- else }}
     {{- with site.Params.description }}{{ . }}{{- end }}{{- end }}{{- end -}}">
 <meta name="author" content="{{ (partial "author.html" . ) }}">
-<link rel="canonical" href="{{ if .Params.canonicalURL -}} {{ trim .Params.canonicalURL " " }} {{- else -}} {{ .Permalink }} {{- end }}">
+{{- /* Canonical:唯一权威恒为 .Permalink。
+      原先允许 .Params.canonicalURL 覆盖,但 front matter 里一个手写的值就能把
+      规范指向指到别处(分页 /search/?q= 、旧域名、带 utm 的分享链),这正是
+      Search Console 报「重定向索引冲突」的常见来源;SEO 纪律上,指向哪一页是
+      权威只应由 baseURL + 站点结构决定,不交给单页内容作者。
+      若确有正当的跨域规范需求,请在 extend_head.html 里自行输出。 */ -}}
+<link rel="canonical" href="{{ .Permalink }}">
 {{- if site.Params.analytics.google.SiteVerificationTag }}
 <meta name="google-site-verification" content="{{ site.Params.analytics.google.SiteVerificationTag }}">
 {{- end }}
@@ -116,9 +122,17 @@
 {{ range .AlternativeOutputFormats -}}
 <link rel="{{ .Rel }}" type="{{ .MediaType.Type | html }}" href="{{ .Permalink | safeURL }}" title="{{ .Name }}">
 {{ end -}}
-{{- range .AllTranslations -}}
+{{- /* hreflang:仅在有翻译时输出。
+      .AllTranslations 含当前页自身,直接 range 会给每一页都发一条指向自己的
+      hreflang——冗余且可能让搜索引擎在同语种间反复比对。这里跳过自身。
+      x-default 由 extend_head.html 统一输出(兜底到中文版),此处不重复发。 */ -}}
+{{- if .IsTranslated -}}
+  {{- range .AllTranslations -}}
+    {{- if ne .Lang $.Lang -}}
 <link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}">
-{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 
 <noscript>
     <style>
