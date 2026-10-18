@@ -20,6 +20,7 @@ Writes: static/fonts/ibm-plex/sc/corpus.css and .../sc/*-corpus.woff2
 """
 import glob
 import os
+import re
 import subprocess
 import sys
 
@@ -28,6 +29,31 @@ os.chdir(ROOT)
 
 # CSS output uses LF regardless of this script's own line endings.
 NL = "\n"
+
+# Comments never reach a page, but this scan reads source files as plain text —
+# so an editor-facing note would pull its glyphs into the subset and spend the
+# font budget on characters nobody downloads. On 2026-10-17, 34 lines of Chinese
+# commentary added to exampleSite/hugo.toml grew the SC subset by 10KB, tripped
+# check.sh's font budget, and blocked the demo deploy over a documentation change.
+# Strip comments before collecting characters.
+HTML_COMMENT = re.compile(r"<!--.*?-->", re.S)
+
+
+def rendered_text(path, text):
+    """Drop the parts of a source file that no page ever renders."""
+    if path.endswith(".toml"):
+        # TOML has no block comment form, so a line comment is the whole line.
+        # This config has no triple-quoted strings, so nothing else can open a
+        # line with '#'.
+        return NL.join(
+            line for line in text.split(NL)
+            if not line.strip().startswith("#")
+        )
+    # Markdown and HTML: drop HTML comments only. Markdown body text is
+    # rendered, so it stays. YAML front matter '#' comments are still counted;
+    # they are ASCII in practice, and not worth a parser here.
+    return HTML_COMMENT.sub("", text)
+
 
 SCAN = ["exampleSite/content/**/*.md", "exampleSite/hugo.toml",
         "exampleSite/layouts/**/*.html"]
@@ -39,6 +65,7 @@ for pat in SCAN:
             text = open(path, encoding="utf-8").read()
         except UnicodeDecodeError:
             continue
+        text = rendered_text(path, text)
         # SC covers every CJK glyph anywhere on the site — including the
         # traditional-character poem quoted in footnotes on the English page.
         # IBM Plex Sans SC carries those forms; if they are missing from the
@@ -59,6 +86,7 @@ for path in glob.glob("exampleSite/i18n/**/*", recursive=True):
             nav = open(path, encoding="utf-8").read()
         except UnicodeDecodeError:
             continue
+        nav = rendered_text(path, nav)
         site_chars |= set(nav)
         ja_chars |= set(nav)
 
