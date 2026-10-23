@@ -61,7 +61,7 @@ Front matter or site params the theme reads:
 | `sgSeriesFrom`, `sgSeriesTab` | series navigation (site-level) |
 | `archives.showAuthor` | author on archive rows (default off) |
 
-Sigil-specific site params use the `sg*` prefix (`sgKicker`, `sgHomeTitle`,
+SIGIL-specific site params use the `sg*` prefix (`sgKicker`, `sgHomeTitle`,
 `sgReading`, `sgPlaying`, `sgMotto`, `sgSealImage`, `sgDaysInCage`,
 `sgSearchEmpty`, `sgSeriesFrom`, `sgSeriesTab`). Inherited PaperMod params
 keep their names.

@@ -16,7 +16,7 @@ Anything **not** listed here is internal and may change without notice.
 
 ## Site params
 
-### Sigil-native
+### SIGIL-native
 
 | Param | Purpose |
 | --- | --- |

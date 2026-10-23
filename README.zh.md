@@ -18,7 +18,7 @@
 **需要 [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
 （主题用 `images.Text` 生成 OG 卡片，需要 extended 构建）。
 
-> 上方版本徽标反映的是最新**已打标签的发布版**；[CHANGELOG](CHANGELOG.md) 记录到当前 `main` 的全部变更。
+> 上方版本徽标反映的是最新**已打标签的发布版**；每个 tag 的说明就写在 tag 信息里（`git tag -l -n20`）。
 
 ## 特性
 

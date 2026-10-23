@@ -41,7 +41,7 @@
 - id: posts_language_note
   translation: "Posts are currently available in Chinese only."
 
-# Sigil:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+# SIGIL:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
 - id: recentWriting
   translation: "Updated My Journal"
 - id: postsSuffix
@@ -71,7 +71,7 @@
 - id: pagination_next
   translation: "Next"
 
-# Sigil:通用 UI 字串(404/搜索/发现导航/相关文章/归档/术语页/系列/页脚)。
+# SIGIL:通用 UI 字串(404/搜索/发现导航/相关文章/归档/术语页/系列/页脚)。
 # 模板一律 i18n "key" | default "英文" 兜底,新增语言缺失键时界面不残缺
 - id: notFoundLead
   translation: "You've walked into a lane that doesn't exist."

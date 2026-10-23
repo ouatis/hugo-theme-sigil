@@ -20,8 +20,8 @@ A restrained literary theme for [Hugo](https://gohugo.io/), based on
 **Requires [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
 (the theme uses `images.Text` for OG cards, which needs the extended build).
 
-> The version badge above reflects the latest **tagged release**; the
-> [CHANGELOG](CHANGELOG.md) tracks every change up to the current `main`.
+> The version badge above reflects the latest **tagged release**; each tag
+> message carries its own notes (`git tag -l -n20`).
 
 ## Core Features
 
@@ -76,7 +76,7 @@ hugo server --themesDir ../..
 
 ## Configuration
 
-Common PaperMod options work as usual. The essential Sigil block:
+Common PaperMod options work as usual. The essential SIGIL block:
 
 ```toml
 [params]
@@ -108,7 +108,7 @@ Common PaperMod options work as usual. The essential Sigil block:
   unsafe = true
 ```
 
-Sigil-specific options in full:
+SIGIL-specific options in full:
 
 | Parameter | Default | Purpose |
 | --- | --- | --- |

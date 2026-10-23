@@ -41,7 +41,7 @@
 - id: posts_language_note
   translation: "記事は現在、中国語のみの掲載です。"
 
-# Sigil:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+# SIGIL:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
 - id: recentWriting
   translation: "最近の更新"
 - id: postsSuffix
@@ -59,7 +59,7 @@
 - id: pagination_next
   translation: "次へ"
 
-# Sigil:汎用 UI 文字列(404/検索/ナビ/関連記事/アーカイブ/シリーズ/フッター)
+# SIGIL:汎用 UI 文字列(404/検索/ナビ/関連記事/アーカイブ/シリーズ/フッター)
 - id: notFoundLead
   translation: "存在しない路地に迷い込みました。"
 - id: searchInputLabel

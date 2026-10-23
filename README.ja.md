@@ -18,7 +18,7 @@
 **[Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0 が必要です**
 （OG カード生成に `images.Text` を使うため、extended ビルドが必須）。
 
-> 上部のバージョンバッジは最新の**タグ付きリリース**を反映します。[CHANGELOG](CHANGELOG.md) は現在の `main` までの全変更を記録しています。
+> 上部のバージョンバッジは最新の**タグ付きリリース**を反映します。各タグの内容はタグメッセージ自体に記録しています（`git tag -l -n20`）。
 
 ## 特徴
 
