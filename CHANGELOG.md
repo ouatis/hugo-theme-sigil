@@ -3,8 +3,10 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
-## Unreleased
+## v0.10.3
 
+- RTL: right-to-left languages (ar/ckb/fa/he) now mirror the full layout — direction-bearing CSS moved to logical properties (identity in LTR), sidenotes float `inline-end`, the floating TOC and running head swap gutters, content arrows (entries, pagination, related posts, series carets) flip under `[dir="rtl"]`, and baseof's `dir` fallback becomes `ltr` instead of content-sniffing `auto`.
+- archetypes: `posts.md` and `default.md` scaffold the theme's front matter — per-page opt-ins (math/mermaid/lightbox/ShowToc/searchHidden), series and cover — as commented-out keys.
 - fonts: the corpus scan now strips comments before building the CJK subset — exampleSite's Chinese maintenance comments had been scanned as prose, adding 32 glyphs (+10 KB) and pushing the SC subset past the 280 KB budget; stripping brings it back to 693 glyphs / 197 KB (Regular+Bold).
 
 ## v0.10.2

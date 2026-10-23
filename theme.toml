@@ -12,7 +12,7 @@ features = [
   "dark & light modes",
   "on-the-fly search (fuse)",
   "archives, taxonomies, breadcrumbs",
-  "multilingual (zh/en/ja built in)",
+  "multilingual (47 interface languages, RTL aware)",
   "opt-in KaTeX math and mermaid diagrams (vendored / pinned CDN)",
   "opt-in image lightbox (glightbox, vendored)",
   "auto-generated OG card images from titles (images.Text)",

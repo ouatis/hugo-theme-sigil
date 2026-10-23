@@ -40,7 +40,9 @@ lightbox = true  # click-to-enlarge images
   the end. Same Markdown, no theme-specific syntax.
 - **Multilingual** — give translations the same `translationKey`; the language
   switcher jumps to the matching post. Pages without a translation fall back
-  to that language's home.
+  to that language's home. Right-to-left languages (Arabic, Persian, Hebrew,
+  Central Kurdish) mirror the whole layout — sidenotes, the floating TOC,
+  arrows — when the language declares `direction = "rtl"` in your site config.
 - **Fonts** — `latin` (default, clean checkout), `corpus` (demo CJK, ~30 KB),
   or `full` (complete SC + JP, ~3 MB). Pick per site, not per page.
 

@@ -94,7 +94,7 @@ body {
 .skip-link {
     position: fixed;
     top: 12px;
-    left: 12px;
+    inset-inline-start: 12px;
     z-index: 200;
     padding: 8px 14px;
     background: var(--entry);
@@ -120,7 +120,7 @@ body {
 .post-content td {
     border: 1px solid var(--border);
     padding: 6px 12px;
-    text-align: left;
+    text-align: start;
     vertical-align: top;
 }
 .post-content thead th {
@@ -227,7 +227,8 @@ button#theme-toggle {
     display: inline-grid;
     width: 36px;
     height: 36px;
-    margin: auto 0 auto 10px;
+    margin: auto 0;
+    margin-inline-start: 10px;
     place-items: center;
     /* 工具弱化:idle 去框,层级让给词标与导航;hover/focus 完整恢复 */
     border: 1px solid transparent;
@@ -402,7 +403,7 @@ a[hreflang="ja"] {
 .sg-hero__social .social-icons {
     display: flex;
     gap: 4px;
-    margin-left: -10px;
+    margin-inline-start: -10px;
 }
 
 .sg-hero__social a {
@@ -605,7 +606,7 @@ html[data-theme="dark"] .sg-seal img {
 .sg-section-head::after {
     content: "";
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     bottom: 0;
     width: 56px;
     height: 2px;
@@ -621,7 +622,7 @@ html[data-theme="dark"] .sg-seal img {
 }
 
 .sg-section-head__en {
-    margin-left: 14px;
+    margin-inline-start: 14px;
     color: var(--secondary);
     font-family: var(--sg-serif);
     font-style: italic;
@@ -661,7 +662,8 @@ html[data-theme="dark"] .sg-seal img {
     grid-template-columns: 112px minmax(0, 1fr) 32px;
     align-items: center;
     gap: 24px;
-    padding: 20px 0 20px 76px;
+    padding: 20px 0;
+    padding-inline-start: 76px;
     border-bottom: 1px solid color-mix(in srgb, var(--border) 62%, transparent);
 }
 
@@ -810,7 +812,7 @@ html[data-theme="dark"] .sg-seal img {
 }
 
 .sg-pagination__side--right {
-    text-align: right;
+    text-align: end;
 }
 
 .sg-pagination__side a {
@@ -881,7 +883,7 @@ html[data-theme="dark"] .sg-seal img {
 .post-header::after {
     position: absolute;
     bottom: -1px;
-    left: 0;
+    inset-inline-start: 0;
     width: 48px;
     height: 1px;
     background: var(--sg-red);
@@ -1013,7 +1015,7 @@ html[data-theme="dark"] .sg-seal img {
 .post-content h5,
 .post-content h6 {
     font-family: var(--sg-serif);
-    text-align: left;
+    text-align: start;
     text-wrap: balance;
     scroll-margin-top: calc(var(--header-height) + 16px);
 }
@@ -1276,7 +1278,7 @@ h6:hover .anchor {
         display: block;
         position: fixed;
         top: calc(var(--header-height) + 48px);
-        left: calc((100vw - var(--main-width)) / 2 - 309px);
+        inset-inline-start: calc((100vw - var(--main-width)) / 2 - 309px);
         font-family: var(--sg-serif);
     }
 
@@ -1315,12 +1317,17 @@ h6:hover .anchor {
     .sg-toc__panel {
         position: absolute;
         top: 0;
-        left: 40px;
+        inset-inline-start: 40px;
         width: 224px;
         visibility: hidden;
         opacity: 0;
         transform: translateX(-6px);
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    }
+
+    /* RTL:面板朝内容侧展开,入场位移随之镜像 */
+    [dir="rtl"] .sg-toc__panel {
+        transform: translateX(6px);
     }
 
     /* 用 ID 精确定位:系列面板共享 .sg-toc__panel 几何,若按类展开会连带系列面板 */
@@ -1358,7 +1365,8 @@ h6:hover .anchor {
 
 .sg-toc #TableOfContents a {
     display: block;
-    padding: 5px 0 5px 12px;
+    padding-block: 5px;
+    padding-inline-start: 12px;
     border-inline-start: 2px solid transparent;
     color: var(--secondary);
     font-size: 13px;
@@ -1466,7 +1474,7 @@ h6:hover .anchor {
 .page-header::after {
     position: absolute;
     bottom: -1px;
-    left: 0;
+    inset-inline-start: 0;
     width: 72px;
     height: 2px;
     background: var(--sg-red);
@@ -1523,7 +1531,7 @@ h6:hover .anchor {
 .archive-year-header {
     position: absolute;
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
     z-index: 0;
     margin: 0;
     font-family: var(--sg-sans);
@@ -1564,7 +1572,8 @@ h6:hover .anchor {
 
 .archive-entry::before {
     position: absolute;
-    inset: 0 auto 0 0;
+    inset-block: 0;
+    inset-inline-start: 0;
     width: 2px;
     background: var(--sg-red);
     content: "";
@@ -2606,10 +2615,12 @@ html .header {
 @media (min-width: 1280px) {
     .sidenote {
         --note-w: 200px;
-        float: right;
-        clear: right;
+        float: inline-end;
+        clear: inline-end;
         width: var(--note-w);
-        margin: 4px calc(-1 * var(--note-w) - 36px) 18px 20px;
+        margin-block: 4px 18px;
+        margin-inline-start: 20px;
+        margin-inline-end: calc(-1 * var(--note-w) - 36px);
         color: var(--sg-note);
         font-family: var(--sg-sans);
         font-size: 14px;
@@ -2706,7 +2717,7 @@ html .header {
 .sg-series__tbd-mark {
     font-size: 11px;
     opacity: 0.85;
-    margin-left: 4px;
+    margin-inline-start: 4px;
 }
 
 /* details 展开动画:content-visibility + interpolate-size 渐进增强,
@@ -2790,7 +2801,7 @@ details[open]::details-content {
     font-weight: 600;
 }
 .sg-series__volume.is-current-vol > summary::before { color: var(--sg-red); }
-.sg-series__volume .sg-series__list { padding: 0 0 6px 10px; }
+.sg-series__volume .sg-series__list { padding: 0 0 6px; padding-inline-start: 10px; }
 
 /* ===== 任务清单:薄框小盒,完成落一枚墨绿勾——任务日志的气质,不是游戏 UI =====
    勾用 CSS 边框画,不走字体(字形不在子集语料的教训);日期以小号次色跟随 */
@@ -2806,7 +2817,8 @@ details[open]::details-content {
     -webkit-appearance: none;
     width: 12px;
     height: 12px;
-    margin: 0 9px 0 0;
+    margin: 0;
+    margin-inline-end: 9px;
     border: 1px solid var(--secondary);
     border-radius: 2px;
     background: transparent;
@@ -2902,7 +2914,7 @@ body::before {
         display: block;
         position: fixed;
         top: calc(var(--header-height) + 48px);
-        right: calc((100vw - var(--main-width)) / 2 - 309px);
+        inset-inline-end: calc((100vw - var(--main-width)) / 2 - 309px);
         writing-mode: vertical-rl;
         color: var(--sg-green);
         font-family: var(--sg-sans);
@@ -2922,4 +2934,60 @@ body::before {
     .sg-running-head {
         transition: none;
     }
+}
+
+/* ===== RTL:dir="rtl" 语言(ar/ckb/fa/he)的镜像补全 =====
+   方向性定位/间距上文已改用逻辑属性(inline-start/end),LTR 下取值不变;
+   这里只收逻辑属性表达不了的:transform 系、内容箭头与竖排页签的朝向。 */
+[dir="rtl"] .sg-js .sg-section-head::after,
+[dir="rtl"] .sg-js .post-header::after {
+    transform-origin: right center;
+}
+
+[dir="rtl"] .sg-entry__arrow {
+    display: inline-block;
+    transform: translateX(6px) scaleX(-1);
+}
+
+[dir="rtl"] .sg-entry:has(.sg-entry__link:hover) .sg-entry__arrow,
+[dir="rtl"] .sg-entry:has(.sg-entry__link:focus-visible) .sg-entry__arrow {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .sg-pagination__arrow {
+    display: inline-block;
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .related-posts li a::after {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .related-posts li a:hover::after,
+[dir="rtl"] .related-posts li a:focus-visible::after {
+    transform: translateX(-3px) scaleX(-1);
+}
+
+[dir="rtl"] .sg-series-details summary::before {
+    content: "◂ ";
+}
+
+[dir="rtl"] .sg-series__vol-caret {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .sg-series__volume[open] .sg-series__vol-caret {
+    transform: scaleX(-1) rotate(-90deg);
+}
+
+/* 悬浮目录页签:竖排书写模式下镜像须用物理属性,集中在这一处 */
+[dir="rtl"] .sg-toc__toggle {
+    padding: 22px 2px 6px 8px;
+    border-right: 0;
+    border-left: 1px solid var(--sg-green);
+}
+
+[dir="rtl"] .sg-toc__toggle:hover {
+    border-right-color: transparent;
+    border-left-color: var(--sg-red);
 }

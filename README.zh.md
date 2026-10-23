@@ -28,6 +28,7 @@
 - RSS 输出全文
 - IBM Plex 字体与 CJK 字体子集
 - JSON Feed 1.1(`/feed.json`,与 RSS 并存,构建期自动生成)
+- 47 门界面语言，右到左感知——RTL 站点（ar/fa/he/ckb）声明 `direction = "rtl"` 后整体镜像布局，含旁注与悬浮目录
 - 搜索、分类、标签、面包屑、目录、代码复制和多语言字符串
 - 页面级可选:KaTeX 数学(已同捆)、Mermaid 图表(定版 CDN)、图片灯箱(glightbox,已同捆)
 - 用文章标题自动生成 OG 卡片图(`images.Text`,仅构建期)

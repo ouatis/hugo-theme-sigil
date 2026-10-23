@@ -297,7 +297,7 @@
   <nav class="sg-pagination" aria-label="{{ i18n "paginationAria" | default "Pagination" }}">
     <span class="sg-pagination__side">
       {{- if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}" aria-label="{{ $prevWord }}"><span aria-hidden="true">←</span> <span class="sg-pagination__word">{{ $prevWord }}</span></a>
+      <a href="{{ $paginator.Prev.URL }}" aria-label="{{ $prevWord }}"><span class="sg-pagination__arrow" aria-hidden="true">←</span> <span class="sg-pagination__word">{{ $prevWord }}</span></a>
       {{- end }}
     </span>
     <ol class="sg-pagination__pages">
@@ -316,7 +316,7 @@
     </ol>
     <span class="sg-pagination__side sg-pagination__side--right">
       {{- if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}" aria-label="{{ $nextWord }}"><span class="sg-pagination__word">{{ $nextWord }}</span> <span aria-hidden="true">→</span></a>
+      <a href="{{ $paginator.Next.URL }}" aria-label="{{ $nextWord }}"><span class="sg-pagination__word">{{ $nextWord }}</span> <span class="sg-pagination__arrow" aria-hidden="true">→</span></a>
       {{- end }}
     </span>
   </nav>

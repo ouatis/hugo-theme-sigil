@@ -33,6 +33,7 @@ A restrained literary theme for [Hugo](https://gohugo.io/), based on
 - **IBM Plex built in**, with a CJK subsetting pipeline (`build-fonts`) that ships only the characters your corpus actually uses
 - **Full-text RSS** and JSON Feed 1.1 (`/feed.json`) generated at build
 - **Client-side search** (Fuse.js, vendored) with a JSON index — no external service
+- **47 interface languages, right-to-left aware** — RTL sites (ar/fa/he/ckb) mirror the full layout, sidenotes and floating TOC included, via logical properties and `direction = "rtl"`
 - **Opt-in per page**: KaTeX math (vendored), Mermaid diagrams (pinned CDN), image lightbox (glightbox, vendored) — nothing loads on pages that don't ask
 - **Auto-generated OG card images** from post titles (`images.Text`, build-time only)
 - **External-link door markers** via a render hook — host-aware, no hardcoded domains

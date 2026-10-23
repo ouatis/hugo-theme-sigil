@@ -104,6 +104,23 @@ post linked from that list gets series navigation and a floating panel:
   sgSeriesTab = "Lectures"       # tab label
 ```
 
+## Languages and right-to-left
+
+SIGIL ships 47 interface languages. Right-to-left ones (Arabic, Persian,
+Hebrew, Central Kurdish) mirror the whole layout — sidenotes, the floating
+TOC, arrows — when the language declares its direction:
+
+```toml
+[languages.fa]
+  label = "فارسی"
+  direction = "rtl"    # Hugo ≥ 0.158; the old key was languageDirection
+  weight = 3
+```
+
+Add the `[languages.xx]` block **before** adding `content/.xx.md` files: a
+translation file for a language that is not configured gets folded into the
+default language's own pages.
+
 ## Views counter and sparkline
 
 Provide `data/analytics.json` with `{"total": 0, "since": "2026-01-01",

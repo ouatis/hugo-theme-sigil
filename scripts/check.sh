@@ -215,6 +215,27 @@ if RISK not in raw:
 print("check: external-link arrow path is intact")
 PY
 
+# RTL: the 47 i18n files include four right-to-left languages (ar/ckb/fa/he).
+# Baseof emits dir from .Language.Direction, so a language declaring
+# direction = "rtl" must build cleanly and carry dir=rtl on <html>. The
+# overlay language exists only for this check; it is configured with no
+# content, which is exactly the state a fresh RTL site starts in.
+cp hugo.toml hugo.rtl-check.toml
+cat >> hugo.rtl-check.toml <<'EOF'
+
+[languages.fa]
+label = "فارسی"
+direction = "rtl"
+weight = 40
+EOF
+hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
+    --config hugo.rtl-check.toml --destination public-rtl-check \
+    || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "RTL overlay build failed (fa language)"; }
+grep -qE '<html[^>]*dir=rtl' public-rtl-check/fa/index.html \
+    || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "fa language built without dir=rtl on <html>"; }
+rm -rf public-rtl-check hugo.rtl-check.toml
+echo "check: RTL overlay builds and <html> carries dir=rtl"
+
 # Font budget: measure what ONE language's page actually loads, and hold the
 # budget to the worst language. The demo is multilingual (en/zh/ja); the SC
 # and JP corpus subsets are scanned from their own language's pages, so a
