@@ -3,6 +3,14 @@
 One line per tag; details in `git log`. API contract lives in
 [docs/api.md](docs/api.md).
 
+## Unreleased
+
+- fonts: the corpus scan now strips comments before building the CJK subset — exampleSite's Chinese maintenance comments had been scanned as prose, adding 32 glyphs (+10 KB) and pushing the SC subset past the 280 KB budget; stripping brings it back to 693 glyphs / 197 KB (Regular+Bold).
+
+## v0.10.2
+
+- Facade and SEO hardening for the Hugo Themes gallery: README rewritten as the theme's face (slogan, badges, screenshot, submodule install steps, `[params]` block), exampleSite standardized (`example.org` baseURL, JSON output for the Fuse index, commented params), template null-guards (empty `sgHomeTitle` falls back to `site.Title`, missing `sgSealImage` renders the `∴` fallback instead of an empty `<img>`), canonical always `.Permalink` (the `canonicalURL` override branch is gone), hreflang emitted only when a translation exists.
+
 ## v0.10.1
 
 - Scale `volume-shelf` spines by the published linked chapters' Hugo word counts, using a bounded relative scale with localized content summaries, cross-language permalink resolution, duplicate/unpublished-page exclusions, and equal-width fallback; counts refresh at build time without JavaScript or a separate volume manifest.
