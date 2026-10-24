@@ -1844,6 +1844,21 @@ h6:hover .anchor {
     transform: translateX(3px);
 }
 
+/* ===== 评论:giscus 参数门控(不开则零请求);绿色小字题头沿用相关文章语法,
+   容器融进纸面不添框——结尾栈的留白语法延伸到这里 ===== */
+.sg-comments {
+    margin: 44px 0 0;
+}
+
+.sg-comments__title {
+    margin: 0 0 10px;
+    color: var(--sg-green);
+    font-family: var(--sg-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
 /* Task list (about page) */
 .post-content ul:has(input[type="checkbox"]) {
     padding-inline-start: 0;

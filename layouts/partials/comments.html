@@ -1,3 +1,42 @@
-{{- /* Comments area start */ -}}
-{{- /* to add comments read => https://gohugo.io/content-management/comments/ */ -}}
-{{- /* Comments area end */ -}}
+{{- /* Giscus comments — opt-in twice over: the PaperMod `comments` switch and
+      a [params.giscus] block with repo / repoId / category / categoryId.
+      Unconfigured, this renders nothing and loads nothing. A site may still
+      shadow this partial for any other comment system. */ -}}
+{{- $g := site.Params.giscus }}
+{{- if (and $g $g.repo $g.repoId $g.category $g.categoryId) }}
+{{- $theme := $g.theme | default "light" }}
+{{- $lang := $g.lang | default "en" }}
+{{- if not $g.lang }}
+  {{- $l := site.Language.Lang }}
+  {{- if (eq $l "zh") }}{{ $lang = "zh-CN" }}{{ else if (eq $l "ja") }}{{ $lang = "ja" }}{{ end }}
+{{- end }}
+<div class="sg-comments">
+  <p class="sg-comments__title">{{ i18n "sgComments" | default "Comments" }}</p>
+  <script src="https://giscus.app/client.js"
+    data-repo="{{ $g.repo }}"
+    data-repo-id="{{ $g.repoId }}"
+    data-category="{{ $g.category }}"
+    data-category-id="{{ $g.categoryId }}"
+    data-mapping="{{ $g.mapping | default "pathname" }}"
+    data-strict="{{ $g.strict | default "0" }}"
+    data-reactions-enabled="{{ $g.reactionsEnabled | default 1 }}"
+    data-emit-metadata="{{ $g.emitMetadata | default 0 }}"
+    data-input-position="{{ $g.inputPosition | default "bottom" }}"
+    data-theme="{{ $theme }}"
+    data-lang="{{ $lang }}"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async></script>
+</div>
+{{- if (or (eq $theme "light") (eq $theme "dark")) }}
+<script>
+  /* 亮暗翻面:监听 footer 的 sg:themechange 广播;仅 light/dark 两态参与,
+     自定义 CSS 主题不随站,免得配置的 URL 被覆盖 */
+  document.addEventListener("sg:themechange", (e) => {
+    const frame = document.querySelector("iframe.giscus-frame");
+    if (frame) frame.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: e.detail.theme } } }, "https://giscus.app");
+  });
+</script>
+{{- end }}
+{{- end }}

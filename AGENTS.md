@@ -42,9 +42,10 @@ foreground `hugo server` into `head` (SIGPIPE kills it).
   partials with the FULL path (`templates/_funcs/get-page-images`); short
   names resolve inconsistently and broke og:image silently once.
 - Site override points (never edit core templates to customize):
-  `extend_head.html`, `extend_footer.html`, `comments.html` (intentionally an
-  empty stub), render hooks under `_default/_markup/`, anything in the site's
-  `layouts/` or `assets/css/extended/`.
+  `extend_head.html`, `extend_footer.html`, `comments.html` (built-in giscus
+  when `[params.giscus]` + `comments` are set; shadow it for any other
+  comment system), render hooks under `_default/_markup/`, anything in the
+  site's `layouts/` or `assets/css/extended/`.
 
 ## Page parameter contract (for content generators)
 
@@ -60,6 +61,7 @@ Front matter or site params the theme reads:
 | `hiddenInHomeList` | keep a post out of the homepage feed |
 | `sgSeriesFrom`, `sgSeriesTab` | series navigation (site-level) |
 | `archives.showAuthor` | author on archive rows (default off) |
+| `comments` + `[params.giscus]` | built-in giscus comments (off by default, zero requests); front matter `comments: false` opts a page out |
 
 SIGIL-specific site params use the `sg*` prefix (`sgKicker`, `sgHomeTitle`,
 `sgReading`, `sgPlaying`, `sgMotto`, `sgSealImage`, `sgDaysInCage`,
@@ -102,3 +104,20 @@ keep their names.
 `docs/api.md` is the frozen public API (params, `sg-*` classes, output
 formats, data shapes) as of v0.9.0. Renames need a deprecation window;
 removals wait for a major. Check it before touching any param or class name.
+
+## v1.0.0 gate (defined 2026-10-24)
+
+v1.0.0 is a stability statement, not a feature list. All three must hold:
+
+- [ ] **Two weeks without a regression**, counted from v0.10.4
+      (2026-10-24 → 2026-11-07): Demo / Install modes stay green and no
+      `fix:` commit lands on `main`. A regression resets the clock from its
+      fix. Pure additive releases (new opt-in params with docs + check
+      coverage) do **not** reset it.
+- [ ] **Gallery healthy**: no new red items from the hugoThemesSiteBuilder
+      checker, and the themes.gohugo.io card reflects the current tag.
+- [ ] **Contract intact**: `git diff v0.10.4..HEAD -- docs/api.md` shows no
+      removals or renames; additions are fine (with a doc row each).
+
+When all three hold: annotated tag `v1.0.0`, release notes from the tag
+message, GitHub releases stay a rolling three.

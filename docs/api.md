@@ -23,10 +23,9 @@ Anything **not** listed here is internal and may change without notice.
 | `sgKicker` | Small line above the homepage title |
 | `sgHomeTitle` | Hero title override (browser-tab `<title>` stays the site title) |
 | `sgSealImage` | Seal image on the homepage |
-| `sgReading` / `sgPlaying` / `sgMotto` | Rotating status under the hero seal |
-| `sgDaysInCage` | Status line day counter, "Day N in the Cage" |
+| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | Rotating status under the hero seal. Each renders an icon + i18n label item; set any subset |
+| `sgDaysInCage` | Status line day counter, "Day N in the Cage" (from earliest post). Opt-in |
 | `sgSeriesFrom` | Points to a curation page whose body list defines a series reading order |
-| `archives.showAuthor` | Author name on archive index rows (default off — the ledger row carries day + reading time) |
 | `sgSeriesTab` | Tab label of the floating series panel |
 | `sgSearchEmpty` | Custom empty-state text for search |
 | `ShowTotalWords` | Total word count next to the homepage post count |
@@ -40,6 +39,7 @@ Anything **not** listed here is internal and may change without notice.
 | `lightbox` | Enable the GLightbox image lightbox (opt-in) |
 | `math` / `mermaid` | Enable KaTeX / Mermaid (opt-in) |
 | `fuseOpts` | Search index options, forwarded to Fuse.js |
+| `giscus.*` | Giscus comments (opt-in): `repo` / `repoId` / `category` / `categoryId` are required; optional `mapping` / `strict` / `reactionsEnabled` / `emitMetadata` / `inputPosition` / `theme` / `lang` forward to the giscus script with sane defaults |
 
 ### Inherited from PaperMod
 
@@ -56,6 +56,8 @@ Anything **not** listed here is internal and may change without notice.
 
 These behave as in upstream PaperMod. Deviations are documented in the README.
 
+One deviation: with `[params.giscus]` configured, the `comments` switch renders the theme's built-in giscus block (off by default, zero requests otherwise); front matter `comments: false` opts a page out.
+
 ## Front-matter params
 
 `hiddenInHomeList` (exclude a post from the homepage list),
@@ -66,12 +68,8 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 
 ## CSS contract
 
-- All frozen classes carry the **`sg-` prefix** (e.g. `sg-hero`,
-  `sg-entry`, `sg-toc`, `sg-now`). Theme-owned non-prefixed classes exist in
-  two kinds: PaperMod heritage names (`post-content`, `paginav`, …) and
-  internal layout hooks added after v0.9.9 (`.archive-intro`,
-  `.page-header-flat`, `.menu-theme`) — the latter may change without
-  notice.
+- All theme-owned classes carry the **`sg-` prefix** (e.g. `sg-hero`,
+  `sg-entry`, `sg-toc`, `sg-now`). These names are frozen.
 - Site-level `assets/css/extended/*.css` is concatenated **after** the theme's
   stylesheet (since v0.7.1): site rules of equal specificity always win. Do not
   add specificity hacks.
@@ -89,9 +87,10 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 ## Extension points
 
 - Partials a site may override by shadowing: `extend_head.html`,
-  `extend_footer.html`, `post_meta.html`, `author.html`.
+  `extend_footer.html`, `post_meta.html`, `author.html`,
+  `comments.html` (built-in giscus; shadow it for any other comment system).
 - `layouts/shortcodes/` shipped with the theme are part of the contract:
-  site-specific custom shortcodes belong to the site, not the theme.
+  `zerthimon`-style custom shortcodes belong to the site, not the theme.
 - i18n keys: adding keys is additive; renaming a key is a breaking change.
 
 ### Optional project figures
@@ -104,29 +103,26 @@ and respects keyboard focus and reduced motion. The plain index is unchanged.
 
 ### Explanatory shortcodes
 
-- `{{< volume-shelf >}}` renders a native-link shelf from the current page's
-  actual level-two heading fragments, preserving order and explicit IDs. Use
-  standard shortcode notation (`<`, not `%`) to avoid a fragment-rendering
-  cycle. It does not infer publication or completion status and needs no JS.
-  For a Markdown catalogue, spine widths reflect the summed Hugo `WordCount`
-  of published local pages linked by numbered entries under each h2. Root-relative
-  and same-host absolute permalinks resolve across languages; duplicate chapters
-  within a volume count once. Placeholders, drafts, future/expired pages, external
-  links, and other shelf pages do not count. Fenced examples are ignored. If no
-  chapters resolve, or raw h2 sections do not match the fragment count, all spines
-  retain their neutral equal width. The bounded square-root scale is a relative
-  content illustration, not a page estimate or completion score; title text
-  exposes the approximate count. Counts are recalculated at build time.
-- `{{< page-anatomy >}}` renders an original five-part article-page schematic.
-  Native buttons select a component; a checkbox separates the parts; Escape
-  closes the diagram. With JS disabled, the drawing and all descriptions remain
-  available. Reduced motion removes the transitions, not the controls.
+- `{{</* volume-shelf */>}}` renders native links from the current page's actual
+  level-two heading fragments. It preserves order and explicit IDs and does
+  not imply publication or completion. Use standard (`<`, not `%`) notation.
+  Spine widths reflect the summed Hugo `WordCount` of published local pages
+  linked by numbered Markdown entries under each h2. Root-relative and same-host
+  absolute permalinks resolve across languages; duplicates within a volume count
+  once. Placeholders, drafts, future/expired pages, external links, and other
+  shelf pages do not count. Fenced examples are ignored. Unresolvable catalogues
+  keep equal-width spines. The bounded scale shows relative content, not page
+  count or completion; title text exposes approximate counts, refreshed at build.
+- `{{</* page-anatomy */>}}` is a five-part article-page schematic. Buttons select
+  a part, the checkbox separates the parts, and Escape closes it. Without JS,
+  the drawing and all descriptions remain visible. Reduced motion removes
+  transitions without disabling the controls.
 
-Both load `css/components/anatomy.css` only on their host pages via
-`partials/figures/assets.html`; only `page-anatomy` loads `js/page-anatomy.js`.
-A site overriding `extend_head.html` should call that asset partial itself.
-Labels are localized for English, simplified Chinese, and Japanese; other
-locales use the English fallback. SVGs are conceptual diagrams, not screenshots.
+Assets are loaded only on pages using these shortcodes. A site overriding
+`extend_head.html` must call `partials/figures/assets.html`. The shelf needs
+no JS; only the page diagram loads the small `page-anatomy.js` module.
+The figures use the host palette and English, Chinese, and Japanese labels,
+with an English fallback elsewhere. They are diagrams, not screenshots.
 
 ## Machine surfaces
 

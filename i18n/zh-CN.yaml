@@ -173,3 +173,5 @@
   translation: "致谢与站点信息排在文字之后，为页面收尾，不混入文章。"
 - id: sgAnatomyHint
   translation: "页面组成示意，不是截图。选择部件查看说明，展开图层观察彼此关系。"
+- id: sgComments
+  translation: "评论"

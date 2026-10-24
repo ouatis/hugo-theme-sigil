@@ -67,6 +67,12 @@ if grep -qE 'KaTeX_[A-Za-z-]+[.]woff2|/katex/fonts/' public/posts/typography/ind
     fail "katex font paths leaked into visible HTML — a partial is printing .RelPermalink"
 fi
 
+# comments gate closed by default: the demo configures no comment system, so
+# no page may load giscus — the overlay build below proves the open direction.
+if grep -q 'giscus.app' public/posts/typography/index.html; then
+    fail "giscus loaded without configuration — the comments gate must be closed by default"
+fi
+
 # Navigation hrefs must keep the deploy subpath directly after the host and
 # the language code directly after the subpath. absLangURL interleaves the
 # two: on a non-default language page it emits
@@ -215,26 +221,47 @@ if RISK not in raw:
 print("check: external-link arrow path is intact")
 PY
 
-# RTL: the 47 i18n files include four right-to-left languages (ar/ckb/fa/he).
-# Baseof emits dir from .Language.Direction, so a language declaring
-# direction = "rtl" must build cleanly and carry dir=rtl on <html>. The
-# overlay language exists only for this check; it is configured with no
-# content, which is exactly the state a fresh RTL site starts in.
+# RTL + opt-in overlay: the 47 i18n files include four right-to-left languages
+# (ar/ckb/fa/he) — baseof emits dir from .Language.Direction, so a language
+# declaring direction = "rtl" must build and carry dir=rtl on <html>. The same
+# overlay turns the comments gate ON with a fake giscus block, proving the
+# gate opens only under configuration. Both exist only for this check; the
+# fa language is configured with no content, which is exactly the state a
+# fresh RTL site starts in.
 cp hugo.toml hugo.rtl-check.toml
+# `comments = true` must land inside the EXISTING [params] table — a second
+# [params] header is invalid TOML, and a bare dotted key appended after the
+# [languages.fa] table would silently become languages.fa.params.comments.
+python3 - <<'PY'
+s = open("hugo.rtl-check.toml", encoding="utf-8").read()
+assert "[params]" in s, "demo config lost its [params] table"
+open("hugo.rtl-check.toml", "w", encoding="utf-8").write(
+    s.replace("[params]", "[params]\ncomments = true", 1))
+PY
 cat >> hugo.rtl-check.toml <<'EOF'
 
 [languages.fa]
 label = "فارسی"
 direction = "rtl"
 weight = 40
+
+[params.giscus]
+repo = "ouatis/sigil-demo"
+repoId = "R_demo"
+category = "Announcements"
+categoryId = "DIC_demo"
 EOF
 hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
     --config hugo.rtl-check.toml --destination public-rtl-check \
-    || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "RTL overlay build failed (fa language)"; }
+    || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "overlay build failed (fa language + giscus)"; }
 grep -qE '<html[^>]*dir=rtl' public-rtl-check/fa/index.html \
     || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "fa language built without dir=rtl on <html>"; }
+grep -q 'giscus.app/client.js' public-rtl-check/posts/typography/index.html \
+    || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "giscus script missing with [params.giscus] + comments configured"; }
+grep -qE 'data-repo="?ouatis/sigil-demo' public-rtl-check/posts/typography/index.html \
+    || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "giscus data-repo did not come through the config"; }
 rm -rf public-rtl-check hugo.rtl-check.toml
-echo "check: RTL overlay builds and <html> carries dir=rtl"
+echo "check: overlay builds — fa carries dir=rtl, giscus renders only when configured"
 
 # Font budget: measure what ONE language's page actually loads, and hold the
 # budget to the worst language. The demo is multilingual (en/zh/ja); the SC

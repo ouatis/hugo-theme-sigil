@@ -50,6 +50,7 @@ Anything **not** listed here is internal and may change without notice.
 | `lightbox` | Enable the GLightbox image lightbox (opt-in) |
 | `math` / `mermaid` | Enable KaTeX / Mermaid (opt-in) |
 | `fuseOpts` | Search index options, forwarded to Fuse.js |
+| `giscus.*` | Giscus comments (opt-in): `repo` / `repoId` / `category` / `categoryId` are required; optional `mapping` / `strict` / `reactionsEnabled` / `emitMetadata` / `inputPosition` / `theme` / `lang` forward to the giscus script with sane defaults |
 
 ### Inherited from PaperMod
 
@@ -65,6 +66,8 @@ Anything **not** listed here is internal and may change without notice.
 `comments`, `searchHidden`.
 
 These behave as in upstream PaperMod. Deviations are documented in the README.
+
+One deviation: with `[params.giscus]` configured, the `comments` switch renders the theme's built-in giscus block (off by default, zero requests otherwise); front matter `comments: false` opts a page out.
 
 ## Front-matter params
 
@@ -95,7 +98,8 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 ## Extension points
 
 - Partials a site may override by shadowing: `extend_head.html`,
-  `extend_footer.html`, `post_meta.html`, `author.html`.
+  `extend_footer.html`, `post_meta.html`, `author.html`,
+  `comments.html` (built-in giscus; shadow it for any other comment system).
 - `layouts/shortcodes/` shipped with the theme are part of the contract:
   `zerthimon`-style custom shortcodes belong to the site, not the theme.
 - i18n keys: adding keys is additive; renaming a key is a breaking change.

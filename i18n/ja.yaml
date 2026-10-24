@@ -173,3 +173,5 @@
   translation: "謝辞とサイト情報は本文の後に置かれます。記事に混ざらず、ページを閉じます。"
 - id: sgAnatomyHint
   translation: "ページ構成の模式図であり、スクリーンショットではありません。部品を選んで説明を読み、展開して関係を確かめてください。"
+- id: sgComments
+  translation: "コメント"

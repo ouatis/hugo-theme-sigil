@@ -174,3 +174,5 @@
   translation: "Credits and site metadata sit after the words. They close the page without becoming part of the article."
 - id: sgAnatomyHint
   translation: "A component diagram, not a screenshot. Select a part to read its role; separate the parts to see their relationship."
+- id: sgComments
+  translation: "Comments"

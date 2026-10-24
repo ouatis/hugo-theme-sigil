@@ -121,6 +121,28 @@ Add the `[languages.xx]` block **before** adding `content/.xx.md` files: a
 translation file for a language that is not configured gets folded into the
 default language's own pages.
 
+## Comments (giscus)
+
+Off by default — zero requests until both switches are set. The `comments`
+switch comes from PaperMod; `[params.giscus]` carries the widget config from
+[giscus.app](https://giscus.app/setup):
+
+```toml
+[params]
+  comments = true
+
+[params.giscus]
+  repo = "you/your-repo"        # public repo with Discussions enabled
+  repoId = "R_..."              # both IDs from giscus.app/setup
+  category = "Announcements"
+  categoryId = "DIC_..."
+  # mapping = "pathname"        # pathname | url | title | og:title | number
+  # theme = "light"             # light | dark | a custom CSS URL; light/dark follow the site toggle
+  # lang = "en"                 # defaults from the site language (zh -> zh-CN, ja -> ja)
+```
+
+A single post opts out with `comments: false` in its front matter.
+
 ## Views counter and sparkline
 
 Provide `data/analytics.json` with `{"total": 0, "since": "2026-01-01",
