@@ -10,6 +10,12 @@
     --sg-figure-metal: color-mix(in srgb, var(--sg-surface) 66%, var(--primary));
     --sg-figure-paper: var(--sg-surface);
     --sg-figure-ink: color-mix(in srgb, var(--sg-green) 76%, var(--theme));
+    /* Anatomy four-tone shading: base lo, structure mid, subject hi,
+       exactly one lit accent (the part to watch). */
+    --sg-figure-lo: color-mix(in srgb, var(--sg-surface) 56%, var(--primary));
+    --sg-figure-mid: color-mix(in srgb, var(--sg-surface) 72%, var(--primary));
+    --sg-figure-hi: color-mix(in srgb, var(--sg-surface) 87%, var(--primary));
+    --sg-figure-lit: var(--sg-red);
 }
 
 :root[data-theme="dark"] .sg-index--illustrated {
@@ -18,6 +24,9 @@
     --sg-figure-end: color-mix(in srgb, var(--sg-surface) 94%, var(--primary));
     --sg-figure-metal: color-mix(in srgb, var(--sg-surface) 80%, var(--primary));
     --sg-figure-paper: color-mix(in srgb, var(--sg-surface) 68%, var(--primary));
+    --sg-figure-lo: color-mix(in srgb, var(--sg-surface) 72%, var(--primary));
+    --sg-figure-mid: color-mix(in srgb, var(--sg-surface) 82%, var(--primary));
+    --sg-figure-hi: color-mix(in srgb, var(--sg-surface) 90%, var(--primary));
 }
 
 .sg-index--illustrated .sg-index__item {
@@ -88,13 +97,19 @@
 .sg-figure__paper { fill: var(--sg-figure-paper); }
 .sg-figure__ink { fill: var(--sg-figure-ink); }
 .sg-figure__accent { fill: var(--sg-red); }
+.sg-figure__lo { fill: var(--sg-figure-lo); }
+.sg-figure__mid { fill: var(--sg-figure-mid); }
+.sg-figure__hi { fill: var(--sg-figure-hi); }
+.sg-figure__lit { fill: var(--sg-figure-lit); }
 .sg-figure__rule, .sg-figure__metal-line, .sg-figure__cable,
-.sg-figure__print, .sg-figure__wheel { fill: none; }
+.sg-figure__print, .sg-figure__wheel, .sg-figure__cable-lit { fill: none; }
 .sg-figure__rule { stroke-width: .55; }
 .sg-figure__print { stroke: var(--sg-figure-line); stroke-width: .5; opacity: .48; }
 .sg-figure__metal-line { stroke-width: 1.8; }
 .sg-figure__cable { stroke-width: 1.4; }
+.sg-figure__cable-lit { stroke: var(--sg-figure-lit); stroke-width: 1.4; }
 .sg-figure__wheel { stroke: var(--sg-figure-metal); stroke-width: 3.8; }
+.sg-figure__faint { stroke-width: .45; opacity: .35; }
 .sg-figure__shadow { fill: var(--primary); opacity: .045; stroke: none; }
 .sg-figure__glow { fill: var(--sg-green); opacity: .1; stroke: none; }
 

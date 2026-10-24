@@ -101,6 +101,14 @@ its project data, shortcode, and inline SVGs; explicitly load this stylesheet
 only on the pages using them. It uses the host palette, needs no JavaScript,
 and respects keyboard focus and reduced motion. The plain index is unchanged.
 
+Anatomy-style shading tones (2026-10-24): `sg-figure__lo` (base, feet),
+`sg-figure__mid` (structure), `sg-figure__hi` (the subject), `sg-figure__lit`
+(the one accent to watch), `sg-figure__faint` (grooves, inset outlines),
+`sg-figure__cable-lit` (a lit patch cable), plus the original
+`sg-figure__{top,side,end,metal,paper,ink,accent,rule,print,metal-line,cable,
+wheel,shadow,glow,light,press-head}` classes. Figures stay static site content;
+the tones only map them onto the host palette in both schemes.
+
 ### Explanatory shortcodes
 
 - `{{</* volume-shelf */>}}` renders native links from the current page's actual
