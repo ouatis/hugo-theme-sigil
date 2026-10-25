@@ -101,6 +101,8 @@ its project data, shortcode, and inline SVGs; explicitly load this stylesheet
 only on the pages using them. It uses the host palette, needs no JavaScript,
 and respects keyboard focus and reduced motion. The plain index is unchanged.
 
+`sg-index__links` styles the explicit GitHub / Obsidian-directory link row under each card description (2026-10-25).
+
 Anatomy-style shading tones (2026-10-24): `sg-figure__lo` (base, feet),
 `sg-figure__mid` (structure), `sg-figure__hi` (the subject), `sg-figure__lit`
 (the one accent to watch), `sg-figure__faint` (grooves, inset outlines),

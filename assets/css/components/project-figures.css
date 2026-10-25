@@ -54,6 +54,26 @@
     text-align: start;
 }
 
+/* Explicit GitHub / Obsidian-directory links under the description.
+   GitHub is also the card-title link; this row makes both homes visible. */
+.sg-index__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin: .3rem 0 0;
+    font-size: .78rem;
+}
+
+.sg-index__links a {
+    color: var(--sg-green);
+}
+
+.sg-index__links a:focus-visible {
+    outline: 1px solid var(--sg-red);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
 .sg-index--illustrated .sg-index__name::after {
     color: var(--sg-red);
 }
