@@ -57,6 +57,11 @@
 /* Explicit GitHub / Obsidian-directory links under the description.
    GitHub is also the card-title link; this row makes both homes visible. */
 .sg-index__links {
+    /* The base index stretches the title link across the whole row
+       (site.css 整条可点). Illustrated cards add a second destination,
+       so lift this row above that overlay. */
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-wrap: wrap;
     gap: 4px 14px;
