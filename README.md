@@ -76,6 +76,34 @@ hugo server --themesDir ../..
 
 ## Configuration
 
+### Configure by task
+
+Every knob below is off until you set it. Pick the row that matches what you
+are building, then copy that fragment into your `hugo.toml`.
+
+| I want to… | Set | Scope |
+| --- | --- | --- |
+| Show a tagline above the homepage title | `sgKicker` | site |
+| Change the homepage title | `sgHomeTitle` | site |
+| Use an image instead of the `∴` seal | `sgSealImage` | site |
+| Rotate a status line under the seal | any of `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | site |
+| Limit the homepage feed | `homePageSize` | site |
+| Add a floating series panel in reading order | `sgSeriesFrom` (+ `sgSeriesTab`) | site |
+| Publish full articles in RSS | `ShowFullTextinRSS` | site |
+| Give agents a machine-readable index | `LLMSTXT` (and `LLMSFULL`) in `[outputs] home` | site |
+| Generate a social card for pages without a cover | `ogAutoCard` (+ `ogCardFont` for CJK) | site |
+| Add maths, diagrams, or an image lightbox | `math` / `mermaid` / `lightbox` | page or site |
+| Hide a post from the homepage feed | `hiddenInHomeList` | page |
+| Leave a page out of the search index | `searchHidden` | page |
+| Turn off the related-posts block | `showRelated: false` | page |
+| Turn comments off for one page | `comments: false` | page |
+
+Site-level `math` / `mermaid` / `lightbox` apply to every page; the front
+matter of a single page overrides it. Either way, a page that does not ask
+for a feature loads none of it.
+
+### The essential block
+
 Common PaperMod options work as usual. The essential SIGIL block:
 
 ```toml
@@ -116,7 +144,7 @@ SIGIL-specific options in full:
 | `sgHomeTitle` | site title | Homepage title |
 | `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | hidden | Homepage status line; any subset renders, all are optional |
 | `sgSealImage` | `∴` | Homepage seal image |
-| `sgDaysInCage` | `false` | Status line day counter — "Day N in the Cage", counted from the earliest post |
+| `sgDaysInCage` | `false` | Status line day counter — "Day N in the Cage", counted from the earliest post. Opt-in |
 | `ShowFullTextinRSS` | `false` | Include full articles in RSS |
 | `ShowAllPagesInArchive` | `false` | Include all pages in archives |
 | `homePageSize` | all | Homepage posts per page |
@@ -126,6 +154,12 @@ SIGIL-specific options in full:
 | `ogCardFont` | built-in Plex Serif | `resources.Get` path to a TTF for OG cards. The bundled Latin font cannot draw CJK — CJK sites should subset a TTF for their titles and point this at it |
 | `analytics.*` | hidden | Third-party stats, production only: `analytics.plausible.domain`, `analytics.umami` (`src` + `id`), `analytics.goatcounter.code`, `analytics.fathom.site` |
 | `llmsTxtIntro` | hidden | Optional one-paragraph introduction inside `llms.txt` |
+
+Front-matter switches: `hiddenInHomeList` (keep a post out of the homepage
+feed), `searchHidden` (keep it out of the search index), `showRelated:
+false` (drop the related-posts block), `comments: false` (opt a page out of
+comments), plus the usual `cover.*`, `robotsNoIndex`, and the PaperMod
+front-matter family.
 
 ### Agent-readable output (llms.txt)
 

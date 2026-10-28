@@ -72,6 +72,32 @@ hugo server --themesDir ../..
 
 ## 設定
 
+### 目的から設定を探す
+
+以下の項目はどれも「設定しなければ有効にならない」。作りたいものを下の表で探し、
+該当する行だけを `hugo.toml` へ書き足してください。
+
+| やりたいこと | 設定 | 適用範囲 |
+| --- | --- | --- |
+| ホームのタイトル上に小さな一行を足す | `sgKicker` | サイト |
+| ホームの大タイトルを差し替える | `sgHomeTitle` | サイト |
+| `∴` の印を画像に置き換える | `sgSealImage` | サイト |
+| 印のそばで切り替わるステータス行 | `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` の任意の組み合わせ | サイト |
+| ホームのフィード件数を制限する | `homePageSize` | サイト |
+| 読む順序どおりに並ぶシリーズパネルを付ける | `sgSeriesFrom`（`sgSeriesTab` と併用） | サイト |
+| RSS に全文を含める | `ShowFullTextinRSS` | サイト |
+| エージェント向けの機械可読インデックスを出す | `[outputs] home` に `LLMSTXT`（必要なら `LLMSFULL`） | サイト |
+| 表紙のないページのSNSカードを作る | `ogAutoCard`（CJK なら `ogCardFont` も） | サイト |
+| 数式・図・画像ライトボックスを入れる | `math` / `mermaid` / `lightbox` | ページ／サイト |
+| 特定の投稿をホームから外す | `hiddenInHomeList` | ページ |
+| 特定の投稿を検索索引から外す | `searchHidden` | ページ |
+| ページの関連記事を消す | `showRelated: false` | ページ |
+| ページのコメントを消す | `comments: false` | ページ |
+
+サイト指定の `math` / `mermaid` / `lightbox` は全ページへ効くが、個々のページの
+frontmatter が上書きできる。いずれの書き方でも、要求していないページは
+その機能を読み込まない。
+
 PaperMod の一般的な設定を利用できます。SIGIL 固有の設定：
 
 | パラメータ | 初期値 | 用途 |
@@ -90,6 +116,11 @@ PaperMod の一般的な設定を利用できます。SIGIL 固有の設定：
 | `ogCardFont` | 同梱 Plex Serif | OG カード用 TTF の `resources.Get` パス。同梱はラテン文字のみ — CJK サイトはタイトル用字のサブセット TTF を用意して指定 |
 | `analytics.*` | 非表示 | サードパーティ統計(本番のみ):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
 | `llmsTxtIntro` | 非表示 | `llms.txt` 内の任意の一文紹介 |
+
+frontmatter のスイッチ: `hiddenInHomeList`（ホームのフィードから除外）、
+`searchHidden`（検索索引から除外）、`showRelated: false`（関連記事を非表示）、
+`comments: false`（そのページのコメントを無効化）、および通常の `cover.*`、
+`robotsNoIndex` と PaperMod の frontmatter 一族。
 
 ### エージェント可読出力(llms.txt)
 

@@ -94,15 +94,16 @@ defaultContentLanguage = "en"
 
 [params]
   mainSections = ["posts"]
-  ShowBreadCrumbs = true
-  ShowReadingTime = true
-  ShowWordCount = true
-  ShowTotalWords = true
-  hideSummary = true
-  ShowToc = true
-  TocOpen = true
-  ShowCodeCopyButtons = true
-  ShowPostNavLinks = true
+  # ===== 阅读体验开关:每一项都可以删掉,删掉即回到 PaperMod 默认 =====
+  ShowBreadCrumbs = true     # 面包屑导航
+  ShowReadingTime = true     # 预计阅读时长
+  ShowWordCount = true       # 单篇字数
+  ShowTotalWords = true      # 首页总字数
+  hideSummary = true         # 首页列表不显示摘要,只留标题
+  ShowToc = true             # 文章内目录
+  TocOpen = true             # 目录默认展开
+  ShowCodeCopyButtons = true # 代码块一键复制
+  ShowPostNavLinks = true    # 上一篇/下一篇
   ogAutoCard = true
   # 内附字体只覆盖拉丁字母;不配的话中日文标题在 OG 卡片上是豆腐块
   # ——分享到社交平台时读者第一眼就是那行空框。子集只含 demo 实际出现
@@ -147,6 +148,8 @@ defaultContentLanguage = "en"
   home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT"]
 
 # Fuse.js 检索参数;键名对应 front matter 字段。
+# threshold 调大=匹配更宽(容错高、噪声多),调小=更准;中文按字匹配,
+# 所以 0.2 已经相当宽松。distance/ignoreLocation 决定是否在意命中位置。
 [params.fuseOpts]
   isCaseSensitive = false
   shouldSort = true
@@ -163,6 +166,8 @@ defaultContentLanguage = "en"
     # 因此 unsafe 必须为 true;关掉它侧边注会退化成行内文字。
     [markup.goldmark.renderer]
       unsafe = true
+    # 行内公式 \(…\) 需要 passthrough;块级 $$…$$ 与 \[…\] 默认即可。
+    # 键名是 enable,不是 enabled——写错会静默失效,行内公式会被 markdown 吃掉。
     [markup.goldmark.extensions.passthrough]
       enable = true
       [markup.goldmark.extensions.passthrough.delimiters]

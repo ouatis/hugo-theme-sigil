@@ -72,6 +72,29 @@ hugo server --themesDir ../..
 
 ## 配置
 
+### 按目的查配置
+
+下面每个开关都是「不设就不生效」。先在下表里找到你要做的事，再把对应那几行抄进 `hugo.toml`：
+
+| 我想… | 设置 | 作用范围 |
+| --- | --- | --- |
+| 在首页标题上方加一行小字 | `sgKicker` | 站点 |
+| 换掉首页大标题 | `sgHomeTitle` | 站点 |
+| 用图片替掉 `∴` 印章 | `sgSealImage` | 站点 |
+| 在印章旁轮播状态条 | `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` 任选 | 站点 |
+| 限制首页列表篇数 | `homePageSize` | 站点 |
+| 按阅读顺序挂一个系列浮窗 | `sgSeriesFrom`（配 `sgSeriesTab`） | 站点 |
+| RSS 里放全文 | `ShowFullTextinRSS` | 站点 |
+| 给 Agent 一份机器可读索引 | `[outputs] home` 里加 `LLMSTXT`（及 `LLMSFULL`） | 站点 |
+| 给无封面的文章生成社交卡片 | `ogAutoCard`（中文站另配 `ogCardFont`） | 站点 |
+| 加数学公式、图表或图片灯箱 | `math` / `mermaid` / `lightbox` | 单页或站点 |
+| 让某篇不进首页列表 | `hiddenInHomeList` | 单页 |
+| 让某篇不进搜索索引 | `searchHidden` | 单页 |
+| 关掉某页的相关阅读 | `showRelated: false` | 单页 |
+| 关掉某页的评论 | `comments: false` | 单页 |
+
+站点级的 `math` / `mermaid` / `lightbox` 对所有页面生效，单页 frontmatter 可以覆盖它。无论哪种写法，没提出要求的页面都不会加载对应资源。
+
 PaperMod 的常用配置可以继续使用。SIGIL 专属配置：
 
 | 参数 | 默认值 | 用途 |
@@ -90,6 +113,8 @@ PaperMod 的常用配置可以继续使用。SIGIL 专属配置：
 | `ogCardFont` | 内附 Plex Serif | OG 卡片字体的 `resources.Get` 路径(TTF)。内附拉丁字体画不了汉字——中日站点应为标题用字做子集 TTF 并指向它 |
 | `analytics.*` | 隐藏 | 第三方统计(仅生产环境):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
 | `llmsTxtIntro` | 隐藏 | `llms.txt` 里可选的一段站点导语 |
+
+frontmatter 开关：`hiddenInHomeList`（不进首页列表）、`searchHidden`（不进搜索索引）、`showRelated: false`（不显示相关阅读）、`comments: false`（该页不显示评论），以及常规的 `cover.*`、`robotsNoIndex` 与 PaperMod 的 frontmatter 系列。
 
 ### Agent 可读输出(llms.txt)
 
