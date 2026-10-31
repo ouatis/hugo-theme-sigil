@@ -1,0 +1,116 @@
+{{- /* 构建期配置校验:参数拼错、类型不对、文件缺失时输出人话警告,
+     替代静默失效(前案:homePageSize 静默四个月;avatar.png 404 三十天才被发现)。
+     partialCached 全站只跑一次;所有检查 with/isset 守卫,未配置零输出。
+     文件探测顺序:resources(assets/捆绑)优先,静态顶层文件按 basename 兜底 */ -}}
+{{- $staticFiles := dict -}}
+{{- range readDir "." -}}
+    {{- if and .IsDir (eq .Name "static") -}}
+        {{- range readDir "static" -}}{{- $staticFiles = merge $staticFiles (dict .Name true) -}}{{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* 文件存在性:sgSealImage / label.icon / assets.favicon / params.images */ -}}
+{{- range $keys := slice (slice "sgSealImage" (site.Params.sgSealImage | default ""))
+        (slice "label.icon" (site.Params.label.icon | default ""))
+        (slice "assets.favicon" (site.Params.assets.favicon | default "")) -}}
+    {{- $key := index $keys 0 -}}
+    {{- with index $keys 1 -}}
+        {{- $ok := false -}}
+        {{- with resources.Get . -}}{{- $ok = true -}}{{- end -}}
+        {{- if not $ok -}}{{- with index $staticFiles (path.Base .) -}}{{- $ok = true -}}{{- end -}}{{- end -}}
+        {{- if not $ok -}}
+            {{- warnf (printf "[sigil] %s 指向的文件不存在: %s —— 对应图标/印章将 404" $key .) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with site.Params.images -}}
+    {{- range . -}}
+        {{- $ok := false -}}
+        {{- with resources.Get . -}}{{- $ok = true -}}{{- end -}}
+        {{- if not $ok -}}{{- with index $staticFiles (path.Base .) -}}{{- $ok = true -}}{{- end -}}{{- end -}}
+        {{- if not $ok -}}
+            {{- warnf (printf "[sigil] images(opengraph 卡片)指向的文件不存在: %s" .) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* 类型校验(TOML 整数在 Hugo 里是 int64,int/int64 都算合法) */ -}}
+{{- with site.Params.homePageSize -}}
+    {{- $t := printf "%T" . -}}
+    {{- if and (ne $t "int") (ne $t "int64") -}}
+        {{- warnf (printf "[sigil] homePageSize 应为整数,当前为 %T(%q)——将被忽略" . .) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with site.Params.label.iconHeight -}}
+    {{- $t := printf "%T" . -}}
+    {{- if and (ne $t "int") (ne $t "int64") -}}
+        {{- warnf (printf "[sigil] label.iconHeight 应为整数,当前为 %T(%q)" . .) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with site.Params.sgDaysInCage -}}
+    {{- if ne (printf "%T" .) "bool" -}}
+        {{- warnf (printf "[sigil] sgDaysInCage 应为 true/false,当前为 %T——将被忽略" .) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with site.Params.sgSeriesFrom -}}
+    {{- if not (site.GetPage .) -}}
+        {{- warnf (printf "[sigil] sgSeriesFrom 指向的页面不存在: %s —— 系列导航不启用" .) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* ogCardFont:卡片字体文件存在性;CJK 站点缺配时标题会成豆腐块,
+       这是最容易踩的静默陷阱(内附字体只覆盖拉丁字母) */ -}}
+{{- with site.Params.ogCardFont -}}
+    {{- $ok := false -}}
+    {{- with resources.Get . -}}{{- $ok = true -}}{{- end -}}
+    {{- if not $ok -}}{{- with index $staticFiles (path.Base .) -}}{{- $ok = true -}}{{- end -}}{{- end -}}
+    {{- if not $ok -}}
+        {{- warnf (printf "[sigil] ogCardFont 指向的文件不存在: %s —— 卡片标题将回落内附拉丁字体" .) -}}
+    {{- end -}}
+{{- end -}}
+{{- if and site.Params.ogAutoCard (not site.Params.ogCardFont) (or (strings.HasPrefix site.Language.Lang "zh") (eq site.Language.Lang "ja")) -}}
+    {{- warnf "[sigil] ogAutoCard 已启用但未配 ogCardFont —— 内附卡片字体仅覆盖拉丁字母,中日文标题会渲染成豆腐块" -}}
+{{- end -}}
+
+{{- /* 布尔参数:字符串 "false" 也是真值,写错类型会被静默当成开启 */ -}}
+{{- range slice "math" "mermaid" "lightbox" "ogAutoCard" -}}
+    {{- $key := . -}}
+    {{- with index site.Params $key -}}
+        {{- if ne (printf "%T" .) "bool" -}}
+            {{- warnf (printf "[sigil] params.%s 应为 true/false,当前为 %T(%v)——非布尔一律按真值处理,将被当成开启" $key . .) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* analytics:结构校验,拼错的引擎名或缺字段在这里报人话 */ -}}
+{{- with site.Params.analytics -}}
+    {{- if not (reflect.IsMap .) -}}
+        {{- warnf (printf "[sigil] analytics 应为表格([params.analytics]),当前为 %T" .) -}}
+    {{- else -}}
+        {{- $engines := 0 -}}
+        {{- with .plausible -}}
+            {{- if and (reflect.IsMap .) (isset . "domain") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.plausible 需要 domain 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .umami -}}
+            {{- if and (reflect.IsMap .) (isset . "src") (isset . "id") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.umami 需要 src 与 id 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .goatcounter -}}
+            {{- if and (reflect.IsMap .) (isset . "code") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.goatcounter 需要 code 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .fathom -}}
+            {{- if and (reflect.IsMap .) (isset . "site") -}}{{- $engines = add $engines 1 -}}
+            {{- else -}}{{- warnf "[sigil] analytics.fathom 需要 site 字段" -}}{{- end -}}
+        {{- end -}}
+        {{- with .google -}}{{- $engines = add $engines 1 -}}{{- end -}}
+        {{- if eq $engines 0 -}}
+            {{- warnf "[sigil] analytics 已配置但未含任何可识别的引擎(plausible/umami/goatcounter/fathom/google)" -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}

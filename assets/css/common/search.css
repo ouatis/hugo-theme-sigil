@@ -1,0 +1,71 @@
+#searchbox input {
+    padding: 4px 10px;
+    width: 100%;
+    color: var(--primary);
+    font-weight: bold;
+    border: 2px solid var(--tertiary);
+    border-radius: var(--radius);
+}
+
+#searchbox input:focus {
+    border-color: var(--secondary);
+}
+
+/* 结果列表:行式,复用首页 sg-entry 的版式(sigil.css 全量继承),
+   这里只负责列表外壳与搜索语境的微调 */
+#searchResults {
+    margin: 26px 0 10px;
+    padding: 0;
+    width: 100%;
+}
+
+#searchResults li {
+    list-style: none;
+    margin: 0;
+    position: relative;
+}
+
+/* 搜索行比首页列表更密:去掉 112px 最小行高,收窄上下留白 */
+#searchResults .sg-entry {
+    min-height: 0;
+    padding: 16px 0;
+}
+
+#searchResults .sg-entry h3 {
+    font-size: 21px;
+}
+
+/* 覆盖 PaperMod 时代遗留的卡片式 focus(描边+缩放):
+   行式列表下焦点态与悬停态同形——标题红线、序号日期转正、箭头现身 */
+#searchResults li.focus {
+    transform: none;
+    border: 0;
+}
+
+#searchResults li.focus h3 {
+    text-decoration-color: var(--sg-red);
+}
+
+#searchResults li.focus .sg-entry__number,
+#searchResults li.focus .sg-entry__date {
+    color: var(--primary);
+}
+
+#searchResults li.focus .sg-entry__arrow {
+    color: var(--sg-red);
+    opacity: 1;
+    transform: none;
+}
+
+#searchResults li.focus .sg-entry__link {
+    outline: 2px solid var(--sg-red);
+    outline-offset: -2px;
+}
+
+/* 无结果低语:查询有字却无果时由 fastsearch.js 显出 */
+.search-empty {
+    margin: 16px 0;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--secondary);
+}

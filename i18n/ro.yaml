@@ -1,0 +1,152 @@
+- id: prev_page
+  translation: "Înapoi"
+
+- id: next_page
+  translation: "Înainte"
+
+- id: read_time
+  translation:
+    one : "1 minut"
+    other: "{{ .Count }} minute"
+
+- id: words
+  translation:
+    one : "cuvânt"
+    other: "{{ .Count }} cuvinte"
+
+- id: toc
+  translation: "Sumar"
+
+- id: translations
+  translation: "Traduceri"
+
+- id: home
+  translation: "Acasă"
+
+- id: edit_post
+  translation: "Editează"
+
+- id: code_copy
+  translation: "copiază"
+
+- id: code_copied
+  translation: "copiat!"
+
+- id: skip_to_content
+  translation: "Mergi la conținut"
+
+- id: breadcrumbs
+  translation: "Navigare"
+
+- id: backHome
+  translation: "Înapoi acasă"
+
+- id: browseArchives
+  translation: "Răsfoiește arhiva"
+
+- id: categories
+  translation: "Categorii"
+
+- id: footerSparkTitle
+  translation: "Vizualizări zilnice, ultimele 120 zile"
+
+- id: footerViews
+  translation:
+    other: "{{ .Count }} vizualizări"
+
+- id: footerViewsTitle
+  translation: "Vizualizări totale · din {{ . }}"
+
+- id: llmsFullNote
+  translation: "textul complet al tuturor articolelor într-un singur fișier"
+
+- id: llmsPages
+  translation: "Pagini"
+
+- id: llmsPosts
+  translation: "Toate articolele"
+
+- id: llmsRssNote
+  translation: "flux complet"
+
+- id: minutesShort
+  translation: " min"
+
+- id: navAria
+  translation: "Navigare conținut"
+
+- id: navCategories
+  translation: "Categorii"
+
+- id: navSearch
+  translation: "Căutare"
+
+- id: navSiteAria
+  translation: "Navigare site"
+
+- id: navTags
+  translation: "Etichete"
+
+- id: notFoundLead
+  translation: "Ai intrat într-o uliță care nu există."
+
+- id: paginationAria
+  translation: "Paginare"
+
+- id: pagination_next
+  translation: "Următor"
+
+- id: pagination_prev
+  translation: "Anterior"
+
+- id: postNavAria
+  translation: "Navigare articole"
+
+- id: postsSuffix
+  translation: " articole"
+
+- id: posts_language_note
+  translation: "Articolele sunt disponibile momentan doar în chineză."
+
+- id: readPrefix
+  translation: "Citește: "
+
+- id: recentWriting
+  translation: "Scrieri recente"
+
+- id: relatedPosts
+  translation: "Scrieri asemănătoare"
+
+- id: searchEmptyLabel
+  translation: "Niciun rezultat găsit."
+
+- id: searchInputLabel
+  translation: "Căutare"
+
+- id: searchPlaceholder
+  translation: "Caută pe site…"
+
+- id: searchResultsLabel
+  translation: "Rezultatele căutării"
+
+- id: searchTryLabel
+  translation: "Încearcă: "
+
+- id: seriesUnwritten
+  translation: "nescris"
+
+- id: sgNowPlaying
+  translation: "Joacă:"
+
+- id: sgNowReading
+  translation: "Citește:"
+
+- id: sgWords
+  translation:
+    other: "{{ .Count }} cuvinte"
+
+- id: sgWordsK
+  translation: "{{ .Count }}K cuvinte"
+
+- id: socialLinks
+  translation: "Linkuri sociale"

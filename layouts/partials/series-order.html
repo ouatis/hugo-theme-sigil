@@ -1,0 +1,62 @@
+{{- /* 解析 sgSeriesFrom 指向的策展页,提取系列阅读顺序。
+     策展页正文即唯一事实来源:h2/h3 = 卷标题,ol start = 连续编号起点,
+     li 链接 = 已发布章节,li 内 sg-tbd span = 未写占位。
+     partialCached 全站只跑一次(系列结构是全站常量)。
+     返回:nil(未配置/页面不存在)或 dict { entries, volumes, total, from, title }:
+     entries = 扁平章节数组(序号与当前篇计算用);volumes = 卷分组
+     { title, start, entries }(面板按卷折叠展示用),start = 该卷首篇的扁平下标。
+     守卫用 printf 强制字符串化 + and 惰性求值——缺参时 GetPage(nil) 会抛
+     invalid value(demo 站实测) */ -}}
+{{- $from := "" -}}
+{{- with site.Params.sgSeriesFrom -}}{{- $from = printf "%s" . -}}{{- end -}}
+{{- $page := "" -}}
+{{- if $from -}}{{- $page = site.GetPage $from -}}{{- end -}}
+
+{{- if and $from $page -}}
+{{- $matches := findRESubmatch `<h[23][^>]*>([^<]*)</h[23]>|<ol[^>]*start="?(\d+)"?[^>]*>|<li><a href="?([^">]+)"?[^>]*>([^<]+)</a>\s*</li>|<li><span class="?sg-tbd"?>([^<]+)</span>\s*</li>` $page.Content -}}
+
+{{- $entries := slice -}}
+{{- $volumes := slice -}}
+{{- $volTitle := "" -}}
+{{- $volEntries := slice -}}
+{{- $volStart := 0 -}}
+{{- $num := 0 -}}
+{{- range $m := $matches -}}
+    {{- if index $m 1 -}}
+        {{- /* 卷标题:闭合当前卷(有内容才入列),开启新卷 */ -}}
+        {{- if $volEntries -}}
+            {{- $volumes = $volumes | append (dict "title" $volTitle "entries" $volEntries "start" $volStart) -}}
+            {{- $volEntries = slice -}}
+            {{- $volStart = len $entries -}}
+        {{- end -}}
+        {{- $volTitle = index $m 1 -}}
+    {{- else if index $m 2 -}}
+        {{- $num = int (index $m 2) -}}
+    {{- else if index $m 3 -}}
+        {{- $e := dict "href" (index $m 3) "title" (index $m 4) "num" $num "tbd" false -}}
+        {{- $entries = $entries | append $e -}}
+        {{- $volEntries = $volEntries | append $e -}}
+        {{- $num = add $num 1 -}}
+    {{- else if index $m 5 -}}
+        {{- $e := dict "title" (index $m 5) "num" $num "tbd" true -}}
+        {{- $entries = $entries | append $e -}}
+        {{- $volEntries = $volEntries | append $e -}}
+        {{- $num = add $num 1 -}}
+    {{- end -}}
+{{- end -}}
+{{- if $volEntries -}}
+    {{- $volumes = $volumes | append (dict "title" $volTitle "entries" $volEntries "start" $volStart) -}}
+{{- end -}}
+
+{{- if not $entries -}}{{- return nil -}}{{- end -}}
+{{- /* 未写守卫:tbd 条目的标题若与某篇已发布文章同名,说明策展页忘了同步——
+     构建期直接警告(《包法利夫人受审查》曾以「未写」挂了两周) */ -}}
+{{- range $e := $entries -}}
+    {{- if and $e.tbd $e.title -}}
+        {{- range $p := where site.RegularPages "Title" $e.title -}}
+            {{- warnf (printf "[sigil] 系列条目「%s」已发布(%s)但策展页仍标未写——请把 tbd 占位换成链接" $e.title $p.RelPermalink) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return dict "entries" $entries "volumes" $volumes "total" (len $entries) "from" $from "title" $page.Title -}}
+{{- else -}}{{- return nil -}}{{- end -}}

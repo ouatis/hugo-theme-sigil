@@ -1,0 +1,18 @@
+{{- $scratch := newScratch -}}
+{{- $scratch.Add "index" slice -}}
+{{- $contentSite := site }}
+{{- /* ShowDefaultLanguageContent: 非默认语言的列表回退到默认语言内容(界面仍是当前语言) */ -}}
+{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Language.Lang) -}}
+{{- $contentSite = index hugo.Sites 0 -}}
+{{- end -}}
+{{- range $contentSite.RegularPages -}}
+    {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) }}
+    {{- /* date/category/readingtime:搜索结果条目的元信息,与首页条目同一套设计语言 */ -}}
+    {{- $cat := "" -}}
+    {{- $date := "" -}}
+    {{- if not .Date.IsZero -}}{{- $date = .Date.Format "2006.01.02" -}}{{- end -}}
+    {{- with .GetTerms "categories" -}}{{- with index . 0 -}}{{- $cat = .LinkTitle -}}{{- end -}}{{- end -}}
+    {{- $scratch.Add "index" (dict "title" .Title "content" .Plain "permalink" .Permalink "summary" .Summary "date" $date "category" $cat "readingtime" .ReadingTime) -}}
+    {{- end }}
+{{- end -}}
+{{- $scratch.Get "index" | jsonify -}}

@@ -1,0 +1,182 @@
+# hugo-theme-sigil
+
+**[English](README.md)** | [中文](README.zh.md) | 日本語
+
+<p>
+  <img src="https://img.shields.io/github/v/tag/ouatis/hugo-theme-sigil?style=flat-square&label=version&color=ad3e32" alt="Latest tag">
+  <img src="https://img.shields.io/github/license/ouatis/hugo-theme-sigil?style=flat-square&label=license&color=2f6754" alt="MIT License">
+</p>
+
+[Hugo](https://gohugo.io/) 向けの控えめな文学系テーマです。
+[PaperMod](https://github.com/adityatelange/hugo-PaperMod) をベースにしています。
+
+デモ：<https://ouatis.com/hugo-theme-sigil/>
+
+![SIGIL ライト／ダークモード](images/sigil-preview.jpg)
+
+**[Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0 が必要です**
+（OG カード生成に `images.Text` を使うため、extended ビルドが必須）。
+
+> 上部のバージョンバッジは最新の**タグ**を反映します。各タグの内容はタグメッセージ自体に記録しています（`git tag -l -n20`）。
+
+## 特徴
+
+- ワイド画面の Tufte 風サイドノートと狭い画面の脚注
+- Ghost-year 年別アーカイブ
+- 円形リビール式ダークモード
+- 全文 RSS
+- IBM Plex と CJK フォントサブセット
+- JSON Feed 1.1(`/feed.json`、RSS と並存、ビルド時に自動生成)
+- 47 言語のインターフェース、右横書き対応——RTL サイト（ar/fa/he/ckb）は `direction = "rtl"` の宣言でレイアウト全体を鏡像化（サイドノートと浮遊目次を含む）
+- 検索、分類、タグ、パンくず、目次、コードコピー、多言語文字列
+- ページ単位で有効化:KaTeX 数式(同梱)、Mermaid 図(固定版 CDN)、画像ライトボックス(glightbox、同梱)
+- 記事タイトルから OG 画像カードを自動生成(`images.Text`、ビルド時のみ)
+- 外部リンクの扉マークはレンダーフックがホスト名で判定(ドメイン直書きなし)
+- `llms.txt`(任意で `llms-full.txt`)— AI エージェント向けの機械可読サイトインデックス
+- メンテナとエージェントは [AGENTS.md](AGENTS.md) へ:ビルド/検証コマンドと既知の落とし穴。`scripts/check.sh` が一回きりの検証
+
+## インストール
+
+git サブモジュールとして：
+
+```bash
+git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
+```
+
+```toml
+# hugo.toml
+theme = "hugo-theme-sigil"
+```
+
+または [Hugo モジュール](https://gohugo.io/hugo-modules/) として：
+
+```bash
+hugo mod init github.com/you/your-site   # サイトに既に go.mod があれば不要
+```
+
+```toml
+# hugo.toml
+[module]
+  [[module.imports]]
+    path = "github.com/ouatis/hugo-theme-sigil"
+```
+
+サンプルサイトのプレビュー：
+
+```bash
+git clone https://github.com/ouatis/hugo-theme-sigil
+cd hugo-theme-sigil/exampleSite
+hugo server --themesDir ../..
+```
+
+## 設定
+
+### 目的から設定を探す
+
+以下の項目はどれも「設定しなければ有効にならない」。作りたいものを下の表で探し、
+該当する行だけを `hugo.toml` へ書き足してください。
+
+| やりたいこと | 設定 | 適用範囲 |
+| --- | --- | --- |
+| ホームのタイトル上に小さな一行を足す | `sgKicker` | サイト |
+| ホームの大タイトルを差し替える | `sgHomeTitle` | サイト |
+| `∴` の印を画像に置き換える | `sgSealImage` | サイト |
+| 印のそばで切り替わるステータス行 | `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` の任意の組み合わせ | サイト |
+| ホームのフィード件数を制限する | `homePageSize` | サイト |
+| 読む順序どおりに並ぶシリーズパネルを付ける | `sgSeriesFrom`（`sgSeriesTab` と併用） | サイト |
+| RSS に全文を含める | `ShowFullTextinRSS` | サイト |
+| エージェント向けの機械可読インデックスを出す | `[outputs] home` に `LLMSTXT`（必要なら `LLMSFULL`） | サイト |
+| 表紙のないページのSNSカードを作る | `ogAutoCard`（CJK なら `ogCardFont` も） | サイト |
+| 数式・図・画像ライトボックスを入れる | `math` / `mermaid` / `lightbox` | ページ／サイト |
+| 特定の投稿をホームから外す | `hiddenInHomeList` | ページ |
+| 特定の投稿を検索索引から外す | `searchHidden` | ページ |
+| ページの関連記事を消す | `showRelated: false` | ページ |
+| ページのコメントを消す | `comments: false` | ページ |
+
+サイト指定の `math` / `mermaid` / `lightbox` は全ページへ効くが、個々のページの
+frontmatter が上書きできる。いずれの書き方でも、要求していないページは
+その機能を読み込まない。
+
+PaperMod の一般的な設定を利用できます。SIGIL 固有の設定：
+
+| パラメータ | 初期値 | 用途 |
+| --- | --- | --- |
+| `sgKicker` | 非表示 | ホームタイトル上のテキスト |
+| `sgHomeTitle` | サイトタイトル | ホームタイトル |
+| `sgReading` / `sgPlaying` / `sgMotto` | 非表示 | ホームのステータス |
+| `sgSealImage` | `∴` | ホームの印章画像 |
+| `sgDaysInCage` | `false` | ステータス行の経過日数「Day N in the Cage」,最古の投稿から起算 |
+| `ShowFullTextinRSS` | `false` | RSS に全文を含める |
+| `ShowAllPagesInArchive` | `false` | アーカイブに全ページを含める |
+| `homePageSize` | すべて | 1ページの投稿数 |
+| `sgSeriesFrom` | 非表示 | シリーズナビ:策展ページの本文リストを読み順に;`sgSeriesTab` でタブラベル |
+| `math` / `mermaid` / `lightbox` | `false` | ページの frontmatter かサイト全体で有効化:KaTeX 数式、Mermaid 図、画像ライトボックス。要求しないページは何も読まない。`$$…$$` はそのまま動作 — 行内 `\(…\)` は goldmark passthrough も有効化([exampleSite/hugo.toml](exampleSite/hugo.toml) 参照) |
+| `ogAutoCard` | `false` | カバー画像のないページに、タイトル+サイト名で 1200×630 の OG カードをビルド時に生成 |
+| `ogCardFont` | 同梱 Plex Serif | OG カード用 TTF の `resources.Get` パス。同梱はラテン文字のみ — CJK サイトはタイトル用字のサブセット TTF を用意して指定 |
+| `analytics.*` | 非表示 | サードパーティ統計(本番のみ):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
+| `llmsTxtIntro` | 非表示 | `llms.txt` 内の任意の一文紹介 |
+
+frontmatter のスイッチ: `hiddenInHomeList`（ホームのフィードから除外）、
+`searchHidden`（検索索引から除外）、`showRelated: false`（関連記事を非表示）、
+`comments: false`（そのページのコメントを無効化）、および通常の `cover.*`、
+`robotsNoIndex` と PaperMod の frontmatter 一族。
+
+### エージェント可読出力(llms.txt)
+
+home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
+`LLMSFULL`(同じヘッダ + 各投稿の全文)を加えると有効になります:
+
+```toml
+[outputs]
+  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+```
+
+キーページ節は About/アーカイブ/タクソノミー/RSS を自動検出。
+手で編み込むなら `layouts/home.llmstxt.txt` を上書きしてください。
+
+完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照してください。
+
+## フォント
+
+フォントサブセット（任意——テーマはラテン文字を同梱し、すぐに使えます）：
+
+- `latin` —— ラテン文字のみ。リポジトリ同梱のブートストラップ サブセット
+  （CJK テキストはシステムフォールバック）。クリーンなチェックアウトのデフォルト形態
+- `corpus` —— 例示サイト自身の文字を走査し、小さな SC コーパス サブセットを
+  作成。デモの CJK が本物の Plex で表示される（約 30 KB）。**シェルスクリプトのみ**——
+  `scripts/build-fonts.py` は `latin`/`full` のみ対応し `corpus` は非対応。
+- `full` —— 公式 SC + JP 全分割シャード（全量カバーが必要な CJK/JP サイト向け;
+  テキストの多いページで約 3 MB）
+
+```bash
+bash scripts/build-fonts.sh corpus   # または latin / full
+```
+
+## パフォーマンス
+
+サンプルサイトの minify ビルドで実測：
+
+- トップページ合計 約 **78 KB**：HTML 16 KB + CSS 57 KB + インライン JS 5 KB、**外部 JavaScript ゼロ**
+- オプションは必要時のみ：検索スクリプト 18 KB（検索ページ）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
+- フォント：デモは `corpus` パイプラインを実行するため、CJK が本物の Plex で表示される——テキストの多いページで初回約 **104 KB**（ラテン サブセット + 小さな SC コーパス）。`latin` のみのサイトは約 85 KB（CJK はシステムフォールバック）。全量の中/日文カバーが必要なサイトは `full`（約 3 MB、1 ファイルがサイト全体でキャッシュされ、`font-display: swap` が待ち時間をカバー）
+- フレームワークなし、jQuery なし、実行時 CDN 依存なし
+
+## 安定性
+
+公開契約——パラメータ名、`sg-*` クラス名、出力フォーマット、データ構造、
+拡張 partial——は **v0.9.0 で凍結**：改名には非推奨期間を設け、削除はメジャー
+リリースまで待ちます。契約の全文と非推奨ポリシーは
+[docs/api.md](docs/api.md) を参照。両インストール方式（submodule と Hugo
+module）は CI で検証されています。
+
+## 翻訳
+
+同梱の 47 言語は大部分が機械補完です。母語話者による修正を歓迎します——`i18n/*.yaml` のみを変更した issue / PR をどうぞ;新しいキーはまず `en` に入り、他言語はフォールバックします。
+
+## ライセンス
+
+MIT。詳細は [LICENSE](LICENSE) を参照してください。
+
+PaperMod ベース。フォントは IBM Plex（SIL OFL 1.1）、アイコンは Phosphor
+Icons（MIT）、検索は Fuse.js（Apache-2.0）、数式は KaTeX（MIT、同梱）、
+ライトボックスは glightbox（MIT、同梱）、図は Mermaid（MIT、必要なページのみ固定版 CDN）。

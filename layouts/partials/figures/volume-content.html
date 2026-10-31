@@ -1,0 +1,54 @@
+{{- /* Read the existing Markdown catalogue, not the host page's .Content.
+     h2 sections correspond to the actual fragments supplied by the shortcode;
+     numbered Markdown links are chapter candidates. Fenced examples are ignored.
+     No separate volume manifest, no guesses for unpublished placeholders. */ -}}
+{{- $page := .page -}}
+{{- $pages := partialCached "figures/page-url-index.html" $page.Site -}}
+{{- $host := (urls.Parse $page.Site.Home.Permalink).Host -}}
+{{- $sections := slice -}}
+{{- $entries := slice -}}
+{{- $inSection := false -}}
+{{- $fence := "" -}}
+{{- range split $page.RawContent "\n" -}}
+    {{- $line := strings.TrimSpace . -}}
+    {{- $fences := findRE "^(`{3,}|~{3,})" $line 1 -}}
+    {{- if $fences -}}
+        {{- $marker := index $fences 0 -}}
+        {{- if not $fence -}}
+            {{- $fence = $marker -}}
+        {{- else if and (strings.HasPrefix $marker (substr $fence 0 1)) (ge (len $marker) (len $fence)) -}}
+            {{- $fence = "" -}}
+        {{- end -}}
+    {{- else if not $fence -}}
+        {{- if findRE `^ {0,3}##[ \t]+` . -}}
+            {{- if $inSection -}}{{- $sections = $sections | append (dict "entries" $entries) -}}{{- end -}}
+            {{- $inSection = true -}}
+            {{- $entries = slice -}}
+        {{- else if $inSection -}}
+            {{- range findRESubmatch `^[ \t]*[0-9]+[.)][ \t]+\[.+?\]\(([^ \t)]+)` . -}}
+                {{- $href := index . 1 | strings.TrimPrefix "<" | strings.TrimSuffix ">" -}}
+                {{- $target := urls.Parse $href -}}
+                {{- if and (or (not $target.Host) (eq $target.Host $host)) (strings.HasPrefix $target.Path "/") -}}
+                    {{- $entries = $entries | append ($target.Path | strings.TrimSuffix "/") -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- if $inSection -}}{{- $sections = $sections | append (dict "entries" $entries) -}}{{- end -}}
+{{- $metrics := slice -}}
+{{- $aligned := eq (len $sections) (len .volumes) -}}
+{{- range $index, $volume := .volumes -}}
+    {{- $words := 0 -}}
+    {{- $chapters := 0 -}}
+    {{- if $aligned -}}
+        {{- range uniq (index $sections $index).entries -}}
+            {{- with index $pages . -}}
+                {{- $words = add $words .WordCount -}}
+                {{- $chapters = add $chapters 1 -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+    {{- $metrics = $metrics | append (merge $volume (dict "words" $words "chapters" $chapters)) -}}
+{{- end -}}
+{{- return $metrics -}}

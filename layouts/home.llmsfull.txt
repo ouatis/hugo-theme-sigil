@@ -1,0 +1,12 @@
+{{- /* llms-full.txt:llms.txt 的全文版——同一头部,其后逐篇展开
+     plainify 的正文。体量随全站增长,代理抓取请按需取用 */ -}}
+{{- partial "llms-header.html" . }}
+{{- range where site.RegularPages "Type" "in" site.Params.mainSections }}
+## {{ .Title }}
+
+- URL: {{ .Permalink }}
+- Published: {{ .Date.Format "2006-01-02" }}
+
+{{ plainify .Content | chomp }}
+
+{{ end }}
