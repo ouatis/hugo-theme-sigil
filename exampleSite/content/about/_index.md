@@ -38,4 +38,12 @@ one family — so you can judge the typesetting before installing. Read
 [Documentation](/docs/) when you are ready. The essays in the [archives](/archives/)
 are here to show how real prose sits on the page.
 
+## In the Wild
+
+SIGIL was not designed in the abstract. It runs [Once Upon a Time in
+SigiL](https://ouatis.com/), the author's own archive of essays on literature,
+history, and games — written mostly in Chinese. The measure, the sidenotes, and
+the three accents were settled against those pages before they were carried
+over to this demo.
+
 ∴
