@@ -1,0 +1,11 @@
+{{- /*
+CJK-aware reading time. Hugo's built-in .ReadingTime counts space-separated
+words, which undercounts Chinese prose by an order of magnitude. Rates follow
+the A4 theme's field-tested defaults: 300 CJK chars/min, 160 latin words/min.
+Expects a page as context.
+*/ -}}
+{{- $plain := .Content | plainify -}}
+{{- $cjk := len (findRE `\p{Han}` $plain) -}}
+{{- $latin := len (findRE `[a-zA-Z0-9]+` $plain) -}}
+{{- $minutes := add (div $cjk 300) (div $latin 160) -}}
+{{- return int (math.Max 1 $minutes) -}}

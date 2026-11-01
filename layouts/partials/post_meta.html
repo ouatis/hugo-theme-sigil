@@ -5,7 +5,7 @@
 {{- end }}
 
 {{- if (.Param "ShowReadingTime") -}}
-{{- $scratch.Add "meta" (slice (printf "<span class='post-meta__item'>%s%s</span>" (partial "sg-icon.html" (dict "name" "clock" "size" 13)) (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)))) }}
+{{- $scratch.Add "meta" (slice (printf "<span class='post-meta__item'>%s%s</span>" (partial "sg-icon.html" (dict "name" "clock" "size" 13)) (i18n "read_time" (partial "cjk-reading-minutes.html" .) | default (printf "%d min" (partial "cjk-reading-minutes.html" .))))) }}
 {{- end }}
 
 {{- if (.Param "ShowWordCount") -}}

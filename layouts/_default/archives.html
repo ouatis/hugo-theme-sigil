@@ -79,7 +79,7 @@
             {{- $bits = $bits | append (time.Format "Jan 2" .Date) -}}
           {{- end -}}
           {{- if (.Param "ShowReadingTime") -}}
-            {{- $bits = $bits | append (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)) -}}
+            {{- $bits = $bits | append (i18n "read_time" (partial "cjk-reading-minutes.html" .) | default (printf "%d min" (partial "cjk-reading-minutes.html" .))) -}}
           {{- end -}}
           {{- if (.Param "ShowWordCount") -}}
             {{- $bits = $bits | append (i18n "words" .WordCount | default (printf "%d words" .WordCount)) -}}
