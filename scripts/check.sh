@@ -370,7 +370,13 @@ detail = " ".join(f"{lang}={kb}KB" for lang, kb in costs.items())
 # (a new About, a new essay) grows the SC/JP face for every language at
 # once — the English page loads SC too. The budget must sit above the
 # current worst with room for normal content growth, not flush against it.
-budget = int(os.environ.get("FONT_BUDGET_KB", "280"))
+#
+# 2026-11-01: the 280 default had drifted to 278 — 2KB of headroom — and a
+# trilingual About section (~100 CJK characters) cost 6KB, so a content-only
+# change failed the demo deploy. Raised to 320: still a real gate (a stray
+# weight or a duplicated charset jumps far more than 40KB), but wide enough
+# that writing pages does not trip it.
+budget = int(os.environ.get("FONT_BUDGET_KB", "320"))
 if worst > budget:
     print(f"check: FAIL — bundled fonts worst={worst}KB > budget {budget}KB ({detail})")
     raise SystemExit(1)
