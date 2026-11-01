@@ -192,9 +192,9 @@ bash scripts/build-fonts.sh corpus   # or latin / full
 - `latin` — Latin only; the bootstrap subset already committed to the repo
   (CJK text falls back to system fonts). This is the clean-checkout default.
 - `corpus` — additionally scans the example site's own characters and subsets
-  a small SC corpus so the demo's CJK renders in real Plex (~30 KB). **Shell
-  script only** — `scripts/build-fonts.py` covers `latin`/`full` but not
-  `corpus`.
+  an SC/JP corpus so the demo's CJK renders in real Plex (SC ≈ 212 KB for
+  regular + bold, growing with the site's own text). **Shell script only** —
+  `scripts/build-fonts.py` covers `latin`/`full` but not `corpus`.
 - `full` — official SC + JP split shards (for CJK/JP sites that want full
   coverage; ~3 MB on a text-heavy page)
 
@@ -204,7 +204,8 @@ Measured on the example site, minified build:
 
 - Homepage: ~78 KB total — 16 KB HTML + 57 KB CSS + 5 KB inline JS, **zero external JavaScript**
 - Optional, opt-in only: search script 18 KB (search page), KaTeX 332 KB (`math = true`), GLightbox 56 KB (`lightbox = true`)
-- Fonts: the demo runs the `corpus` pipeline, so its CJK renders in real Plex — ~104 KB first visit on a text-heavy page (Latin subsets + a small SC corpus). A `latin`-only site is ~85 KB (CJK falls back to system fonts). Sites needing full CJK/JP coverage run `full` (~3 MB, one file cached site-wide, `font-display: swap` covers the wait)
+- Fonts: the demo runs the `corpus` pipeline, so its CJK renders in real Plex — the densest page (the typography sample) loads ~284 KB of bundled fonts in en/zh and ~222 KB in ja on a first visit. A `latin`-only site is ~85 KB (CJK falls back to system fonts). Sites needing full CJK/JP coverage run `full` (~3 MB, one file cached site-wide, `font-display: swap` covers the wait)
+- Font budget: `scripts/check.sh` fails the demo deploy when the worst language page exceeds 320 KB of bundled fonts (`FONT_BUDGET_KB` overrides it). The corpus is scanned site-wide, so writing Chinese pages grows it for every language at once — keep the budget above the current worst with room to write, not flush against it
 - No frameworks, no jQuery, no runtime CDN dependencies
 
 ## Stability
