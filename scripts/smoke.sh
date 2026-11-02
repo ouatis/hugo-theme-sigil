@@ -35,6 +35,7 @@ PAGES = {
     "en docs":     "/docs/",
     "zh docs":     "/zh-cn/docs/",
     "ja docs":     "/ja/docs/",
+    "en search":   "/search/?q=typography",
 }
 # Console errors that are noise, not the site's fault (e.g. a pinned CDN ping).
 IGNORE = ("Failed to load resource", "net::ERR")
@@ -67,11 +68,37 @@ with sync_playwright() as p:
             if page.locator(".sidenote-number").count() == 0:
                 checks.append("no sidenote markers")
 
+        # Search runs entirely in the browser: index.json is fetched, Fuse
+        # builds an index, ?q= is read and results are rendered. A static
+        # build check can only see the JSON file, so this is the one place
+        # that proves the chain from index to visible hit.
+        if "search" in name:
+            try:
+                page.wait_for_selector("#searchResults li.sg-entry", timeout=10000)
+            except Exception:
+                checks.append("no search results for ?q=typography")
+            else:
+                hits = page.locator("#searchResults li.sg-entry").count()
+                # The visible title lives in the entry's <h3>; the <a> is an
+                # empty stretched link carrying only an aria-label.
+                title = page.locator("#searchResults li.sg-entry h3").first.inner_text()
+                title = title.strip()
+                if hits == 0:
+                    checks.append("no search results for ?q=typography")
+                elif not title:
+                    checks.append("a search hit rendered without a title")
+                elif "typography" not in title.lower():
+                    checks.append(f"first hit for ?q=typography is {title[:40]!r}")
+
         if checks:
             failures.append(f"{name}: {'; '.join(checks)}")
             print(f"FAIL  {name}: {'; '.join(checks)}")
         else:
-            extra = f", {page.locator('.katex').count()} katex" if "typography" in name else ""
+            extra = ""
+            if "typography" in name:
+                extra = f", {page.locator('.katex').count()} katex"
+            elif "search" in name:
+                extra = f", {page.locator('#searchResults li.sg-entry').count()} hits"
             print(f"ok    {name} (200, no console errors{extra})")
         ctx.close()
     browser.close()

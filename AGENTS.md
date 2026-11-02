@@ -24,6 +24,12 @@ A clean exit from `scripts/check.sh` is the definition of "works". Run it
 before proposing any change. CI (`.github/workflows/demo.yml`) builds
 exampleSite for the demo site; fonts are regenerated there on every deploy.
 
+`scripts/smoke.sh` is the browser half of the same contract, and it needs
+Playwright plus a served build, so it runs in CI: it proves what no static
+check can see — KaTeX actually rendered, sidenote markers exist, a `?q=`
+search renders a visible hit from `index.json`, and no page logs a console
+error. Static output can be green while all of that is broken.
+
 `check.sh` also treats the **machine-readable output as a contract**, not just
 "the file exists": RSS dates must parse as RFC 822 and every channel must
 carry `atom:link rel=self`; `feed.json` must be JSON Feed 1.1 with unique
@@ -35,7 +41,11 @@ every `target=_blank` must have
 `noopener noreferrer` in `rel`; every external link in post content must
 carry `sg-ext` and no internal one may; `llms-full.txt` must exist, be larger
 than `llms.txt`, and carry one `## <title>` section per post that `llms.txt`
-lists; no built JS bundle may contain `console.log`; and a build with
+lists; no built JS bundle may contain `console.log`; every `index.json` must
+parse as a JSON array of entries carrying `title`, `content`, `permalink`,
+`summary`, `date`, `category` and `readingtime`, with absolute unique
+permalinks and no HTML entity left in `content` (search indexes the text, so
+`theme&rsquo;s` never matches a query for `theme's`); and a build with
 `ShowFullTextinRSS` turned on must still parse as XML with every item that has
 a summary also carrying `<content:encoded>` full text.
 `scripts/check-contracts-negative.py` proves those

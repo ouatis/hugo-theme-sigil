@@ -63,6 +63,7 @@ def main():
     llms_code = None
     assets_code = None
     fulltext_code = None
+    search_code = None
     for lineno, code in blocks():
         if "JSON Feed" in code and "pubDate" in code:
             feed_code = code
@@ -74,11 +75,14 @@ def main():
             assets_code = code
         if "content:encoded" in code and "ShowFullTextinRSS" in code:
             fulltext_code = code
-    assert feed_code and meta_code and llms_code and assets_code and fulltext_code, (
-        "could not locate all five blocks: "
+        if "index.json" in code and "readingtime" in code:
+            search_code = code
+    assert (feed_code and meta_code and llms_code and assets_code
+            and fulltext_code and search_code), (
+        "could not locate all six blocks: "
         f"feed={bool(feed_code)} meta={bool(meta_code)} "
         f"llms={bool(llms_code)} assets={bool(assets_code)} "
-        f"fulltext={bool(fulltext_code)}"
+        f"fulltext={bool(fulltext_code)} search={bool(search_code)}"
     )
 
     failures = []
@@ -348,6 +352,54 @@ def main():
         expect("body degraded to the summary fails", r.returncode != 0)
         for path, text in saved.items():
             io.open(path, "w", encoding="utf-8", newline="").write(text)
+
+        print("search index block")
+        r = run(search_code, tmp)
+        expect("clean public passes", r.returncode == 0, r.stdout.strip()[-80:])
+
+        idx_path = os.path.join(tmp, "public", "index.json")
+        orig_idx = io.open(idx_path, encoding="utf-8").read()
+        entries = json.loads(orig_idx)
+
+        def write_idx(data):
+            io.open(idx_path, "w", encoding="utf-8", newline="").write(
+                json.dumps(data, ensure_ascii=False))
+
+        # 22. an entity survives into the plain-text body (the .Plain bug)
+        data = json.loads(orig_idx)
+        data[0]["content"] = "theme&rsquo;s contract " + data[0]["content"]
+        write_idx(data)
+        r = run(search_code, tmp)
+        expect("HTML entity in index content fails", r.returncode != 0,
+               r.stderr.strip().splitlines()[-1][:90] if r.stderr.strip() else "")
+
+        # 23. a required field disappears from an entry
+        data = json.loads(orig_idx)
+        del data[0]["permalink"]
+        write_idx(data)
+        r = run(search_code, tmp)
+        expect("missing permalink in an entry fails", r.returncode != 0)
+
+        # 24. two entries claim the same permalink
+        data = json.loads(orig_idx)
+        data[1]["permalink"] = data[0]["permalink"]
+        write_idx(data)
+        r = run(search_code, tmp)
+        expect("duplicate permalink fails", r.returncode != 0)
+
+        # 25. the file stops being JSON at all
+        io.open(idx_path, "w", encoding="utf-8", newline="").write(orig_idx.rstrip()[:-1])
+        r = run(search_code, tmp)
+        expect("truncated index.json fails", r.returncode != 0)
+        io.open(idx_path, "w", encoding="utf-8", newline="").write(orig_idx)
+
+        # 26. one language loses its index entirely
+        ja = os.path.join(tmp, "public", "ja", "index.json")
+        orig_ja = io.open(ja, encoding="utf-8").read()
+        os.remove(ja)
+        r = run(search_code, tmp)
+        expect("missing per-language index fails", r.returncode != 0)
+        io.open(ja, "w", encoding="utf-8", newline="").write(orig_ja)
 
     print()
     if failures:

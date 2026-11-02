@@ -12,7 +12,10 @@
     {{- $date := "" -}}
     {{- if not .Date.IsZero -}}{{- $date = .Date.Format "2006.01.02" -}}{{- end -}}
     {{- with .GetTerms "categories" -}}{{- with index . 0 -}}{{- $cat = .LinkTitle -}}{{- end -}}{{- end -}}
-    {{- $scratch.Add "index" (dict "title" .Title "content" .Plain "permalink" .Permalink "summary" .Summary "date" $date "category" $cat "readingtime" .ReadingTime) -}}
+    {{- /* .Plain strips tags but leaves entities (&rsquo;, &#34;, &lt;) in the
+           index; Fuse then indexes "theme&rsquo;s" and a query for "theme's"
+           never matches. Decode before indexing — same trap as llms-full.txt. */ -}}
+    {{- $scratch.Add "index" (dict "title" .Title "content" (.Plain | htmlUnescape) "permalink" .Permalink "summary" .Summary "date" $date "category" $cat "readingtime" .ReadingTime) -}}
     {{- end }}
 {{- end -}}
 {{- $scratch.Get "index" | jsonify -}}

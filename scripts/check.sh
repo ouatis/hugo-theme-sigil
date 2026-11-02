@@ -114,6 +114,79 @@ for path in bundles:
 print(f"check: assets — {len(bundles)} built bundle(s) carry no console.log")
 PY
 
+# Search index. Nothing else in this script touches index.json, so the index
+# Fuse reads could go empty, malformed or entity-riddled with every other
+# assertion still green — and the search page renders results from JS, so the
+# static build looks fine. `.Plain` strips tags but leaves entities behind
+# (&rsquo;, &#34;, &lt;); indexed verbatim, "theme&rsquo;s" never matches a
+# query for "theme's". Only `content` is asserted: `summary` is HTML by
+# contract, where entities are correct.
+"$SG_PY" - <<'PY'
+import glob, json, os, re, sys
+from urllib.parse import urlsplit
+
+ENTITY = re.compile(r"&(?:[a-zA-Z][a-zA-Z0-9]*|#\d+|#[xX][0-9a-fA-F]+);")
+FIELDS = ("title", "content", "permalink", "summary", "date", "category",
+          "readingtime")
+
+
+def fail(why):
+    print(f"check: FAIL — {why}", file=sys.stderr)
+    sys.exit(1)
+
+
+with open("public/index.html", encoding="utf-8") as handle:
+    home = handle.read()
+canon = re.search(r'<link rel=canonical href=["\']?(https?://[^"\' >]+)', home)
+if not canon:
+    fail("public/index.html has no canonical link — cannot derive the site root")
+root = canon.group(1)
+origin = "{0.scheme}://{0.netloc}{1}".format(urlsplit(root), os.path.dirname(urlsplit(root).path).rstrip("/") + "/")
+
+indexes = sorted(glob.glob("public/**/index.json", recursive=True))
+if not indexes:
+    fail("no index.json found under public/ — the search index is not being built")
+for required in ("public/index.json", "public/zh-cn/index.json",
+                 "public/ja/index.json"):
+    if required.replace("/", os.sep) not in [p.replace("/", os.sep) for p in indexes]:
+        fail(f"{required} is missing — that language has no searchable index")
+
+entries = 0
+for path in indexes:
+    try:
+        data = json.load(open(path, encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        fail(f"{path} is not valid JSON: {exc}")
+    if not isinstance(data, list):
+        fail(f"{path} is not a JSON array")
+    if not data:
+        fail(f"{path} is empty — search would return nothing")
+    seen = set()
+    for rank, entry in enumerate(data):
+        if not isinstance(entry, dict):
+            fail(f"{path} entry #{rank} is not an object")
+        missing = [k for k in FIELDS if k not in entry]
+        if missing:
+            fail(f"{path} entry #{rank} is missing {', '.join(missing)}")
+        if not (entry.get("title") or "").strip():
+            fail(f"{path} entry #{rank} has an empty title")
+        link = entry.get("permalink") or ""
+        if not link.startswith(origin):
+            fail(f"{path} entry #{rank} permalink is not absolute under "
+                 f"{origin}: {link!r}")
+        if link in seen:
+            fail(f"{path} lists {link} twice — duplicate search hit")
+        seen.add(link)
+        found = ENTITY.findall(entry.get("content") or "")
+        if found:
+            fail(f"{path} entry #{rank} ({entry.get('title')!r}) keeps HTML "
+                 f"entities in content: {', '.join(sorted(set(found)))} — "
+                 "pipe .Plain through htmlUnescape in index.json")
+        entries += 1
+print(f"check: search index — {entries} entries across {len(indexes)} index.json "
+      f"files, no HTML entities in content")
+PY
+
 # feed.json: JSON Feed 1.1 alongside RSS
 [ -s public/feed.json ] || fail "feed.json missing"
 
