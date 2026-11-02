@@ -147,6 +147,48 @@ jobs:
             gh issue create --repo "${{ github.repository }}" --title "🔴 Demo 部署失败（自动工单）" --body "$BODY"
           fi
 
+  # `build` 钉的是地板：theme.toml 的 min_version，也就是一个久没更新的安装
+  # 会跑到的版本。但用户升级 Hugo 当天就会拿到比它新的二进制，而 Hugo 跨 minor
+  # 改过东西。这个 job 用最新 release 跑同一套断言，让上游的破坏落在这里，
+  # 而不是落到用户的问题报告里。
+  # Dependabot 看不见 workflow 里的版本字符串：Hugo 发版时手动改下面这个数字
+  # （见 AGENTS.md）；min_version 只在地板真的抬高时才动。
+  hugo-latest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup newest Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.169.0"
+          extended: true
+
+      # 字体子集不是产物的一部分：check.sh 要读 public/fonts/ibm-plex/result.css，
+      # 没有这一步断言会静默地跑在空集上。
+      - name: Cache IBM Plex source
+        uses: actions/cache@v6
+        with:
+          path: .cache/ibm-plex
+          key: ibm-plex-1.1.0
+
+      - name: Install font tooling
+        run: python3 -m pip install --quiet fonttools brotli
+
+      - name: Build font subsets for the demo
+        run: |
+          scripts/build-fonts.sh corpus
+          mkdir -p exampleSite/static
+          cp -r static/fonts exampleSite/static/fonts
+
+      # 和 main 上同一套：构建 + 全部产物断言，再加一遍证明断言会咬的负例。
+      - name: Verify build and contracts on the newest Hugo
+        run: |
+          bash scripts/check.sh
+          python3 scripts/check-contracts-negative.py
+
   # 部署完成后在真实浏览器里验证。check.sh 只查构建产物；这里查 JS 真的跑了——
   # KaTeX 渲染、旁注切换、无控制台报错——这些静态检查看不见。跑在部署之后，测的是
   # 线上站点；不阻塞部署，失败只开工单。

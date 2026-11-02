@@ -33,6 +33,12 @@ report green for a change nobody installed. Any new workflow step that writes
 to the repository (deploy, issue, run deletion) must carry
 `if: github.event_name != 'pull_request'`.
 
+`build` pins the floor: the Hugo `min_version` in `theme.toml`, i.e. what an
+install that has not been touched in a year still runs. The separate
+`hugo-latest` job runs the same `check.sh` + negative suite on the newest Hugo
+release, because Hugo has broken themes across minors and a user gets the new
+binary the day it ships — that break must land in CI, not in an issue.
+
 `scripts/smoke.sh` is the browser half of the same contract, and it needs
 Playwright plus a served build, so it runs in CI: it proves what no static
 check can see — KaTeX actually rendered, sidenote markers exist, a `?q=`
@@ -68,7 +74,11 @@ hand-quoted fields disagree, and the same quote is emitted as `\"`, `\u0022`
 or `\u0026quot;` depending on the field. The output happened to parse; nothing
 guaranteed it would keep parsing. See Pitfall 9.
 
-Environment: Hugo 0.166 (match CI). Font tooling needs a real python3 with
+Environment: Hugo 0.166 is the floor (`theme.toml`'s `min_version`) and what
+`build` runs; `hugo-latest` builds on the newest release (0.169 when this was
+written) — when a template change is involved, run both.
+
+Font tooling needs a real python3 with
 fonttools + brotli. On Windows `python3` is often the Microsoft Store stub:
 it exists on PATH but every call exits 49 with no output, so `command -v`
 proves nothing. `scripts/lib-python.sh` resolves an interpreter by actually
@@ -78,6 +88,35 @@ pin a specific interpreter — an unusable value is a hard error, never a
 silent fallback. In Git Bash, PATH entries must use POSIX form (`/c/...`); a
 `C:/...` entry silently does not take effect. Never pipe a foreground
 `hugo server` into `head` (SIGPIPE kills it).
+
+## CI
+
+Four workflows, each carrying a different half of "works":
+
+| Workflow | Job | Runs on | Proves |
+| --- | --- | --- | --- |
+| `demo.yml` | `build` | push main / PR / dispatch | `check.sh` + negative suite; deploys Pages on main, then smokes the live site |
+| `demo.yml` | `hugo-latest` | push main / PR / dispatch | the same suite on the newest Hugo release |
+| `install-modes.yml` | submodule / module | main only | a clean install renders (they clone this repo by URL, so on a PR they would test main) |
+| `install-modes.yml` | resource-integrity | push main / PR | every committed CSS `@import` target exists in the checkout |
+| `workflow-lint.yml` | actionlint | push main / PR | the workflows themselves: event wiring, expressions, `run:` shell |
+
+Every step that writes to the repository (deploy, run pruning, failure
+tickets) carries `if: github.event_name != 'pull_request'`.
+
+Two version strings are hand-maintained, because Dependabot cannot see them:
+
+- the Hugo pins: `0.166.0` is the floor and must stay equal to `theme.toml`'s
+  `min_version`; the `0.169.0` in `hugo-latest` should track the newest
+  release. Bump it when Hugo ships.
+- the actionlint download URL in `workflow-lint.yml`.
+
+Everything else — the action tags — arrives as a weekly Dependabot PR
+(`.github/dependabot.yml`) and is verified by the PR pipeline before merging.
+
+`main` rejects force pushes and deletion (no required checks: direct pushes
+still work). Losing that protection means a `--force` can rewrite history
+someone already cloned.
 
 ## Map
 

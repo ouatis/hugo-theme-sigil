@@ -1,0 +1,35 @@
+name: Workflow lint
+
+# 本仓库的 workflow 里塞了不少条件逻辑：哪些步骤在 PR 上跑、哪些只写 main、
+# 哪个 job 在 PR 上整体跳过。这类错误不会让 build 变红——一个写错的条件只是让
+# gate 静默失效，和从来没写过一样。actionlint 检查的正是 YAML 里的表达式、
+# 事件与 job 连接，local 已经手跑过；放这里是为了以后不必再手跑。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: workflow-lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # 版本钉死而不是 latest：上游发版不该让一个没人动过的 PR 变红。
+      # Dependabot 只能升 actions/* 的 tag，升不了这个下载地址——发版时手动改，
+      # 和 Hugo 的版本字符串一样是手维护的两处（见 AGENTS.md）。
+      # shellcheck 在 ubuntu runner 上预装，actionlint 会自动拿它检查 run: 块。
+      - name: Run actionlint
+        run: |
+          curl -sSfLo actionlint.tar.gz \
+            "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz"
+          tar -xzf actionlint.tar.gz actionlint
+          ./actionlint -color
