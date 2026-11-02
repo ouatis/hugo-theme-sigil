@@ -3,6 +3,7 @@ name: Demo
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -12,8 +13,10 @@ permissions:
   actions: write
   issues: write
 
+# Keyed by ref: a pull-request run must never cancel a deploy that is already
+# publishing main, and two PRs must not cancel each other.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -51,39 +54,74 @@ jobs:
 
       - name: Setup Pages
         id: pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
 
+      # A pull request is built against a local origin: nothing is deployed, and
+      # the browser smoke below serves this very directory, so the assertions run
+      # against the PR's own output instead of the live site.
       - name: Build example site
         run: |
           mkdir -p /tmp/hugo-themes
           ln -s "$GITHUB_WORKSPACE" /tmp/hugo-themes/hugo-theme-sigil
-          hugo --source exampleSite --themesDir /tmp/hugo-themes --baseURL "https://ouatis.com/hugo-theme-sigil/" --destination public
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="http://127.0.0.1:8899/"
+          else
+            BASE="https://ouatis.com/hugo-theme-sigil/"
+          fi
+          hugo --source exampleSite --themesDir /tmp/hugo-themes --baseURL "$BASE" --destination public
 
       - name: Upload artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: exampleSite/public
 
       - name: Deploy to GitHub Pages
         id: deployment
+        if: github.event_name != 'pull_request'
         uses: actions/deploy-pages@v4
+
+      # Pull requests stop here: the tree is verified, nothing was published.
+      # Everything below writes to the repository (run pruning, failure
+      # tickets), which a PR — especially one from a fork — has no business
+      # doing, and which it has no permission to do.
+      - name: Install Playwright for the PR smoke
+        if: github.event_name == 'pull_request'
+        run: |
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+
+      - name: Smoke test the PR build
+        if: github.event_name == 'pull_request'
+        run: |
+          cd exampleSite/public
+          python3 -m http.server 8899 --bind 127.0.0.1 &
+          for _ in $(seq 1 40); do
+            curl -sf -o /dev/null http://127.0.0.1:8899/ && break
+            sleep 0.25
+          done
+          cd "$GITHUB_WORKSPACE"
+          SMOKE_BASE=http://127.0.0.1:8899 bash scripts/smoke.sh
 
       # 清扫历史运行,只留当前——Actions 页面单条滚动
       # 只扫本工作流:仓库还有 install-modes 等,全局清扫会竞态删除它们的运行
+      # 只扫 main:PR 的运行日志是评审证据,不能被一次推送顺手删掉
       - name: Prune old workflow runs
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           KEEP=${{ github.run_id }}
           gh api "repos/${{ github.repository }}/actions/runs?per_page=100" --paginate \
-            --jq '.workflow_runs[] | select(.name == "Demo") | select(.id != '"$KEEP"') | select(.status == "completed") | .id' \
+            --jq '.workflow_runs[] | select(.name == "Demo") | select(.head_branch == "main") | select(.id != '"$KEEP"') | select(.status == "completed") | .id' \
           | while read -r id; do
               gh api -X DELETE "repos/${{ github.repository }}/actions/runs/$id" > /dev/null 2>&1 || true
             done
 
       # 部署失败时开/续写工单,成功后自动关闭——红色运行不等于有人看见
       - name: Close failure ticket on success
-        if: success()
+        if: success() && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -94,7 +132,7 @@ jobs:
 
       - name: Report failure as issue
         # 放在最后并 gate 在 failure() 上:任何一步失败都会落到工单里
-        if: failure()
+        if: failure() && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -113,6 +151,8 @@ jobs:
   # KaTeX 渲染、旁注切换、无控制台报错——这些静态检查看不见。跑在部署之后，测的是
   # 线上站点；不阻塞部署，失败只开工单。
   smoke:
+    # 线上站点只在 main 的部署之后检查;PR 的 smoke 跑在 build job 里,对着 PR 自己的产物
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     steps:

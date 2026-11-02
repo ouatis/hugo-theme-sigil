@@ -24,6 +24,15 @@ A clean exit from `scripts/check.sh` is the definition of "works". Run it
 before proposing any change. CI (`.github/workflows/demo.yml`) builds
 exampleSite for the demo site; fonts are regenerated there on every deploy.
 
+Pull requests run the same build, `check.sh`, the negative suite and a browser
+smoke — but against their own output, served on localhost, and they never
+deploy, prune runs or open tickets. The two install jobs in
+`install-modes.yml` stay main-only on purpose: they clone this repository by
+URL, which resolves to the default branch, so on a PR they would test main and
+report green for a change nobody installed. Any new workflow step that writes
+to the repository (deploy, issue, run deletion) must carry
+`if: github.event_name != 'pull_request'`.
+
 `scripts/smoke.sh` is the browser half of the same contract, and it needs
 Playwright plus a served build, so it runs in CI: it proves what no static
 check can see — KaTeX actually rendered, sidenote markers exist, a `?q=`

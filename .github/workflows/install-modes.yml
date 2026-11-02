@@ -3,18 +3,24 @@ name: Install modes
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: install-modes
+  group: install-modes-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # The two install jobs below clone this repository by URL, which resolves to
+  # the default branch: on a pull request they would test main and report green
+  # for a change nobody installed. They stay main-only; `committed CSS resolves`
+  # reads the checkout itself and therefore does run on pull requests.
   submodule:
     name: submodule install
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Setup Hugo
@@ -36,6 +42,7 @@ jobs:
 
   module:
     name: hugo modules install
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Setup Hugo
