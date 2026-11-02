@@ -12,7 +12,14 @@ set -euo pipefail
 BASE="${SMOKE_BASE:-https://ouatis.com/hugo-theme-sigil}"
 cd "$(dirname "$0")/.."
 
-python3 - "$BASE" <<'PY'
+# Python: see scripts/lib-python.sh (python3 on Windows is often the Store
+# stub that exits 49 with no output).
+# shellcheck source=scripts/lib-python.sh
+. scripts/lib-python.sh
+sg_resolve_python || { echo "smoke: no working python3 — set SG_PYTHON" >&2; exit 1; }
+export SG_PY
+
+"$SG_PY" - "$BASE" <<'PY'
 import sys
 from playwright.sync_api import sync_playwright
 

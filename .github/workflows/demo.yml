@@ -46,6 +46,9 @@ jobs:
       - name: Verify build (check.sh — blocks deploy on failure)
         run: bash scripts/check.sh
 
+      - name: Verify the contract assertions actually bite
+        run: python3 scripts/check-contracts-negative.py
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5

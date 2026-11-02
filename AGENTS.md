@@ -24,11 +24,29 @@ A clean exit from `scripts/check.sh` is the definition of "works". Run it
 before proposing any change. CI (`.github/workflows/demo.yml`) builds
 exampleSite for the demo site; fonts are regenerated there on every deploy.
 
-Environment: Hugo 0.166 (match CI). Font tooling needs python3 with
-fonttools + brotli. On Windows, `python3` may be the Store stub — the local
-setup uses a shim earlier in PATH; in Git Bash, PATH entries must use POSIX
-form (`/c/...`), a `C:/...` entry silently does not take effect. Never pipe a
-foreground `hugo server` into `head` (SIGPIPE kills it).
+`check.sh` also treats the **machine-readable output as a contract**, not just
+"the file exists": RSS dates must parse as RFC 822 and every channel must
+carry `atom:link rel=self`; `feed.json` must be JSON Feed 1.1 with unique
+item ids and RFC 3339 dates; every JSON-LD block must `json.loads` and carry a
+schema.org `@context`; every `target=_blank` must have `noopener noreferrer`
+in `rel`; every external link in post content must carry `sg-ext` and no
+internal one may. `scripts/check-contracts-negative.py` proves those
+assertions actually bite by mutating a built `public/` copy (run
+`bash scripts/check.sh` first, then `python scripts/check-contracts-negative.py`)
+— extend it whenever you add an assertion, otherwise the new check is
+unverified. Both parsers read decoded text: never grep raw HTML for these,
+see Pitfall 7.
+
+Environment: Hugo 0.166 (match CI). Font tooling needs a real python3 with
+fonttools + brotli. On Windows `python3` is often the Microsoft Store stub:
+it exists on PATH but every call exits 49 with no output, so `command -v`
+proves nothing. `scripts/lib-python.sh` resolves an interpreter by actually
+running it (`SG_PYTHON` if set, else `python3`, else `python`); every script
+sources it and then uses `"$SG_PY"`. Set `SG_PYTHON` to an absolute path to
+pin a specific interpreter — an unusable value is a hard error, never a
+silent fallback. In Git Bash, PATH entries must use POSIX form (`/c/...`); a
+`C:/...` entry silently does not take effect. Never pipe a foreground
+`hugo server` into `head` (SIGPIPE kills it).
 
 ## Map
 
@@ -86,6 +104,17 @@ keep their names.
 6. **`check.sh` asserts uncommitted `static/fonts/` artifacts** — fresh
    clone: `bash scripts/build-fonts.sh corpus` first; a failed download
    wipes `static/fonts/` (`git checkout -- static/` restores).
+7. **Never grep raw HTML/XML for date or URL formats.** Hugo escapes `+` in
+   a `+0000` RSS offset to `&#43;0000` without `--minify` (and leaves it
+   alone with it), so a regex run over the raw bytes passes or fails on a
+   build flag. Parse with `xml.etree` / `html.parser` and assert on decoded
+   text. Likewise `--minify` drops attribute quotes (`class=sg-ext`), so
+   attribute matching must use a parser or tolerate both forms.
+8. **Python output in `check.sh` needs `PYTHONIOENCODING=utf-8`.** Without it
+   Python encodes stdout with the console codepage (cp936 on Chinese Windows)
+   and every em dash or CJK menu word in a failure message arrives as `??`.
+   The script exports it right after resolving the interpreter; keep that
+   export ahead of any heredoc that prints non-ASCII.
 
 ## Conventions
 

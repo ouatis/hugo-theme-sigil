@@ -20,6 +20,19 @@ fail() { echo "check: FAIL — $1" >&2; exit 1; }
 CHECK_BASE_URL="${CHECK_BASE_URL:-https://ouatis.com/hugo-theme-sigil/}"
 export SG_THEME_ROOT
 
+# Python: assertions below parse build output with the stdlib (XML, JSON,
+# HTML). Resolve it once, and actually RUN each candidate — `command -v
+# python3` is not a working-interpreter test on Windows, where python3 is
+# often the Store stub that exits 49 for every call. See scripts/lib-python.sh.
+# shellcheck source=scripts/lib-python.sh
+. "$SG_THEME_ROOT/scripts/lib-python.sh"
+sg_resolve_python || fail "no working python3 — set SG_PYTHON to a real interpreter"
+export SG_PY
+# Assertion messages below contain non-ASCII (em dashes, CJK menu words). Python
+# defaults stdout to the console codepage (cp936 on Chinese Windows), which turns
+# those into U+FFFD; force UTF-8 so a failing assertion is readable everywhere.
+export PYTHONIOENCODING=utf-8
+
 hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
     || fail "example site build failed (run without --quiet to see the error)"
 
@@ -36,6 +49,103 @@ grep -q "^## All posts" public/llms.txt || fail "llms.txt lacks the posts sectio
 # feed.json: JSON Feed 1.1 alongside RSS
 [ -s public/feed.json ] || fail "feed.json missing"
 
+# Feed contracts. Feeds are read by machines: a malformed date or a missing
+# required element breaks subscribers and aggregators while looking fine in a
+# browser. Assert on values decoded by a real XML/JSON parser, never on raw
+# bytes — Hugo escapes "+" in RSS dates as &#43; before --minify and leaves
+# it bare after, so a regex over the raw file would depend on the bsd* flags.
+"$SG_PY" - <<'PY'
+import glob, json, sys
+import xml.etree.ElementTree as ET
+from datetime import datetime
+
+RFC822 = "%a, %d %b %Y %H:%M:%S %z"
+
+def fail(why):
+    print(f"check: FAIL — {why}", file=sys.stderr)
+    sys.exit(1)
+
+def parse_rfc822(value):
+    try:
+        datetime.strptime(value, RFC822)
+    except ValueError:
+        return False
+    return True
+
+def parse_rfc3339(value):
+    text = value.strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        datetime.fromisoformat(text)
+    except ValueError:
+        return False
+    return True
+
+feeds = sorted(glob.glob("public/**/index.xml", recursive=True))
+if not feeds:
+    fail("no RSS feed found under public/")
+
+items = 0
+for path in feeds:
+    try:
+        channel = ET.parse(path).getroot().find("channel")
+    except ET.ParseError as exc:
+        fail(f"RSS is not well-formed XML: {path} ({exc})")
+    if channel is None:
+        fail(f"RSS has no <channel>: {path}")
+    # lastBuildDate is only emitted when the feed has items (template guard).
+    build = channel.find("lastBuildDate")
+    if build is not None and not parse_rfc822((build.text or "").strip()):
+        fail(f"lastBuildDate is not RFC 822: {path} -> {build.text!r}")
+    for tag in ("title", "link", "description"):
+        if channel.find(tag) is None:
+            fail(f"RSS channel lacks <{tag}>: {path}")
+    self_link = channel.find("{http://www.w3.org/2005/Atom}link")
+    if self_link is None or self_link.get("rel") != "self":
+        fail(f"RSS channel lacks <atom:link rel=self>: {path}")
+    for item in channel.findall("item"):
+        items += 1
+        for tag in ("title", "link", "guid"):
+            element = item.find(tag)
+            if element is None or not (element.text or "").strip():
+                fail(f"RSS item lacks <{tag}>: {path}")
+        if item.find("description") is None:
+            fail(f"RSS item lacks <description>: {path}")
+        pub = item.find("pubDate")
+        if pub is None or not parse_rfc822((pub.text or "").strip()):
+            fail(f"item pubDate is not RFC 822: {path} -> {None if pub is None else pub.text!r}")
+
+# JSON Feed 1.1: top-level required keys and the per-item fields a reader
+# dereferences (id/url/content + RFC 3339 dates when present).
+with open("public/feed.json", encoding="utf-8") as handle:
+    feed = json.load(handle)
+if feed.get("version") != "https://jsonfeed.org/version/1.1":
+    fail(f"feed.json is not JSON Feed 1.1: version={feed.get('version')!r}")
+for key in ("title", "home_page_url", "feed_url", "language"):
+    if not str(feed.get(key) or "").strip():
+        fail(f"feed.json lacks top-level '{key}'")
+entries = feed.get("items")
+if not isinstance(entries, list) or not entries:
+    fail("feed.json has no items")
+seen = set()
+for index, entry in enumerate(entries):
+    for key in ("id", "url", "title"):
+        if not str(entry.get(key) or "").strip():
+            fail(f"feed.json item #{index} lacks '{key}'")
+    if entry["id"] in seen:
+        fail(f"feed.json item id is not unique: {entry['id']!r}")
+    seen.add(entry["id"])
+    if not (str(entry.get("content_html") or "").strip() or str(entry.get("content_text") or "").strip()):
+        fail(f"feed.json item #{index} has neither content_html nor content_text")
+    for key in ("date_published", "date_modified"):
+        value = entry.get(key)
+        if value is not None and not parse_rfc3339(str(value)):
+            fail(f"feed.json item #{index} {key} is not RFC 3339: {value!r}")
+
+print(f"check: feeds — {len(feeds)} RSS ({items} items) and JSON Feed 1.1: dates and required elements")
+PY
+
 # OG auto card: generated and referenced on a page without any cover
 # (patterns are quote-agnostic — --minify strips attribute quotes)
 grep -qE 'og:image[^>]*og/base_hu_' \
@@ -50,6 +160,152 @@ grep -q 'sg-ext' public/posts/what-can-change/index.html \
 if grep -qE 'href="?/[^ >]*"? class="?sg-ext' public/posts/what-can-change/index.html; then
     fail "internal link wrongly tagged sg-ext"
 fi
+
+# Machine-readable metadata and link semantics. Both fail silently: a JSON-LD
+# block that stops parsing kills rich results, and a target=_blank without
+# rel=noopener leaves the opener reachable. Parse the HTML for real — --minify
+# strips attribute quotes and rewrites the doctype, so byte patterns are a
+# trap. The sg-ext contract is scoped to .post-content: partials render
+# static external links (footer, social) that deliberately have no door
+# marker, so a global "every external link is tagged" rule would be wrong.
+"$SG_PY" - <<'PY'
+import glob, json, os, re, sys
+from html.parser import HTMLParser
+from urllib.parse import urlsplit
+
+def fail(why):
+    print(f"check: FAIL — {why}", file=sys.stderr)
+    sys.exit(1)
+
+
+class Audit(HTMLParser):
+    """Collect <script type=application/ld+json> bodies and <a> attributes,
+    tracking whether each anchor sits inside div.post-content."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.ldjson = []
+        self.anchors = []
+        self._body = None
+        self._post = 0
+        self._divs = []
+
+    def handle_starttag(self, tag, attrs):
+        attr = dict(attrs)
+        if tag == "script" and (attr.get("type") or "").lower() == "application/ld+json":
+            self._body = []
+        elif tag == "a":
+            self.anchors.append((attr, self._post > 0))
+        if tag == "div":
+            inside = "post-content" in (attr.get("class") or "").split()
+            self._divs.append(inside)
+            self._post += 1 if inside else 0
+
+    def handle_endtag(self, tag):
+        if tag == "script" and self._body is not None:
+            self.ldjson.append("".join(self._body))
+            self._body = None
+        elif tag == "div" and self._divs:
+            if self._divs.pop():
+                self._post -= 1
+
+    def handle_data(self, data):
+        if self._body is not None:
+            self._body.append(data)
+
+
+def read_page(path):
+    with open(path, encoding="utf-8") as handle:
+        audit = Audit()
+        audit.feed(handle.read())
+        audit.close()
+    return audit
+
+
+pages = {}
+for path in glob.glob("public/**/*.html", recursive=True):
+    pages[os.path.relpath(path, "public").replace("\\", "/")] = read_page(path)
+if not pages:
+    fail("no HTML found under public/")
+
+# --- JSON-LD: every block must be parseable JSON with a schema.org @type.
+blocks = 0
+for path, page in sorted(pages.items()):
+    for body in page.ldjson:
+        blocks += 1
+        try:
+            data = json.loads(body)
+        except json.JSONDecodeError as exc:
+            fail(f"JSON-LD does not parse: {path} ({exc.msg} at char {exc.pos})")
+        if not isinstance(data, dict):
+            fail(f"JSON-LD is not a JSON object: {path}")
+        if "schema.org" not in str(data.get("@context", "")):
+            fail(f"JSON-LD @context is not schema.org: {path} -> {data.get('@context')!r}")
+        if not str(data.get("@type") or "").strip():
+            fail(f"JSON-LD has no @type: {path}")
+
+# Shape per page kind: the homepage carries exactly one Organization; every
+# post carries BreadcrumbList + BlogPosting with the fields a rich result
+# reads. author/image are omitted when the site configures none — absence is
+# allowed, malformed presence is not.
+homes = {"index.html", "zh-cn/index.html", "ja/index.html"}
+for path in sorted(homes):
+    if path not in pages:
+        fail(f"missing homepage for the JSON-LD shape check: {path}")
+    if len(pages[path].ldjson) != 1:
+        fail(f"{path}: expected exactly 1 JSON-LD block, found {len(pages[path].ldjson)}")
+    if json.loads(pages[path].ldjson[0]).get("@type") != "Organization":
+        fail(f"{path}: homepage JSON-LD is not an Organization")
+
+posts = sorted(p for p in pages
+               if re.fullmatch(r"(?:[a-z-]+/)?posts/[^/]+/index[.]html", p))
+if not posts:
+    fail("no post pages found — JSON-LD shape check would pass vacuously")
+for path in posts:
+    parsed = [json.loads(body) for body in pages[path].ldjson]
+    types = sorted(d.get("@type") for d in parsed)
+    if types != ["BlogPosting", "BreadcrumbList"]:
+        fail(f"{path}: expected BreadcrumbList + BlogPosting JSON-LD, found {types}")
+    post = next(d for d in parsed if d.get("@type") == "BlogPosting")
+    for field in ("headline", "datePublished", "dateModified", "mainEntityOfPage"):
+        if not str(post.get(field) or "").strip():
+            fail(f"{path}: BlogPosting lacks '{field}'")
+
+# --- link semantics: safety attributes and the door-marker contract.
+site_host = ""
+with open("public/index.html", encoding="utf-8") as handle:
+    canonical = re.search("<link rel=canonical href=[\"']?([^\"' >]+)", handle.read())
+if canonical:
+    site_host = (urlsplit(canonical.group(1)).hostname or "").lower()
+if not site_host:
+    fail("cannot derive the site host from the homepage canonical link")
+
+blank = 0
+door = 0
+for path, page in sorted(pages.items()):
+    for attr, in_post in page.anchors:
+        href = (attr.get("href") or "").strip()
+        if (attr.get("target") or "") == "_blank":
+            blank += 1
+            tokens = set((attr.get("rel") or "").lower().split())
+            if not {"noopener", "noreferrer"} <= tokens:
+                fail(f"target=_blank without rel=noopener noreferrer: {path} -> {href}")
+        if not in_post or not href.startswith(("http://", "https://")):
+            continue
+        host = (urlsplit(href).hostname or "").lower()
+        external = site_host and host.replace("www.", "") != site_host.replace("www.", "")
+        tagged = "sg-ext" in (attr.get("class") or "").split()
+        if external and not tagged:
+            fail(f"external link in post content lacks sg-ext: {path} -> {href}")
+        if not external and tagged:
+            fail(f"internal link in post content is tagged sg-ext: {path} -> {href}")
+        door += 1 if tagged else 0
+
+if blank == 0:
+    fail("no target=_blank links found — the rel contract would pass vacuously")
+print(f"check: metadata — {blocks} JSON-LD blocks parse; {blank} target=_blank links carry rel; "
+      f"{door} post-content external links carry sg-ext")
+PY
 
 # opt-in isolation: typography opts into math/mermaid/lightbox,
 # pages that don't ask for them must load none of them
@@ -81,7 +337,7 @@ fi
 # correct order for the audited page, so derive the site root from it and
 # require every same-host absolute href to start with that root — never
 # with a bare language code.
-python3 - <<'PY'
+"$SG_PY" - <<'PY'
 import os, re
 LANG_CODES = {"en", "zh-cn", "ja"}
 
@@ -134,7 +390,7 @@ PY
 # count, the position and that nothing is a dead link — a dropped {{ end }} or a
 # pageRef with no translation renders a plausible-looking header and would pass
 # every other check in this file.
-python3 - <<'PY'
+"$SG_PY" - <<'PY'
 import os, re
 
 # Menu labels are localized, so each language is checked against its own
@@ -194,7 +450,7 @@ PY
 #
 # The arc needs its separators. "a2 2 0 01-2 2" and "a2 2 0 012-2" draw
 # different curves; the second is what a careless retyping produces.
-python3 - <<'PY'
+"$SG_PY" - <<'PY'
 import os, re
 
 ROOT = os.environ["SG_THEME_ROOT"].rstrip("/")
@@ -232,7 +488,7 @@ cp hugo.toml hugo.rtl-check.toml
 # `comments = true` must land inside the EXISTING [params] table — a second
 # [params] header is invalid TOML, and a bare dotted key appended after the
 # [languages.fa] table would silently become languages.fa.params.comments.
-python3 - <<'PY'
+"$SG_PY" - <<'PY'
 s = open("hugo.rtl-check.toml", encoding="utf-8").read()
 assert "[params]" in s, "demo config lost its [params] table"
 open("hugo.rtl-check.toml", "w", encoding="utf-8").write(
@@ -270,8 +526,7 @@ echo "check: overlay builds — fa carries dir=rtl, giscus renders only when con
 # Latin+JP. Summing every subset across all languages (the old behaviour)
 # reported a union nobody downloads. Any referenced CSS or font that is
 # missing fails the check — a dangling import must never pass silently.
-command -v python3 >/dev/null 2>&1 || fail "python3 not found — required for font checks"
-python3 - <<'PY'
+"$SG_PY" - <<'PY'
 import html, os, re
 
 faces = []

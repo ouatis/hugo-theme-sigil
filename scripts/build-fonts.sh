@@ -16,6 +16,13 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Python: see scripts/lib-python.sh (python3 on Windows is often the Store
+# stub that exits 49 with no output).
+# shellcheck source=scripts/lib-python.sh
+. scripts/lib-python.sh
+sg_resolve_python || { echo "build-fonts: no working python3 — set SG_PYTHON" >&2; exit 1; }
+export SG_PY
+
 IBM_PLEX_VERSION="1.1.0"
 FONT_DIR="static/fonts/ibm-plex"
 CACHE_DIR="${IBM_PLEX_CACHE_DIR:-.cache/ibm-plex}"
@@ -107,7 +114,7 @@ done
 
 # 每条 @font-face 补 font-display: swap——官方分片 css 没有这一行,
 # 字体加载期文字会按浏览器默认策略隐身(Speed Index 杀手)
-python3 - <<'PY'
+"$SG_PY" - <<'PY'
 import glob, re
 for path in glob.glob("static/fonts/ibm-plex/*/*.css"):
     css = open(path, encoding="utf-8").read()
@@ -130,7 +137,7 @@ for path in glob.glob("static/fonts/ibm-plex/*/*.css"):
 PY
 
 if [ "$MODE" = "corpus" ]; then
-    python3 scripts/build-fonts-corpus.py
+    "$SG_PY" scripts/build-fonts-corpus.py
 fi
 
 {
