@@ -15,3 +15,8 @@ static/fonts/ibm-plex/jp/
 # Fonts copied into the demo at build time (CI: cp -r static/fonts exampleSite/static/)
 exampleSite/static/
 exampleSite/public-preview/
+
+# Throwaway output of check.sh's overlay builds; leftovers only survive an
+# interrupted run, but they must never look like new source files.
+exampleSite/public-*-check/
+exampleSite/hugo.*-check.toml

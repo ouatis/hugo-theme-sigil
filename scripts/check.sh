@@ -214,6 +214,83 @@ for index, entry in enumerate(entries):
 print(f"check: feeds — {len(feeds)} RSS ({items} items) and JSON Feed 1.1: dates and required elements")
 PY
 
+# Full-text RSS overlay: theme.toml advertises full-text RSS and docs/api.md
+# documents ShowFullTextinRSS, but the demo never enables it, so no other check
+# ever builds the branch that emits <content:encoded>. That branch was broken:
+# home.rss.xml declared only xmlns:atom while emitting a content:-prefixed
+# element, and one undeclared prefix makes EVERY feed on the site unparseable
+# ("unbound prefix") the moment the flag is on. The feeding of the gate and the
+# namespace are the same contract — turn the gate on in a throwaway config,
+# rebuild, and parse what comes out.
+cp hugo.toml hugo.fulltext-check.toml
+"$SG_PY" - <<'PY'
+s = open("hugo.fulltext-check.toml", encoding="utf-8").read()
+assert "[params]" in s, "demo config lost its [params] table"
+open("hugo.fulltext-check.toml", "w", encoding="utf-8", newline="").write(
+    s.replace("[params]", "[params]\nShowFullTextinRSS = true", 1))
+PY
+hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
+    --config hugo.fulltext-check.toml --destination public-fulltext-check \
+    || { rm -rf public-fulltext-check hugo.fulltext-check.toml; fail "overlay build failed (ShowFullTextinRSS = true)"; }
+if ! SG_FULLTEXT_DIR=public-fulltext-check "$SG_PY" - <<'PY'
+import glob, os, sys
+import xml.etree.ElementTree as ET
+
+FULLTEXT = "{http://purl.org/rss/1.0/modules/content/}encoded"
+
+
+def fail(why):
+    print(f"check: FAIL — {why}", file=sys.stderr)
+    sys.exit(1)
+
+
+root = os.environ.get("SG_FULLTEXT_DIR", "public-fulltext-check")
+feeds = sorted(glob.glob(os.path.join(root, "**", "index.xml"), recursive=True))
+if not feeds:
+    fail(f"no feeds under {root}/ — the overlay build produced nothing")
+
+items = 0
+encoded_items = 0
+widest = 0.0
+for path in feeds:
+    try:
+        tree = ET.parse(path)
+    except ET.ParseError as exc:
+        # The unbound-prefix regression lands here: one missing xmlns turns
+        # every feed on the site into an unreadable document.
+        fail(f"{path} does not parse as XML: {exc}")
+    for index, item in enumerate(tree.getroot().iter("item")):
+        items += 1
+        summary = (item.findtext("description") or "").strip()
+        encoded = item.find(FULLTEXT)
+        if not summary:
+            # Taxonomy term feeds list pages that have no body at all; the
+            # template gates on .Content, so an absent element is correct here.
+            continue
+        if encoded is None:
+            fail(f"{path} item #{index} has a summary but no content:encoded — "
+                 "the ShowFullTextinRSS gate stopped emitting the body")
+        body = (encoded.text or "").strip()
+        if not body:
+            fail(f"{path} item #{index} has an empty content:encoded")
+        encoded_items += 1
+        widest = max(widest, len(body) / len(summary))
+if not items:
+    fail("the overlay feeds carry no items — nothing was exercised")
+if not encoded_items:
+    fail("no item carried content:encoded — the overlay never exercised the gate")
+if widest < 2:
+    fail(f"the widest item body is only {widest:.1f}x its summary — "
+         "content:encoded is not carrying the full text")
+print(f"check: full-text RSS — {len(feeds)} feeds parse with ShowFullTextinRSS on; "
+      f"{encoded_items}/{items} items carry content:encoded (widest {widest:.1f}x its summary)")
+PY
+then
+    rm -rf public-fulltext-check hugo.fulltext-check.toml
+    fail "full-text RSS contract violated"
+fi
+rm -rf public-fulltext-check hugo.fulltext-check.toml
+
 # OG auto card: generated and referenced on a page without any cover
 # (patterns are quote-agnostic — --minify strips attribute quotes)
 grep -qE 'og:image[^>]*og/base_hu_' \

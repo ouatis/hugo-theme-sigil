@@ -6,7 +6,10 @@
 {{- end -}}
 {{- $pages := where $contentSite.RegularPages "Type" "in" site.Params.mainSections -}}
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+{{- /* xmlns:content is declared unconditionally: an undeclared prefix makes the
+       entire feed unparseable ("unbound prefix") the moment the gate below opens,
+       and an unused namespace declaration costs nothing while it is closed. */ -}}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>{{ .Title }}</title>
     <link>{{ .Permalink }}</link>

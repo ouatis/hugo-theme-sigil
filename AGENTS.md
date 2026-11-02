@@ -35,7 +35,9 @@ every `target=_blank` must have
 `noopener noreferrer` in `rel`; every external link in post content must
 carry `sg-ext` and no internal one may; `llms-full.txt` must exist, be larger
 than `llms.txt`, and carry one `## <title>` section per post that `llms.txt`
-lists; and no built JS bundle may contain `console.log`.
+lists; no built JS bundle may contain `console.log`; and a build with
+`ShowFullTextinRSS` turned on must still parse as XML with every item that has
+a summary also carrying `<content:encoded>` full text.
 `scripts/check-contracts-negative.py` proves those
 assertions actually bite by mutating a built `public/` copy (run
 `bash scripts/check.sh` first, then `python scripts/check-contracts-negative.py`)
@@ -126,7 +128,7 @@ keep their names.
    The script exports it right after resolving the interpreter; keep that
    export ahead of any heredoc that prints non-ASCII.
 
-### 8. `llms-full.txt` was documented before it was built
+### 9. `llms-full.txt` was documented before it was built
 
 `layouts/home.llmsfull.txt` and the `llms.txt` header link both shipped, but
 `exampleSite/hugo.toml` never listed `LLMSFULL` in `[outputs] home`, so the
@@ -138,7 +140,7 @@ demo config the same day; a template with no output is invisible.
 (`&#34;`, `&rsquo;`, `&#x21a9;`), so agents would read markup instead of prose.
 The template pipes the body through `htmlUnescape` after `plainify`.
 
-### 9. JSON-LD strings: `jsonify | safeJS`, never hand-quoted
+### 10. JSON-LD strings: `jsonify | safeJS`, never hand-quoted
 
 Inside a `<script>` block Go treats interpolations as JavaScript, so
 `"name": {{ .Title }}` and `"name": "{{ .Title }}"` take different escaper
@@ -147,6 +149,24 @@ paths and produce different bytes for the same quote. Values are now
 included) and safeJS stops the second escape pass. Keep `plainify` before it
 and `htmlUnescape` after `plainify` — otherwise `&rsquo;` and `&#34;` survive
 into the JSON as literal entity text.
+
+### 11. An undeclared XML namespace made every feed unreadable
+
+`layouts/home.rss.xml` emitted `<content:encoded>` while declaring only
+`xmlns:atom`. `content:` has no default namespace, so the whole document
+became unparseable ("unbound prefix") for readers the moment
+`ShowFullTextinRSS` was on — and the home feed is the one most people
+subscribe to. `layouts/_default/rss.xml` (section feeds) had declared it all
+along, which is why only the home feed broke.
+
+Nothing caught it because the demo never enabled the flag: check.sh parsed the
+feeds that existed, and the full-text branch never existed in any build. The
+demo now builds a throwaway config with the gate on
+(`exampleSite/hugo.fulltext-check.toml`, removed afterwards) and parses every
+feed it produces; `check-contracts-negative.py` deletes the namespace and
+demands a failure. Two rules fall out: declare the namespace in the same edit
+that emits the prefixed element, and build every opt-in feature at least once
+in CI — an unbuilt branch is indistinguishable from a working one.
 
 ## Conventions
 

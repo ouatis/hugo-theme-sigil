@@ -62,6 +62,7 @@ def main():
     meta_code = None
     llms_code = None
     assets_code = None
+    fulltext_code = None
     for lineno, code in blocks():
         if "JSON Feed" in code and "pubDate" in code:
             feed_code = code
@@ -71,10 +72,13 @@ def main():
             llms_code = code
         if "console.log" in code and "assets/js" in code:
             assets_code = code
-    assert feed_code and meta_code and llms_code and assets_code, (
-        "could not locate all four blocks: "
+        if "content:encoded" in code and "ShowFullTextinRSS" in code:
+            fulltext_code = code
+    assert feed_code and meta_code and llms_code and assets_code and fulltext_code, (
+        "could not locate all five blocks: "
         f"feed={bool(feed_code)} meta={bool(meta_code)} "
-        f"llms={bool(llms_code)} assets={bool(assets_code)}"
+        f"llms={bool(llms_code)} assets={bool(assets_code)} "
+        f"fulltext={bool(fulltext_code)}"
     )
 
     failures = []
@@ -279,6 +283,71 @@ def main():
         r = run(assets_code, tmp)
         expect("console.log in a bundle fails", r.returncode != 0)
         io.open(bundle, "w", encoding="utf-8", newline="").write(orig_bundle)
+
+        print("full-text RSS block")
+        # Reproduce just enough of check.sh's overlay: turn the gate on in a
+        # throwaway config and build once, so there is a real <content:encoded>
+        # feed to mutate. Without a build the block would only ever see
+        # gate-closed output and pass vacuously.
+        ft_dir = os.path.join(tmp, "fulltext")
+        cfg = os.path.join(tmp, "hugo.fulltext-check.toml")
+        democonf = io.open(os.path.join(REPO, "exampleSite", "hugo.toml"),
+                           encoding="utf-8").read()
+        assert "[params]" in democonf, "demo config lost its [params] table"
+        io.open(cfg, "w", encoding="utf-8", newline="").write(
+            democonf.replace("[params]", "[params]\nShowFullTextinRSS = true", 1))
+        build = subprocess.run(
+            ["hugo", "--themesDir", "../..", "--minify", "--quiet",
+             "--baseURL", "https://example.org/",
+             "--config", cfg, "--destination", ft_dir],
+            cwd=os.path.join(REPO, "exampleSite"),
+            capture_output=True, text=True, encoding="utf-8", errors="replace")
+        assert build.returncode == 0, "overlay build failed: " + build.stderr[-400:]
+        env_ft = {"SG_FULLTEXT_DIR": ft_dir}
+
+        r = run(fulltext_code, tmp, env_ft)
+        expect("clean overlay passes", r.returncode == 0, r.stdout.strip()[-80:])
+
+        feed_path = os.path.join(ft_dir, "index.xml")
+        orig_ft = io.open(feed_path, encoding="utf-8").read()
+
+        # 19. the content: namespace goes missing — the unbound-prefix bug
+        assert "xmlns:content=" in orig_ft, "full-text feed declares no xmlns:content"
+        io.open(feed_path, "w", encoding="utf-8", newline="").write(
+            re.sub(r'\s+xmlns:content="[^"]*"', "", orig_ft, count=1))
+        r = run(fulltext_code, tmp, env_ft)
+        expect("undeclared content: namespace fails", r.returncode != 0)
+        io.open(feed_path, "w", encoding="utf-8", newline="").write(orig_ft)
+
+        # 20. one item loses its body
+        mutated = re.sub(r"<content:encoded>.*?</content:encoded>", "", orig_ft,
+                         count=1, flags=re.S)
+        assert mutated != orig_ft, "no content:encoded element to drop"
+        io.open(feed_path, "w", encoding="utf-8", newline="").write(mutated)
+        r = run(fulltext_code, tmp, env_ft)
+        expect("missing content:encoded fails", r.returncode != 0)
+        io.open(feed_path, "w", encoding="utf-8", newline="").write(orig_ft)
+
+        # 21. the gate degrades to re-emitting the summary as "full text"
+        saved = {}
+        for path in glob_mod.glob(os.path.join(ft_dir, "**", "index.xml"),
+                                   recursive=True):
+            text = io.open(path, encoding="utf-8").read()
+            saved[path] = text
+
+            def shrink(item):
+                desc = re.search(r"<description>(.*?)</description>", item, re.S)
+                body = desc.group(1) if desc else ""
+                return re.sub(
+                    r"(<content:encoded><!\[CDATA\[).*?(\]\]></content:encoded>)",
+                    lambda m: m.group(1) + body + m.group(2), item, flags=re.S)
+
+            io.open(path, "w", encoding="utf-8", newline="").write(
+                re.sub(r"<item>.*?</item>", lambda m: shrink(m.group(0)), text, flags=re.S))
+        r = run(fulltext_code, tmp, env_ft)
+        expect("body degraded to the summary fails", r.returncode != 0)
+        for path, text in saved.items():
+            io.open(path, "w", encoding="utf-8", newline="").write(text)
 
     print()
     if failures:
