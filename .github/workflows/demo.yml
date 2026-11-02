@@ -23,16 +23,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: "0.166.0"
           extended: true
 
       - name: Cache IBM Plex source
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/ibm-plex
           key: ibm-plex-1.1.0
@@ -55,7 +55,7 @@ jobs:
       - name: Setup Pages
         id: pages
         if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       # A pull request is built against a local origin: nothing is deployed, and
       # the browser smoke below serves this very directory, so the assertions run
@@ -73,14 +73,14 @@ jobs:
 
       - name: Upload artifact
         if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: exampleSite/public
 
       - name: Deploy to GitHub Pages
         id: deployment
         if: github.event_name != 'pull_request'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
       # Pull requests stop here: the tree is verified, nothing was published.
       # Everything below writes to the repository (run pruning, failure
@@ -198,10 +198,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
 
