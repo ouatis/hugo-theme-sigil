@@ -230,3 +230,5 @@ Based on PaperMod. Fonts: IBM Plex, SIL OFL 1.1. Icons: Phosphor Icons, MIT.
 Search: Fuse.js, Apache-2.0. Math: KaTeX, MIT (vendored). Lightbox: glightbox,
 MIT (vendored). Diagrams: Mermaid, MIT (loaded from a pinned CDN on pages that
 ask for it).
+
+<!-- PR pipeline probe; this branch is deleted after the run. -->
