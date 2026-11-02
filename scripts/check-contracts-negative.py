@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Negative tests for the two new check.sh contract blocks.
+"""Negative tests for the check.sh contract blocks.
 
 Extracts each heredoc block from scripts/check.sh, runs it against a pristine
 copy of exampleSite/public (must pass), then against mutated copies (must fail).
 """
+import glob as glob_mod
 import io
 import os
 import re
@@ -59,12 +60,22 @@ def mutate_read(path, old, new):
 def main():
     feed_code = None
     meta_code = None
+    llms_code = None
+    assets_code = None
     for lineno, code in blocks():
         if "JSON Feed" in code and "pubDate" in code:
             feed_code = code
         if "ld+json" in code and "noopener" in code:
             meta_code = code
-    assert feed_code and meta_code, "could not locate both blocks"
+        if "llms-full" in code and "All posts" in code:
+            llms_code = code
+        if "console.log" in code and "assets/js" in code:
+            assets_code = code
+    assert feed_code and meta_code and llms_code and assets_code, (
+        "could not locate all four blocks: "
+        f"feed={bool(feed_code)} meta={bool(meta_code)} "
+        f"llms={bool(llms_code)} assets={bool(assets_code)}"
+    )
 
     failures = []
 
@@ -190,6 +201,84 @@ def main():
         r = run(meta_code, tmp)
         expect("wrong @context fails", r.returncode != 0)
         io.open(post, "w", encoding="utf-8", newline="").write(orig_post)
+
+        # 11. the post block loses its id — the anchor every selector relies on
+        assert "id=ld-post" in orig_post, "post block has no id=ld-post to remove"
+        mutated = orig_post.replace("id=ld-post", "", 1)
+        io.open(post, "w", encoding="utf-8", newline="").write(mutated)
+        r = run(meta_code, tmp)
+        expect("missing JSON-LD id fails", r.returncode != 0)
+        io.open(post, "w", encoding="utf-8", newline="").write(orig_post)
+
+        # 12. the homepage block is still an Organization but under another id
+        home = os.path.join(tmp, "public", "index.html")
+        orig_home = io.open(home, encoding="utf-8").read()
+        assert "id=ld-org" in orig_home, "homepage block has no id=ld-org to rename"
+        io.open(home, "w", encoding="utf-8", newline="").write(orig_home.replace("id=ld-org", "id=ld-home", 1))
+        r = run(meta_code, tmp)
+        expect("wrong homepage JSON-LD id fails", r.returncode != 0)
+        io.open(home, "w", encoding="utf-8", newline="").write(orig_home)
+
+        # 13. wordCount demoted back to a string
+        mutated, hits = re.subn(r'"wordCount":(\d+)', r'"wordCount":"\1"', orig_post, count=1)
+        assert hits == 1, "post block has no numeric wordCount to quote"
+        io.open(post, "w", encoding="utf-8", newline="").write(mutated)
+        r = run(meta_code, tmp)
+        expect("quoted wordCount fails", r.returncode != 0)
+        io.open(post, "w", encoding="utf-8", newline="").write(orig_post)
+
+        print("llms-full block")
+        r = run(llms_code, tmp)
+        expect("clean public passes", r.returncode == 0, r.stdout.strip()[-80:])
+
+        full = os.path.join(tmp, "public", "llms-full.txt")
+        index = os.path.join(tmp, "public", "llms.txt")
+        orig_full = io.open(full, encoding="utf-8").read()
+        orig_index = io.open(index, encoding="utf-8").read()
+
+        # 14. llms-full.txt removed entirely
+        os.remove(full)
+        r = run(llms_code, tmp)
+        expect("missing llms-full.txt fails", r.returncode != 0)
+        io.open(full, "w", encoding="utf-8", newline="").write(orig_full)
+
+        # 15. a post section is missing from the full text
+        headings = re.findall(r"^## (.+)$", orig_full, re.M)
+        assert headings, "llms-full.txt has no post sections"
+        victim = [h for h in headings if not h.startswith("Pages")][0]
+        mutated = orig_full.replace("## " + victim, "## " + victim + " (renamed)", 1)
+        io.open(full, "w", encoding="utf-8", newline="").write(mutated)
+        r = run(llms_code, tmp)
+        expect("missing per-post section fails", r.returncode != 0)
+        io.open(full, "w", encoding="utf-8", newline="").write(orig_full)
+
+        # 16. llms.txt stops advertising the full text
+        mutated = re.sub(r"^- \[llms-full\.txt\].*\n", "", orig_index, count=1, flags=re.M)
+        assert mutated != orig_index, "llms.txt has no llms-full link to remove"
+        io.open(index, "w", encoding="utf-8", newline="").write(mutated)
+        r = run(llms_code, tmp)
+        expect("llms.txt without the llms-full link fails", r.returncode != 0)
+        io.open(index, "w", encoding="utf-8", newline="").write(orig_index)
+
+        # 17. an HTML entity survives into the plain-text body
+        mutated = orig_full.replace("\n\n", "\n\n&#34;quoted&#34; ", 1)
+        assert mutated != orig_full, "llms-full.txt has no blank line to seed"
+        io.open(full, "w", encoding="utf-8", newline="").write(mutated)
+        r = run(llms_code, tmp)
+        expect("HTML entity in llms-full fails", r.returncode != 0)
+        io.open(full, "w", encoding="utf-8", newline="").write(orig_full)
+
+        print("assets block")
+        r = run(assets_code, tmp)
+        expect("clean public passes", r.returncode == 0, r.stdout.strip()[-80:])
+
+        # 18. a stray console.log reaches the shipped bundle
+        bundle = sorted(glob_mod.glob(os.path.join(tmp, "public", "assets", "js", "*.js")))[0]
+        orig_bundle = io.open(bundle, encoding="utf-8").read()
+        io.open(bundle, "w", encoding="utf-8", newline="").write(orig_bundle + "\nconsole.log(x);\n")
+        r = run(assets_code, tmp)
+        expect("console.log in a bundle fails", r.returncode != 0)
+        io.open(bundle, "w", encoding="utf-8", newline="").write(orig_bundle)
 
     print()
     if failures:

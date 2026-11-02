@@ -145,7 +145,7 @@ defaultContentLanguage = "en"
 # 只有壳没有数据。搜索本体(fuse.basic.min.js + fastsearch.js)由主题内置,
 # 页面判定认 layout == "search"(菜单项 pageRef 指向 search 页即可)。
 [outputs]
-  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT"]
+  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
 
 # Fuse.js 检索参数;键名对应 front matter 字段。
 # threshold 调大=匹配更宽(容错高、噪声多),调小=更准;中文按字匹配,

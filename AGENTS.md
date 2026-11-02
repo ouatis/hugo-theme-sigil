@@ -27,15 +27,25 @@ exampleSite for the demo site; fonts are regenerated there on every deploy.
 `check.sh` also treats the **machine-readable output as a contract**, not just
 "the file exists": RSS dates must parse as RFC 822 and every channel must
 carry `atom:link rel=self`; `feed.json` must be JSON Feed 1.1 with unique
-item ids and RFC 3339 dates; every JSON-LD block must `json.loads` and carry a
-schema.org `@context`; every `target=_blank` must have `noopener noreferrer`
-in `rel`; every external link in post content must carry `sg-ext` and no
-internal one may. `scripts/check-contracts-negative.py` proves those
+item ids and RFC 3339 dates; every JSON-LD block must carry an id
+(`ld-org` on a homepage, `ld-breadcrumb`/`ld-post` on a post), `json.loads`,
+and a schema.org `@context`, and a BlogPosting must carry a numeric `wordCount`
+(schema.org types it Integer, so a quoted count is a validator warning);
+every `target=_blank` must have
+`noopener noreferrer` in `rel`; every external link in post content must
+carry `sg-ext` and no internal one may; `llms-full.txt` must exist, be larger
+than `llms.txt`, and carry one `## <title>` section per post that `llms.txt`
+lists; and no built JS bundle may contain `console.log`.
+`scripts/check-contracts-negative.py` proves those
 assertions actually bite by mutating a built `public/` copy (run
 `bash scripts/check.sh` first, then `python scripts/check-contracts-negative.py`)
 — extend it whenever you add an assertion, otherwise the new check is
 unverified. Both parsers read decoded text: never grep raw HTML for these,
-see Pitfall 7.
+see Pitfall 7. Write every string in a JSON-LD block as
+`{{ ... | jsonify | safeJS }}`: without it Go's JS context escaper and the
+hand-quoted fields disagree, and the same quote is emitted as `\"`, `\u0022`
+or `\u0026quot;` depending on the field. The output happened to parse; nothing
+guaranteed it would keep parsing. See Pitfall 9.
 
 Environment: Hugo 0.166 (match CI). Font tooling needs a real python3 with
 fonttools + brotli. On Windows `python3` is often the Microsoft Store stub:
@@ -115,6 +125,28 @@ keep their names.
    and every em dash or CJK menu word in a failure message arrives as `??`.
    The script exports it right after resolving the interpreter; keep that
    export ahead of any heredoc that prints non-ASCII.
+
+### 8. `llms-full.txt` was documented before it was built
+
+`layouts/home.llmsfull.txt` and the `llms.txt` header link both shipped, but
+`exampleSite/hugo.toml` never listed `LLMSFULL` in `[outputs] home`, so the
+file the README advertised was never generated — and nothing failed. Both the
+output and the assertion now exist. If you add an output format, add it to the
+demo config the same day; a template with no output is invisible.
+
+`plainify` alone is not enough for that file: it strips tags but leaves entities
+(`&#34;`, `&rsquo;`, `&#x21a9;`), so agents would read markup instead of prose.
+The template pipes the body through `htmlUnescape` after `plainify`.
+
+### 9. JSON-LD strings: `jsonify | safeJS`, never hand-quoted
+
+Inside a `<script>` block Go treats interpolations as JavaScript, so
+`"name": {{ .Title }}` and `"name": "{{ .Title }}"` take different escaper
+paths and produce different bytes for the same quote. Values are now
+`{{ ... | jsonify | safeJS }}`; jsonify emits a complete JSON value (quotes
+included) and safeJS stops the second escape pass. Keep `plainify` before it
+and `htmlUnescape` after `plainify` — otherwise `&rsquo;` and `&#34;` survive
+into the JSON as literal entity text.
 
 ## Conventions
 

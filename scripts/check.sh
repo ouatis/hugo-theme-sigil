@@ -46,6 +46,74 @@ grep -q "^# $SITE_TITLE" public/llms.txt \
     || fail "llms.txt lacks the site title (expected '# $SITE_TITLE')"
 grep -q "^## All posts" public/llms.txt || fail "llms.txt lacks the posts section"
 
+# llms-full.txt: the whole corpus in one file. The template shipped long before
+# the demo enabled the output, so this file could be advertised in the README
+# while never being generated. Assert the file, the per-post sections, and the
+# link that llms.txt is supposed to grow once the format is on.
+[ -s public/llms-full.txt ] || fail "llms-full.txt missing or empty — is LLMSFULL in [outputs] home?"
+grep -q "^# $SITE_TITLE" public/llms-full.txt \
+    || fail "llms-full.txt lacks the site title (expected '# $SITE_TITLE')"
+# Every post title listed in llms.txt must have a section of its own in the
+# full text; that is the difference between the two files and the reason both
+# exist. Titles are URL-decoded list links, so compare on the decoded text.
+"$SG_PY" - <<'PY'
+import io, re, sys
+
+def fail(why):
+    print(f"check: FAIL — {why}", file=sys.stderr)
+    sys.exit(1)
+
+index = io.open("public/llms.txt", encoding="utf-8").read()
+if "llms-full.txt" not in index:
+    fail("llms.txt does not advertise llms-full.txt")
+full = io.open("public/llms-full.txt", encoding="utf-8").read()
+# Only the '## All posts' section indexes the posts that llms-full expands; the
+# '## Pages' links above it (About, Archives, ...) have no per-page section.
+section = index.split("## All posts", 1)
+if len(section) != 2:
+    fail("llms.txt has no '## All posts' section")
+titles = [m.group(1).strip() for m in re.finditer(r"^\s*-\s*\[(.+?)\]\(", section[1], re.M)]
+if not titles:
+    fail("llms.txt lists no posts — the llms-full section check would pass vacuously")
+# Match a whole heading line: a substring test would accept a renamed heading
+# such as '## Typography (renamed)' as still present.
+missing = [t for t in titles if not re.search(rf"^## {re.escape(t)}[ \t]*$", full, re.M)]
+if missing:
+    fail(f"llms-full.txt lacks a section for {len(missing)} post(s), first: {missing[0]!r}")
+size = len(full.encode("utf-8"))
+if size <= len(index.encode("utf-8")):
+    fail("llms-full.txt is not larger than llms.txt — the full text was not written")
+# plainify strips tags but leaves entities behind; the body must be prose an agent
+# can read, not `&#34;` and `&rsquo;` sitting between sentences.
+entities = re.findall(r"&(?:[a-zA-Z][a-zA-Z0-9]*|#\d+|#[xX][0-9a-fA-F]+);", full)
+if entities:
+    fail(f"llms-full.txt carries {len(entities)} HTML entit(ies), first: {entities[0]!r}"
+         " — pipe the body through htmlUnescape")
+print(f"check: llms-full — {len(titles)} post sections in {size} bytes, no HTML entities")
+PY
+
+# No debug logging may reach the browser console. fastsearch.js used to dump the
+# whole XHR body on a failed index fetch: that leaks server output to anyone with
+# devtools open and is invisible in a browser smoke test (console.log is not an
+# error). Scan the built bundles — concat + minify can only copy what the themes
+# sources already contained, and the build output is what actually ships.
+"$SG_PY" - <<'PY'
+import glob, io, sys
+
+def fail(why):
+    print(f"check: FAIL — {why}", file=sys.stderr)
+    sys.exit(1)
+
+bundles = sorted(glob.glob("public/assets/js/*.js"))
+if not bundles:
+    fail("no built JavaScript under public/assets/js — the console.log check would pass vacuously")
+for path in bundles:
+    text = io.open(path, encoding="utf-8", errors="replace").read()
+    if "console.log" in text:
+        fail(f"console.log left in shipped JavaScript: {path}")
+print(f"check: assets — {len(bundles)} built bundle(s) carry no console.log")
+PY
+
 # feed.json: JSON Feed 1.1 alongside RSS
 [ -s public/feed.json ] || fail "feed.json missing"
 
@@ -185,6 +253,7 @@ class Audit(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.ldjson = []
+        self._id = ""
         self.anchors = []
         self._body = None
         self._post = 0
@@ -194,6 +263,7 @@ class Audit(HTMLParser):
         attr = dict(attrs)
         if tag == "script" and (attr.get("type") or "").lower() == "application/ld+json":
             self._body = []
+            self._id = attr.get("id") or ""
         elif tag == "a":
             self.anchors.append((attr, self._post > 0))
         if tag == "div":
@@ -203,7 +273,7 @@ class Audit(HTMLParser):
 
     def handle_endtag(self, tag):
         if tag == "script" and self._body is not None:
-            self.ldjson.append("".join(self._body))
+            self.ldjson.append((self._id, "".join(self._body)))
             self._body = None
         elif tag == "div" and self._divs:
             if self._divs.pop():
@@ -231,8 +301,10 @@ if not pages:
 # --- JSON-LD: every block must be parseable JSON with a schema.org @type.
 blocks = 0
 for path, page in sorted(pages.items()):
-    for body in page.ldjson:
+    for block_id, body in page.ldjson:
         blocks += 1
+        if not block_id:
+            fail(f"JSON-LD block has no id attribute: {path}")
         try:
             data = json.loads(body)
         except json.JSONDecodeError as exc:
@@ -254,7 +326,10 @@ for path in sorted(homes):
         fail(f"missing homepage for the JSON-LD shape check: {path}")
     if len(pages[path].ldjson) != 1:
         fail(f"{path}: expected exactly 1 JSON-LD block, found {len(pages[path].ldjson)}")
-    if json.loads(pages[path].ldjson[0]).get("@type") != "Organization":
+    block_id, body = pages[path].ldjson[0]
+    if block_id != "ld-org":
+        fail(f"{path}: homepage JSON-LD id is {block_id!r}, expected 'ld-org'")
+    if json.loads(body).get("@type") != "Organization":
         fail(f"{path}: homepage JSON-LD is not an Organization")
 
 posts = sorted(p for p in pages
@@ -262,7 +337,10 @@ posts = sorted(p for p in pages
 if not posts:
     fail("no post pages found — JSON-LD shape check would pass vacuously")
 for path in posts:
-    parsed = [json.loads(body) for body in pages[path].ldjson]
+    ids = sorted(block_id for block_id, _ in pages[path].ldjson)
+    if ids != ["ld-breadcrumb", "ld-post"]:
+        fail(f"{path}: expected JSON-LD ids ['ld-breadcrumb', 'ld-post'], found {ids}")
+    parsed = [json.loads(body) for _, body in pages[path].ldjson]
     types = sorted(d.get("@type") for d in parsed)
     if types != ["BlogPosting", "BreadcrumbList"]:
         fail(f"{path}: expected BreadcrumbList + BlogPosting JSON-LD, found {types}")
@@ -270,6 +348,10 @@ for path in posts:
     for field in ("headline", "datePublished", "dateModified", "mainEntityOfPage"):
         if not str(post.get(field) or "").strip():
             fail(f"{path}: BlogPosting lacks '{field}'")
+    # schema.org types wordCount as Integer; a quoted count is a string and
+    # Google's validator reports it as a type mismatch.
+    if not isinstance(post.get("wordCount"), int):
+        fail(f"{path}: BlogPosting wordCount is {type(post.get('wordCount')).__name__}, expected int")
 
 # --- link semantics: safety attributes and the door-marker contract.
 site_host = ""
@@ -303,8 +385,8 @@ for path, page in sorted(pages.items()):
 
 if blank == 0:
     fail("no target=_blank links found — the rel contract would pass vacuously")
-print(f"check: metadata — {blocks} JSON-LD blocks parse; {blank} target=_blank links carry rel; "
-      f"{door} post-content external links carry sg-ext")
+print(f"check: metadata — {blocks} identified JSON-LD blocks parse; "
+      f"{blank} target=_blank links carry rel; {door} post-content external links carry sg-ext")
 PY
 
 # opt-in isolation: typography opts into math/mermaid/lightbox,

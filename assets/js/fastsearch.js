@@ -47,7 +47,10 @@ window.onload = function () {
                     fuse = new Fuse(data, options); // build the index from the json file
                 }
             } else {
-                console.log(xhr.responseText);
+                // The index never arrived. Report the status, never the body:
+                // this branch used to print the whole response to the console,
+                // which leaks server output to anyone with devtools open.
+                console.warn('search index failed to load (HTTP ' + xhr.status + ')');
             }
         }
     };

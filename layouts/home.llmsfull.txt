@@ -7,6 +7,6 @@
 - URL: {{ .Permalink }}
 - Published: {{ .Date.Format "2006-01-02" }}
 
-{{ plainify .Content | chomp }}
+{{ plainify .Content | htmlUnescape | chomp }}
 
 {{ end }}
