@@ -32,10 +32,10 @@ a reasonable choice rather than a failure of the software.
 
 ## What's here
 
-This demo doubles as its own documentation. The [typography sample](/posts/typography/)
+This demo doubles as its own documentation. The [typography sample](../posts/typography/)
 exercises every feature — sidenotes, math, diagrams, code, three languages in
 one family — so you can judge the typesetting before installing. Read
-[Documentation](/docs/) when you are ready. The essays in the [archives](/archives/)
+[Documentation](../docs/) when you are ready. The essays in the [archives](../archives/)
 are here to show how real prose sits on the page.
 
 ## In the Wild
