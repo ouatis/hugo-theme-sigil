@@ -4,12 +4,12 @@ slug: api
 date: 2026-03-01
 ---
 
-The theme's public contract is **frozen as of v0.9.0**. This page mirrors
+The theme's public contract is **frozen as of v0.12.0**. This page mirrors
 [`docs/api.md`](https://github.com/ouatis/hugo-theme-sigil/blob/main/docs/api.md)
 (the canonical source in the repository); if the two ever differ, the repo file
 wins — and per the freeze policy, changes require a deprecation window anyway.
 
-# SIGIL Public API — frozen as of v0.9.0
+# SIGIL Public API — frozen as of v0.12.0
 
 This document defines the **public contract** of the theme. Items listed here
 will not be renamed or removed in any minor release; breaking changes require a
@@ -111,6 +111,16 @@ front matter family (`cover.*`, `editPost.*`, `canonicalURL`, …).
 its project data, shortcode, and inline SVGs; explicitly load this stylesheet
 only on the pages using them. It uses the host palette, needs no JavaScript,
 and respects keyboard focus and reduced motion. The plain index is unchanged.
+
+`sg-index__links` styles the explicit GitHub / Obsidian-directory link row under each card description (2026-10-25).
+
+Anatomy-style shading tones (2026-10-24): `sg-figure__lo` (base, feet),
+`sg-figure__mid` (structure), `sg-figure__hi` (the subject), `sg-figure__lit`
+(the one accent to watch), `sg-figure__faint` (grooves, inset outlines),
+`sg-figure__cable-lit` (a lit patch cable), plus the original
+`sg-figure__{top,side,end,metal,paper,ink,accent,rule,print,metal-line,cable,
+wheel,shadow,glow,light,press-head}` classes. Figures stay static site content;
+the tones only map them onto the host palette in both schemes.
 
 ### Explanatory shortcodes
 

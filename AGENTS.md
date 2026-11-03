@@ -318,7 +318,7 @@ comparisons against another ref.
 ## Public contract
 
 `docs/api.md` is the frozen public API (params, `sg-*` classes, output
-formats, data shapes) as of v0.9.0. Renames need a deprecation window;
+formats, data shapes) as of v0.12.0. Renames need a deprecation window;
 removals wait for a major. Check it before touching any param or class name.
 
 ## v1.0.0 gate (defined 2026-10-24)

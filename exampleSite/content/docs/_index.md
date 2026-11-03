@@ -11,7 +11,7 @@ Everything you need to make SIGIL your own. This page is the map; the
 [configuration examples](/config-example/) are the copy-paste starting points,
 and the [API contract](/api/) is the frozen reference. Requirements and
 installation are in the
-[README](https://github.com/ouatis/hugo-theme-sigil#installation).
+[README](https://github.com/ouatis/hugo-theme-sigil#install).
 
 {{< page-anatomy >}}
 
@@ -43,7 +43,7 @@ lightbox = true  # click-to-enlarge images
   to that language's home. Right-to-left languages (Arabic, Persian, Hebrew,
   Central Kurdish) mirror the whole layout — sidenotes, the floating TOC,
   arrows — when the language declares `direction = "rtl"` in your site config.
-- **Fonts** — `latin` (default, clean checkout), `corpus` (demo CJK, ~30 KB),
+- **Fonts** — `latin` (default, clean checkout), `corpus` (demo CJK, ~200 KB),
   or `full` (complete SC + JP, ~3 MB). Pick per site, not per page.
 
 The [typography sample](/posts/typography/) shows all of this on one page —
@@ -51,7 +51,7 @@ read it to see the result before writing your own.
 
 ## API Reference
 
-The theme's public contract is frozen as of v0.9.0 — listed parameters will
+The theme's public contract is frozen as of v0.12.0 — listed parameters will
 not be renamed or removed without a deprecation window. The
 [API contract](/api/) lists every site param, front-matter param, CSS hook,
 and extension point. Treat anything not listed there as internal, and safe to

@@ -137,7 +137,7 @@ Common PaperMod options work as usual. The essential SIGIL block:
   unsafe = true
 ```
 
-SIGIL-specific options in full:
+Common SIGIL-specific options (the complete list is [docs/api.md](docs/api.md)):
 
 | Parameter | Default | Purpose |
 | --- | --- | --- |
@@ -169,7 +169,7 @@ same header, then every post's full text) to the home outputs:
 
 ```toml
 [outputs]
-  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
 ```
 
 The key pages section detects About / Archives / taxonomies / RSS
@@ -192,7 +192,7 @@ bash scripts/build-fonts.sh corpus   # or latin / full
 - `latin` — Latin only; the bootstrap subset already committed to the repo
   (CJK text falls back to system fonts). This is the clean-checkout default.
 - `corpus` — additionally scans the example site's own characters and subsets
-  an SC/JP corpus so the demo's CJK renders in real Plex (SC ≈ 212 KB for
+  an SC/JP corpus so the demo's CJK renders in real Plex (SC ≈ 200 KB for
   regular + bold, growing with the site's own text). **Shell script only** —
   `scripts/build-fonts.py` covers `latin`/`full` but not `corpus`.
 - `full` — official SC + JP split shards (for CJK/JP sites that want full
@@ -202,8 +202,8 @@ bash scripts/build-fonts.sh corpus   # or latin / full
 
 Measured on the example site, minified build:
 
-- Homepage: ~78 KB total — 16 KB HTML + 57 KB CSS + 5 KB inline JS, **zero external JavaScript**
-- Optional, opt-in only: search script 18 KB (search page), KaTeX 332 KB (`math = true`), GLightbox 56 KB (`lightbox = true`)
+- Homepage: under 100 KB of HTML + CSS (scripts inlined) — **zero external JavaScript**
+- Optional, opt-in only: search script 18 KB (search page), KaTeX ~300 KB plus fonts (`math = true`), GLightbox ~70 KB (`lightbox = true`)
 - Fonts: the demo runs the `corpus` pipeline, so its CJK renders in real Plex — the densest page (the typography sample) loads ~284 KB of bundled fonts in en/zh and ~222 KB in ja on a first visit. A `latin`-only site is ~85 KB (CJK falls back to system fonts). Sites needing full CJK/JP coverage run `full` (~3 MB, one file cached site-wide, `font-display: swap` covers the wait)
 - Font budget: `scripts/check.sh` fails the demo deploy when the worst language page exceeds 320 KB of bundled fonts (`FONT_BUDGET_KB` overrides it). The corpus is scanned site-wide, so writing Chinese pages grows it for every language at once — keep the budget above the current worst with room to write, not flush against it
 - No frameworks, no jQuery, no runtime CDN dependencies
@@ -211,7 +211,7 @@ Measured on the example site, minified build:
 ## Stability
 
 The public contract — parameter names, `sg-*` classes, output formats, data
-shapes, extension partials — is **frozen as of v0.9.0**: renames require a
+shapes, extension partials — is **frozen as of v0.12.0**: renames require a
 deprecation window and removals wait for a major release. The full contract
 and deprecation policy live in [docs/api.md](docs/api.md). Both install modes
 (submodule and Hugo module) are exercised in CI.

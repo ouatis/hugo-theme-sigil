@@ -128,7 +128,7 @@ PaperMod 的常用配置可以继续使用。SIGIL 的必备配置块：
   unsafe = true
 ```
 
-SIGIL 专属配置一览：
+常用的 SIGIL 专属配置（完整清单见 [docs/api.md](docs/api.md)）：
 
 | 参数 | 默认值 | 用途 |
 | --- | --- | --- |
@@ -156,7 +156,7 @@ frontmatter 开关：`hiddenInHomeList`（不进首页列表）、`searchHidden`
 
 ```toml
 [outputs]
-  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
 ```
 
 关键页面一节自动探测 关于/归档/词目/RSS;要手工策展就覆盖
@@ -170,7 +170,7 @@ frontmatter 开关：`hiddenInHomeList`（不进首页列表）、`searchHidden`
 
 - `latin` —— 仅拉丁字母;仓库内置的引导子集(中文回退系统字体)。这是干净检出的默认形态
 - `corpus` —— 额外扫描示例站自身字符,切出小 SC 语料子集,使 demo 的中文
-  以真正的 Plex 渲染(约 30 KB)。**仅 Shell 脚本支持**——`scripts/build-fonts.py`
+  以真正的 Plex 渲染(SC 常规 + 粗体约 200 KB,随站点文字增长)。**仅 Shell 脚本支持**——`scripts/build-fonts.py`
   只覆盖 `latin`/`full`，不含 `corpus`。
 - `full` —— 官方 SC + JP 全量分片(适合需要全量覆盖的中/日文站点;文字密集页约 3 MB)
 
@@ -182,15 +182,16 @@ bash scripts/build-fonts.sh corpus   # 或 latin / full
 
 以示例站 minify 构建实测：
 
-- 首页合计约 **78 KB**：HTML 16 KB + CSS 57 KB + 内联 JS 5 KB，**零外链 JavaScript**
-- 可选项按需加载：搜索脚本 18 KB（仅搜索页）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
-- 字体：示例站跑 `corpus` 管线，其中文以真正的 Plex 渲染——文字密集页首访约 **104 KB**（拉丁子集 + 小型 SC 语料子集）。仅 `latin` 的站点约 85 KB（中文回退系统字体）。需要全量中/日文覆盖的站点跑 `full`（约 3 MB，一个文件全站缓存一次到位，`font-display: swap` 兜底等待）
+- 首页 HTML + CSS 合计**不到 100 KB**（脚本内联）——**零外链 JavaScript**
+- 可选项按需加载：搜索脚本 18 KB（仅搜索页）、KaTeX 约 300 KB 加字体（`math = true`）、glightbox 约 70 KB（`lightbox = true`）
+- 字体：示例站跑 `corpus` 管线，其中文以真正的 Plex 渲染——文字密集页（排版样张）首访约 **284 KB**（中/英）、**222 KB**（日）。仅 `latin` 的站点约 85 KB（中文回退系统字体）。需要全量中/日文覆盖的站点跑 `full`（约 3 MB，一个文件全站缓存一次到位，`font-display: swap` 兜底等待）
+- 字体预算：`scripts/check.sh` 在任一语言页面超过 320 KB 内置字体时让 demo 部署失败（`FONT_BUDGET_KB` 可改）。corpus 全站扫描，写中文页会让所有语言的字体一起变大——预算要留出写作余量，别贴着当前最坏值
 - 无框架、无 jQuery、无运行时 CDN 依赖
 
 ## 稳定性
 
 公开契约——参数名、`sg-*` 类名、输出格式、数据结构、扩展 partial——自
-**v0.9.0 起冻结**：改名须留弃用窗口，移除等到大版本。完整契约与弃用政策见
+**v0.12.0 起冻结**：改名须留弃用窗口，移除等到大版本。完整契约与弃用政策见
 [docs/api.md](docs/api.md)。两种安装方式（submodule 与 Hugo module）均有 CI 覆盖。
 
 ## 翻译

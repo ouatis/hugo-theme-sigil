@@ -131,7 +131,7 @@ PaperMod の一般的な設定はそのまま使えます。SIGIL の必須設�
   unsafe = true
 ```
 
-SIGIL 固有の設定（全項目）：
+よく使う SIGIL 固有の設定（全項目のリストは [docs/api.md](docs/api.md)）：
 
 | パラメータ | 初期値 | 用途 |
 | --- | --- | --- |
@@ -162,7 +162,7 @@ home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
 
 ```toml
 [outputs]
-  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
 ```
 
 キーページ節は About/アーカイブ/タクソノミー/RSS を自動検出。
@@ -177,7 +177,7 @@ home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
 - `latin` —— ラテン文字のみ。リポジトリ同梱のブートストラップ サブセット
   （CJK テキストはシステムフォールバック）。クリーンなチェックアウトのデフォルト形態
 - `corpus` —— 例示サイト自身の文字を走査し、小さな SC コーパス サブセットを
-  作成。デモの CJK が本物の Plex で表示される（約 30 KB）。**シェルスクリプトのみ**——
+  作成。デモの CJK が本物の Plex で表示される（SC の標準 + 太字で約 200 KB、サイトの文字が増えると大きくなる）。**シェルスクリプトのみ**——
   `scripts/build-fonts.py` は `latin`/`full` のみ対応し `corpus` は非対応。
 - `full` —— 公式 SC + JP 全分割シャード（全量カバーが必要な CJK/JP サイト向け;
   テキストの多いページで約 3 MB）
@@ -190,15 +190,16 @@ bash scripts/build-fonts.sh corpus   # または latin / full
 
 サンプルサイトの minify ビルドで実測：
 
-- トップページ合計 約 **78 KB**：HTML 16 KB + CSS 57 KB + インライン JS 5 KB、**外部 JavaScript ゼロ**
-- オプションは必要時のみ：検索スクリプト 18 KB（検索ページ）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
-- フォント：デモは `corpus` パイプラインを実行するため、CJK が本物の Plex で表示される——テキストの多いページで初回約 **104 KB**（ラテン サブセット + 小さな SC コーパス）。`latin` のみのサイトは約 85 KB（CJK はシステムフォールバック）。全量の中/日文カバーが必要なサイトは `full`（約 3 MB、1 ファイルがサイト全体でキャッシュされ、`font-display: swap` が待ち時間をカバー）
+- トップページの HTML + CSS は合計 **100 KB 未満**（スクリプトはインライン）——**外部 JavaScript ゼロ**
+- オプションは必要時のみ：検索スクリプト 18 KB（検索ページ）、KaTeX 約 300 KB + フォント（`math = true`）、glightbox 約 70 KB（`lightbox = true`）
+- フォント：デモは `corpus` パイプラインを実行するため、CJK が本物の Plex で表示される——テキストの多いページ（タイポグラフィ見本）で初回約 **284 KB**（中/英）、**222 KB**（日）。`latin` のみのサイトは約 85 KB（CJK はシステムフォールバック）。全量の中/日文カバーが必要なサイトは `full`（約 3 MB、1 ファイルがサイト全体でキャッシュされ、`font-display: swap` が待ち時間をカバー）
+- フォント予算：`scripts/check.sh` は、いずれかの言語ページの同梱フォントが 320 KB を超えるとデモのデプロイを失敗させます（`FONT_BUDGET_KB` で変更可）。コーパスはサイト全体を走査するため、中国語のページを書くと全言語のフォントが同時に大きくなります——予算は執筆余裕を残し、現状の最悪値にぴったり付けないこと
 - フレームワークなし、jQuery なし、実行時 CDN 依存なし
 
 ## 安定性
 
 公開契約——パラメータ名、`sg-*` クラス名、出力フォーマット、データ構造、
-拡張 partial——は **v0.9.0 で凍結**：改名には非推奨期間を設け、削除はメジャー
+拡張 partial——は **v0.12.0 で凍結**：改名には非推奨期間を設け、削除はメジャー
 リリースまで待ちます。契約の全文と非推奨ポリシーは
 [docs/api.md](docs/api.md) を参照。両インストール方式（submodule と Hugo
 module）は CI で検証されています。

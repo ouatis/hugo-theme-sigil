@@ -6,7 +6,7 @@ date: 2026-02-10
 
 Copy-paste starting points for `hugo.toml`. Everything shown here is part of
 the [public API](https://github.com/ouatis/hugo-theme-sigil/blob/main/docs/api.md),
-frozen as of v0.9.0.
+frozen as of v0.12.0.
 
 ## Minimal
 

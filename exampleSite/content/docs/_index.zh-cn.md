@@ -9,7 +9,7 @@ slug: docs
 让 SIGIL 成为你自己的主题所需的一切。这一页是地图；
 [配置示例](/config-example/) 是可复制的起点，
 [API 契约](/api/) 是冻结的权威参考。环境要求与安装见
-[README](https://github.com/ouatis/hugo-theme-sigil#installation)。
+[README](https://github.com/ouatis/hugo-theme-sigil#install)。
 
 {{< page-anatomy >}}
 
@@ -35,14 +35,14 @@ lightbox = true  # 图片点击放大
 - **多语言** —— 给各语言翻译相同的 `translationKey`，语言切换器会跳到对应文章；
   没有翻译的页面回退到该语言首页。右到左语言（阿拉伯语、波斯语、希伯来语、中库尔德语）
   在站点配置里声明 `direction = "rtl"` 后，边注、悬浮目录与箭头会整体镜像。
-- **字体** —— `latin`（默认，干净检出）、`corpus`（演示站中文，约 30 KB）、
+- **字体** —— `latin`（默认，干净检出）、`corpus`（演示站中文，约 200 KB）、
   `full`（完整 SC + JP，约 3 MB）。按站点选，不按页面。
 
 [排版示例](/posts/typography/) 把这些功能集中在一页——写自己的文章之前，先读它看看效果。
 
 ## API 参考
 
-主题的公共契约自 v0.9.0 起冻结——列出的参数不会在没有弃用期的情况下改名或移除。
+主题的公共契约自 v0.12.0 起冻结——列出的参数不会在没有弃用期的情况下改名或移除。
 [API 契约](/api/) 列出了每个站点参数、front matter 参数、CSS 钩子和扩展点。
 其中未列出的内容均属内部实现，可随时更改而不另行通知。
 
