@@ -111,7 +111,7 @@ Five workflows, each carrying a different half of "works":
 | `install-modes.yml` | submodule / module | main only | a clean install renders (they clone this repo by URL, so on a PR they would test main) |
 | `install-modes.yml` | resource-integrity | push main / PR | every committed CSS `@import` target exists in the checkout |
 | `compatibility.yml` | zero-config | push main / PR / dispatch | a fresh `hugo new site` with only `theme = "hugo-theme-sigil"` and one post renders |
-| `compatibility.yml` | api-contract | push main / PR / dispatch | no identifier frozen in `docs/api.md` disappeared since the `v0.12.0` baseline |
+| `compatibility.yml` | api-contract | push main / PR / dispatch | no identifier frozen in `docs/api.md` disappeared since the committed baseline snapshot |
 | `workflow-lint.yml` | actionlint | push main / PR | the workflows themselves: event wiring, expressions, `run:` shell |
 
 `zero-config` exists because `exampleSite` cannot answer that question: it
@@ -290,12 +290,18 @@ the workflow call the script.
 rename: the paragraph still reads well, the build still passes, and a user's
 `sgKicker = …` silently stops doing anything. `scripts/ci/check-api-identifiers.py`
 extracts every backticked identifier from the current file and from
-`git show v0.12.0:docs/api.md` and fails only when one **disappeared** —
+`scripts/ci/api-baseline.json`, and fails only when one **disappeared** —
 additions are allowed, because the policy permits new params with docs.
-The baseline is the `v0.12.0` tag (`API_BASELINE` overrides), which is why the
-`api-contract` job checks out with `fetch-depth: 0`: the default shallow clone
-has no tags, and a missing baseline must fail loudly rather than compare
-against an empty set.
+
+The baseline is a committed snapshot, not a git tag, because tags are not
+stable: the 2026-11-03 history rewrite moved every tag onto the new root
+commit, so `git show v0.12.0:docs/api.md` now returns the current document and
+the check compared the file with itself — green forever, for the one thing it
+exists to catch. The snapshot carries the source tag and commit it was taken
+from (`v0.12.0`, `45ef3cf`), and a missing or empty snapshot is a hard error,
+never a silent pass. Regenerate it only to raise the frozen surface, never to
+absorb an identifier that just vanished; `--source git` remains for ad-hoc
+comparisons against another ref.
 
 ## Conventions
 
@@ -319,15 +325,17 @@ removals wait for a major. Check it before touching any param or class name.
 
 v1.0.0 is a stability statement, not a feature list. All three must hold:
 
-- [ ] **Two weeks without a regression**, counted from 2026-10-24
-      (→ 2026-11-07): Demo / Install modes stay green and no
+- [ ] **Two weeks without a regression**, counted from 2026-11-02
+      (→ 2026-11-16): Demo / Install modes / Compatibility stay green and no
       `fix:` commit lands on `main`. A regression resets the clock from its
       fix. Pure additive releases (new opt-in params with docs + check
-      coverage) do **not** reset it.
+      coverage) and maintenance commits (`ci:` / `docs:` / `test:`) do **not**
+      reset it.
 - [ ] **Gallery healthy**: no new red items from the hugoThemesSiteBuilder
       checker, and the themes.gohugo.io card reflects the current tag.
-- [ ] **Contract intact**: `git diff v0.11.3..HEAD -- docs/api.md` shows no
-      removals or renames; additions are fine (with a doc row each).
+- [ ] **Contract intact**: `scripts/ci/check-api-identifiers.py` passes — no
+      identifier recorded in `scripts/ci/api-baseline.json` has disappeared
+      from `docs/api.md`; additions are fine (with a doc row each).
 
 When all three hold: annotated tag `v1.0.0`, release notes from the tag
 message.
