@@ -29,7 +29,7 @@
 - JSON Feed 1.1(`/feed.json`,与 RSS 并存,构建期自动生成)
 - 47 门界面语言，右到左感知——RTL 站点（ar/fa/he/ckb）声明 `direction = "rtl"` 后整体镜像布局，含旁注与悬浮目录
 - 搜索、分类、标签、面包屑、目录、代码复制和多语言字符串
-- 页面级可选:KaTeX 数学(已同捆)、Mermaid 图表(定版 CDN)、图片灯箱(glightbox,已同捆)
+- 页面级可选:KaTeX 数学(已同捆)、Mermaid 图表(Pele 引擎,已同捆)、图片灯箱(glightbox,已同捆)
 - 用文章标题自动生成 OG 卡片图(`images.Text`,仅构建期)
 - 外链门形记号由渲染钩子按主机名判定,不写死任何域名
 - `llms.txt`(可选 `llms-full.txt`)——面向 AI Agent 的机器可读站点索引
@@ -96,4 +96,4 @@ MIT，详见 [LICENSE](LICENSE)。
 
 基于 PaperMod；字体使用 IBM Plex（SIL OFL 1.1），图标使用 Phosphor
 Icons（MIT），搜索使用 Fuse.js（Apache-2.0），数学排版使用 KaTeX（MIT，已同捆），
-灯箱使用 glightbox（MIT，已同捆），图表使用 Mermaid（MIT，按需经定版 CDN 加载）。
+灯箱使用 glightbox（MIT，已同捆），图表使用 Mermaid 语法、由 Pele 绘制（MIT，已同捆）。

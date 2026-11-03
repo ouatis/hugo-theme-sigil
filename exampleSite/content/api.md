@@ -48,7 +48,7 @@ Anything **not** listed here is internal and may change without notice.
 | `ogCardFont` | Font used by `ogAutoCard` (SC subset TTF) |
 | `llmsTxtIntro` | Intro paragraph of the theme-generated `llms.txt` |
 | `lightbox` | Enable the GLightbox image lightbox (opt-in) |
-| `math` / `mermaid` | Enable KaTeX / Mermaid (opt-in) |
+| `math` / `mermaid` | Enable KaTeX / Mermaid-syntax diagrams drawn by Pele (opt-in) |
 | `fuseOpts` | Search index options, forwarded to Fuse.js |
 | `giscus.*` | Giscus comments (opt-in): `repo` / `repoId` / `category` / `categoryId` are required; optional `mapping` / `strict` / `reactionsEnabled` / `emitMetadata` / `inputPosition` / `theme` / `lang` forward to the giscus script with sane defaults |
 

@@ -108,7 +108,7 @@ front matter 开关包括 `hiddenInHomeList`、`searchHidden`、`showRelated: fa
 覆盖，文字密集页约 3 MB。
 
 演示站 minify 构建的 HTML 加 CSS 不到 100 KB，运行时不加载外部 JavaScript。可选资源只在请求时加载：
-搜索约 18 KB，KaTeX 约 300 KB 加字体，GLightbox 约 70 KB。文字密集页的字体约为中文 284 KB、日文
+搜索约 18 KB，KaTeX 约 300 KB 加字体，GLightbox 约 70 KB，图表引擎约 275 KB（gzip）。文字密集页的字体约为中文 284 KB、日文
 222 KB，CI 预算上限为 320 KB。
 
 ## API 参考

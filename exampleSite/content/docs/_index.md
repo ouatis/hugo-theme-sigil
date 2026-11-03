@@ -124,7 +124,8 @@ complete SC + JP coverage and is about 3 MB on a text-heavy page.
 
 On the minified demo build, HTML plus CSS stays under 100 KB and JavaScript is
 not loaded from an external runtime. Optional assets load only when requested:
-search is about 18 KB, KaTeX about 300 KB plus fonts, and GLightbox about 70 KB.
+search is about 18 KB, KaTeX about 300 KB plus fonts, GLightbox about 70 KB,
+and the diagram renderer about 275 KB gzipped.
 The densest demo page loads about 284 KB of bundled fonts in English/Chinese
 and 222 KB in Japanese; the CI budget is 320 KB.
 

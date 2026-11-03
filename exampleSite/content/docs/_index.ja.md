@@ -116,7 +116,7 @@ front matter のスイッチは `hiddenInHomeList`、`searchHidden`、`showRelat
 
 デモの minify ビルドは HTML と CSS の合計が 100 KB 未満で、実行時の外部 JavaScript はありません。
 オプションのリソースは要求時だけ読み込みます：検索は約 18 KB、KaTeX はフォント込みで約 300 KB、
-GLightbox は約 70 KB です。文字の多いページのフォントは英語／中国語で約 284 KB、日本語で約 222 KB、
+GLightbox は約 70 KB、図のレンダラーは約 275 KB（gzip）です。文字の多いページのフォントは英語／中国語で約 284 KB、日本語で約 222 KB、
 CI の予算は 320 KB です。
 
 ## API リファレンス

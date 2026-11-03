@@ -308,8 +308,11 @@ comparisons against another ref.
 - i18n: strings go through `i18n "key" | default "English"`; fill
   `en`, `zh-CN`, `zh`, `ja`; the other ~45 languages fall back gracefully.
 - Third-party code gets vendored only with an attribution note in
-  `NOTICE.md`; large dependencies that can't be vendored use a pinned CDN
-  with SRI (see mermaid).
+  `NOTICE.md`. Vendoring is the default even for large files: since
+  2026-11-03 the diagram engine ships vendored too (Pele, 734 KB), so a
+  page that enables a feature makes no third-party request. If something is
+  ever too large to vendor, pin the CDN with SRI and record it in
+  `NOTICE.md` and the PR.
 - exampleSite keeps **exactly three posts**. Feature demos fold into
   `posts/typography/` (which enables math + mermaid + lightbox); do not add
   pages.

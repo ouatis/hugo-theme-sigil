@@ -29,7 +29,7 @@
 - JSON Feed 1.1(`/feed.json`、RSS と並存、ビルド時に自動生成)
 - 47 言語のインターフェース、右横書き対応——RTL サイト（ar/fa/he/ckb）は `direction = "rtl"` の宣言でレイアウト全体を鏡像化（サイドノートと浮遊目次を含む）
 - 検索、分類、タグ、パンくず、目次、コードコピー、多言語文字列
-- ページ単位で有効化:KaTeX 数式(同梱)、Mermaid 図(固定版 CDN)、画像ライトボックス(glightbox、同梱)
+- ページ単位で有効化:KaTeX 数式(同梱)、Mermaid 図(Pele エンジン、同梱)、画像ライトボックス(glightbox、同梱)
 - 記事タイトルから OG 画像カードを自動生成(`images.Text`、ビルド時のみ)
 - 外部リンクの扉マークはレンダーフックがホスト名で判定(ドメイン直書きなし)
 - `llms.txt`(任意で `llms-full.txt`)— AI エージェント向けの機械可読サイトインデックス
@@ -100,4 +100,4 @@ MIT。詳細は [LICENSE](LICENSE) を参照してください。
 
 PaperMod ベース。フォントは IBM Plex（SIL OFL 1.1）、アイコンは Phosphor
 Icons（MIT）、検索は Fuse.js（Apache-2.0）、数式は KaTeX（MIT、同梱）、
-ライトボックスは glightbox（MIT、同梱）、図は Mermaid（MIT、必要なページのみ固定版 CDN）。
+ライトボックスは glightbox（MIT、同梱）、図は Mermaid 記法を Pele で描画（MIT、同梱）。
