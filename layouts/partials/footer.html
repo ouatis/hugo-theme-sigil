@@ -1,0 +1,205 @@
+{{- /* 万事皆三:页脚以版权、所以符和引擎致谢保持精简 */}}
+{{- if not (.Param "hideFooter") }}
+<footer class="footer">
+    {{- if not site.Params.footer.hideCopyright }}
+        {{- if site.Copyright }}
+        <span>2012–{{ now.Year }} {{ site.Copyright | markdownify }}</span>
+        {{- else }}
+        <span>&copy; {{ now.Year }} <a href="{{ "" | absLangURL }}">{{ site.Title }}</a></span>
+        {{- end }}
+    {{- end }}
+
+    <span class="tri-sep" aria-hidden="true">∴</span>
+
+    {{- /* 这里致谢的是主题本身,不是本站的名字。两者常同名而写法各异
+         (作者的个人站就叫 SigiL),并排出现时读者会以为是同一处文案,
+         所以把主题名显式标成「主题」,与上面的 site.Title 区分开。 */}}
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a>;
+        theme
+        <a href="https://github.com/ouatis/hugo-theme-sigil/" rel="noopener noreferrer" target="_blank">SIGIL</a>
+    </span>
+
+    {{- /* 可选:站点提供 data/analytics.json({total, since}) 时,页脚展示累计浏览量 */ -}}
+    {{- with hugo.Data.analytics }}
+    {{- if .total }}
+    <span class="tri-sep tri-sep-views" aria-hidden="true">∴</span>
+
+    <span class="footer-views" title="{{ i18n "footerViewsTitle" .since | default (printf "Total page views since %s" .since) }}">
+        {{ partial "sg-icon.html" (dict "name" "eye" "size" 12) }}{{ i18n "footerViews" (int .total) | default (printf "%s views" (lang.FormatNumber 0 .total)) }}
+    </span>
+
+    {{- /* 香火线:近 120 日逐日浏览量,path 由站点脚本预算进 analytics.json,
+           主题只描线不画轴;无数据站点(如 exampleSite)自然缺席 */ -}}
+    {{- with .sparkline }}
+    <svg class="footer-spark" viewBox="0 0 120 14" width="120" height="14" aria-hidden="true" focusable="false"><title>{{ i18n "footerSparkTitle" | default "Daily views, last 120 days" }}</title><path d="{{ . }}"/></svg>
+    {{- end }}
+    {{- end }}
+    {{- end }}
+</footer>
+{{- end }}
+
+{{- if (not site.Params.disableScrollToTop) }}
+{{- /* 回顶是页面外壳,不在正文里:它落在 <main> 之外,而 <footer> 可以被
+       hideFooter 关掉,所以两者都不能当它的家。裸放一个 <a> 在 body 里会让
+       axe 的 region 规则判为「内容不在任何地标中」,因此给它一个 nav 地标。
+       nav 包着的是 position:fixed 的按钮,本身零高度,不影响版式。 */}}
+<nav class="top-link-nav" aria-label="{{ i18n "backToTop" | default "Back to top" }}">
+    <a href="#top" aria-label="{{ i18n "backToTop" | default "Back to top" }}" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+        {{ partial "sg-icon.html" (dict "name" "arrow-up" "size" 14) }}
+    </a>
+</nav>
+{{- end }}
+
+{{- partial "extend_footer.html" . }}
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        // Set the scroll position
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+
+{{- if (not site.Params.disableScrollToTop) }}
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+{{- end }}
+
+{{- if (not site.Params.disableThemeToggle) }}
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", (e) => {
+        const html = document.querySelector("html");
+        const flip = () => {
+            if (html.dataset.theme === "dark") {
+                html.dataset.theme = "light";
+                localStorage.setItem("pref-theme", "light");
+            } else {
+                html.dataset.theme = "dark";
+                localStorage.setItem("pref-theme", "dark");
+            }
+            /* 让按需加载的组件(如 mermaid)跟进新主题重绘 */
+            document.dispatchEvent(new CustomEvent("sg:themechange", { detail: { theme: html.dataset.theme } }));
+        };
+        /* antfu.me 式主题切换:新主题从点击处圆形揭示。旧浏览器或
+           prefers-reduced-motion 时退回直接切换。 */
+        if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            flip();
+            return;
+        }
+        let x = e.clientX, y = e.clientY;
+        if (!x && !y) {
+            const r = e.currentTarget.getBoundingClientRect();
+            x = r.left + r.width / 2;
+            y = r.top + r.height / 2;
+        }
+        const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        const transition = document.startViewTransition(flip);
+        transition.ready.then(() => {
+            document.documentElement.animate(
+                {
+                    clipPath: [
+                        `circle(0px at ${x}px ${y}px)`,
+                        `circle(${endRadius}px at ${x}px ${y}px)`,
+                    ],
+                },
+                {
+                    duration: 400,
+                    easing: "ease-in-out",
+                    pseudoElement: "::view-transition-new(root)",
+                },
+            );
+        });
+    })
+</script>
+{{- end }}
+
+{{- if (and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") (.Param "ShowCodeCopyButtons")) }}
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '{{- i18n "code_copy" | default "copy" }}';
+
+        function copyingDone() {
+            copybutton.innerHTML = '{{- i18n "code_copied" | default "copied!" }}';
+            setTimeout(() => {
+                copybutton.innerHTML = '{{- i18n "code_copy" | default "copy" }}';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            // td containing LineNos
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            // table containing LineNos and code
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            // code blocks not having highlight as parent class
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+{{- end }}

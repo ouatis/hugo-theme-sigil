@@ -1,0 +1,35 @@
+{{- /* Mermaid:页面 frontmatter 或站点参数设 mermaid: true 时加载。
+     整包约 5.5MB,无法同捆,走 jsdelivr 定版 + SRI;图表按当前主题着色,
+     sg:themechange(footer 的切换开关派发)时以保留的源文本重绘 */ -}}
+<script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/mermaid@12.0.0/dist/mermaid.min.js" integrity="sha384-xzghz1GQ5u9HCpVskeDPqMsdogD1yvuMQbEK53+wi+G70+6J1AG0L2cfi9PHjDWI"></script>
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+    if (typeof mermaid === "undefined") return;
+    var blocks = document.querySelectorAll('.post-content pre > code[class*="language-mermaid"]');
+    if (!blocks.length) return;
+    var render = function () {
+        mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "strict",
+            theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default",
+        });
+        mermaid.run({ querySelector: ".sg-mermaid" });
+    };
+    blocks.forEach(function (block) {
+        var pre = block.parentNode;
+        var div = document.createElement("div");
+        div.className = "sg-mermaid";
+        div.setAttribute("data-src", block.textContent);
+        div.textContent = block.textContent;
+        pre.replaceWith(div);
+    });
+    render();
+    document.addEventListener("sg:themechange", function () {
+        document.querySelectorAll(".sg-mermaid").forEach(function (div) {
+            div.textContent = div.getAttribute("data-src");
+            div.removeAttribute("data-processed");
+        });
+        render();
+    });
+});
+</script>

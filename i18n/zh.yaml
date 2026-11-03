@@ -1,0 +1,169 @@
+- id: prev_page
+  translation: "上一页"
+
+- id: next_page
+  translation: "下一页"
+
+- id: read_time
+  translation:
+    one : "1 分钟"
+    other: "{{ .Count }} 分钟"
+
+- id: words
+  translation: 
+    one: "1 字"
+    other: "{{ .Count }} 字"
+
+- id: toc
+  translation: "目录"
+
+- id: translations
+  translation: "语言"
+
+- id: home
+  translation: "主页"
+
+- id: edit_post
+  translation: "编辑"
+
+- id: code_copy
+  translation: "复制"
+
+- id: code_copied
+  translation: "已复制！"
+
+- id: skip_to_content
+  translation: "跳到正文"
+
+- id: breadcrumbs
+  translation: "面包屑"
+
+# SIGIL:栏头与状态条(缺失语言回落模板内 default 的英文;sgNow* 刻意保持英文声部)
+- id: recentWriting
+  translation: "最近更新"
+- id: postsSuffix
+  translation:  " 篇文章"
+- id: socialLinks
+  translation: 社交链接
+- id: readPrefix
+  translation: "阅读："
+- id: paginationAria
+  translation: 文章分页
+
+# 分页(列表页)用「页」,区别于文章导航的 prev_page/next_page
+- id: pagination_prev
+  translation: "上一页"
+- id: pagination_next
+  translation: "下一页"
+
+# SIGIL:通用 UI 字串(404/搜索/发现导航/相关文章/归档/术语页/系列/页脚)
+- id: notFoundLead
+  translation: "你走到了一条不存在的巷子。"
+- id: searchInputLabel
+  translation: "搜索"
+- id: searchPlaceholder
+  translation: "搜索全站……"
+- id: backHome
+  translation: "回主页"
+- id: browseArchives
+  translation: "去归档翻翻"
+- id: searchResultsLabel
+  translation: "搜索结果"
+- id: searchTryLabel
+  translation: "试试："
+- id: searchEmptyLabel
+  translation: "没有找到相关文章。"
+- id: minutesShort
+  translation: " 分钟"
+- id: navCategories
+  translation: "分类"
+- id: navTags
+  translation: "标签"
+- id: navSearch
+  translation: "搜索"
+- id: navAria
+  translation: "内容导航"
+- id: relatedPosts
+  translation: "相关文章"
+- id: categories
+  translation: "分类"
+- id: tags
+  translation: "标签"
+- id: seriesUnwritten
+  translation: "未写"
+- id: footerViews
+  translation:
+    other: "{{ .Count }} 次浏览"
+- id: footerViewsTitle
+  translation: "累计页面浏览量 · 统计自 {{ . }}"
+- id: footerSparkTitle
+  translation: "近 120 日逐日浏览量"
+- id: sgWords
+  translation:
+    other: "{{ .Count }} 字"
+- id: sgWordsK
+  translation: "{{ .Count }}K 字"
+
+# llms.txt 章节头(机器可读站点索引)
+- id: llmsPages
+  translation: "主要页面"
+- id: llmsPosts
+  translation: "全部文章"
+- id: llmsRssNote
+  translation: "全文输出"
+- id: llmsFullNote
+  translation: "全站文章全文,单文件"
+
+# 导航地标标签(a11y:页面多个 nav 需唯一 aria-label)
+- id: navSiteAria
+  translation: "站内导航"
+- id: postNavAria
+  translation: "文章导航"
+
+- id: posts_language_note
+  translation: "文章仅以中文刊载。"
+
+- id: sgNowPlaying
+  translation: "游戏中："
+
+- id: sgNowReading
+  translation: "在读："
+# Optional explanatory figures (English fallback for other locales).
+- id: sgShelfTitle
+  translation: "卷目书架"
+- id: sgShelfHint
+  translation: "点书脊进入对应卷目；书册为目录示意，并非已出版版本。"
+- id: sgShelfContentHint
+  translation: "点书脊进入对应卷目；厚薄按已发布正文量示意，不代表完成度或已出版版本。"
+- id: sgShelfAmount
+  translation: "已发布 {{ .Chapters }} 篇，正文约 {{ .Words }} 字。"
+- id: sgAnatomyTitle
+  translation: "一张阅读页的结构"
+- id: sgAnatomyExplode
+  translation: "展开图层"
+- id: sgAnatomyParts
+  translation: "页面组成"
+- id: sgAnatomyHeader
+  translation: "页眉"
+- id: sgAnatomyBody
+  translation: "正文"
+- id: sgAnatomyNotes
+  translation: "旁注"
+- id: sgAnatomyToc
+  translation: "目录"
+- id: sgAnatomyFooter
+  translation: "页脚"
+- id: sgAnatomyHeaderDescription
+  translation: "站名、语言切换与网站导航位于阅读页上方。"
+- id: sgAnatomyBodyDescription
+  translation: "正文栏容纳标题、段落、引文和代码。行宽为长文阅读保留舒适的节奏。"
+- id: sgAnatomyNotesDescription
+  translation: "普通 Markdown 脚注在宽屏移到页边，在窄屏保留为文末注释。此图拆分功能，不模拟手机上的实际位置。"
+- id: sgAnatomyTocDescription
+  translation: "目录来自文章标题，在启用时显示。它帮助读者定位，不改变正文。"
+- id: sgAnatomyFooterDescription
+  translation: "致谢与站点信息排在文字之后，为页面收尾，不混入文章。"
+- id: sgAnatomyHint
+  translation: "页面组成示意，不是截图。选择部件查看说明，展开图层观察彼此关系。"
+- id: sgComments
+  translation: "评论"

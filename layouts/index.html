@@ -1,0 +1,325 @@
+{{- define "main" }}
+{{- $contentSite := site }}
+{{- /* ShowDefaultLanguageContent: 非默认语言的列表回退到默认语言内容(界面仍是当前语言) */ -}}
+{{- if and site.Params.ShowDefaultLanguageContent (ne site.Language.Lang hugo.Sites.Default.Language.Lang) -}}
+{{- $contentSite = index hugo.Sites 0 -}}
+{{- end -}}
+{{- $pages := where $contentSite.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+{{- /* homePageSize: 首页列表篇数;不设则用全站 paginate 配置。
+     同页对 .Paginate 只有首次调用生效——原先「先按默认调、再带 homePageSize
+     重调」的写法,重调会被忽略,配置值从未起作用;改为先判页大小,只调一次 */ -}}
+{{- $paginator := "" }}
+{{- if site.Params.homePageSize }}
+{{- $paginator = .Paginate $pages (int site.Params.homePageSize) }}
+{{- else }}
+{{- $paginator = .Paginate $pages }}
+{{- end }}
+{{- $offset := mul (sub $paginator.PageNumber 1) $paginator.PagerSize }}
+{{- /* Day N in the Cage:状态条天数计数,从最早一篇起算(构建时静态值,
+   每日定时重建自动 +1);sgDaysInCage 缺省或 false 不显示 */ -}}
+{{- $cageDays := 0 }}
+{{- if and site.Params.sgDaysInCage (gt (len $pages) 0) }}
+  {{- $cageDays = div (sub now.Unix (index ($pages.ByDate) 0).Date.Unix) 86400 }}
+{{- end }}
+{{- $socialLabel := i18n "socialLinks" | default "Social links" -}}
+{{- $readPrefix := i18n "readPrefix" | default "Read: " -}}
+
+<div class="sg-home">
+  {{- if eq $paginator.PageNumber 1 }}
+  <section class="sg-hero" aria-labelledby="sg-title">
+    <div class="sg-hero__copy">
+      {{- with site.Params.sgKicker }}
+      <p class="sg-kicker">{{ . }}</p>
+      {{- end }}
+      {{- /* sgHomeTitle 判空:空串/纯空白一律回退 site.Title,不留空 h1 */ -}}
+      {{- $homeTitle := site.Params.sgHomeTitle | default "" -}}
+      {{- if not (strings.TrimSpace (printf "%v" $homeTitle)) -}}{{- $homeTitle = site.Title -}}{{- end -}}
+      <h1 id="sg-title">{{ $homeTitle }}</h1>
+      {{- with site.Params.homeInfoParams.content }}
+      <p class="sg-hero__intro">{{ . }}</p>
+      {{- end }}
+      {{- with site.Params.socialIcons }}
+      <nav class="sg-hero__social" aria-label="{{ $socialLabel }}">
+        {{ partial "social_icons.html" }}
+      </nav>
+      {{- end }}
+    </div>
+
+    {{- $sgMotto := site.Params.sgMotto -}}
+      <figure class="sg-seal">
+        <div class="sg-seal__frame">
+          {{- /* sgSealImage 判空:未配置或空串时 with 直接跳过,渲染 ∴ 兜底,
+                 既不留空 <img> 也不留空容器。文件配了但不存在的场景不在此兜底:
+                 os.FileExists 与 readDir 的基准是站点根,看不到主题 static 目录下
+                 挂载的文件,会把合法配置误判成不存在;这类错误由 validate.html
+                 在构建期发 warnf,作者能看到即可,不在页面上静默掩盖。 */ -}}
+          {{- with site.Params.sgSealImage }}
+          <img src="{{ . | relURL }}" alt="{{ site.Title }}" width="320" height="320" fetchpriority="high">
+          {{- else }}
+          {{- /* 三点成印:上两眼随指针看向该去的地方,下一点安然不动。
+               眼位移由 --eye-x/--eye-y 承载,无 JS 或 reduced-motion 时为 0,仍是端正的 ∴。 */ -}}
+          <span class="sg-seal__glyph" aria-hidden="true">
+            <svg viewBox="0 0 72 72" role="presentation" focusable="false">
+              <g class="sg-seal__eyes">
+                <circle cx="22" cy="26" r="4.5" />
+                <circle cx="50" cy="26" r="4.5" />
+              </g>
+              <circle cx="36" cy="48" r="4.5" />
+            </svg>
+          </span>
+          {{- end }}
+        </div>
+        {{- if or site.Params.sgReading site.Params.sgPlaying site.Params.sgListening site.Params.sgWatching site.Params.sgWriting site.Params.sgExploring $sgMotto site.Params.sgDaysInCage }}
+        <figcaption class="sg-now" data-rotate="true" aria-label="Current status" aria-live="polite">
+          {{- with site.Params.sgReading }}
+          <span class="sg-now__item sg-now__item--reading">{{ partial "sg-icon.html" (dict "name" "book-open" "size" 14) }}<span>{{ i18n "sgNowReading" | default "Reading:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgListening }}
+          <span class="sg-now__item sg-now__item--listening">{{ partial "sg-icon.html" (dict "name" "headphones" "size" 14) }}<span>{{ i18n "sgNowListening" | default "Listening:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgWatching }}
+          <span class="sg-now__item sg-now__item--watching">{{ partial "sg-icon.html" (dict "name" "monitor-play" "size" 14) }}<span>{{ i18n "sgNowWatching" | default "Watching:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgPlaying }}
+          <span class="sg-now__item sg-now__item--playing">{{ partial "sg-icon.html" (dict "name" "game-controller" "size" 14) }}<span>{{ i18n "sgNowPlaying" | default "Playing:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgWriting }}
+          <span class="sg-now__item sg-now__item--writing">{{ partial "sg-icon.html" (dict "name" "pen-nib" "size" 14) }}<span>{{ i18n "sgNowWriting" | default "Writing:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with site.Params.sgExploring }}
+          <span class="sg-now__item sg-now__item--exploring">{{ partial "sg-icon.html" (dict "name" "eye" "size" 14) }}<span>{{ i18n "sgNowExploring" | default "Exploring:" }} {{ . }}</span></span>
+          {{- end }}
+          {{- with $sgMotto }}
+          <span class="sg-now__item sg-now__item--motto"><span class="sg-now__glyph" aria-hidden="true">∴</span><span>{{ . }}</span></span>
+          {{- end }}
+          {{- if site.Params.sgDaysInCage }}
+          <span class="sg-now__item sg-now__item--days">{{ partial "sg-icon.html" (dict "name" "hourglass" "size" 14) }}<span>Day {{ $cageDays }} in the Cage</span></span>
+          {{- end }}
+        </figcaption>
+        {{- end }}
+      </figure>
+    </section>
+    {{- if or site.Params.sgReading site.Params.sgPlaying site.Params.sgListening site.Params.sgWatching site.Params.sgWriting site.Params.sgExploring $sgMotto site.Params.sgDaysInCage }}
+  <script>
+  (function () {
+      var strip = document.querySelector(".sg-now");
+      if (!strip) return;
+      var items = Array.from(strip.querySelectorAll(".sg-now__item"));
+      if (items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      strip.classList.add("sg-now--rotating");
+      var index = 0;
+      items.forEach(function (item, i) { item.classList.toggle("is-active", i === 0); });
+      window.setInterval(function () {
+          items[index].classList.remove("is-active");
+          index = (index + 1) % items.length;
+          items[index].classList.add("is-active");
+      }, 6000); // 6s = 3s 的两倍——万事皆三,连节拍也是
+  })();
+  </script>
+  {{- end }}
+  {{- end }}
+
+  {{- /* 印章之眼:上两点随指针看向该看的地方。这是「跟随」类运动——
+       指针每帧都在变,所以不能用定时动画(每次重启都会卡在缓入的那一头),
+       要用弹簧。静帧仍是端正的 ∴,指针离开或滚出 hero 即回正。
+       无 JS、触屏、reduced-motion 一律静止。 */}}
+  <script>
+  (function () {
+      var seal = document.querySelector(".sg-seal__glyph");
+      if (!seal) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+      var frame = seal.closest(".sg-seal__frame") || seal;
+      var host = document.querySelector(".sg-hero") || seal.closest("section");
+      if (!host) return;
+
+      /* 静止几何只量一次:hairline 提醒过,判定要用「静止位」而非「绘制位」,
+         否则印章一动,指针就以为你走了,眼睛会来回抖。 */
+      var rect = frame.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var R = rect.width / 2;
+      /* 幅度:眼游走不超过半径的 30%。再大就会碰到环线,失了印章的分量。 */
+      var MAX = R * 0.30;
+
+      /* 欠阻尼弹簧:微微越线再落回,落得软而非戛然而止。
+         每帧拆成若干「定步长」小步积分,而非一帧走一大跳——
+         hairline 的理由:屏幕有 120/60/30Hz 之别,一帧一大跳会让同一段位移
+         在不同屏幕上走出不同曲线,长时间挂起后还会冲过头。定步长则处处同路,
+         快屏只是多显示几步。 */
+      var x = 0, y = 0, vx = 0, vy = 0, tx = 0, ty = 0;
+      var STIFF = 190, DAMP = 22;
+      var STEP = 1 / 240;          /* 定步长(秒) */
+      var last = 0, raf = 0, acc = 0;
+
+      function integrate(dt) {
+          acc += dt;
+          /* 单帧最多补 0.25s,避免长时间挂起后疯狂追帧 */
+          if (acc > 0.25) acc = 0.25;
+          while (acc >= STEP) {
+              var ax = (tx - x) * STIFF - vx * DAMP;
+              var ay = (ty - y) * STIFF - vy * DAMP;
+              vx += ax * STEP; vy += ay * STEP;
+              x += vx * STEP; y += vy * STEP;
+              acc -= STEP;
+          }
+      }
+
+      function settled() {
+          return Math.abs(x - tx) < 0.05 && Math.abs(y - ty) < 0.05
+              && Math.abs(vx) < 0.05 && Math.abs(vy) < 0.05;
+      }
+
+      function paint() {
+          /* CSS 只做 translate(var(--eye-x), var(--eye-y)),不再乘 px:
+             SVG 组上任何结果为无单位值的 calc() 都会被静默丢弃,
+             transform 退成 none。故在此把屏幕像素换算成 viewBox
+             用户单位(÷72),单位自洽,JS 写什么 CSS 就搬什么。 */
+          seal.style.setProperty("--eye-x", (x / 72).toFixed(4));
+          seal.style.setProperty("--eye-y", (y / 72).toFixed(4));
+      }
+
+      function draw(now) {
+          if (!last) last = now;
+          var dt = (now - last) / 1000;
+          last = now;
+          integrate(dt);
+          paint();
+          if (settled()) {
+              /* 弹簧知道自己结束了:停表,不再白要重绘,页面安静下来 */
+              x = tx; y = ty; vx = 0; vy = 0; acc = 0;
+              paint();
+              raf = 0; last = 0;
+              return;
+          }
+          raf = requestAnimationFrame(draw);
+      }
+
+      function wake() { if (!raf) raf = requestAnimationFrame(draw); }
+
+      function aim(clientX, clientY) {
+          var nx = (clientX - cx) / R, ny = (clientY - cy) / R;
+          /* 指针不在页面内时给不出有意义的方位,回到原处 */
+          if (!isFinite(nx) || !isFinite(ny)) { tx = 0; ty = 0; return; }
+          tx = Math.max(-1, Math.min(1, nx)) * MAX;
+          ty = Math.max(-1, Math.min(1, ny)) * MAX;
+      }
+
+      function idle() { tx = 0; ty = 0; wake(); }
+
+      document.addEventListener("pointermove", function (e) {
+          var r = host.getBoundingClientRect();
+          if (e.clientY < r.top || e.clientY > r.bottom) { idle(); return; }
+          aim(e.clientX, e.clientY);
+          wake();
+      }, { passive: true });
+
+      document.addEventListener("pointerleave", idle, { passive: true });
+      window.addEventListener("scroll", function () {
+          var r = host.getBoundingClientRect();
+          if (r.bottom <= 0 || r.top >= window.innerHeight) idle();
+      }, { passive: true });
+
+      window.addEventListener("blur", idle);
+      document.addEventListener("visibilitychange", function () {
+          if (document.hidden) idle();
+      });
+  })();
+  </script>
+
+  {{- if gt (len $pages) 0 }}
+  <section class="sg-writing" aria-labelledby="recent-writing">
+    {{- /* ShowTotalWords:计数旁标注列表文章总字数。中文按万进位;其余语言
+         走 i18n(sgWords/sgWordsK),缺失语言回落英文 */ -}}
+    {{- $totalWords := 0 }}{{ range $pages }}{{ $totalWords = add $totalWords .WordCount }}{{ end }}
+    {{- $wordsLabel := "" }}
+    {{- if and site.Params.ShowTotalWords (gt $totalWords 0) }}
+      {{- if strings.HasPrefix site.Language.Lang "zh" }}
+        {{- $rounded := div (add $totalWords 500) 1000 }}
+        {{- if ge $totalWords 10000 }}
+          {{- if eq (mod $rounded 10) 0 }}{{ $wordsLabel = printf "%d 万字" (div $rounded 10) }}{{ else }}{{ $wordsLabel = printf "%d.%d 万字" (div $rounded 10) (mod $rounded 10) }}{{ end }}
+        {{- else }}
+          {{- $wordsLabel = printf "%d 字" $totalWords }}
+        {{- end }}
+      {{- else if ge $totalWords 1000 }}
+        {{- $rounded := div (add $totalWords 500) 1000 }}
+        {{- $wordsLabel = i18n "sgWordsK" $rounded | default (printf "%dK words" $rounded) }}
+      {{- else }}
+        {{- $wordsLabel = i18n "sgWords" $totalWords | default (printf "%d words" $totalWords) }}
+      {{- end }}
+    {{- end }}
+    <header class="sg-section-head">
+      <div>
+        <h2 id="recent-writing">{{ i18n "recentWriting" | default "Updated My Journal" }}{{ if or (eq site.Language.Lang "ja") (strings.HasPrefix site.Language.Lang "zh") }}<span class="sg-section-head__en">Updated My Journal</span>{{ end }}</h2>
+        {{- if and site.Params.ShowContentLanguageNote (ne site.Language.Lang hugo.Sites.Default.Language.Lang) }}
+        {{- with i18n "posts_language_note" }}
+        <p class="sg-lang-note">{{ . }}</p>
+        {{- end }}
+        {{- end }}
+      </div>
+      <p class="sg-section-head__count">{{ len $pages }}{{ i18n "postsSuffix" | default " posts" }}{{ with $wordsLabel }}<span class="sg-section-head__words">{{ . }}</span>{{ end }}</p>
+    </header>
+
+    <div class="sg-feed">
+      {{- range $index, $page := $paginator.Pages }}
+      {{- /* 编号从旧往新:最老一篇 01,最新一篇即总篇数——编号是身位,不是位置 */ -}}
+      {{- $number := sub (len $pages) (add $offset $index) }}
+      <article class="sg-entry{{ if and (eq $paginator.PageNumber 1) (eq $index 0) }} is-latest{{ end }}">
+        <a class="sg-entry__link" href="{{ .RelPermalink }}" aria-label="{{ $readPrefix }}{{ .Title }}"></a>
+        <p class="sg-entry__number" aria-hidden="true">{{ printf "%02d" $number }}</p>
+        <time class="sg-entry__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+        <div class="sg-entry__main">
+          <h3>{{ .Title }}</h3>
+            <div class="sg-entry__meta">
+              {{- with .GetTerms "categories" }}
+              {{- range . }}
+              <span class="sg-entry__category">{{ .LinkTitle }}</span>
+              {{- end }}
+              {{- end }}
+              <span class="sg-entry__time">{{ partial "sg-icon.html" (dict "name" "clock" "size" 11) }}{{ partial "cjk-reading-minutes.html" . }}{{ i18n "minutesShort" | default " min" }}</span>
+            </div>
+          </div>
+          <span class="sg-entry__arrow" aria-hidden="true">→</span>
+      </article>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if gt $paginator.TotalPages 1 }}
+  {{- /* 方向词一次算好,文字与 aria-label 共用:窄屏下 __word 被 CSS 隐藏,
+         没有标签的话链接在移动端是无名的(Lighthouse link-name 实测)。
+         走 i18n(站点 i18n 可覆盖),缺失语言回落 Prev/Next */ -}}
+  {{- $prevWord := i18n "pagination_prev" | default "Prev" -}}
+  {{- $nextWord := i18n "pagination_next" | default "Next" -}}
+  <nav class="sg-pagination" aria-label="{{ i18n "paginationAria" | default "Pagination" }}">
+    <span class="sg-pagination__side">
+      {{- if $paginator.HasPrev }}
+      <a href="{{ $paginator.Prev.URL }}" aria-label="{{ $prevWord }}"><span class="sg-pagination__arrow" aria-hidden="true">←</span> <span class="sg-pagination__word">{{ $prevWord }}</span></a>
+      {{- end }}
+    </span>
+    <ol class="sg-pagination__pages">
+      {{- $scratch := newScratch }}
+      {{- $scratch.Set "prev" 0 }}
+      {{- range $paginator.Pagers }}
+      {{- $near := and (ge .PageNumber (sub $paginator.PageNumber 2)) (le .PageNumber (add $paginator.PageNumber 2)) }}
+      {{- if or (eq .PageNumber 1) (eq .PageNumber $paginator.TotalPages) $near }}
+      {{- if gt (sub .PageNumber ($scratch.Get "prev")) 1 }}
+      <li class="sg-pagination__gap" aria-hidden="true">…</li>
+      {{- end }}
+      {{- $scratch.Set "prev" .PageNumber }}
+      <li><a href="{{ .URL }}"{{ if eq .PageNumber $paginator.PageNumber }} class="is-current" aria-current="page"{{ end }}>{{ .PageNumber }}</a></li>
+      {{- end }}
+      {{- end }}
+    </ol>
+    <span class="sg-pagination__side sg-pagination__side--right">
+      {{- if $paginator.HasNext }}
+      <a href="{{ $paginator.Next.URL }}" aria-label="{{ $nextWord }}"><span class="sg-pagination__word">{{ $nextWord }}</span> <span class="sg-pagination__arrow" aria-hidden="true">→</span></a>
+      {{- end }}
+    </span>
+  </nav>
+  {{- end }}
+</div>
+{{- end }}

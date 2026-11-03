@@ -1,0 +1,16 @@
+{{- $categories := i18n "navCategories" | default "Categories" -}}
+{{- $tags := i18n "navTags" | default "Tags" -}}
+{{- $search := i18n "navSearch" | default "Search" -}}
+{{- $aria := i18n "navAria" | default "Content navigation" -}}
+
+<nav class="sg-trivium" aria-label="{{ $aria }}">
+  {{- /* 有分类或标签词目才显示对应入口——按内容判断,不按语言硬编码 */ -}}
+  {{- $showTaxonomies := or (gt (len site.Taxonomies.categories) 0) (gt (len site.Taxonomies.tags) 0) -}}
+  {{- if $showTaxonomies }}
+  <a href="{{ "/categories/" | absLangURL }}">{{ $categories }}</a>
+  <span class="tri-sep" aria-hidden="true">∴</span>
+  <a href="{{ "/tags/" | absLangURL }}">{{ $tags }}</a>
+  <span class="tri-sep" aria-hidden="true">∴</span>
+  {{- end }}
+  <a href="{{ "/search/" | absLangURL }}">{{ $search }}</a>
+</nav>

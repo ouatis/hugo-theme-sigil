@@ -1,0 +1,23 @@
+{{- define "main" }}
+{{- $notFoundTitle := i18n "notFoundLead" | default "You've walked into a lane that doesn't exist." -}}
+{{- $searchLabel := i18n "searchInputLabel" | default "Search" -}}
+{{- $searchPlaceholder := i18n "searchPlaceholder" | default "Search the site…" -}}
+{{- $homeLabel := i18n "backHome" | default "Back home" -}}
+{{- $archivesLabel := i18n "browseArchives" | default "Browse archives" -}}
+
+<section class="site-404" aria-labelledby="lost-lane-title">
+    <div class="site-404__mark" aria-hidden="true">404</div>
+    <div class="site-404__body">
+        <h1 id="lost-lane-title">{{ $notFoundTitle }}</h1>
+        <form class="site-404__search" action="{{ "search/" | absLangURL }}" method="get" role="search">
+            <input type="search" name="q" placeholder="{{ $searchPlaceholder }}" aria-label="{{ $searchLabel }}" autocomplete="off" maxlength="64">
+        </form>
+        {{- /* 万事皆三:连同上面的搜索框,一共三条出路 */}}
+        <div class="site-404__ways">
+            <a class="site-404__link" href="{{ "" | absLangURL }}">{{ $homeLabel }}</a>
+            <span class="tri-sep" aria-hidden="true">∴</span>
+            <a class="site-404__link" href="{{ "archives/" | absLangURL }}">{{ $archivesLabel }}</a>
+        </div>
+    </div>
+</section>
+{{- end }}

@@ -1,0 +1,206 @@
+# hugo-theme-sigil
+
+**[English](README.md)** | 中文 | [日本語](README.ja.md)
+
+<p>
+  <img src="https://img.shields.io/github/v/tag/ouatis/hugo-theme-sigil?style=flat-square&label=version&color=ad3e32" alt="Latest tag">
+  <img src="https://img.shields.io/github/license/ouatis/hugo-theme-sigil?style=flat-square&label=license&color=2f6754" alt="MIT License">
+</p>
+
+一个面向 [Hugo](https://gohugo.io/) 的克制型文学主题，基于
+[PaperMod](https://github.com/adityatelange/hugo-PaperMod)。
+
+演示站：<https://ouatis.com/hugo-theme-sigil/>
+
+![SIGIL 亮色与暗色模式](images/sigil-preview.jpg)
+
+**需要 [Hugo Extended](https://gohugo.io/installation/) ≥ 0.166.0**
+（主题用 `images.Text` 生成 OG 卡片，需要 extended 构建）。
+
+> 上方版本徽标反映的是最新**标签**；每个 tag 的说明就写在 tag 信息里（`git tag -l -n20`）。
+
+## 特性
+
+- 宽屏 Tufte 风格旁注，窄屏自动转为尾注
+- Ghost-year 年份归档
+- 圆形展开式暗色模式切换
+- RSS 输出全文
+- IBM Plex 字体与 CJK 字体子集
+- JSON Feed 1.1(`/feed.json`,与 RSS 并存,构建期自动生成)
+- 47 门界面语言，右到左感知——RTL 站点（ar/fa/he/ckb）声明 `direction = "rtl"` 后整体镜像布局，含旁注与悬浮目录
+- 搜索、分类、标签、面包屑、目录、代码复制和多语言字符串
+- 页面级可选:KaTeX 数学(已同捆)、Mermaid 图表(定版 CDN)、图片灯箱(glightbox,已同捆)
+- 用文章标题自动生成 OG 卡片图(`images.Text`,仅构建期)
+- 外链门形记号由渲染钩子按主机名判定,不写死任何域名
+- `llms.txt`(可选 `llms-full.txt`)——面向 AI Agent 的机器可读站点索引
+- 维护者与 Agent 请读 [AGENTS.md](AGENTS.md):构建/验证命令与已知坑;`scripts/check.sh` 是一条命令的完整验证
+
+## 安装
+
+以 git 子模块安装：
+
+```bash
+git submodule add https://github.com/ouatis/hugo-theme-sigil themes/hugo-theme-sigil
+```
+
+```toml
+# hugo.toml
+theme = "hugo-theme-sigil"
+```
+
+或以 [Hugo module](https://gohugo.io/hugo-modules/) 安装：
+
+```bash
+hugo mod init github.com/you/your-site   # 站点已有 go.mod 则跳过
+```
+
+```toml
+# hugo.toml
+[module]
+  [[module.imports]]
+    path = "github.com/ouatis/hugo-theme-sigil"
+```
+
+预览示例站：
+
+```bash
+git clone https://github.com/ouatis/hugo-theme-sigil
+cd hugo-theme-sigil/exampleSite
+hugo server --themesDir ../..
+```
+
+## 配置
+
+### 按目的查配置
+
+下面每个开关都是「不设就不生效」。先在下表里找到你要做的事，再把对应那几行抄进 `hugo.toml`：
+
+| 我想… | 设置 | 作用范围 |
+| --- | --- | --- |
+| 在首页标题上方加一行小字 | `sgKicker` | 站点 |
+| 换掉首页大标题 | `sgHomeTitle` | 站点 |
+| 用图片替掉 `∴` 印章 | `sgSealImage` | 站点 |
+| 在印章旁轮播状态条 | `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` 任选 | 站点 |
+| 限制首页列表篇数 | `homePageSize` | 站点 |
+| 按阅读顺序挂一个系列浮窗 | `sgSeriesFrom`（配 `sgSeriesTab`） | 站点 |
+| RSS 里放全文 | `ShowFullTextinRSS` | 站点 |
+| 给 Agent 一份机器可读索引 | `[outputs] home` 里加 `LLMSTXT`（及 `LLMSFULL`） | 站点 |
+| 给无封面的文章生成社交卡片 | `ogAutoCard`（中文站另配 `ogCardFont`） | 站点 |
+| 加数学公式、图表或图片灯箱 | `math` / `mermaid` / `lightbox` | 单页或站点 |
+| 让某篇不进首页列表 | `hiddenInHomeList` | 单页 |
+| 让某篇不进搜索索引 | `searchHidden` | 单页 |
+| 关掉某页的相关阅读 | `showRelated: false` | 单页 |
+| 关掉某页的评论 | `comments: false` | 单页 |
+
+站点级的 `math` / `mermaid` / `lightbox` 对所有页面生效，单页 frontmatter 可以覆盖它。无论哪种写法，没提出要求的页面都不会加载对应资源。
+
+### 必备配置块
+
+PaperMod 的常用配置可以继续使用。SIGIL 的必备配置块：
+
+```toml
+[params]
+  mainSections = ["posts"]
+
+  # 首页题头 —— 下面每一行都可省，省略就不渲染
+  sgKicker    = "Notes from the Margins"   # 标题上方的小字
+  sgHomeTitle = "SIGIL"                    # 缺省回落到 site.Title
+  sgSealImage = "/images/seal.png"         # 缺省回落到 ∴ 字形
+  homePageSize = 10                        # 每页文章数；默认为全部
+
+  # 状态条 —— 任意子集，每 6 秒轮换（尊重 prefers-reduced-motion）
+  sgReading = "The Book of Disquiet"
+  sgPlaying = "Disco Elysium"
+  sgMotto   = "Ink, paper, and everything in threes."
+
+  # 客户端搜索：需要 JSON 输出格式和一个搜索页
+[outputs]
+  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+
+[params.fuseOpts]
+  isCaseSensitive = false
+  shouldSort      = true
+  minMatchCharLength = 2
+  keys = ["title", "summary", "content"]
+
+  # Tufte 旁注需要 markdown 里的原始 HTML
+[markup.goldmark.renderer]
+  unsafe = true
+```
+
+SIGIL 专属配置一览：
+
+| 参数 | 默认值 | 用途 |
+| --- | --- | --- |
+| `sgKicker` | 隐藏 | 首页标题上方文字 |
+| `sgHomeTitle` | 站点标题 | 首页标题 |
+| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | 隐藏 | 首页状态文字；任选子集即可，全部可选 |
+| `sgSealImage` | `∴` | 首页印章图片 |
+| `sgDaysInCage` | `false` | 状态条天数计数「Day N in the Cage」,从最早一篇起算 |
+| `ShowFullTextinRSS` | `false` | RSS 输出全文 |
+| `ShowAllPagesInArchive` | `false` | 归档包含所有页面 |
+| `homePageSize` | 全部 | 首页每页文章数 |
+| `sgSeriesFrom` | 隐藏 | 系列导航:指向策展页,其正文列表即阅读顺序(含未写占位);`sgSeriesTab` 定页签短标 |
+| `math` / `mermaid` / `lightbox` | `false` | 页面 frontmatter 或站点级开启:KaTeX 数学、Mermaid 图表、图片灯箱;未开启的页面零加载。`$$…$$` 开箱即用;行内 `\(…\)` 需另启用 goldmark passthrough(见 [exampleSite/hugo.toml](exampleSite/hugo.toml)) |
+| `ogAutoCard` | `false` | 无封面/图片的文章,构建期用标题+站名排一张 1200×630 的 OG 卡片(纸底∴) |
+| `ogCardFont` | 内附 Plex Serif | OG 卡片字体的 `resources.Get` 路径(TTF)。内附拉丁字体画不了汉字——中日站点应为标题用字做子集 TTF 并指向它 |
+| `analytics.*` | 隐藏 | 第三方统计(仅生产环境):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
+| `llmsTxtIntro` | 隐藏 | `llms.txt` 里可选的一段站点导语 |
+
+frontmatter 开关：`hiddenInHomeList`（不进首页列表）、`searchHidden`（不进搜索索引）、`showRelated: false`（不显示相关阅读）、`comments: false`（该页不显示评论），以及常规的 `cover.*`、`robotsNoIndex` 与 PaperMod 的 frontmatter 系列。
+
+### Agent 可读输出(llms.txt)
+
+把 `LLMSTXT`(页面与文章索引)与可选的 `LLMSFULL`(同一头部,其后逐篇全文)
+加进 home outputs 即启用:
+
+```toml
+[outputs]
+  home = ["HTML", "RSS", "JSONFeed", "LLMSTXT", "LLMSFULL"]
+```
+
+关键页面一节自动探测 关于/归档/词目/RSS;要手工策展就覆盖
+`layouts/home.llmstxt.txt`。
+
+完整示例见 [exampleSite/hugo.toml](exampleSite/hugo.toml)。
+
+## 字体
+
+字体子集（可选——主题已内置拉丁字体，开箱即用）：
+
+- `latin` —— 仅拉丁字母;仓库内置的引导子集(中文回退系统字体)。这是干净检出的默认形态
+- `corpus` —— 额外扫描示例站自身字符,切出小 SC 语料子集,使 demo 的中文
+  以真正的 Plex 渲染(约 30 KB)。**仅 Shell 脚本支持**——`scripts/build-fonts.py`
+  只覆盖 `latin`/`full`，不含 `corpus`。
+- `full` —— 官方 SC + JP 全量分片(适合需要全量覆盖的中/日文站点;文字密集页约 3 MB)
+
+```bash
+bash scripts/build-fonts.sh corpus   # 或 latin / full
+```
+
+## 性能
+
+以示例站 minify 构建实测：
+
+- 首页合计约 **78 KB**：HTML 16 KB + CSS 57 KB + 内联 JS 5 KB，**零外链 JavaScript**
+- 可选项按需加载：搜索脚本 18 KB（仅搜索页）、KaTeX 332 KB（`math = true`）、glightbox 56 KB（`lightbox = true`）
+- 字体：示例站跑 `corpus` 管线，其中文以真正的 Plex 渲染——文字密集页首访约 **104 KB**（拉丁子集 + 小型 SC 语料子集）。仅 `latin` 的站点约 85 KB（中文回退系统字体）。需要全量中/日文覆盖的站点跑 `full`（约 3 MB，一个文件全站缓存一次到位，`font-display: swap` 兜底等待）
+- 无框架、无 jQuery、无运行时 CDN 依赖
+
+## 稳定性
+
+公开契约——参数名、`sg-*` 类名、输出格式、数据结构、扩展 partial——自
+**v0.9.0 起冻结**：改名须留弃用窗口，移除等到大版本。完整契约与弃用政策见
+[docs/api.md](docs/api.md)。两种安装方式（submodule 与 Hugo module）均有 CI 覆盖。
+
+## 翻译
+
+内置的 47 门语言大部分由机器补全。母语者的修订非常欢迎——开 issue 或提交只动 `i18n/*.yaml` 的 PR 即可；新键先入 `en`,其余语言自动回落。
+
+## 许可证
+
+MIT，详见 [LICENSE](LICENSE)。
+
+基于 PaperMod；字体使用 IBM Plex（SIL OFL 1.1），图标使用 Phosphor
+Icons（MIT），搜索使用 Fuse.js（Apache-2.0），数学排版使用 KaTeX（MIT，已同捆），
+灯箱使用 glightbox（MIT，已同捆），图表使用 Mermaid（MIT，按需经定版 CDN 加载）。

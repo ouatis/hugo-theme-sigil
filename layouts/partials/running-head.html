@@ -1,0 +1,24 @@
+{{- /* 书眉:宽屏右缘竖排小字,篇名滚出视野后浮现(篇首页不排书眉,印刷传统)。
+     系列文章带卷名(福楼拜讲稿 · 篇名),散篇仅篇名;纯装饰读屏跳过。
+     系列数据复用 partialCached 的 series-order.html,零额外解析 */ -}}
+{{- $label := .Title -}}
+{{- $series := partialCached "series-order.html" . -}}
+{{- if $series -}}
+    {{- range $i, $e := $series.entries -}}
+        {{- if and (not $e.tbd) (eq $e.href $.RelPermalink) -}}
+            {{- $label = printf "%s · %s" $series.title $.Title -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+<span class="sg-running-head" aria-hidden="true">{{ $label }}</span>
+<script>
+(function () {
+    var head = document.querySelector(".sg-running-head");
+    var title = document.querySelector(".post-title");
+    if (!head || !title || !("IntersectionObserver" in window)) return;
+    /* 篇名在视口内 → 书眉隐;滚出 → 浮现 */
+    new IntersectionObserver(function (entries) {
+        head.classList.toggle("is-visible", !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(title);
+})();
+</script>
