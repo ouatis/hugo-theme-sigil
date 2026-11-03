@@ -71,130 +71,16 @@ hugo server --themesDir ../..
 
 ## 設定
 
-### 目的から設定を探す
+[デモのドキュメント](https://ouatis.com/hugo-theme-sigil/docs/) がコピー＆ペースト用の
+ガイドです。ホーム設定、検索、機械可読出力、ページ機能、フォント、実測性能を説明します。
 
-以下の項目はどれも「設定しなければ有効にならない」。作りたいものを下の表で探し、
-該当する行だけを `hugo.toml` へ書き足してください。
+まず[設定例](https://ouatis.com/hugo-theme-sigil/config-example/)を確認し、完全なサイト
+パラメータ、front matter のスイッチ、CSS フック、拡張ポイントは
+[API 契約](docs/api.md)で調べてください。動作する設定全体は
+[exampleSite/hugo.toml](exampleSite/hugo.toml)にもあります。
 
-| やりたいこと | 設定 | 適用範囲 |
-| --- | --- | --- |
-| ホームのタイトル上に小さな一行を足す | `sgKicker` | サイト |
-| ホームの大タイトルを差し替える | `sgHomeTitle` | サイト |
-| `∴` の印を画像に置き換える | `sgSealImage` | サイト |
-| 印のそばで切り替わるステータス行 | `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` の任意の組み合わせ | サイト |
-| ホームのフィード件数を制限する | `homePageSize` | サイト |
-| 読む順序どおりに並ぶシリーズパネルを付ける | `sgSeriesFrom`（`sgSeriesTab` と併用） | サイト |
-| RSS に全文を含める | `ShowFullTextinRSS` | サイト |
-| エージェント向けの機械可読インデックスを出す | `[outputs] home` に `LLMSTXT`（必要なら `LLMSFULL`） | サイト |
-| 表紙のないページのSNSカードを作る | `ogAutoCard`（CJK なら `ogCardFont` も） | サイト |
-| 数式・図・画像ライトボックスを入れる | `math` / `mermaid` / `lightbox` | ページ／サイト |
-| 特定の投稿をホームから外す | `hiddenInHomeList` | ページ |
-| 特定の投稿を検索索引から外す | `searchHidden` | ページ |
-| ページの関連記事を消す | `showRelated: false` | ページ |
-| ページのコメントを消す | `comments: false` | ページ |
-
-サイト指定の `math` / `mermaid` / `lightbox` は全ページへ効くが、個々のページの
-frontmatter が上書きできる。いずれの書き方でも、要求していないページは
-その機能を読み込まない。
-
-### 必須の設定ブロック
-
-PaperMod の一般的な設定はそのまま使えます。SIGIL の必須設定ブロック：
-
-```toml
-[params]
-  mainSections = ["posts"]
-
-  # ホームのヒーロー —— 以下の各行はすべて任意。省略すれば描画されません
-  sgKicker    = "Notes from the Margins"   # タイトル上の小さな一行
-  sgHomeTitle = "SIGIL"                    # 既定は site.Title
-  sgSealImage = "/images/seal.png"         # 既定は ∴ グリフ
-  homePageSize = 10                        # 1ページあたりの投稿数。既定はすべて
-
-  # ステータスバー —— 任意の組み合わせ。6 秒ごとに切り替え（prefers-reduced-motion を尊重）
-  sgReading = "The Book of Disquiet"
-  sgPlaying = "Disco Elysium"
-  sgMotto   = "Ink, paper, and everything in threes."
-
-  # クライアントサイド検索：JSON 出力形式と検索ページが必要
-[outputs]
-  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
-
-[params.fuseOpts]
-  isCaseSensitive = false
-  shouldSort      = true
-  minMatchCharLength = 2
-  keys = ["title", "summary", "content"]
-
-  # Tufte サイドノートには markdown 内の生 HTML が必要
-[markup.goldmark.renderer]
-  unsafe = true
-```
-
-よく使う SIGIL 固有の設定（全項目のリストは [docs/api.md](docs/api.md)）：
-
-| パラメータ | 初期値 | 用途 |
-| --- | --- | --- |
-| `sgKicker` | 非表示 | ホームタイトル上のテキスト |
-| `sgHomeTitle` | サイトタイトル | ホームタイトル |
-| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | 非表示 | ホームのステータス行；任意の組み合わせで表示、すべて任意 |
-| `sgSealImage` | `∴` | ホームの印章画像 |
-| `sgDaysInCage` | `false` | ステータス行の経過日数「Day N in the Cage」,最古の投稿から起算 |
-| `ShowFullTextinRSS` | `false` | RSS に全文を含める |
-| `ShowAllPagesInArchive` | `false` | アーカイブに全ページを含める |
-| `homePageSize` | すべて | 1ページの投稿数 |
-| `sgSeriesFrom` | 非表示 | シリーズナビ:策展ページの本文リストを読み順に;`sgSeriesTab` でタブラベル |
-| `math` / `mermaid` / `lightbox` | `false` | ページの frontmatter かサイト全体で有効化:KaTeX 数式、Mermaid 図、画像ライトボックス。要求しないページは何も読まない。`$$…$$` はそのまま動作 — 行内 `\(…\)` は goldmark passthrough も有効化([exampleSite/hugo.toml](exampleSite/hugo.toml) 参照) |
-| `ogAutoCard` | `false` | カバー画像のないページに、タイトル+サイト名で 1200×630 の OG カードをビルド時に生成 |
-| `ogCardFont` | 同梱 Plex Serif | OG カード用 TTF の `resources.Get` パス。同梱はラテン文字のみ — CJK サイトはタイトル用字のサブセット TTF を用意して指定 |
-| `analytics.*` | 非表示 | サードパーティ統計(本番のみ):`analytics.plausible.domain`、`analytics.umami`(`src` + `id`)、`analytics.goatcounter.code`、`analytics.fathom.site` |
-| `llmsTxtIntro` | 非表示 | `llms.txt` 内の任意の一文紹介 |
-
-frontmatter のスイッチ: `hiddenInHomeList`（ホームのフィードから除外）、
-`searchHidden`（検索索引から除外）、`showRelated: false`（関連記事を非表示）、
-`comments: false`（そのページのコメントを無効化）、および通常の `cover.*`、
-`robotsNoIndex` と PaperMod の frontmatter 一族。
-
-### エージェント可読出力(llms.txt)
-
-home outputs に `LLMSTXT`(ページと投稿のインデックス)、任意で
-`LLMSFULL`(同じヘッダ + 各投稿の全文)を加えると有効になります:
-
-```toml
-[outputs]
-  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
-```
-
-キーページ節は About/アーカイブ/タクソノミー/RSS を自動検出。
-手で編み込むなら `layouts/home.llmstxt.txt` を上書きしてください。
-
-完全な例は [exampleSite/hugo.toml](exampleSite/hugo.toml) を参照してください。
-
-## フォント
-
-フォントサブセット（任意——テーマはラテン文字を同梱し、すぐに使えます）：
-
-- `latin` —— ラテン文字のみ。リポジトリ同梱のブートストラップ サブセット
-  （CJK テキストはシステムフォールバック）。クリーンなチェックアウトのデフォルト形態
-- `corpus` —— 例示サイト自身の文字を走査し、小さな SC コーパス サブセットを
-  作成。デモの CJK が本物の Plex で表示される（SC の標準 + 太字で約 200 KB、サイトの文字が増えると大きくなる）。**シェルスクリプトのみ**——
-  `scripts/build-fonts.py` は `latin`/`full` のみ対応し `corpus` は非対応。
-- `full` —— 公式 SC + JP 全分割シャード（全量カバーが必要な CJK/JP サイト向け;
-  テキストの多いページで約 3 MB）
-
-```bash
-bash scripts/build-fonts.sh corpus   # または latin / full
-```
-
-## パフォーマンス
-
-サンプルサイトの minify ビルドで実測：
-
-- トップページの HTML + CSS は合計 **100 KB 未満**（スクリプトはインライン）——**外部 JavaScript ゼロ**
-- オプションは必要時のみ：検索スクリプト 18 KB（検索ページ）、KaTeX 約 300 KB + フォント（`math = true`）、glightbox 約 70 KB（`lightbox = true`）
-- フォント：デモは `corpus` パイプラインを実行するため、CJK が本物の Plex で表示される——テキストの多いページ（タイポグラフィ見本）で初回約 **284 KB**（中/英）、**222 KB**（日）。`latin` のみのサイトは約 85 KB（CJK はシステムフォールバック）。全量の中/日文カバーが必要なサイトは `full`（約 3 MB、1 ファイルがサイト全体でキャッシュされ、`font-display: swap` が待ち時間をカバー）
-- フォント予算：`scripts/check.sh` は、いずれかの言語ページの同梱フォントが 320 KB を超えるとデモのデプロイを失敗させます（`FONT_BUDGET_KB` で変更可）。コーパスはサイト全体を走査するため、中国語のページを書くと全言語のフォントが同時に大きくなります——予算は執筆余裕を残し、現状の最悪値にぴったり付けないこと
-- フレームワークなし、jQuery なし、実行時 CDN 依存なし
+オプション機能はすべて必要なときだけ有効になります。数式、Mermaid、ライトボックスを
+要求しないページは、それらのアセットを読み込みません。
 
 ## 安定性
 

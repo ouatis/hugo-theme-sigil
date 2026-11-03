@@ -77,136 +77,17 @@ hugo server --themesDir ../..
 
 ## Configuration
 
-### Configure by task
+The [demo documentation](https://ouatis.com/hugo-theme-sigil/docs/) is the
+copy-paste guide. It covers homepage settings, search, machine-readable output,
+optional page features, fonts, and measured performance.
 
-Every knob below is off until you set it. Pick the row that matches what you
-are building, then copy that fragment into your `hugo.toml`.
+Start with the [configuration example](https://ouatis.com/hugo-theme-sigil/config-example/),
+then use the [API contract](docs/api.md) for the complete list of site
+parameters, front-matter switches, CSS hooks, and extension points. The working
+configuration is also in [exampleSite/hugo.toml](exampleSite/hugo.toml).
 
-| I want to… | Set | Scope |
-| --- | --- | --- |
-| Show a tagline above the homepage title | `sgKicker` | site |
-| Change the homepage title | `sgHomeTitle` | site |
-| Use an image instead of the `∴` seal | `sgSealImage` | site |
-| Rotate a status line under the seal | any of `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | site |
-| Limit the homepage feed | `homePageSize` | site |
-| Add a floating series panel in reading order | `sgSeriesFrom` (+ `sgSeriesTab`) | site |
-| Publish full articles in RSS | `ShowFullTextinRSS` | site |
-| Give agents a machine-readable index | `LLMSTXT` (and `LLMSFULL`) in `[outputs] home` | site |
-| Generate a social card for pages without a cover | `ogAutoCard` (+ `ogCardFont` for CJK) | site |
-| Add maths, diagrams, or an image lightbox | `math` / `mermaid` / `lightbox` | page or site |
-| Hide a post from the homepage feed | `hiddenInHomeList` | page |
-| Leave a page out of the search index | `searchHidden` | page |
-| Turn off the related-posts block | `showRelated: false` | page |
-| Turn comments off for one page | `comments: false` | page |
-
-Site-level `math` / `mermaid` / `lightbox` apply to every page; the front
-matter of a single page overrides it. Either way, a page that does not ask
-for a feature loads none of it.
-
-### The essential block
-
-Common PaperMod options work as usual. The essential SIGIL block:
-
-```toml
-[params]
-  mainSections = ["posts"]
-
-  # Homepage hero — every line below is optional; omit any and it simply doesn't render
-  sgKicker    = "Notes from the Margins"   # small line above the title
-  sgHomeTitle = "SIGIL"                    # falls back to site.Title
-  sgSealImage = "/images/seal.png"         # falls back to the ∴ glyph
-  homePageSize = 10                        # posts per page; default is all
-
-  # Status bar — any subset, rotates every 6s (honours prefers-reduced-motion)
-  sgReading = "The Book of Disquiet"
-  sgPlaying = "Disco Elysium"
-  sgMotto   = "Ink, paper, and everything in threes."
-
-  # Client-side search: needs the JSON output format and a search page
-[outputs]
-  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
-
-[params.fuseOpts]
-  isCaseSensitive = false
-  shouldSort      = true
-  minMatchCharLength = 2
-  keys = ["title", "summary", "content"]
-
-  # Tufte sidenotes require raw HTML in markdown
-[markup.goldmark.renderer]
-  unsafe = true
-```
-
-Common SIGIL-specific options (the complete list is [docs/api.md](docs/api.md)):
-
-| Parameter | Default | Purpose |
-| --- | --- | --- |
-| `sgKicker` | hidden | Text above the homepage title |
-| `sgHomeTitle` | site title | Homepage title |
-| `sgReading` / `sgListening` / `sgWatching` / `sgPlaying` / `sgWriting` / `sgExploring` / `sgMotto` | hidden | Homepage status line; any subset renders, all are optional |
-| `sgSealImage` | `∴` | Homepage seal image |
-| `sgDaysInCage` | `false` | Status line day counter — "Day N in the Cage", counted from the earliest post. Opt-in |
-| `ShowFullTextinRSS` | `false` | Include full articles in RSS |
-| `ShowAllPagesInArchive` | `false` | Include all pages in archives |
-| `homePageSize` | all | Homepage posts per page |
-| `sgSeriesFrom` | hidden | Series navigation: points to a curation page whose body list defines the reading order; `sgSeriesTab` sets the tab label |
-| `math` / `mermaid` / `lightbox` | `false` | Opt-in per page (frontmatter) or site-wide: KaTeX math, Mermaid diagrams, image lightbox. Nothing loads on pages that don't ask. `$$…$$` works out of the box; for inline `\(…\)` also enable goldmark passthrough as in [exampleSite/hugo.toml](exampleSite/hugo.toml) |
-| `ogAutoCard` | `false` | Build-time 1200×630 OG card (title + site name on paper, ∴ mark) for pages without any cover/image |
-| `ogCardFont` | built-in Plex Serif | `resources.Get` path to a TTF for OG cards. The bundled Latin font cannot draw CJK — CJK sites should subset a TTF for their titles and point this at it |
-| `analytics.*` | hidden | Third-party stats, production only: `analytics.plausible.domain`, `analytics.umami` (`src` + `id`), `analytics.goatcounter.code`, `analytics.fathom.site` |
-| `llmsTxtIntro` | hidden | Optional one-paragraph introduction inside `llms.txt` |
-
-Front-matter switches: `hiddenInHomeList` (keep a post out of the homepage
-feed), `searchHidden` (keep it out of the search index), `showRelated:
-false` (drop the related-posts block), `comments: false` (opt a page out of
-comments), plus the usual `cover.*`, `robotsNoIndex`, and the PaperMod
-front-matter family.
-
-### Agent-readable output (llms.txt)
-
-Add `LLMSTXT` (an index of pages and posts) and optionally `LLMSFULL` (the
-same header, then every post's full text) to the home outputs:
-
-```toml
-[outputs]
-  home = ["HTML", "RSS", "JSON", "JSONFeed", "LLMSTXT", "LLMSFULL"]
-```
-
-The key pages section detects About / Archives / taxonomies / RSS
-automatically; override `layouts/home.llmstxt.txt` to curate it.
-
-Frequently used inherited options include `defaultTheme`, `ShowToc`,
-`TocOpen`, `ShowCodeCopyButtons`, `ShowBreadCrumbs`, `ShowReadingTime`,
-`ShowWordCount`, `ShowPostNavLinks`, `showRelated`, and `socialIcons`.
-
-See [exampleSite/hugo.toml](exampleSite/hugo.toml) for a complete example.
-
-## Fonts
-
-Font subsets (optional — the theme ships Latin and works out of the box):
-
-```bash
-bash scripts/build-fonts.sh corpus   # or latin / full
-```
-
-- `latin` — Latin only; the bootstrap subset already committed to the repo
-  (CJK text falls back to system fonts). This is the clean-checkout default.
-- `corpus` — additionally scans the example site's own characters and subsets
-  an SC/JP corpus so the demo's CJK renders in real Plex (SC ≈ 200 KB for
-  regular + bold, growing with the site's own text). **Shell script only** —
-  `scripts/build-fonts.py` covers `latin`/`full` but not `corpus`.
-- `full` — official SC + JP split shards (for CJK/JP sites that want full
-  coverage; ~3 MB on a text-heavy page)
-
-## Performance
-
-Measured on the example site, minified build:
-
-- Homepage: under 100 KB of HTML + CSS (scripts inlined) — **zero external JavaScript**
-- Optional, opt-in only: search script 18 KB (search page), KaTeX ~300 KB plus fonts (`math = true`), GLightbox ~70 KB (`lightbox = true`)
-- Fonts: the demo runs the `corpus` pipeline, so its CJK renders in real Plex — the densest page (the typography sample) loads ~284 KB of bundled fonts in en/zh and ~222 KB in ja on a first visit. A `latin`-only site is ~85 KB (CJK falls back to system fonts). Sites needing full CJK/JP coverage run `full` (~3 MB, one file cached site-wide, `font-display: swap` covers the wait)
-- Font budget: `scripts/check.sh` fails the demo deploy when the worst language page exceeds 320 KB of bundled fonts (`FONT_BUDGET_KB` overrides it). The corpus is scanned site-wide, so writing Chinese pages grows it for every language at once — keep the budget above the current worst with room to write, not flush against it
-- No frameworks, no jQuery, no runtime CDN dependencies
+Every optional feature is opt-in. A page that does not request math, Mermaid, or
+the lightbox loads none of those assets.
 
 ## Stability
 
