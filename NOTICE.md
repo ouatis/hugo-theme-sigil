@@ -18,5 +18,7 @@ published only on pages that enable `math`).
 Lightbox: [glightbox](https://github.com/biati-digital/glightbox), MIT License
 (vendored in `assets/glightbox/`, published only on pages that enable `lightbox`).
 
-Diagrams: [Mermaid](https://mermaid.js.org), MIT License — not vendored; loaded
-from a pinned jsdelivr CDN with SRI on pages that enable `mermaid`.
+Diagrams: [Pele](https://github.com/obsidianmd/pele), MIT License, version
+1.13.0 (vendored in `assets/js/pele.global.js`, published only on pages that
+enable `mermaid`). Pele renders Mermaid-syntax diagrams; the Mermaid runtime
+itself is no longer shipped or fetched.

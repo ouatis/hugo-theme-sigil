@@ -118,7 +118,7 @@
                 html.dataset.theme = "dark";
                 localStorage.setItem("pref-theme", "dark");
             }
-            /* 让按需加载的组件(如 mermaid)跟进新主题重绘 */
+            /* 广播主题切换:评论区等按需组件跟进;图表取 CSS 变量,无需重绘 */
             document.dispatchEvent(new CustomEvent("sg:themechange", { detail: { theme: html.dataset.theme } }));
         };
         /* antfu.me 式主题切换:新主题从点击处圆形揭示。旧浏览器或

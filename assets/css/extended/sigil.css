@@ -1087,6 +1087,36 @@ html[data-theme="dark"] .sg-seal img {
     height: auto;
 }
 
+/* 图表引擎 Pele:把主题色板映射到 --pele-*,图取色于 CSS 变量,
+   所以换主题时无需重绘;圆角统一 2px,与全站笔画一致 */
+.sg-mermaid {
+    --pele-bg: var(--entry);
+    --pele-fg: var(--primary);
+    --pele-fg-on-light: var(--primary);
+    --pele-fg-on-dark: var(--primary);
+    --pele-muted: var(--secondary);
+    --pele-line: var(--primary);
+    --pele-surface: var(--theme);
+    --pele-surface-alt: var(--code-bg);
+    --pele-border: var(--border);
+    --pele-accent: var(--sg-green);
+    --pele-critical: var(--sg-red);
+    --pele-error: var(--sg-red);
+    --pele-font: var(--sg-serif);
+    --pele-radius: 2px;
+}
+
+/* 解析失败的图:源文本保留可读,并给出与正文区分的灰底边框 */
+.post-content .sg-mermaid--error {
+    padding: 0.75em 1em;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: var(--code-bg);
+    font-size: 0.85em;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
 /* 灯箱:包图的链接不带正文链接的描边与变色,图保持原样 */
 .post-content a.sg-zoom {
     display: inline-block;
