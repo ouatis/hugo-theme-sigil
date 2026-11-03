@@ -541,13 +541,20 @@ PY
 
 # opt-in isolation: typography opts into math/mermaid/lightbox,
 # pages that don't ask for them must load none of them
-for what in katex glightbox mermaid; do
+for what in katex glightbox mermaid pele; do
     grep -q "$what" public/posts/typography/index.html \
         || fail "typography page missing $what"
     if grep -q "$what" public/posts/what-can-change/index.html; then
         fail "what-can-change leaks $what — opt-in isolation broken"
     fi
 done
+
+# Self-hosted assets only: the diagram engine used to come from a pinned CDN and
+# now ships vendored, so a built page pulling a script from jsdelivr is a
+# regression back to a third-party runtime request.
+if grep -rqs 'cdn.jsdelivr.net' public/; then
+    fail "a built page loads from cdn.jsdelivr.net — vendor the asset instead"
+fi
 
 # no resource path leaks into visible text: a bare {{ .RelPermalink }} in a
 # partial prints e.g. katex font paths as body text. Assert none appear.

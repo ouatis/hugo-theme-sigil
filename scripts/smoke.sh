@@ -68,7 +68,7 @@ PAGES = [
     ("en search",         "/search/?q=typography",     "#searchResults li.sg-entry", {200}),
 ]
 
-# Console errors that are noise, not the site's fault (e.g. a pinned CDN ping).
+# Console errors that are noise, not the site's fault (third-party ping).
 IGNORE = ("Failed to load resource", "net::ERR")
 
 # The theme switches by setting data-theme on <html>. Driving the attribute
@@ -125,6 +125,13 @@ with sync_playwright() as p:
             page.wait_for_selector(".katex", timeout=10000)
             if page.locator(".sidenote-number").count() == 0:
                 issues.append("no sidenote markers")
+            # The ```mermaid block must become a drawn SVG. The engine is
+            # vendored and runs on DOMContentLoaded, so a 200 page without
+            # an <svg> means the renderer silently failed.
+            try:
+                page.wait_for_selector(".sg-mermaid svg", timeout=10000)
+            except Exception:
+                issues.append("mermaid block did not render to SVG")
 
         # Search runs entirely in the browser: index.json is fetched, Fuse
         # builds an index, ?q= is read and results are rendered. A static
