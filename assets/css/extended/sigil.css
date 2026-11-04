@@ -3036,3 +3036,15 @@ body::before {
     border-right-color: transparent;
     border-left-color: var(--sg-red);
 }
+
+/* ===== 跨页过渡:同源导航整页淡入淡出(Chromium 126+),
+   纸的翻页不该是硬切;reduced-motion 时退回瞬时跳转 ===== */
+@view-transition {
+    navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+}

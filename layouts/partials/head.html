@@ -227,6 +227,16 @@
 {{- if .Param "mermaid" }}{{ partial "mermaid.html" . }}{{ end -}}
 {{- if .Param "lightbox" }}{{ partial "lightbox.html" . }}{{ end -}}
 
+{{- /* Speculation Rules:悬停即预取+预渲染同源页面(sgPrerender,站点级 opt-in;
+       默认关闭——预渲染会提前发起请求,不遵守「不设置即零加载」的承诺) */ -}}
+{{- if site.Params.sgPrerender }}
+<script type="speculationrules">
+{
+  "prefetch": [{"source": "document", "where": {"href_matches": "/*"}, "eagerness": "moderate"}],
+  "prerender": [{"source": "document", "where": {"href_matches": "/*"}, "eagerness": "moderate"}]
+}
+</script>
+{{- end }}
 {{- partial "extend_head.html" . -}}
 
 {{- /* Misc */}}
