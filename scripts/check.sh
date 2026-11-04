@@ -885,4 +885,13 @@ print(f"check: bundled fonts worst={worst}KB <= {budget}KB ({detail})")
 print("check: math pages additionally load KaTeX fonts (opt-in, excluded from budget)")
 PY
 
+# WCAG 对比度审计:调色盘契约的一部分。node 或 bun 皆可,不许静默跳过。
+if command -v node >/dev/null 2>&1; then
+    node "$SG_THEME_ROOT/scripts/audit-contrast.mjs"
+elif command -v bun >/dev/null 2>&1; then
+    bun "$SG_THEME_ROOT/scripts/audit-contrast.mjs"
+else
+    fail "contrast audit needs node or bun on PATH"
+fi
+
 echo "check: all green"
