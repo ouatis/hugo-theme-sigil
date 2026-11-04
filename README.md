@@ -31,7 +31,7 @@ A restrained literary theme for [Hugo](https://gohugo.io/), based on
 - **Zero-config Tufte sidenotes** — at `>=1280px` footnotes are cloned into the right margin automatically; narrow screens fall back to endnotes. No shortcodes, no per-post flags
 - **Cinnabar seal and a three-state status bar** — the homepage `∴` seal sits beside a rotating Reading / Playing / Motto strip (plus Listening / Watching / Writing / Exploring, all optional)
 - **Ghost-year archives** — years as watermarked ghosts in the margin, numbered entries counted oldest-first
-- **IBM Plex built in**, with a CJK subsetting pipeline (`build-fonts`) that ships only the characters your corpus actually uses
+- **IBM Plex built in**, with a CJK subsetting pipeline (`build-fonts`) that ships only the characters your corpus actually uses — reusable from CI as `ouatis/hugo-theme-sigil/.github/workflows/fonts.yml` (workflow_call, `mode` input)
 - **Full-text RSS** and JSON Feed 1.1 (`/feed.json`) generated at build
 - **Client-side search** (Fuse.js, vendored) with a JSON index — no external service
 - **47 interface languages, right-to-left aware** — RTL sites (ar/fa/he/ckb) mirror the full layout, sidenotes and floating TOC included, via logical properties and `direction = "rtl"`

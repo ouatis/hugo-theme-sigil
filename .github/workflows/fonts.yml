@@ -1,0 +1,39 @@
+name: Fonts
+
+# 字体子集化管道的公共入口:任何站点的工作流都可以
+#   uses: ouatis/hugo-theme-sigil/.github/workflows/fonts.yml@v0.13.0
+# 传入 mode(full / latin / corpus),取回 fonts-<mode> artifact 放进自己的 static/fonts。
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: "build-fonts.sh mode: full / latin / corpus"
+        type: string
+        required: false
+        default: corpus
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/cache@v6
+        with:
+          path: .cache/ibm-plex
+          key: ibm-plex-1.1.0
+
+      - name: Install font tooling
+        run: python3 -m pip install --quiet fonttools brotli
+
+      - name: Build font subsets (${{ inputs.mode }})
+        run: bash scripts/build-fonts.sh "${{ inputs.mode }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fonts-${{ inputs.mode }}
+          path: static/fonts
