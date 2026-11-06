@@ -36,7 +36,7 @@ defaultContentLanguage = "en"
 
     [[languages.en.menus.main]]
         identifier = "authors-blog"
-        name = "Author's blog"
+        name = "Author's website"
         url = "https://ouatis.com/"
 
   [languages.zh-cn]
@@ -70,7 +70,7 @@ defaultContentLanguage = "en"
 
     [[languages.zh-cn.menus.main]]
         identifier = "authors-blog"
-        name = "作者的博客"
+        name = "作者的个人网站"
         url = "https://ouatis.com/"
 
   [languages.ja]
