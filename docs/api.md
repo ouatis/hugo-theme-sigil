@@ -28,6 +28,7 @@ Anything **not** listed here is internal and may change without notice.
 | `sgSeriesFrom` | Points to a curation page whose body list defines a series reading order |
 | `sgSeriesTab` | Tab label of the floating series panel |
 | `sgSearchEmpty` | Custom empty-state text for search |
+| `sgPrerender` | Speculation Rules: prefetch + prerender same-origin pages on hover (site-level opt-in, default off; Chromium) |
 | `ShowTotalWords` | Total word count next to the homepage post count |
 | `ShowDefaultLanguageContent` | Non-default-language homes/archives/RSS/search list the default language's content |
 | `ShowContentLanguageNote` | i18n `posts_language_note` on non-default-language homes |
