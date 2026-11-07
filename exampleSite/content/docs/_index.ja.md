@@ -127,3 +127,23 @@ CI の予算は 320 KB です。
 告知なく変更されえます。
 
 > 詳細な技術ドキュメントは現在英語版のみです。上記の `/config-example/`、`/api/` のリンクは英語原文を参照します。
+
+## レシピ
+
+テーマの上によくある構築——どれも今日ある仕組みだけを使い、追加インストールは不要:
+
+- **partial を差し替える。** サイト側に `layouts/partials/extend_post_content.html`
+  を置くと、その描画内容がすべての記事本文の後に現れます——後記、シリーズの
+  導入、ライセンス表記など。`extend_head.html`・`extend_footer.html` も同様。
+- **サイトレベルのスタイル。** サイトの `assets/css/extended/*.css` 内のルールは
+  テーマより後に読み込まれ、同 weight なら必ず勝ちます——罫線の調整、界面の
+  静化、紙色の再調整もテーマを fork せずに。
+- **CI でフォントを。** reusable workflow
+  （`ouatis/hugo-theme-sigil/.github/workflows/fonts.yml`、`mode` 入力）を呼べば、
+  フォントサブセットが artifact として届き、`static/fonts` に入れます。
+- **シリーズ。** `sgSeriesFrom` を、本文リストで読書順を定めるキュレーション
+  ページに向けると、メンバー各記事に浮动パネルが現れます。
+- **CJK の OG カード。** `ogCardFont` にタイトルを描けるサブセット TTF を指定し
+  `ogAutoCard` を有効にすると、表紙のないページに紙カードが付きます。
+- **ページ単位のオプトイン。** `math`・`mermaid`・`lightbox`・`showRelated`・
+  `hiddenInHomeList`——各ページは自分が求めたものだけを読み込みます。

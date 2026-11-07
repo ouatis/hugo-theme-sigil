@@ -118,3 +118,22 @@ front matter 开关包括 `hiddenInHomeList`、`searchHidden`、`showRelated: fa
 其中未列出的内容均属内部实现，可随时更改而不另行通知。
 
 > 详细技术文档目前仅有英文版；上述 `/config-example/`、`/api/` 链接指向英文原文。
+
+## 食谱
+
+在主题之上常见搭建——每条都用今天就在的机制，无需另装：
+
+- **覆写一个 partial。** 在站点建 `layouts/partials/extend_post_content.html`，
+  它渲染的内容出现在每篇文章正文之后——跋、系列导语、许可行皆可。
+  `extend_head.html` 与 `extend_footer.html` 同理。
+- **站点级样式。** 站点 `assets/css/extended/*.css` 里的任何规则都后于主题
+  加载，同权重必胜——改细线、静化界面、调纸色，无需分叉主题。
+- **CI 里做字体。** 调用 reusable workflow
+  （`ouatis/hugo-theme-sigil/.github/workflows/fonts.yml`，`mode` 入参），
+  字体子集以 artifact 形式送达你的 `static/fonts`。
+- **一个系列。** 把 `sgSeriesFrom` 指向一页目录稿，正文清单即阅读顺序；
+  浮动面板随之出现在每篇成员文章上。
+- **CJK OG 卡。** 把 `ogCardFont` 指向能画出你标题的子集 TTF，开 `ogAutoCard`——
+  每个无封面的页面都会带一张纸卡。
+- **页面级自选。** `math`、`mermaid`、`lightbox`、`showRelated`、
+  `hiddenInHomeList`——每页只加载它自己点名的。

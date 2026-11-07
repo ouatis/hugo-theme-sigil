@@ -136,3 +136,25 @@ not be renamed or removed without a deprecation window. The
 [API contract](../api/) lists every site param, front-matter param, CSS hook,
 and extension point. Treat anything not listed there as internal, and safe to
 change without notice.
+
+## Recipes
+
+Common builds on top of the theme — every one uses a mechanism that ships
+today, nothing to install:
+
+- **Shadow a partial.** Create `layouts/partials/extend_post_content.html` in
+  your site; whatever it renders appears after every article's body — a
+  colophon, a series CTA, a license line. `extend_head.html` and
+  `extend_footer.html` work the same way.
+- **Site-level styles.** Any rule in `assets/css/extended/*.css` of your site
+  loads after the theme and wins ties — restyle rules, quiet the chrome, retune
+  the palette without forking.
+- **Fonts in CI.** Call the reusable workflow
+  (`ouatis/hugo-theme-sigil/.github/workflows/fonts.yml`, `mode` input) and the
+  font subsets arrive as an artifact for your `static/fonts`.
+- **A series.** Point `sgSeriesFrom` at a curation page whose body list defines
+  the reading order; the floating panel appears on every member post.
+- **CJK OG cards.** Set `ogCardFont` to a subset TTF that can draw your titles
+  and enable `ogAutoCard` — every coverless page ships with a paper card.
+- **Per-page opt-ins.** `math`, `mermaid`, `lightbox`, `showRelated`,
+  `hiddenInHomeList` — each page loads only what it asks for.
