@@ -492,6 +492,11 @@ html[data-theme="dark"] .sg-seal img {
     fill: currentColor;
 }
 
+/* 幽灵回声:amber 退到 8%,是印身不是眼——眼要能从它上面看出来 */
+.sg-seal__glyph .sg-seal__echo circle {
+    fill: rgba(var(--sg-amber-rgb), 0.08);
+}
+
 /* 眼:上两点的整体位移。--eye-x/y 由 JS 每帧写入弹簧当前位置(屏幕像素)。
    此处刻意不加 transition——弹簧已在 JS 里积分到位,
    CSS 再补一段过渡会把两次平滑叠起来,眼睛就变成「跟在指针后面」而非「看着指针」。
