@@ -67,7 +67,7 @@ PaperMod 的常用配置可以继续使用。下面是最小的 SIGIL 配置；�
 ```toml
 [params]
   mainSections = ["posts"]
-  sgKicker = "Notes from the Margins"
+  sgKicker = "A Hugo theme"
   sgHomeTitle = "SIGIL"
   sgSealImage = "/images/seal.png"
   homePageSize = 10

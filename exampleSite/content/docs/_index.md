@@ -78,7 +78,7 @@ block; omit the homepage lines you do not need:
 ```toml
 [params]
   mainSections = ["posts"]
-  sgKicker = "Notes from the Margins"
+  sgKicker = "A Hugo theme"
   sgHomeTitle = "SIGIL"
   sgSealImage = "/images/seal.png"
   homePageSize = 10

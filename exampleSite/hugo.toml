@@ -131,7 +131,7 @@ defaultContentLanguage = "en"
   # sgKicker:标题上方的小号字。留空则不渲染该元素(不是渲染一个空 <p>)
   sgKicker = "A Hugo theme"
   # sgHomeTitle:首页大标题。留空则回退 site.Title
-  sgHomeTitle = "Notes from the Margins"
+  sgHomeTitle = "SIGIL"
   # sgSealImage:朱砂印章图。留空则回退 ∴ 字符(2026-10 起是一枚会看的 SVG 眼睛)。
   # 路径相对 static/,写 "/images/seal.png" 即指向 static/images/seal.png
   # sgSealImage = "/images/seal.png"
