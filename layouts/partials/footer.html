@@ -63,10 +63,15 @@
         if (scrollPosition) {
             menu.scrollLeft = parseInt(scrollPosition, 10);
         }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
+
+        // Save once scrolling settles, not on every event (upstream PaperMod)
+        let menuScrollTimeout;
+        menu.addEventListener("scroll", function () {
+            clearTimeout(menuScrollTimeout);
+            menuScrollTimeout = setTimeout(function () {
+                localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+            }, 150);
+        }, { passive: true });
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -93,15 +98,18 @@
 {{- if (not site.Params.disableScrollToTop) }}
 <script>
     var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
+    // 滚动检查按帧节流:每次滚动事件只排一帧,不在每次像素移动上写 DOM(上游 PaperMod)
+    var topTicking = false;
+    window.addEventListener("scroll", function () {
+        if (topTicking) return;
+        topTicking = true;
+        window.requestAnimationFrame(function () {
+            var show = document.body.scrollTop > 800 || document.documentElement.scrollTop > 800;
+            mybutton.style.visibility = show ? "visible" : "hidden";
+            mybutton.style.opacity = show ? "1" : "0";
+            topTicking = false;
+        });
+    }, { passive: true });
 
 </script>
 {{- end }}
