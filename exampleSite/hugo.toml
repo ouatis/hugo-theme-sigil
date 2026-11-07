@@ -102,6 +102,11 @@ defaultContentLanguage = "en"
         name = "検索"
         pageRef = "search"
 
+    [[languages.ja.menus.main]]
+        identifier = "authors-blog"
+        name = "Author's website"
+        url = "https://ouatis.com/"
+
 [params]
   mainSections = ["posts"]
   # ===== 阅读体验开关:每一项都可以删掉,删掉即回到 PaperMod 默认 =====

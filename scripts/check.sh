@@ -601,8 +601,12 @@ for page in pages:
     subpath = "/" + rest.split("/")[0].strip("/")      # hugo-theme-sigil
     root = f"{scheme}://{host}{subpath}/"
     bad = []
+    # the demo's one intentional exit: the author's own site at the domain root
+    allowed = {f"{scheme}://{host}"}
     for href in hrefs(page):
         if not href.startswith("http"):
+            continue
+        if href.rstrip("/") in allowed:
             continue
         h_scheme, _, h_after = href.partition("://")
         if f"{h_scheme}://{h_after.split('/')[0]}" != f"{scheme}://{host}":
@@ -636,9 +640,9 @@ import os, re
 # wording. What must hold everywhere is the shape: the words in configured
 # order, then exactly one tool.
 EXPECTED = {
-    "index.html":       ["About", "Archives", "Docs", "Typography"],
-    "zh-cn/index.html": ["关于", "归档", "排版", "文档"],
-    "ja/index.html":    ["About", "アーカイブ", "ドキュメント", "組版"],
+    "index.html":       ["About", "Archives", "Author's website&nbsp;", "Docs", "Typography"],
+    "zh-cn/index.html": ["作者的个人网站&nbsp;", "关于", "归档", "排版", "文档"],
+    "ja/index.html":    ["About", "Author's website&nbsp;", "アーカイブ", "ドキュメント", "組版"],
 }
 
 for page, expected in EXPECTED.items():
