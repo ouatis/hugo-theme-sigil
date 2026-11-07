@@ -166,6 +166,10 @@ body {
 }
 
 /* Keep article metadata subordinate to the reading column. */
+.post-meta {
+    font-feature-settings: "onum" 1;
+}
+
 .post-meta,
 .breadcrumbs {
     letter-spacing: 0.01em;
@@ -205,6 +209,7 @@ button:focus-visible {
     font-family: var(--sg-serif);
     font-size: 20px;
     font-weight: 700;
+    view-transition-name: site-brand;
 }
 
 
@@ -378,6 +383,7 @@ a[hreflang="ja"] {
 }
 
 .sg-hero h1 {
+    text-box: trim-both cap alphabetic;
     margin: 24px 0 20px;
     color: var(--primary);
     font-family: var(--sg-serif);
@@ -713,6 +719,7 @@ html[data-theme="dark"] .sg-seal img {
 .sg-entry__date {
     color: var(--secondary);
     font-family: var(--sg-serif);
+    font-feature-settings: "onum" 1;
     font-size: 14px;
     font-variant-numeric: tabular-nums;
     transition: color 180ms ease;
@@ -1017,6 +1024,7 @@ html[data-theme="dark"] .sg-seal img {
     font-family: var(--sg-serif);
     text-align: start;
     text-wrap: balance;
+    text-box: trim-both cap alphabetic;
     scroll-margin-top: calc(var(--header-height) + 16px);
 }
 
