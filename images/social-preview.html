@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SIGIL — social preview</title>
+<style>
+  @font-face { font-family:"PlexC"; src:url(fonts/IBMPlexSans-SemiBold.woff2) format("woff2"); font-weight:600; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1280px; height:640px; overflow:hidden; }
+  body {
+    background:#fbfcfa; color:#1d2420;
+    font-family:"PlexC","PingFang SC",sans-serif;
+    position:relative; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+  }
+  /* 纸纹:与主题同源的噪点 */
+  body::after {
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+  }
+  /* 幽灵 ∴:巨大、退到 6%——归档幽灵年份的同一语法 */
+  .ghost { position:absolute; top:50%; left:58%; transform:translate(-50%,-50%);
+           display:grid; grid-template-columns:repeat(2, 230px); gap:120px 170px; opacity:0.06; }
+  .ghost i { width:230px; height:230px; border-radius:50%; background:#ad3e32; }
+  .ghost i:nth-child(3) { grid-column:1 / span 2; justify-self:center; transform:translateY(115px); }
+  /* 实印 ∴:小而确凿的朱砂印章 */
+  .seal { position:relative; z-index:1; display:grid; grid-template-columns:repeat(2, 26px);
+          gap:26px 42px; margin-bottom:56px; }
+  .seal i { width:26px; height:26px; border-radius:50%; background:#ad3e32; }
+  .seal i:nth-child(3) { grid-column:1 / span 2; justify-self:center; }
+  h1 { position:relative; z-index:1; font-size:96px; font-weight:600;
+       letter-spacing:0.06em; text-indent:0.06em; line-height:1; }
+  .rule { position:relative; z-index:1; width:72px; height:2px; background:#1d2420;
+          margin:34px 0 30px; }
+  .dots { position:relative; z-index:1; display:flex; gap:14px; }
+  .dots i { width:10px; height:10px; border-radius:50%; }
+  .dots .r { background:#ad3e32; } .dots .g { background:#2f6754; } .dots .a { background:#d0a85c; }
+  .kicker { position:relative; z-index:1; margin-top:30px;
+            font-family:"PlexC",sans-serif; font-size:15px; font-weight:400;
+            letter-spacing:0.3em; text-indent:0.3em; color:#2f6754; }
+</style>
+</head>
+<body>
+  <div class="ghost"><i></i><i></i><i></i></div>
+  <div class="seal"><i></i><i></i><i></i></div>
+  <h1>SIGIL</h1>
+  <div class="rule"></div>
+  <div class="dots"><i class="r"></i><i class="g"></i><i class="a"></i></div>
+  <div class="kicker">a hugo theme</div>
+</body>
+</html>

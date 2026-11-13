@@ -1,0 +1,141 @@
+{{/*
+  Structured data for search engines.
+
+  Every string value goes through `jsonify | safeJS`: jsonify produces a complete
+  JSON-encoded value (quotes included) and safeJS stops Go from escaping it a second
+  time. Before this, values were either hand-quoted (`"name": "{{ .Title | plainify }}"`)
+  or left bare and escaped by Go's JS context escaper, which produced three different
+  encodings of the same character depending on the field (`\"`, `\u0022`, `\u0026quot;`).
+  The output happened to parse, but nothing guaranteed it would keep doing so.
+
+  Each block carries an id so the contract assertions in scripts/check.sh can locate
+  it: ld-org on the home page, ld-breadcrumb and ld-post on a regular page.
+*/}}
+{{ if .IsHome }}
+<script type="application/ld+json" id="ld-org">
+{
+  "@context": "https://schema.org",
+  "@type": "{{- ( site.Params.schema.publisherType | default "Organization") | title -}}",
+  "name": {{ site.Title | jsonify | safeJS }},
+  "url": {{ site.Home.Permalink | jsonify | safeJS }},
+  "description": {{ site.Params.description | plainify | truncate 180 | jsonify | safeJS }},
+  {{- if (eq site.Params.schema.publisherType "Person") }}
+  "image": {{ site.Params.assets.favicon | default "favicon.ico" | absURL | jsonify | safeJS }},
+  {{- else }}
+  "logo": {{ site.Params.assets.favicon | default "favicon.ico" | absURL | jsonify | safeJS }},
+  {{- end }}
+  "sameAs": [
+    {{- if site.Params.schema.sameAs }}
+      {{ range $i, $e := site.Params.schema.sameAs }}{{ if $i }}, {{ end }}{{ trim $e " " | jsonify | safeJS }}{{ end }}
+    {{- else}}
+      {{ range $i, $e := site.Params.SocialIcons }}{{ if $i }}, {{ end }}{{ trim $e.url " " | jsonify | safeJS }}{{ end }}
+    {{- end}}
+  ]
+}
+</script>
+{{- else if (or .IsPage .IsSection) }}
+{{/* BreadcrumbList */}}
+{{- $url := replace .Parent.Permalink ( printf "%s" site.Home.Permalink) "" }}
+{{- $lang_url := strings.TrimPrefix ( printf "%s/" .Lang) $url }}
+{{- $bc_list := (split $lang_url "/")}}
+
+{{- $scratch := newScratch }}
+<script type="application/ld+json" id="ld-breadcrumb">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+  {{- range $index, $element := $bc_list }}
+
+    {{- $scratch.Add "path" (printf "%s/" $element ) | safeJS }}
+    {{- $bc_pg := site.GetPage ($scratch.Get "path") -}}
+
+    {{- if (and ($bc_pg) (gt (len . ) 0))}}
+    {{- if (and $index)}}, {{end }}
+    {
+      "@type": "ListItem",
+      "position": {{ add 1 $index  }},
+      "name": {{ $bc_pg.Name | jsonify | safeJS }},
+      "item": {{ $bc_pg.Permalink | jsonify | safeJS }}
+    }
+    {{- end }}
+
+  {{- end }}
+  {{- /*  self-page addition  */ -}}
+  {{- if (ge (len $bc_list) 2) }}, {{end }}
+    {
+      "@type": "ListItem",
+      "position": {{len $bc_list}},
+      "name": {{ .Name | jsonify | safeJS }},
+      "item": {{ .Permalink | jsonify | safeJS }}
+    }
+  ]
+}
+</script>
+{{- if .IsPage }}
+<script type="application/ld+json" id="ld-post">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ .Title | plainify | htmlUnescape | jsonify | safeJS }},
+  "name": {{ .Title | plainify | htmlUnescape | jsonify | safeJS }},
+  "description": {{ with .Description | plainify }}{{ . | htmlUnescape | jsonify | safeJS }}{{ else }}{{ .Summary | plainify | htmlUnescape | jsonify | safeJS }}{{ end -}},
+  "keywords": [
+    {{- if .Params.keywords }}
+    {{ range $i, $e := .Params.keywords }}{{ if $i }}, {{ end }}{{ $e | jsonify | safeJS }}{{ end }}
+    {{- else }}
+    {{ range $i, $e := .Params.tags }}{{ if $i }}, {{ end }}{{ $e | jsonify | safeJS }}{{ end }}
+    {{- end }}
+  ],
+  "articleBody": {{ .Content | plainify | htmlUnescape | jsonify | safeJS }},
+  "wordCount" : {{ .WordCount }},
+  "inLanguage": {{ .Language.Lang | default "en-us" | jsonify | safeJS }},
+  {{ if .Params.cover.image -}}
+  "image":
+    {{- if (ne .Params.cover.relative true) -}}
+    {{ .Params.cover.image | absURL | jsonify | safeJS }},
+    {{- else -}}
+    {{ (path.Join .RelPermalink .Params.cover.image ) | absURL | jsonify | safeJS }},
+    {{- end}}
+  {{- else }}
+    {{- $images := partial "templates/_funcs/get-page-images" . -}}
+    {{- with index $images 0 -}}
+  "image": {{ .Permalink | jsonify | safeJS }},
+    {{- end }}
+  {{- end -}}
+  "datePublished": {{ .PublishDate | jsonify | safeJS }},
+  "dateModified": {{ .Lastmod | jsonify | safeJS }},
+  {{- with (.Params.author | default site.Params.author) }}
+  "author":
+    {{- if (or (eq (printf "%T" .) "[]string") (eq (printf "%T" .) "[]interface {}")) -}}
+  [{{- range $i, $v := . -}}
+  {{- if $i }}, {{end -}}
+  {
+    "@type": "Person",
+    "name": {{ $v | jsonify | safeJS }}
+  }
+  {{- end }}],
+    {{- else -}}
+  {
+    "@type": "Person",
+    "name": {{ . | jsonify | safeJS }}
+  },
+    {{- end -}}
+  {{- end }}
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ .Permalink | jsonify | safeJS }}
+  },
+  "publisher": {
+    "@type": "{{- ( site.Params.schema.publisherType | default "Organization") | title -}}",
+    "name": {{ site.Title | jsonify | safeJS }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": {{ site.Params.assets.favicon | default "favicon.ico" | absURL | jsonify | safeJS }}
+    }
+  }
+}
+</script>
+{{- end }}{{/* .IsPage end */}}
+
+{{- end -}}

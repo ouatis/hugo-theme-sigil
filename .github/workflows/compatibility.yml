@@ -1,0 +1,60 @@
+name: Compatibility
+
+# Two checks that answer "does this PR still work for someone outside this
+# repository?" without cloning the repository by URL (which would test main,
+# not the PR) and without writing anything.
+#
+# Fork pull requests run here too: the workflow only needs read access to the
+# checkout; it never deploys, comments, or opens issues.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: compatibility-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # A user's first experience is a bare `hugo new site` plus `theme = ...` in
+  # hugo.toml. exampleSite has its own config, fonts, and extra content, so it
+  # can stay green while that path is broken. This job builds the checkout as
+  # a linked theme in a fresh site with exactly one post and no theme config
+  # beyond `theme = "hugo-theme-sigil"`.
+  zero-config:
+    name: zero-config install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Hugo (floor)
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.166.0"
+          extended: true
+
+      - name: Build a fresh site with only the theme and one post
+        env:
+          THEME_ROOT: ${{ github.workspace }}
+          SITE_DIR: ${{ runner.temp }}/sigil-zero-config
+        run: bash scripts/ci/check-zero-config-install.sh
+
+  # docs/api.md is the frozen public contract. Its backtick identifiers are the
+  # names users put in config. A rename usually looks like a doc edit, and no
+  # build notices; this job fails and prints the identifiers that disappeared
+  # since the committed baseline snapshot (scripts/ci/api-baseline.json).
+  # Additions are allowed. The baseline is a file, not a git tag: after the
+  # 2026-11-03 history rewrite every tag points at the new root commit, so a
+  # tag-based baseline would compare docs/api.md with itself.
+  api-contract:
+    name: API contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Compare docs/api.md identifiers with the baseline snapshot
+        run: python3 scripts/ci/check-api-identifiers.py

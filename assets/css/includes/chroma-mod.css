@@ -1,0 +1,55 @@
+.chroma {
+    background-color: unset !important;
+}
+
+.chroma .hl {
+    display: flex;
+}
+
+.chroma .lnt {
+    padding: 0 0 0 12px;
+}
+
+.highlight pre.chroma code {
+    padding: 8px 0;
+}
+
+.highlight pre.chroma .line .cl,
+.chroma .ln {
+    padding: 0 10px;
+}
+
+.chroma .lntd:last-of-type {
+    width: 100%;
+}
+
+/* Catppuccin 的注释色 #6e738d 在 #1b201d 代码底上只有 3.54:1。
+   chroma-styles.css 里 .c/.ch/.cm/.c1/.cs/.cp/.cpf/.sd/.sh 九个选择器
+   共用这个颜色;#858ba1 提到 4.88:1,过 WCAG AA 正文门槛;选择器与
+   chroma-styles.css 同权重,本文件在其后拼接,顺序即可覆盖。 */
+.chroma .c,
+.chroma .ch,
+.chroma .cm,
+.chroma .c1,
+.chroma .cs,
+.chroma .cp,
+.chroma .cpf,
+.chroma .sd,
+.chroma .sh {
+    color: #858ba1;
+}
+
+/* 纸上代码块是 #f5f5f5 浅底,#858ba1 只有 3.1:1;压深到 #4d5563(6.89:1)。 */
+@media print {
+    .chroma .c,
+    .chroma .ch,
+    .chroma .cm,
+    .chroma .c1,
+    .chroma .cs,
+    .chroma .cp,
+    .chroma .cpf,
+    .chroma .sd,
+    .chroma .sh {
+        color: #4d5563;
+    }
+}

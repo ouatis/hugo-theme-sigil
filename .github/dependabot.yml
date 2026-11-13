@@ -1,0 +1,22 @@
+version: 2
+
+# 这是仓库里唯一一个自动化升级来源。它每周提一个 PR，把所有 actions 的
+# 主版本升到最新——重点是 PR 会走一遍完整流水线（build + check.sh + 负例 +
+# localhost 浏览器 smoke），所以升上来的版本是被验证过的，而不是信任 latest。
+#
+# 它升不了的两处，只能手动维护（见 AGENTS.md）：
+#   1. workflow 里的 Hugo 版本字符串（0.166.0 地板 / 0.169.0 最新）
+#   2. workflow-lint.yml 里 actionlint 的下载地址
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    open-pull-requests-limit: 3
+    groups:
+      # 一次 PR 升完所有 action：单个 commit 的 bump 会让 CI 队列里堆一串
+      # 只差一个 tag 的运行，而它们本来就要一起验证部署是否还打得开。
+      actions:
+        patterns: ["*"]

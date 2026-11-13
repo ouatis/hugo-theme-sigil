@@ -1,0 +1,244 @@
+name: Demo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: write
+  issues: write
+
+# Keyed by ref: a pull-request run must never cancel a deploy that is already
+# publishing main, and two PRs must not cancel each other.
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.166.0"
+          extended: true
+
+      - name: Cache IBM Plex source
+        uses: actions/cache@v6
+        with:
+          path: .cache/ibm-plex
+          key: ibm-plex-1.1.0
+
+      - name: Install font tooling
+        run: python3 -m pip install --quiet fonttools brotli
+
+      - name: Build font subsets for the demo
+        run: |
+          scripts/build-fonts.sh corpus
+          mkdir -p exampleSite/static
+          cp -r static/fonts exampleSite/static/fonts
+
+      - name: Verify build (check.sh — blocks deploy on failure)
+        run: bash scripts/check.sh
+
+      - name: Verify the contract assertions actually bite
+        run: python3 scripts/check-contracts-negative.py
+
+      - name: Setup Pages
+        id: pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v6
+
+      # A pull request is built against a local origin: nothing is deployed, and
+      # the browser smoke below serves this very directory, so the assertions run
+      # against the PR's own output instead of the live site.
+      - name: Build example site
+        run: |
+          mkdir -p /tmp/hugo-themes
+          ln -s "$GITHUB_WORKSPACE" /tmp/hugo-themes/hugo-theme-sigil
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="http://127.0.0.1:8899/"
+          else
+            BASE="https://ouatis.com/hugo-theme-sigil/"
+          fi
+          hugo --source exampleSite --themesDir /tmp/hugo-themes --baseURL "$BASE" --destination public
+
+      - name: Upload artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: exampleSite/public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        if: github.event_name != 'pull_request'
+        uses: actions/deploy-pages@v5
+
+      # Pull requests stop here: the tree is verified, nothing was published.
+      # Everything below writes to the repository (run pruning, failure
+      # tickets), which a PR — especially one from a fork — has no business
+      # doing, and which it has no permission to do.
+      - name: Install Playwright for the PR smoke
+        if: github.event_name == 'pull_request'
+        run: |
+          # axe-playwright-python bundles the axe-core build the smoke injects;
+          # the theme does not vendor a 550 KB audit script.
+          python3 -m pip install --quiet playwright axe-playwright-python
+          python3 -m playwright install --with-deps chromium
+
+      - name: Smoke test the PR build
+        if: github.event_name == 'pull_request'
+        run: |
+          cd exampleSite/public
+          python3 -m http.server 8899 --bind 127.0.0.1 &
+          for _ in $(seq 1 40); do
+            curl -sf -o /dev/null http://127.0.0.1:8899/ && break
+            sleep 0.25
+          done
+          cd "$GITHUB_WORKSPACE"
+          SMOKE_BASE=http://127.0.0.1:8899 bash scripts/smoke.sh
+
+      # 清扫历史运行,只留当前——Actions 页面单条滚动
+      # 只扫本工作流:仓库还有 install-modes 等,全局清扫会竞态删除它们的运行
+      # 只扫 main:PR 的运行日志是评审证据,不能被一次推送顺手删掉
+      - name: Prune old workflow runs
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          KEEP=${{ github.run_id }}
+          gh api "repos/${{ github.repository }}/actions/runs?per_page=100" --paginate \
+            --jq '.workflow_runs[] | select(.name == "Demo") | select(.head_branch == "main") | select(.id != '"$KEEP"') | select(.status == "completed") | .id' \
+          | while read -r id; do
+              gh api -X DELETE "repos/${{ github.repository }}/actions/runs/$id" > /dev/null 2>&1 || true
+            done
+
+      # 部署失败时开/续写工单,成功后自动关闭——红色运行不等于有人看见
+      - name: Close failure ticket on success
+        if: success() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo 部署失败 in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --repo "${{ github.repository }}" --comment "最近一次 Demo 部署成功，本工单自动关闭。"
+          fi
+
+      - name: Report failure as issue
+        # 放在最后并 gate 在 failure() 上:任何一步失败都会落到工单里
+        if: failure() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo 部署失败 in:title" --json number --jq '.[0].number // empty')
+          BODY="Demo 部署在 $(date -u '+%Y-%m-%d %H:%M UTC') 失败。
+          运行日志: ${RUN_URL}
+          下次推送 main 或手动运行成功后本工单自动关闭。"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "${{ github.repository }}" --body "$BODY"
+          else
+            gh issue create --repo "${{ github.repository }}" --title "🔴 Demo 部署失败（自动工单）" --body "$BODY"
+          fi
+
+  # `build` 钉的是地板：theme.toml 的 min_version，也就是一个久没更新的安装
+  # 会跑到的版本。但用户升级 Hugo 当天就会拿到比它新的二进制，而 Hugo 跨 minor
+  # 改过东西。这个 job 用最新 release 跑同一套断言，让上游的破坏落在这里，
+  # 而不是落到用户的问题报告里。
+  # Dependabot 看不见 workflow 里的版本字符串：Hugo 发版时手动改下面这个数字
+  # （见 AGENTS.md）；min_version 只在地板真的抬高时才动。
+  hugo-latest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup newest Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.169.0"
+          extended: true
+
+      # 字体子集不是产物的一部分：check.sh 要读 public/fonts/ibm-plex/result.css，
+      # 没有这一步断言会静默地跑在空集上。
+      - name: Cache IBM Plex source
+        uses: actions/cache@v6
+        with:
+          path: .cache/ibm-plex
+          key: ibm-plex-1.1.0
+
+      - name: Install font tooling
+        run: python3 -m pip install --quiet fonttools brotli
+
+      - name: Build font subsets for the demo
+        run: |
+          scripts/build-fonts.sh corpus
+          mkdir -p exampleSite/static
+          cp -r static/fonts exampleSite/static/fonts
+
+      # 和 main 上同一套：构建 + 全部产物断言，再加一遍证明断言会咬的负例。
+      - name: Verify build and contracts on the newest Hugo
+        run: |
+          bash scripts/check.sh
+          python3 scripts/check-contracts-negative.py
+
+  # 部署完成后在真实浏览器里验证。check.sh 只查构建产物；这里查 JS 真的跑了——
+  # KaTeX 渲染、旁注切换、无控制台报错——这些静态检查看不见。跑在部署之后，测的是
+  # 线上站点；不阻塞部署，失败只开工单。
+  smoke:
+    # 线上站点只在 main 的部署之后检查;PR 的 smoke 跑在 build job 里,对着 PR 自己的产物
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          python3 -m pip install --quiet playwright axe-playwright-python
+          python3 -m playwright install --with-deps chromium
+
+      - name: Smoke test the deployed demo
+        env:
+          SMOKE_BASE: https://ouatis.com/hugo-theme-sigil
+        run: bash scripts/smoke.sh
+
+      - name: Report smoke failure as issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo smoke 测试失败 in:title" --json number --jq '.[0].number // empty')
+          BODY="Demo 部署成功但浏览器 smoke 测试失败（可能是 JS 渲染回归，如 KaTeX/旁注/控制台报错）。
+          运行日志: ${RUN_URL}
+          下次推送 main 或手动运行成功后本工单自动关闭。"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "${{ github.repository }}" --body "$BODY"
+          else
+            gh issue create --repo "${{ github.repository }}" --title "🔴 Demo smoke 测试失败（自动工单）" --body "$BODY"
+          fi
+
+      - name: Close smoke ticket on success
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "Demo smoke 测试失败 in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --repo "${{ github.repository }}" --comment "最近一次 smoke 测试通过，本工单自动关闭。"
+          fi

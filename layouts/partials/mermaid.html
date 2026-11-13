@@ -1,0 +1,28 @@
+{{- /* Mermaid 图:页面 frontmatter 或站点参数设 mermaid: true 时加载。
+     渲染引擎是 Pele(MIT,同捆在 assets/js/pele.global.js):无运行时依赖、
+     无 CDN 请求,体积约为 Mermaid 的 1/8;图表颜色与字体都取自下方
+     --pele-* 变量,所以切换主题时图随 CSS 变量即时换色,不必重绘 */ -}}
+{{- $js := resources.Get "js/pele.global.js" }}
+{{- if not site.Params.assets.disableFingerprinting }}
+{{- $js = $js | fingerprint }}
+<script defer crossorigin="anonymous" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{- else }}
+<script defer src="{{ $js.RelPermalink }}"></script>
+{{- end }}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof pele === "undefined" || !pele.mount) return;
+    document.querySelectorAll('.post-content pre > code[class*="language-mermaid"]').forEach(function (block) {
+        var div = document.createElement("div");
+        div.className = "sg-mermaid";
+        div.textContent = block.textContent;
+        block.parentNode.replaceWith(div);
+        /* 画不出来时 Pele 把错误留在图框里,正文照常可读 */
+        try {
+            pele.mount(div, block.textContent);
+        } catch (e) {
+            div.classList.add("sg-mermaid--error");
+        }
+    });
+});
+</script>

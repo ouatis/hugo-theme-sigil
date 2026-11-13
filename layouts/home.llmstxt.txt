@@ -1,0 +1,8 @@
+{{- /* llms.txt:构建期生成的机器可读站点索引(llmstxt.org 约定)。
+     独立模板,不走 baseof;头部与关键页面见 llms-header partial */ -}}
+{{- partial "llms-header.html" . }}
+## {{ i18n "llmsPosts" | default "All posts" }}
+
+{{- range where site.RegularPages "Type" "in" site.Params.mainSections }}
+- [{{ .Title }}]({{ .Permalink }}) — {{ .Date.Format "2006-01-02" }}
+{{- end }}
