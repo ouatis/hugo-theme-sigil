@@ -36,6 +36,14 @@ export PYTHONIOENCODING=utf-8
 hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
     || fail "example site build failed (run without --quiet to see the error)"
 
+# Link integrity: every internal href resolves to a built page, every fragment
+# to an existing id, every id is unique per page, every local asset exists.
+# The demo deploys under a subpath, so this is also where a content link that
+# dropped "/hugo-theme-sigil" gets caught — the nav audits below only cover
+# navigation hrefs, not links inside body copy. Stdlib HTMLParser throughout:
+# --minify strips attribute quotes and byte regexes lie on that output.
+"$SG_PY" "$SG_THEME_ROOT/scripts/check-links.py" public || fail "link integrity check failed"
+
 # llms.txt: machine-readable site index generated for agents
 [ -s public/llms.txt ] || fail "llms.txt missing or empty"
 # Read the title from the config rather than hardcoding it, so renaming the

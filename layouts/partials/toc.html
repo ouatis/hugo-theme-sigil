@@ -73,9 +73,11 @@
             <span class="details">{{ $tocTitle }}</span>
         </summary>
         <div class="inner">
-            {{- /* 窄屏内联版降为 div:悬浮面板里的 nav 已是唯一的目录地标,
-                   两份 <nav id> 同名会撞 landmark-unique 与重复 ID */ -}}
-            {{- replace (replace .TableOfContents "<nav id=\"TableOfContents\">" "<div id=\"TableOfContents\">") "</nav>" "</div>" | safeHTML -}}
+            {{- /* 窄屏内联版降为 div 且剥掉 id:悬浮面板里的 nav 已是唯一的目录
+                   地标与唯一的 #TableOfContents——Hugo 给 .TableOfContents 硬编码
+                   这个 id,两份同名会撞 landmark-unique 与重复 ID;内联副本的 id
+                   无任何 CSS/JS 引用(.toc 规则走 class),剥掉最干净 */ -}}
+            {{- replace (replace .TableOfContents "<nav id=\"TableOfContents\">" "<div>") "</nav>" "</div>" | safeHTML -}}
         </div>
     </details>
 </div>
