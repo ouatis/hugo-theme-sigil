@@ -12,8 +12,15 @@ static/fonts/ibm-plex/jp/
 
 .cache/
 
-# Fonts copied into the demo at build time (CI: cp -r static/fonts exampleSite/static/)
-exampleSite/static/
+# Fonts copied into the demo at build time (CI: cp -r static/fonts exampleSite/static/).
+# 目录本身不再整体忽略,否则 favicon 这类要入库的演示资产无法用 ! 规则救回来。
+exampleSite/static/*
+# 演示站图标集:主题 head.html 默认引用这五个文件,缺失会让链接检查器判 404
+!exampleSite/static/favicon.ico
+!exampleSite/static/favicon-16x16.png
+!exampleSite/static/favicon-32x32.png
+!exampleSite/static/apple-touch-icon.png
+!exampleSite/static/safari-pinned-tab.svg
 exampleSite/public-preview/
 
 # Throwaway output of check.sh's overlay builds; leftovers only survive an
