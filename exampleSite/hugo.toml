@@ -11,7 +11,7 @@ defaultContentLanguage = "en"
     title = "SIGIL"
     [languages.en.params]
       [languages.en.params.homeInfoParams]
-        content = "A restrained literary theme for Hugo — paper, ink, and everything in threes. Long-form essays, research notes, and reading logs, set for the page rather than the feed."
+        content = "A Hugo theme — ink, paper, and everything in threes. Based on PaperMod."
 
     [[languages.en.menus.main]]
         identifier = "typography"
@@ -46,7 +46,7 @@ defaultContentLanguage = "en"
     title = "SIGIL"
     [languages.zh-cn.params]
       [languages.zh-cn.params.homeInfoParams]
-        content = "一个克制的 Hugo 文学主题——纸、墨，万物成三。长文、研究笔记与阅读札记，为纸面而排，不为信息流。"
+        content = "一个 Hugo 主题——墨、纸，万物成三。基于 PaperMod。"
     [[languages.zh-cn.menus.main]]
         identifier = "typography"
         name = "排版"
@@ -80,7 +80,7 @@ defaultContentLanguage = "en"
     title = "SIGIL"
     [languages.ja.params]
       [languages.ja.params.homeInfoParams]
-        content = "Hugo の控えめな文学テーマ——紙とインク、三つ組。長文、研究ノート、読書録。フィードではなく、紙面のために組む。"
+        content = "Hugo のテーマ——インクと紙、三つ組。PaperMod を土台に。"
     [[languages.ja.menus.main]]
         identifier = "typography"
         name = "組版"
