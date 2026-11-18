@@ -165,7 +165,7 @@ jobs:
       - name: Setup newest Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: "0.169.0"
+          hugo-version: "0.170.0"
           extended: true
 
       # 字体子集不是产物的一部分：check.sh 要读 public/fonts/ibm-plex/result.css，

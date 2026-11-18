@@ -127,7 +127,7 @@ tickets) carries `if: github.event_name != 'pull_request'`.
 Two version strings are hand-maintained, because Dependabot cannot see them:
 
 - the Hugo pins: `0.166.0` is the floor and must stay equal to `theme.toml`'s
-  `min_version`; the `0.169.0` in `hugo-latest` should track the newest
+  `min_version`; the `0.170.0` in `hugo-latest` should track the newest
   release. Bump it when Hugo ships.
 - the actionlint download URL in `workflow-lint.yml`.
 
