@@ -86,8 +86,9 @@ or `\u0026quot;` depending on the field. The output happened to parse; nothing
 guaranteed it would keep parsing. See Pitfall 9.
 
 Environment: Hugo 0.166 is the floor (`theme.toml`'s `min_version`) and what
-`build` runs; `hugo-latest` builds on the newest release (0.169 when this was
-written) — when a template change is involved, run both.
+`build` runs; `hugo-latest` resolves `"latest"` on every run so upstream Hugo
+deprecations (logged at `--logLevel info`) and breaks surface immediately.
+When a template change is involved, run both.
 
 Font tooling needs a real python3 with
 fonttools + brotli. On Windows `python3` is often the Microsoft Store stub:
@@ -126,9 +127,11 @@ tickets) carries `if: github.event_name != 'pull_request'`.
 
 Two version strings are hand-maintained, because Dependabot cannot see them:
 
-- the Hugo pins: `0.166.0` is the floor and must stay equal to `theme.toml`'s
-  `min_version`; the `0.170.0` in `hugo-latest` should track the newest
-  release. Bump it when Hugo ships.
+- the Hugo floor (`0.166.0`): when raised, keep `hugo.toml`
+  (`module.hugoVersion.min`), `theme.toml` (`min_version`),
+  `.github/workflows/demo.yml` (`build` job `hugo-version`), and the
+  `README*.md` requirement lines in sync. (`hugo-latest` uses `"latest"` and
+  needs no manual bump.)
 - the actionlint download URL in `workflow-lint.yml`.
 
 Everything else — the action tags — arrives as a weekly Dependabot PR
@@ -302,6 +305,23 @@ from (`v0.12.0`, `45ef3cf`), and a missing or empty snapshot is a hard error,
 never a silent pass. Regenerate it only to raise the frozen surface, never to
 absorb an identifier that just vanished; `--source git` remains for ad-hoc
 comparisons against another ref.
+
+### 15. Hugo logs deprecations at `INFO` first, and parses every dot in a template name
+
+Hugo announces template and config deprecations at `INFO` level
+(`INFO  deprecated: …`) for several minor releases before promoting them to
+`WARN` and finally fatal `ERROR`. Building with `--quiet` hid both `INFO` and
+`WARN`, so `hugo-latest` would stay green until the release that deleted the
+API. `check.sh` and `check-zero-config-install.sh` now build with
+`--logLevel info` and fail on any `WARN`, `ERROR`, or `INFO  deprecated:`
+line while keeping clean builds quiet.
+
+Also note Hugo's template filename parser: everything after the **first dot**
+in a `layouts/` filename is interpreted as an output format, language, or kind
+identifier (e.g. `home.llmsfull.txt`, `index.jsonfeed.json`). Never name a
+partial with an internal dot such as `head.custom.html` — Hugo resolves the
+base name to `head` and can recurse infinitely; use hyphens or underscores
+instead.
 
 ## Conventions
 

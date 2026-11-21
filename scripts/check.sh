@@ -33,8 +33,29 @@ export SG_PY
 # those into U+FFFD; force UTF-8 so a failing assertion is readable everywhere.
 export PYTHONIOENCODING=utf-8
 
-hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
-    || fail "example site build failed (run without --quiet to see the error)"
+# Run Hugo with --logLevel info rather than --quiet: Hugo logs template and
+# config deprecations at INFO level ("INFO  deprecated: ...") for several
+# minor releases before escalating them to WARN and fatal ERROR. Capturing the
+# log keeps clean builds quiet while failing immediately on any deprecation or
+# warning (especially in CI's hugo-latest job).
+run_hugo_clean() {
+    local label="$1"
+    shift
+    local log
+    if ! log="$(hugo --logLevel info "$@" 2>&1)"; then
+        printf '%s\n' "$log" >&2
+        fail "$label failed"
+    fi
+    local bad
+    bad="$(printf '%s\n' "$log" | grep -E '^(WARN|ERROR|INFO[[:space:]]+deprecated:)' || true)"
+    if [ -n "$bad" ]; then
+        printf '%s\n' "$bad" >&2
+        fail "$label emitted Hugo warnings or deprecation notices"
+    fi
+}
+
+run_hugo_clean "example site build" \
+    --themesDir ../.. --minify --baseURL "$CHECK_BASE_URL"
 
 # Link integrity: every internal href resolves to a built page, every fragment
 # to an existing id, every id is unique per page, every local asset exists.
@@ -310,9 +331,17 @@ assert "[params]" in s, "demo config lost its [params] table"
 open("hugo.fulltext-check.toml", "w", encoding="utf-8", newline="").write(
     s.replace("[params]", "[params]\nShowFullTextinRSS = true", 1))
 PY
-hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
-    --config hugo.fulltext-check.toml --destination public-fulltext-check \
-    || { rm -rf public-fulltext-check hugo.fulltext-check.toml; fail "overlay build failed (ShowFullTextinRSS = true)"; }
+if ! log="$(hugo --logLevel info --themesDir ../.. --minify --baseURL "$CHECK_BASE_URL" \
+    --config hugo.fulltext-check.toml --destination public-fulltext-check 2>&1)"; then
+    printf '%s\n' "$log" >&2
+    rm -rf public-fulltext-check hugo.fulltext-check.toml
+    fail "overlay build failed (ShowFullTextinRSS = true)"
+fi
+if bad="$(printf '%s\n' "$log" | grep -E '^(WARN|ERROR|INFO[[:space:]]+deprecated:)' || true)" && [ -n "$bad" ]; then
+    printf '%s\n' "$bad" >&2
+    rm -rf public-fulltext-check hugo.fulltext-check.toml
+    fail "overlay build emitted Hugo warnings or deprecation notices (ShowFullTextinRSS = true)"
+fi
 if ! SG_FULLTEXT_DIR=public-fulltext-check "$SG_PY" - <<'PY'
 import glob, os, sys
 import xml.etree.ElementTree as ET
@@ -758,9 +787,17 @@ repoId = "R_demo"
 category = "Announcements"
 categoryId = "DIC_demo"
 EOF
-hugo --themesDir ../.. --minify --quiet --baseURL "$CHECK_BASE_URL" \
-    --config hugo.rtl-check.toml --destination public-rtl-check \
-    || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "overlay build failed (fa language + giscus)"; }
+if ! log="$(hugo --logLevel info --themesDir ../.. --minify --baseURL "$CHECK_BASE_URL" \
+    --config hugo.rtl-check.toml --destination public-rtl-check 2>&1)"; then
+    printf '%s\n' "$log" >&2
+    rm -rf public-rtl-check hugo.rtl-check.toml
+    fail "overlay build failed (fa language + giscus)"
+fi
+if bad="$(printf '%s\n' "$log" | grep -E '^(WARN|ERROR|INFO[[:space:]]+deprecated:)' || true)" && [ -n "$bad" ]; then
+    printf '%s\n' "$bad" >&2
+    rm -rf public-rtl-check hugo.rtl-check.toml
+    fail "overlay build emitted Hugo warnings or deprecation notices (fa language + giscus)"
+fi
 grep -qE '<html[^>]*dir=rtl' public-rtl-check/fa/index.html \
     || { rm -rf public-rtl-check hugo.rtl-check.toml; fail "fa language built without dir=rtl on <html>"; }
 grep -q 'giscus.app/client.js' public-rtl-check/posts/typography/index.html \

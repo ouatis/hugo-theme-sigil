@@ -48,7 +48,15 @@ grep -qx 'theme = "hugo-theme-sigil"' "$SITE_DIR/hugo.toml"
 [[ "$(wc -l < "$SITE_DIR/hugo.toml")" -eq 1 ]]
 [[ "$(find "$SITE_DIR/content" -type f -name '*.md' | wc -l)" -eq 1 ]]
 
-hugo --source "$SITE_DIR" --destination "$SITE_DIR/public"
+BUILD_LOG="$(hugo --logLevel info --source "$SITE_DIR" --destination "$SITE_DIR/public" 2>&1)" || {
+  printf '%s\n' "$BUILD_LOG" >&2
+  exit 1
+}
+if BAD="$(printf '%s\n' "$BUILD_LOG" | grep -E '^(WARN|ERROR|INFO[[:space:]]+deprecated:)' || true)" && [[ -n "$BAD" ]]; then
+  printf '%s\n' "$BAD" >&2
+  echo "FAIL: zero-config build emitted Hugo warnings or deprecation notices" >&2
+  exit 1
+fi
 test -s "$SITE_DIR/public/index.html"
 test -s "$SITE_DIR/public/posts/hello/index.html"
 grep -q '<title>Hello from a fresh install' "$SITE_DIR/public/posts/hello/index.html"

@@ -151,10 +151,9 @@ jobs:
 
   # `build` 钉的是地板：theme.toml 的 min_version，也就是一个久没更新的安装
   # 会跑到的版本。但用户升级 Hugo 当天就会拿到比它新的二进制，而 Hugo 跨 minor
-  # 改过东西。这个 job 用最新 release 跑同一套断言，让上游的破坏落在这里，
-  # 而不是落到用户的问题报告里。
-  # Dependabot 看不见 workflow 里的版本字符串：Hugo 发版时手动改下面这个数字
-  # （见 AGENTS.md）；min_version 只在地板真的抬高时才动。
+  # 改过东西。这个 job 用 "latest" 自动拉取最新正式版跑同一套断言（含
+  # --logLevel info 弃用检查），让上游的弃用预告和破坏落在这里，而不是落到
+  # 用户的问题报告里；min_version 只在地板真的抬高时才动。
   hugo-latest:
     runs-on: ubuntu-latest
     permissions:
@@ -165,7 +164,7 @@ jobs:
       - name: Setup newest Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: "0.170.0"
+          hugo-version: "latest"
           extended: true
 
       # 字体子集不是产物的一部分：check.sh 要读 public/fonts/ibm-plex/result.css，

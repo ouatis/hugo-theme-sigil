@@ -245,6 +245,73 @@ with sync_playwright() as p:
         )
     wide.close()
 
+    # 移动端列表行（≤640px）：桌面端的四列网格在窄屏下把序号与日期合并到标题上方
+    # 的同一行（左序号、右日期，下一行才是标题与元信息）。静态 HTML 一模一样，
+    # 只有在窄视口下量几何与 innerText 分隔，才能证明序号与日期既没重叠、也没和
+    # 标题粘连成同一个词。
+    narrow = browser.new_context(viewport={"width": 390, "height": 844})
+    mob_page = narrow.new_page()
+    mob_page.goto(base + "/", wait_until="networkidle")
+    mob_page.wait_for_timeout(400)
+    mob_entry = mob_page.evaluate(
+        """() => {
+            const entry = document.querySelector('.sg-entry');
+            const num = entry && entry.querySelector('.sg-entry__number');
+            const date = entry && entry.querySelector('.sg-entry__date');
+            const main = entry && entry.querySelector('.sg-entry__main');
+            const title = entry && entry.querySelector('h3');
+            if (!entry || !num || !date || !main || !title) return null;
+            const n = num.getBoundingClientRect();
+            const d = date.getBoundingClientRect();
+            const m = main.getBoundingClientRect();
+            return {
+                numRight: n.right,
+                numBottom: n.bottom,
+                dateLeft: d.left,
+                dateBottom: d.bottom,
+                mainTop: m.top,
+                text: entry.innerText,
+                numText: (num.innerText || '').trim(),
+                dateText: (date.innerText || '').trim(),
+                titleText: (title.innerText || '').trim(),
+            };
+        }"""
+    )
+    mob_issues = []
+    if mob_entry is None:
+        mob_issues.append(".sg-entry parts missing at 390px")
+    else:
+        if mob_entry["numRight"] >= mob_entry["dateLeft"]:
+            mob_issues.append(
+                "mobile entry number overlaps date "
+                f"(number right {mob_entry['numRight']:.0f} ≥ "
+                f"date left {mob_entry['dateLeft']:.0f})"
+            )
+        top_row_bottom = max(mob_entry["numBottom"], mob_entry["dateBottom"])
+        if top_row_bottom > mob_entry["mainTop"] + 1:
+            mob_issues.append(
+                "mobile entry number/date row overlaps title block "
+                f"(top row bottom {top_row_bottom:.0f} > "
+                f"title top {mob_entry['mainTop']:.0f})"
+            )
+        glued_num_date = mob_entry["numText"] + mob_entry["dateText"]
+        glued_date_title = mob_entry["dateText"] + mob_entry["titleText"]
+        if glued_num_date in mob_entry["text"] or glued_date_title in mob_entry["text"]:
+            mob_issues.append("mobile entry innerText lacks whitespace separation between number, date, and title")
+    if mob_issues:
+        failures += 1
+        print("FAIL  mobile entry layout (390px)")
+        for issue in mob_issues:
+            print(f"  {issue}")
+    else:
+        print(
+            "ok    mobile entry layout (390px, "
+            f"number right {mob_entry['numRight']:.0f} < "
+            f"date left {mob_entry['dateLeft']:.0f}, "
+            f"header row ≤ title top {mob_entry['mainTop']:.0f})"
+        )
+    narrow.close()
+
     ctx.close()
     browser.close()
 
