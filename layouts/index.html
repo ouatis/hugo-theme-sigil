@@ -113,7 +113,7 @@
       var strip = document.querySelector(".sg-now");
       if (!strip) return;
       var items = Array.from(strip.querySelectorAll(".sg-now__item"));
-      if (items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (items.length < 2) return;
       strip.classList.add("sg-now--rotating");
       var index = 0;
       items.forEach(function (item, i) { item.classList.toggle("is-active", i === 0); });

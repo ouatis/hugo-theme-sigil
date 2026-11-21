@@ -119,6 +119,37 @@ with sync_playwright() as p:
         except Exception:
             issues.append(f"missing selector {selector!r}")
 
+        # Homepage status strip (.sg-now) must rotate one item at a time and
+        # never expose all items together (including in innerText or under
+        # prefers-reduced-motion).
+        if "home" in name:
+            now_state = page.evaluate(
+                """() => {
+                    const strip = document.querySelector('.sg-now');
+                    if (!strip) return null;
+                    const items = Array.from(strip.querySelectorAll('.sg-now__item'));
+                    const visible = items.filter((el) => {
+                        const cs = getComputedStyle(el);
+                        return cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0;
+                    });
+                    return {
+                        total: items.length,
+                        visibleCount: visible.length,
+                        stripText: (strip.innerText || '').trim(),
+                        activeText: visible[0] ? (visible[0].innerText || '').trim() : '',
+                    };
+                }"""
+            )
+            if now_state and now_state["total"] > 1:
+                if now_state["visibleCount"] != 1:
+                    issues.append(
+                        f".sg-now exposes {now_state['visibleCount']}/{now_state['total']} items at once (expected 1)"
+                    )
+                elif now_state["stripText"] != now_state["activeText"]:
+                    issues.append(
+                        f".sg-now innerText leaks inactive items: {now_state['stripText']!r}"
+                    )
+
         # Typography pages must actually render math (KaTeX runs on
         # DOMContentLoaded) and carry sidenote markers.
         if "typography" in name:
